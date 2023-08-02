@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "xdebug.php-debug",
+        "editorconfig.editorconfig",
+        "junstyle.php-cs-fixer",
+        "esbenp.prettier-vscode",
+        "vue.volar"
+    ]
+}

@@ -1,0 +1,42 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+            // EXCLUDE from tree
+            "files.exclude": {
+                "**/vendor/**/vendor": true
+            },
+            // EXCLUDE from search
+            "search.exclude": {
+                "**/cache/**": true,
+                "**/vendor/**": true,
+            },
+
+            // PHP format
+            "[php]": {
+                "editor.formatOnSave": true,
+                "editor.wordSeparators": "`~!@#%^&*()-=+[{]}\\|;:'\",.<>/?",
+                "editor.tabSize": 4,
+                "editor.defaultFormatter": "junstyle.php-cs-fixer"
+            },
+
+            "php-cs-fixer.onsave": true,
+            "php-cs-fixer.executablePath": "${workspaceFolder}/laravel/tools/php-cs-fixer/vendor/bin/php-cs-fixer",
+            "php-cs-fixer.config": "${workspaceFolder}/laravel/tools/php-cs-fixer/config.php_cs",
+
+            // JS format
+            "prettier.configPath": "./vue/.prettierrc",
+            "[javascript]": {
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "editor.formatOnSave": true
+            },
+
+            "[vue]": {
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "editor.formatOnSave": true
+            }
+    }
+}
