@@ -1,4 +1,7 @@
 # cowiki
+
+<img src="header.jpg"/>
+
 ## Introduction
 
 This repository is the main project for cowiki, developed by the Verbund-Offener-Werkstaetten. We welcome and invite everyone to contribute to this open-source project by helping with coding and reporting issues.
