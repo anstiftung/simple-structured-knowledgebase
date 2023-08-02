@@ -9,8 +9,4 @@ class Recipe extends Model
 {
     use HasFactory;
 
-    public function helloWorld()
-    {
-
-    }
 }
