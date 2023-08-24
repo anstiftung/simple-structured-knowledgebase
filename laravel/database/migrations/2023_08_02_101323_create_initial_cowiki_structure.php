@@ -20,9 +20,7 @@ return new class () extends Migration {
             /** ENUM */
             $table->string('status');
             /** end ENUM */
-            /** ENUM */
-            $table->string('license');
-            /** end ENUM */
+            $table->string('license_id');
             $table->timestamps();
         });
 
@@ -55,6 +53,19 @@ return new class () extends Migration {
             $table->foreign('ingredient_id')->references('id')->on('ingredients');
             $table->foreign('recipe_id')->references('id')->on('recipes');
         });
+
+        Schema::create('licenses', function (Blueprint $table) {
+            $table->id();
+            $table->string('title',255);
+            $table->string('icon_string',255)->unique();
+            $table->text('description')->nullable();
+            $table->boolean('active')->default(false);
+            $table->timestamps();
+        });
+
+        Schema::table('ingredients', function (Blueprint $table) {
+            $table->foreign('license_id')->references('id')->on('licenses');
+        });
     }
 
     /**
@@ -72,9 +83,14 @@ return new class () extends Migration {
             $table->dropForeign(['recipe_id']);
         });
 
+        Schema::table('ingredients', function (Blueprint $table) {
+            $table->dropForeign(['license_id']);
+        });
+
         Schema::dropIfExists('ingredients');
         Schema::dropIfExists('recipes');
         Schema::dropIfExists('collections');
+        Schema::dropIfExists('licenses');
 
         Schema::dropIfExists('ingredient_recipe');
         Schema::dropIfExists('collection_recipe');
