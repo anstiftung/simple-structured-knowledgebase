@@ -145,7 +145,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN echo $(ls -la /var/www)
 RUN echo $(ls -la /)
 
-RUN composer install
+# RUN composer install (Composer is now managed in github-pipeline)
 RUN chown -R www-data:www-data *
 RUN chmod 755 storage/*
 RUN art storage:link && art config:cache && art route:cache && art view:cache
