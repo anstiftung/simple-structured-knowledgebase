@@ -19,3 +19,14 @@ Route::controller(RecipeController::class)->group(function () {
     Route::get('/recipe', 'index');
     Route::get('/recipe/{id}', 'show');
 });
+
+Route::controller(RecipeController::class)->group(function () {
+    Route::get('/', 'index');
+});
+
+Route::get('/', function () {
+    return response()->json([
+        'api_version' => '1.0',
+        'state' => 'working',
+    ]);
+});
