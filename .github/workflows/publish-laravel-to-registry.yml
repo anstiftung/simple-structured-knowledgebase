@@ -22,7 +22,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           args: "--profile --ignore-platform-reqs"
-          working_dir: "/laravel"
+          working_dir: "laravel/"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
