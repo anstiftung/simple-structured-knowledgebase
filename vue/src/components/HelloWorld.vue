@@ -8,7 +8,7 @@ defineProps({
 const count = ref(0)
 
 onMounted(() => {
-  console.log('Hello World!')
+  console.log('Hello World from VUE!')
   axios.get('/api/recipe').then(resp => {
     console.log(resp.data)
   })
