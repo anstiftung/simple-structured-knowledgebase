@@ -38,11 +38,16 @@ jobs:
           push: true
           tags: registry.offene-werkstaetten.org/cowiki-laravel:latest
 
-      # - name: Deploy 🚀
-      #   uses: appleboy/ssh-action@v0.1.7
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_KEY }}
-      #     port: ${{ secrets.PORT }}
-      #     script: docker-compose pull && docker-compose down && docker volume rm dca-makakken-de_app_data && docker-compose up --force-recreate -d
+      - name: Deploy 🚀
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/containers/cotest
+            docker-compose pull
+            docker-compose down
+            docker volume rm cotest_app_data
+            docker-compose up --force-recreate -d
