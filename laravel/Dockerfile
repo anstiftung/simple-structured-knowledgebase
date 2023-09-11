@@ -23,6 +23,9 @@ RUN apt-get update && \
     mariadb-client \
     unzip
 
+RUN pear update-channels
+RUN pecl update-channels
+
 # Install soap extention
 RUN docker-php-ext-install soap
 
