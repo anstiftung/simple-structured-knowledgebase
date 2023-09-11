@@ -3,7 +3,8 @@ name: CI push Laravel App to registry.offene-werkstaetten.org
 on:
   push:
     branches:
-      - "main"
+      - 'main'
+      - 'dev'
 
 jobs:
   docker:
@@ -21,8 +22,8 @@ jobs:
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
-          args: "--profile --ignore-platform-reqs"
-          working_dir: "laravel/"
+          args: '--profile --ignore-platform-reqs'
+          working_dir: 'laravel/'
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
