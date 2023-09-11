@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'dev'
 
 jobs:
   docker:
@@ -13,23 +12,10 @@ jobs:
       - name: Checkout Repository 🕹️
         uses: actions/checkout@v3
 
-      # pure API project, no NodeJS needed
-      # - name: Nodejs Build Frontend 🚧
-      #   run: |
-      #     cd ./laravel
-      #     yarn install --frozen-lockfile
-
-      - name: Install dependencies
-        uses: php-actions/composer@v6
-        with:
-          args: '--profile --ignore-platform-reqs'
-          working_dir: 'laravel/'
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+      - name: Nodejs Build Frontend 🚧
+        run: |
+          cd ./laravel
+          yarn install --frozen-lockfile
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
