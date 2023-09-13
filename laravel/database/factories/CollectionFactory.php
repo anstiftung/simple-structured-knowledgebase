@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ingredient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Collection>
  */
-class IngredientFactory extends Factory
+class CollectionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,8 +22,7 @@ class IngredientFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'description' => fake()->sentence(3),
-            'source' => fake()->sentence(3)
+            'description' => fake()->sentence(3)
         ];
     }
 }

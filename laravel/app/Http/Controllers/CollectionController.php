@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\IngredientResource;
-use App\Models\Ingredient;
+use App\Http\Resources\CollectionResource;
+use App\Models\Collection;
 use Illuminate\Http\Request;
 
-class IngredientController extends Controller
+class CollectionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return IngredientResource::collection(Ingredient::all());
+        return CollectionResource::collection(Collection::all());
     }
 
     /**
@@ -29,7 +29,7 @@ class IngredientController extends Controller
      */
     public function show($id)
     {
-        return new IngredientResource(Ingredient::findOrFail($id));
+        return new CollectionResource(Collection::findOrFail($id));
     }
 
     /**
@@ -43,7 +43,7 @@ class IngredientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ingredient $ingredient)
+    public function destroy(Collection $collection)
     {
         //
     }

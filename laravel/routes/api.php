@@ -1,27 +1,23 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\RecipeController;
+use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-Route::controller(RecipeController::class)->group(function () {
-    Route::get('/recipe', 'index');
-    Route::get('/recipe/{id}', 'show');
+Route::controller(IngredientController::class)->group(function () {
+    Route::get('/ingredients', 'index');
+    Route::get('/ingredient/{id}', 'show');
 });
 
 Route::controller(RecipeController::class)->group(function () {
-    Route::get('/', 'index');
+    Route::get('/recipes', 'index');
+    Route::get('/recipe/{id}', 'show');
+});
+
+Route::controller(CollectionController::class)->group(function () {
+    Route::get('/collections', 'index');
+    Route::get('/collection/{id}', 'show');
 });
 
 Route::get('/', function () {

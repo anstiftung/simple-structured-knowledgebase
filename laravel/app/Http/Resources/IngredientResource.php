@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 
-class RecipeResource extends BaseResource
+class IngredientResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,10 @@ class RecipeResource extends BaseResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'ingredients' => IngredientResource::collection($this->ingredients),
+            'description' => $this->description,
+            'filename' => $this->filename,
+            'source' => $this->source,
+            'license' => new LicenseResource($this->license),
         ];
     }
 }

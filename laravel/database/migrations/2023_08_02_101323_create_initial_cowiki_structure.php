@@ -10,7 +10,6 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-
         Schema::create('licenses', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
@@ -24,11 +23,17 @@ return new class () extends Migration {
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->text('description');
-            $table->string('filename', 255);
+            $table->string('filename', 255)->nullable();
             $table->text('source');
 
             $table->foreignId('license_id')->nullable();
             $table->foreign('license_id')->references('id')->on('licenses');
+
+            $table->foreignId('created_by_id')->nullable();
+            $table->foreign('created_by_id')->references('id')->on('users');
+
+            $table->foreignId('updated_by_id')->nullable();
+            $table->foreign('updated_by_id')->references('id')->on('users');
 
             $table->timestamps();
         });
@@ -38,6 +43,13 @@ return new class () extends Migration {
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->text('description')->nullable();
+
+            $table->foreignId('created_by_id')->nullable();
+            $table->foreign('created_by_id')->references('id')->on('users');
+
+            $table->foreignId('updated_by_id')->nullable();
+            $table->foreign('updated_by_id')->references('id')->on('users');
+
             $table->timestamps();
         });
 
@@ -46,6 +58,13 @@ return new class () extends Migration {
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->text('description')->nullable();
+
+            $table->foreignId('created_by_id')->nullable();
+            $table->foreign('created_by_id')->references('id')->on('users');
+
+            $table->foreignId('updated_by_id')->nullable();
+            $table->foreign('updated_by_id')->references('id')->on('users');
+
             $table->timestamps();
         });
 
@@ -81,6 +100,18 @@ return new class () extends Migration {
 
         Schema::table('ingredients', function (Blueprint $table) {
             $table->dropForeign(['license_id']);
+            $table->dropForeign(['created_by_id']);
+            $table->dropForeign(['updated_by_id']);
+        });
+
+        Schema::table('recipes', function (Blueprint $table) {
+            $table->dropForeign(['created_by_id']);
+            $table->dropForeign(['updated_by_id']);
+        });
+
+        Schema::table('collections', function (Blueprint $table) {
+            $table->dropForeign(['created_by_id']);
+            $table->dropForeign(['updated_by_id']);
         });
 
         Schema::dropIfExists('ingredients');

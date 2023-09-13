@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Recipe>
  */
-class RecipeFactory extends Factory
+class LicenseFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,12 +17,10 @@ class RecipeFactory extends Factory
      */
     public function definition(): array
     {
-        $title = fake()->name();
-
         return [
-            'title' => $title,
-            'slug' => Str::slug($title),
-            'description' => fake()->sentence(3)
+            'title' => fake()->name(),
+            'description' => fake()->sentence(2),
+            'active' => true
         ];
     }
 }

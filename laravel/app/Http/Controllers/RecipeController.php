@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
-use App\Http\Resources\RecipeResource;
 
 class RecipeController extends Controller
 {
@@ -14,14 +14,6 @@ class RecipeController extends Controller
     public function index()
     {
         return RecipeResource::collection(Recipe::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -41,17 +33,9 @@ class RecipeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Recipe $recipe)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Recipe $recipe)
+    public function update(Request $request, $id)
     {
         //
     }
