@@ -12,7 +12,8 @@
     "axios": "^1.4.0",
     "keycloak-js": "^22.0.3",
     "vue": "^3.3.4",
-    "vue-axios": "^3.5.2"
+    "vue-axios": "^3.5.2",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",

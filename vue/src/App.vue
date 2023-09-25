@@ -1,15 +1,15 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Navigation from './components/Navigation.vue'
+import Foot from './components/Foot.vue'
 </script>
 
 <template>
-  <div class="max-w-lg mx-auto mt-6">
-    <div class="prose">
-      <h1>Welcome to the cowiki</h1>
-      <p>Lorem ipsum</p>
-    </div>
-
-    <HelloWorld msg="HelloWorld" />
+  <div class="relative flex flex-col min-h-screen">
+    <navigation></navigation>
+    <section class="flex-1">
+      <router-view></router-view>
+    </section>
+    <foot></foot>
   </div>
 </template>
 
