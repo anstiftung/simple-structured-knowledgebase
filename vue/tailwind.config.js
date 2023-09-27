@@ -9,6 +9,8 @@ export default {
       },
       colors: {
         blue: '#103f8f',
+        orange: '#ff7f5f',
+        green: '#07b87e',
         gray: {
           100: '#f4f4f4',
           200: '#cbcbcb',

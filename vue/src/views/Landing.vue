@@ -40,7 +40,6 @@
         <div class="rounded-md aspect-square bg-blue"></div>
         <div class="rounded-md aspect-square bg-blue"></div>
       </div>
-      <router-link to="/test">Go to test route</router-link>
     </div>
   </section>
 </template>

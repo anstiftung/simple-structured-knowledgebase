@@ -1,5 +1,6 @@
 import Landing from '@/views/Landing.vue'
-import Test from '@/views/Test.vue'
+import Recipe from '@/views/Recipe.vue'
+import Recipes from '@/views/Recipes.vue'
 
 export const routes = [
   {
@@ -11,11 +12,19 @@ export const routes = [
     },
   },
   {
-    path: '/test',
-    component: Test,
-    name: 'test',
+    path: '/rezepte',
+    component: Recipes,
+    name: 'recipes',
     meta: {
-      title: 'Test',
+      title: 'Rezepte',
+    },
+  },
+  {
+    path: '/rezepte/:slug',
+    component: Recipe,
+    name: 'recipe',
+    meta: {
+      title: 'Rezept',
     },
   },
 ]

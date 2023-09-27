@@ -15,4 +15,7 @@
     .width-wrapper {
         @apply w-11/12 max-w-screen-lg mx-auto;
     }
+    .width-small-wrapper {
+        @apply w-9/12 max-w-screen-md mx-auto;
+    }
 }
