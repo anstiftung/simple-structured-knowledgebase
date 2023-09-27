@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     private $numLicenses = 4;
     private $numUsers = 10;
     private $numIngredients = 90;
-    private $numRecipes = 30;
+    private $numRecipes = 50;
     private $numCollections = 10;
 
     public function __construct()

@@ -13,7 +13,8 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        return CollectionResource::collection(Collection::all());
+        $collections = Collection::paginate();
+        return CollectionResource::collection($collections);
     }
 
     /**
@@ -27,9 +28,9 @@ class CollectionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
-        return new CollectionResource(Collection::findOrFail($id));
+        return new CollectionResource(Collection::where('slug', $slug)->with('recipes')->firstOrFail());
     }
 
     /**

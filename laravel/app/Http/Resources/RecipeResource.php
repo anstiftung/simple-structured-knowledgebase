@@ -17,7 +17,8 @@ class RecipeResource extends BaseResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'ingredients' => IngredientResource::collection($this->ingredients),
+            'description' => $this->description,
+            'ingredients' => IngredientResource::collection($this->whenLoaded('ingredients')),
         ];
     }
 }

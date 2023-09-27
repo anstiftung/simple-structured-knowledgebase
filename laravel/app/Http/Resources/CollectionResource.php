@@ -18,7 +18,7 @@ class CollectionResource extends BaseResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
-            'recipes' => RecipeResource::collection($this->recipes),
+            'recipes' => RecipeResource::collection($this->whenLoaded('recipes')),
         ];
     }
 }

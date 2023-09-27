@@ -13,7 +13,8 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        return RecipeResource::collection(Recipe::all());
+        $recipes = Recipe::paginate();
+        return RecipeResource::collection($recipes);
     }
 
     /**
@@ -27,9 +28,9 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
-        return new RecipeResource(Recipe::findOrFail($id));
+        return new RecipeResource(Recipe::where('slug', $slug)->with('ingredients')->firstOrFail());
     }
 
     /**

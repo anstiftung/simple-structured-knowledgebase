@@ -13,7 +13,8 @@ class IngredientController extends Controller
      */
     public function index()
     {
-        return IngredientResource::collection(Ingredient::all());
+        $ingredients = Ingredient::paginate();
+        return IngredientResource::collection($ingredients);
     }
 
     /**
@@ -27,9 +28,9 @@ class IngredientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
-        return new IngredientResource(Ingredient::findOrFail($id));
+        return new IngredientResource(Ingredient::where('slug', $slug)->firstOrFail());
     }
 
     /**

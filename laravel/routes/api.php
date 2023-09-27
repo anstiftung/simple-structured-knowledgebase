@@ -7,17 +7,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(IngredientController::class)->group(function () {
     Route::get('/ingredients', 'index');
-    Route::get('/ingredient/{id}', 'show');
+    Route::get('/ingredient/{slug}', 'show');
 });
 
 Route::controller(RecipeController::class)->group(function () {
     Route::get('/recipes', 'index');
-    Route::get('/recipe/{id}', 'show');
+    Route::get('/recipe/{slug}', 'show');
 });
 
 Route::controller(CollectionController::class)->group(function () {
     Route::get('/collections', 'index');
-    Route::get('/collection/{id}', 'show');
+    Route::get('/collection/{slug}', 'show');
 });
 
 Route::get('/', function () {
