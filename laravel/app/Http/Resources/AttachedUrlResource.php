@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 
-class CollectionResource extends BaseResource
+class AttachedUrlResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,9 @@ class CollectionResource extends BaseResource
         return parent::toArray($request) + [
             'id' => $this->id,
             'title' => $this->title,
-            'slug' => $this->slug,
             'description' => $this->description,
-            'recipes' => RecipeResource::collection($this->whenLoaded('recipes')),
+            'url' => $this->filename,
+            'prewiew_file' => $this->source
         ];
     }
 }

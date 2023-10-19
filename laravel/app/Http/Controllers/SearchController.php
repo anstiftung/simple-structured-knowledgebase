@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
-use App\Models\Collection;
-use App\Models\Ingredient;
+
+use App\Models\AttachedUrl;
+use App\Models\AttachedFile;
 use Illuminate\Http\Request;
 use App\Http\Resources\RecipeResource;
-use App\Http\Resources\CollectionResource;
-use App\Http\Resources\IngredientResource;
+use App\Http\Resources\AttachedUrlResource;
+use App\Http\Resources\AttachedFileResource;
 
 class SearchController extends Controller
 {
@@ -19,26 +20,26 @@ class SearchController extends Controller
     {
         $searchQuery = $request->query('query', false);
 
-        $collections = Collection::where('title', 'like', '%' . $searchQuery . '%')->get();
         $recipes = Recipe::where('title', 'like', '%' . $searchQuery . '%')->get();
-        $ingredients = Ingredient::where('title', 'like', '%' . $searchQuery . '%')->get();
+        $attachedUrls = AttachedUrl::where('title', 'like', '%' . $searchQuery . '%')->get();
+        $attachedFiles = AttachedFile::where('title', 'like', '%' . $searchQuery . '%')->get();
 
-        $numCollections = $collections->count();
         $numRecipes = $recipes->count();
-        $numIngredients = $ingredients->count();
-        $numResults = $numCollections + $numRecipes + $numIngredients;
+        $numAttachedUrls = $attachedUrls->count();
+        $numAttachediles = $attachedFiles->count();
+        $numResults = $numRecipes + $numAttachedUrls + $numAttachediles;
 
         $result = [
             'data' => [
-                'collections' => CollectionResource::collection($collections),
                 'recipes' => RecipeResource::collection($recipes),
-                'ingredients' => IngredientResource::collection($ingredients)
+                'attached_urls' => AttachedUrlResource::collection($attachedUrls),
+                'attached_files' => AttachedFileResource::collection($attachedFiles)
             ],
             'meta' => [
-                'numCollections' => $numCollections,
-                'numRecipes' => $numRecipes,
-                'numIngredients' => $numIngredients,
-                'numResults' => $numResults
+                'num_recipes' => $numRecipes,
+                'num_attached_urls' => $numAttachedUrls,
+                'num_attached_files' => $numAttachediles,
+                'num_results' => $numResults
             ]
         ];
         return response()->json($result);

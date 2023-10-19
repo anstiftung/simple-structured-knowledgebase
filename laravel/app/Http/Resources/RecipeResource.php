@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\AttachedUrlResource;
+use App\Http\Resources\AttachedFileResource;
 
 class RecipeResource extends BaseResource
 {
@@ -18,7 +20,8 @@ class RecipeResource extends BaseResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
-            'ingredients' => IngredientResource::collection($this->whenLoaded('ingredients')),
+            'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
+            'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
         ];
     }
 }

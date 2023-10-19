@@ -42,37 +42,40 @@ const loadFromServer = () => {
     </section>
     <section v-if="searchResults" class="my-8 width-wrapper">
       <h2>
-        <template v-if="searchMeta && searchMeta.numResults > 0"
-          >{{ searchMeta.numResults }}
-          {{ searchMeta.numResults > 1 ? 'Ergebnisse' : 'Ergebnis' }}</template
+        <template v-if="searchMeta && searchMeta.num_results > 0"
+          >{{ searchMeta.num_results }}
+          {{
+            searchMeta.num_results > 1 ? 'Ergebnisse:' : 'Ergebnis:'
+          }}</template
         >
         <template v-else>Keine Ergebnisse</template>
       </h2>
-      <template v-if="searchMeta.numCollections">
+
+      <template v-if="searchMeta.num_recipes">
         <h3>
-          {{ searchMeta.numCollections }}
-          {{ searchMeta.numCollections > 1 ? 'Sammlungen' : 'Sammlung' }}
-        </h3>
-        <div v-for="collection in searchResults.collections">
-          {{ collection.title }}
-        </div>
-      </template>
-      <template v-if="searchMeta.numRecipes">
-        <h3>
-          {{ searchMeta.numRecipes }}
-          {{ searchMeta.numRecipes > 1 ? 'Rezepte' : 'Rezept' }}
+          {{ searchMeta.num_recipes }}
+          {{ searchMeta.num_recipes > 1 ? 'Rezepte' : 'Rezept' }}
         </h3>
         <div v-for="recipe in searchResults.recipes">
           {{ recipe.title }}
         </div>
       </template>
-      <template v-if="searchMeta.numIngredients">
+      <template v-if="searchMeta.num_attached_urls">
         <h3>
-          {{ searchMeta.numIngredients }}
-          {{ searchMeta.numIngredients > 1 ? 'Zuataten' : 'Zutat' }}
+          {{ searchMeta.num_attached_urls }}
+          {{ searchMeta.num_attached_urls > 1 ? 'Zutat-URLs' : 'Zutat-URL' }}
         </h3>
-        <div v-for="ingredient in searchResults.ingredients">
-          {{ ingredient.title }}
+        <div v-for="url in searchResults.attached_urls">
+          {{ url.title }}
+        </div>
+      </template>
+      <template v-if="searchMeta.num_attached_files">
+        <h3>
+          {{ searchMeta.num_attached_files }}
+          {{ searchMeta.num_attached_files > 1 ? 'Zutat-Files' : 'Zutat-File' }}
+        </h3>
+        <div v-for="file in searchResults.attached_files">
+          {{ file.title }}
         </div>
       </template>
     </section>

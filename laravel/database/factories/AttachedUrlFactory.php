@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ingredient>
  */
-class IngredientFactory extends Factory
+class AttachedUrlFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,9 +21,11 @@ class IngredientFactory extends Factory
 
         return [
             'title' => $title,
-            'slug' => Str::slug($title),
             'description' => fake()->sentence(3),
-            'source' => fake()->sentence(3)
+            'url' => fake()->url(),
+            'preview_file' => Str::slug($title) . '.png',
+            'crawled_at' => fake()->dateTime(),
+            'crawled_status' => fake()->numberBetween(200, 500)
         ];
     }
 }

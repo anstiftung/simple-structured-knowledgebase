@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 
-class IngredientResource extends BaseResource
+class AttachedFileResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -19,6 +19,7 @@ class IngredientResource extends BaseResource
             'slug' => $this->slug,
             'description' => $this->description,
             'filename' => $this->filename,
+            'preview_file' => $this->filename,
             'source' => $this->source,
             'license' => new LicenseResource($this->license),
         ];
