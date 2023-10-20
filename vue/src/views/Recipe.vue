@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import RecipeService from '@/services/RecipeService'
+import AddAttachment from '@/components/attachments/AddAttachment.vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -46,6 +47,8 @@ loadFromServer()
           <p>{{ ingredient.description }}</p>
         </div>
       </div>
+      <h2 class="mt-16">Weitere Zutaten hinzufügen</h2>
+      <add-attachment :recipe="recipe" />
     </section>
   </div>
 </template>
