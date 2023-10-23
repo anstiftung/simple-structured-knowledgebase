@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, defineEmits } from 'vue'
+import { ref, watch, defineEmits, computed } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 
 const emit = defineEmits(['persist'])
@@ -31,6 +31,10 @@ const addURL = () => {
 const removeUrlFromList = url => {
   urlList.value = urlList.value.filter(e => e.url != url.url)
 }
+
+const urlListWithoutEmpties = computed(() => {
+  return urlList.value.filter(i => i.url != '')
+})
 </script>
 
 <template>
@@ -46,7 +50,7 @@ const removeUrlFromList = url => {
         [urlList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
       role="button"
-      @click="emit('persist', urlList)"
+      @click="emit('persist', urlListWithoutEmpties)"
     >
       {{ urlList.length > 1 ? 'URLs' : 'URL' }} speichern
     </div>
