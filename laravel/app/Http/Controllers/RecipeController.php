@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use App\Http\Resources\RecipeResource;
 
 class RecipeController extends Controller
 {
@@ -30,7 +30,7 @@ class RecipeController extends Controller
      */
     public function show($slug)
     {
-        return new RecipeResource(Recipe::where('slug', $slug)->with('ingredients')->firstOrFail());
+        return new RecipeResource(Recipe::where('slug', $slug)->with(['attached_urls', 'attached_files'])->firstOrFail());
     }
 
     /**

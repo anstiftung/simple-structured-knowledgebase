@@ -41,7 +41,9 @@ loadFromServer()
       <div class="grid grid-cols-3 gap-4 rounded-md aspect-square">
         <div
           class="p-4 text-white bg-green"
-          v-for="ingredient in recipe.ingredients"
+          v-for="ingredient in recipe.attached_urls.concat(
+            recipe.attached_files,
+          )"
         >
           <h4>{{ ingredient.title }}</h4>
           <p>{{ ingredient.description }}</p>

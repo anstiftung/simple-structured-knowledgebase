@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
+
+const emit = defineEmits(['persist'])
 
 const isDragging = ref(false)
 const fileList = ref([])
@@ -42,10 +44,14 @@ const removeFileFromList = file => {
     e => e.name != file.name || e.size != file.size,
   )
 }
+
+const save = () => {
+  emit('persist', fileList.value)
+}
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col gap-6">
     <div
       class="border border-gray-400 border-solid"
       :ondrop="dropHandler"
@@ -94,6 +100,16 @@ const removeFileFromList = file => {
         :file="file"
         @remove="removeFileFromList"
       ></attachment-list-item>
+    </div>
+    <div
+      :class="[
+        'w-full px-4 py-4 text-center text-white rounded-md',
+        [fileList.length ? 'bg-blue' : 'bg-gray-200'],
+      ]"
+      role="button"
+      @click="save"
+    >
+      {{ fileList.length > 1 ? 'Dateien' : 'Datei' }} hochladen
     </div>
   </div>
 </template>

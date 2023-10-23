@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Collection>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ingredient>
  */
-class CollectionFactory extends Factory
+class AttachedFileFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,7 +22,10 @@ class CollectionFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'description' => fake()->sentence(3)
+            'description' => fake()->sentence(3),
+            'filename' => Str::slug($title) . '.png',
+            'preview_file' => Str::slug($title) . '_preview.png',
+            'source' => fake()->sentence(3),
         ];
     }
 }
