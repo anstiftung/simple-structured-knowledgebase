@@ -17,8 +17,8 @@ class AttachedUrlResource extends BaseResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'url' => $this->filename,
-            'prewiew_file' => $this->source
+            'url' => $this->url,
+            'prewiew_file' => $this->preview_file
         ];
     }
 }
