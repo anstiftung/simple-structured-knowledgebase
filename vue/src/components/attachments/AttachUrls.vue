@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, defineEmits, computed } from 'vue'
+import { ref, watch, computed, defineEmits } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 
 const emit = defineEmits(['persist'])
@@ -31,14 +31,10 @@ const addURL = () => {
 const removeUrlFromList = url => {
   urlList.value = urlList.value.filter(e => e.url != url.url)
 }
-
-const urlListWithoutEmpties = computed(() => {
-  return urlList.value.filter(i => i.url != '')
-})
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="relative flex flex-col gap-4">
     <attachment-list-item
       v-for="url in urlList"
       :url="url"
@@ -50,7 +46,7 @@ const urlListWithoutEmpties = computed(() => {
         [urlList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
       role="button"
-      @click="emit('persist', urlListWithoutEmpties)"
+      @click="emit('persist', urlList)"
     >
       {{ urlList.length > 1 ? 'URLs' : 'URL' }} speichern
     </div>

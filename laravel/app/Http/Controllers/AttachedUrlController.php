@@ -56,7 +56,25 @@ class AttachedUrlController extends Controller
      */
     public function update(Request $request, AttachedUrl $attachedUrl)
     {
-        //
+        $request->validate([
+            'attached_urls' => 'required|array|min:1',
+            'attached_urls.*.id' => 'required|exists:attached_urls,id',
+            'attached_urls.*.title' => 'required|max:30',
+            'attached_urls.*.description' => 'required|max:50',
+        ]);
+
+        $updatedAttachments = [];
+
+        $request->collect('attached_urls')->each(function ($attachedUrl) use (&$updatedAttachments) {
+            $updated = tap(AttachedUrl::find($attachedUrl['id']))->update([
+                'title' => $attachedUrl['title'],
+                'description' => $attachedUrl['description']
+            ]);
+
+            $updatedAttachments[] = $updated;
+        });
+
+        return AttachedUrlResource::collection($updatedAttachments);
     }
 
     /**

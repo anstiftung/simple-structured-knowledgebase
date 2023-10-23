@@ -35,13 +35,13 @@ return new class () extends Migration {
 
         Schema::create('attached_files', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('slug', 255)->unique();
+            $table->string('title', 255)->nullable();
+            $table->string('slug', 255)->nullable()->unique();
             $table->string('description', 400)->nullable();
 
             $table->string('filename', 255)->nullable();
             $table->string('preview_file', 255)->nullable();
-            $table->text('source');
+            $table->text('source')->nullable();
 
             $table->foreignId('license_id')->nullable();
             $table->foreign('license_id')->references('id')->on('licenses');
