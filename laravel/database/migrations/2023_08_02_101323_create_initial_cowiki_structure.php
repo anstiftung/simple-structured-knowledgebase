@@ -57,14 +57,14 @@ return new class () extends Migration {
 
         Schema::create('attached_urls', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
             $table->string('description', 400)->nullable();
 
             $table->text('url');
             $table->string('preview_file', 255)->nullable();
 
-            $table->datetime('crawled_at');
-            $table->integer('crawled_status');
+            $table->datetime('crawled_at')->nullable();
+            $table->integer('crawled_status')->nullable();
 
             $table->foreignId('created_by_id')->nullable();
             $table->foreign('created_by_id')->references('id')->on('users');
