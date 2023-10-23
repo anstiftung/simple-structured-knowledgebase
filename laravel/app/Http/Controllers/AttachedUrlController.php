@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AttachedUrlResource;
 use App\Models\Recipe;
 use App\Models\AttachedUrl;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class AttachedUrlController extends Controller
         });
 
         $recipe->attached_urls()->saveMany($newAttachments);
-        return response()->json($newAttachments);
+
+        return AttachedUrlResource::collection($newAttachments);
     }
 
     /**
