@@ -37,7 +37,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
-            $table->text('description')->nullable();
+            $table->string('description', 400)->nullable();
 
             $table->string('filename', 255)->nullable();
             $table->string('preview_file', 255)->nullable();
@@ -58,7 +58,7 @@ return new class () extends Migration {
         Schema::create('attached_urls', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->text('description')->nullable();
+            $table->string('description', 400)->nullable();
 
             $table->text('url');
             $table->string('preview_file', 255)->nullable();
