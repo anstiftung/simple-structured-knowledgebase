@@ -18,13 +18,15 @@ const setMode = mode => {
 }
 
 const persistFiles = list => {
-  AttachmentService.createAttachmentFile(list).then(({ data, meta }) => {
-    console.log(data, meta)
-  })
   console.log('Persist files: ', list, ' for recipe: ', props.recipe.id)
 }
 const persistUrls = list => {
-  console.log('Persist urls: ', list, 'for recipe: ', props.recipe.id)
+  //persist data with the AttachmentService
+  AttachmentService.createAttachmentUrls(list, props.recipe).then(
+    ({ data, meta }) => {
+      console.log(data, meta)
+    },
+  )
 }
 </script>
 
