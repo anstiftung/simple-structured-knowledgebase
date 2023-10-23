@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\AttachedUrl;
+use App\Models\AttachedFile;
+use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
@@ -21,13 +23,13 @@ class Recipe extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function ingredients()
+    public function attached_files()
     {
-        return $this->belongsToMany(Ingredient::class);
+        return $this->morphedByMany(AttachedFile::class, 'attachment', 'recipe_attachments');
     }
 
-    public function collections()
+    public function attached_urls()
     {
-        return $this->belongsToMany(Collection::class);
+        return $this->morphedByMany(AttachedUrl::class, 'attachment', 'recipe_attachments');
     }
 }

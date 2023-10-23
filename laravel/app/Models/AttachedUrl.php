@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Models\Recipe;
-use App\Models\License;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Ingredient extends Model
+class AttachedUrl extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
@@ -16,9 +15,10 @@ class Ingredient extends Model
     protected $fillable = [
         'title',
         'description',
-        'filename',
-        'source',
-        'license_id'
+        'url',
+        'preview_file',
+        'crawled_at',
+        'crawled_status',
     ];
 
     protected $casts = [
@@ -26,13 +26,8 @@ class Ingredient extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function license()
-    {
-        return $this->belongsTo(License::class, 'license_id');
-    }
-
     public function recipes()
     {
-        return $this->belongsToMany(Recipe::class);
+        return $this->morphToMany(Recipe::class, 'recipe_attachments');
     }
 }
