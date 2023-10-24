@@ -26,8 +26,12 @@ export const makeApiRequest = config => {
     })
     .catch(error => {
       if (error.response) {
-        console.error(`Server error with code ${error.response.status}`)
-        toast.error(`Server error with code ${error.response.status}`)
+        let errorString = `Server error with code ${error.response.status}`
+        if (error.response.data.message) {
+          errorString = `Server error: ${error.response.data.message}`
+        }
+        console.error(errorString)
+        toast.error(errorString)
       } else if (error.request) {
         console.error(`Request error ${error.request}`)
         toast.error(`Request error ${error.request}`)
