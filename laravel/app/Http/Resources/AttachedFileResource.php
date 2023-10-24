@@ -19,6 +19,8 @@ class AttachedFileResource extends BaseResource
             'slug' => $this->slug,
             'description' => $this->description,
             'filename' => $this->filename,
+            'mime_type' => $this->mime_type,
+            'filesize' => $this->filesize,
             'preview_file' => $this->filename,
             'source' => $this->source,
             'license' => new LicenseResource($this->license),

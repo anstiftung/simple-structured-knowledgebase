@@ -61,6 +61,16 @@ const editConfigFiles = {
   ],
   labels: [
     {
+      attribute: 'filesize',
+      type: 'filesize',
+      label: 'Dateigröße',
+    },
+    {
+      attribute: 'mime_type',
+      type: 'mime_type',
+      label: 'Typ',
+    },
+    {
       attribute: 'created_at',
       type: 'date',
       label: 'Erstellt',
@@ -158,6 +168,18 @@ const save = () => {
           <span>{{ field.label }}:</span>
           <span v-if="field.type == 'date'">
             {{ $filters.formatedDateTime(currentAttachment[field.attribute]) }}
+          </span>
+          <span v-else-if="field.type == 'mime_type'"
+            >{{
+              $filters.mimeTypeToFileType(currentAttachment[field.attribute])
+            }}
+          </span>
+          <span v-else-if="field.type == 'filesize'">
+            {{
+              $filters.bytesToHumandReadableSize(
+                currentAttachment[field.attribute],
+              )
+            }}
           </span>
           <span v-else>
             {{ currentAttachment[field.attribute] }}

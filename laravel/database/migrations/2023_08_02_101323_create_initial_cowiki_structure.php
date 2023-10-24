@@ -40,6 +40,8 @@ return new class () extends Migration {
             $table->string('description', 400)->nullable();
 
             $table->string('filename', 255)->nullable();
+            $table->string('mime_type', 255)->nullable();
+            $table->unsignedBigInteger('filesize')->nullable();
             $table->string('preview_file', 255)->nullable();
             $table->text('source')->nullable();
 

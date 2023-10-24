@@ -46,7 +46,11 @@ class AttachedFileController extends Controller
                 $name
             );
 
-            $new->update(['filename' => $name]);
+            $new->update([
+                'filename' => $name,
+                'filesize' => $file->getSize(),
+                'mime_type' => $file->getMimeType()
+            ]);
             $newAttachments[] = $new;
         }
 

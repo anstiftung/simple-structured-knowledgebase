@@ -17,6 +17,8 @@ class AttachedFile extends Model
         'slug',
         'description',
         'filename',
+        'filesize',
+        'mime_type',
         'preview_file',
         'source',
         'license_id'
