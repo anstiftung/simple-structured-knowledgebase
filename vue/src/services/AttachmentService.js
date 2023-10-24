@@ -14,7 +14,7 @@ class AttachmentService {
     return makeApiRequest(config)
   }
 
-  createAttachmentFiles(files, recipe) {
+  createAttachmentFiles(files, recipe, progressCallback) {
     const data = {
       recipe_id: recipe.id,
       attached_files: files,
@@ -24,6 +24,11 @@ class AttachmentService {
       url: 'attachedFile/store',
       headers: {
         'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: progressEvent => {
+        const { loaded, total } = progressEvent
+        let percentage = Math.floor((loaded * 100) / total)
+        progressCallback(percentage)
       },
       data: data,
     }
