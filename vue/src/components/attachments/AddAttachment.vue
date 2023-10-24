@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, computed } from 'vue'
+import { ref, defineProps, computed, defineEmits } from 'vue'
 
 import AttachmentTypeSelector from './AttachmentTypeSelector.vue'
 import AttachFiles from './AttachFiles.vue'
@@ -9,6 +9,8 @@ import EditAttachments from './EditAttachments.vue'
 const props = defineProps({
   recipe: Object,
 })
+
+const emit = defineEmits(['changed'])
 
 const savedFileList = ref([])
 const savedUrlList = ref([])
@@ -46,6 +48,7 @@ const editData = computed(() => {
 const edited = () => {
   savedUrlList.value = []
   savedFileList.value = []
+  emit('changed')
 }
 </script>
 

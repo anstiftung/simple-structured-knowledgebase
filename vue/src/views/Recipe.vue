@@ -50,7 +50,7 @@ loadFromServer()
         </div>
       </div>
       <h2 class="mt-16">Weitere Zutaten hinzufügen</h2>
-      <add-attachment :recipe="recipe" />
+      <add-attachment :recipe="recipe" @changed="loadFromServer" />
     </section>
   </div>
 </template>
