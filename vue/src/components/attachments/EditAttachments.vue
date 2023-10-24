@@ -136,8 +136,8 @@ const save = () => {
     <h4 class="font-semibold">
       {{ currentAttachment[editConfig.titleAttribute] }}
     </h4>
-    <div class="flex items-start gap-4 my-6">
-      <div class="flex flex-col gap-4 grow">
+    <div class="flex flex-col items-start gap-4 my-6 md:flex-row">
+      <div class="flex flex-col w-full gap-4 grow">
         <template v-for="field in editConfig.inputs">
           <template v-if="field.type == 'license'">
             <license-select v-model="currentAttachment[field.attribute]" />
@@ -151,11 +151,8 @@ const save = () => {
           />
         </template>
       </div>
-      <div>
-        <div
-          v-for="field in editConfig.labels"
-          class="grid grid-cols-2 gap-2 text-sm text-gray-400"
-        >
+      <div class="grid w-full grid-cols-2 gap-2 text-sm text-gray-400">
+        <template v-for="field in editConfig.labels" class="">
           <span>{{ field.label }}:</span>
           <span v-if="field.type == 'date'">
             {{ $filters.formatedDateTime(currentAttachment[field.attribute]) }}
@@ -163,7 +160,7 @@ const save = () => {
           <span v-else>
             {{ currentAttachment[field.attribute] }}
           </span>
-        </div>
+        </template>
       </div>
     </div>
     <div class="flex items-center justify-between my-6">

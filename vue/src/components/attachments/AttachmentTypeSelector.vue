@@ -20,7 +20,7 @@ const modeChange = () => {
   >
     <div
       :class="[
-        'p-4 transition-all',
+        'p-2 md:p-4 transition-all',
         [fileActive ? 'scale-110 rounded-full bg-blue' : ''],
       ]"
     >
