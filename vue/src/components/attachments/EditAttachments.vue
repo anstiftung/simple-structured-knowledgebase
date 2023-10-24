@@ -7,11 +7,74 @@ import AttachmentService from '@/services/AttachmentService'
 const props = defineProps({
   data: Array,
   type: String,
-  editConfig: Object,
 })
 
 const emit = defineEmits(['edited'])
 const toast = useToast()
+
+const editConfigUrls = {
+  titleAttribute: 'url',
+  inputs: [
+    {
+      attribute: 'title',
+      type: 'text',
+      label: 'Titel',
+    },
+    {
+      attribute: 'description',
+      type: 'text',
+      label: 'Beschreibung',
+    },
+  ],
+  labels: [
+    {
+      attribute: 'created_at',
+      type: 'date',
+      label: 'Erstellt',
+    },
+  ],
+}
+
+const editConfigFiles = {
+  titleAttribute: 'filename',
+  inputs: [
+    {
+      attribute: 'title',
+      type: 'text',
+      label: 'Titel',
+    },
+    {
+      attribute: 'description',
+      type: 'text',
+      label: 'Beschreibung',
+    },
+    {
+      attribute: 'source',
+      type: 'text',
+      label: 'Quelle',
+    },
+    {
+      attribute: 'license',
+      type: 'license',
+      label: 'Lizens',
+    },
+  ],
+  labels: [
+    {
+      attribute: 'created_at',
+      type: 'date',
+      label: 'Erstellt',
+    },
+  ],
+}
+
+const editConfig = computed(() => {
+  if (props.type == 'url') {
+    return editConfigUrls
+  } else if (props.type == 'file') {
+    return editConfigFiles
+  }
+})
 
 const visibleIndex = ref(0)
 // save to local ref that allows modifying the list

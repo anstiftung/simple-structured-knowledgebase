@@ -1,9 +1,12 @@
 <script setup>
-import { ref, watch, computed, defineEmits } from 'vue'
+import { ref, watch, defineProps, defineEmits } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
+import AttachmentService from '@/services/AttachmentService'
 
-const emit = defineEmits(['persist'])
-
+const emit = defineEmits(['persisted'])
+const props = defineProps({
+  recipe: Object,
+})
 const emptyUrlObject = { url: '' }
 const urlList = ref([emptyUrlObject])
 
@@ -31,6 +34,16 @@ const addURL = () => {
 const removeUrlFromList = url => {
   urlList.value = urlList.value.filter(e => e.url != url.url)
 }
+
+const persist = () => {
+  // persist data with the AttachmentService; removes empty url objects
+  AttachmentService.createAttachmentUrls(
+    urlList.value.filter(i => i.url != ''),
+    props.recipe,
+  ).then(data => {
+    emit('persisted', data)
+  })
+}
 </script>
 
 <template>
@@ -46,7 +59,7 @@ const removeUrlFromList = url => {
         [urlList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
       role="button"
-      @click="emit('persist', urlList)"
+      @click="persist"
     >
       {{ urlList.length > 1 ? 'URLs' : 'URL' }} speichern
     </div>
