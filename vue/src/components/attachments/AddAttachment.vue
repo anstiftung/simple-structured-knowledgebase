@@ -52,6 +52,11 @@ const editConfigFiles = {
       type: 'text',
       label: 'Quelle',
     },
+    {
+      attribute: 'license',
+      type: 'license',
+      label: 'Lizens',
+    },
   ],
   labels: [
     {

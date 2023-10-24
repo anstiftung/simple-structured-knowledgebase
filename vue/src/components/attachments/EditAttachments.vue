@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, computed, ref, defineEmits } from 'vue'
 import { useToast } from 'vue-toastification'
-
+import LicenseSelect from '@/components/fields/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
 
 const props = defineProps({
@@ -75,13 +75,18 @@ const save = () => {
     </h4>
     <div class="flex items-start gap-4 my-6">
       <div class="flex flex-col gap-4 grow">
-        <input
-          class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
-          v-for="field in editConfig.inputs"
-          :placeholder="field.label"
-          :type="field.type"
-          v-model="currentAttachment[field.attribute]"
-        />
+        <template v-for="field in editConfig.inputs">
+          <template v-if="field.type == 'license'">
+            <license-select v-model="currentAttachment[field.attribute]" />
+          </template>
+          <input
+            v-else
+            class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
+            :placeholder="field.label"
+            :type="field.type"
+            v-model="currentAttachment[field.attribute]"
+          />
+        </template>
       </div>
       <div>
         <div

@@ -74,6 +74,7 @@ class AttachedFileController extends Controller
             'attached_files.*.title' => 'required|max:30',
             'attached_files.*.description' => 'required|max:50',
             'attached_files.*.source' => 'required|max:400',
+            'attached_files.*.license.id' => 'required|exists:licenses,id',
         ]);
 
         $updatedAttachments = [];
@@ -82,7 +83,8 @@ class AttachedFileController extends Controller
             $updated = tap(AttachedFile::find($attachedFile['id']))->update([
                 'title' => $attachedFile['title'],
                 'description' => $attachedFile['description'],
-                'source' => $attachedFile['source']
+                'source' => $attachedFile['source'],
+                'license_id' => $attachedFile['license']['id']
             ]);
 
             $updatedAttachments[] = $updated;
