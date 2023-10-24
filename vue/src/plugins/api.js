@@ -20,8 +20,8 @@ export const makeApiRequest = config => {
         //
         return response.data.data
       } else {
-        throw new Error('data property does not exist in the response body')
         toast.error('data property does not exist in the response body')
+        throw new Error('data property does not exist in the response body')
       }
     })
     .catch(error => {

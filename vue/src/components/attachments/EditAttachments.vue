@@ -151,7 +151,9 @@ const save = () => {
           />
         </template>
       </div>
-      <div class="grid w-full grid-cols-2 gap-2 text-sm text-gray-400">
+      <div
+        class="grid w-full grid-cols-2 gap-2 text-sm text-gray-400 md:w-auto"
+      >
         <template v-for="field in editConfig.labels" class="">
           <span>{{ field.label }}:</span>
           <span v-if="field.type == 'date'">
@@ -208,7 +210,7 @@ const save = () => {
       role="button"
       @click="save"
     >
-      Alle Zutaten speichern
+      {{ data.length > 1 ? 'Alle Zutaten' : 'Zutat' }} speichern
     </div>
   </div>
 </template>
