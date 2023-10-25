@@ -21,14 +21,15 @@ const Login = callback => {
   keycloakInstance
     .init({ onLoad: 'login-required', checkLoginIframe: false })
     .then(function (authenticated) {
-      callback()
+        if(authenticated) window.localStorage.setItem('keycloakToken', keycloakInstance.token)
+        else window.localStorage.removeItem('keycloakToken')
     })
     .catch(e => {
       console.dir(e)
       console.log(`keycloak init exception: ${e}`)
     })
 
-  console.log(keycloakInstance.idTokenParsed.email)
+  console.log(keycloakInstance.idTokenParsed?.email)
 }
 
 const RefreshToken = async callback => {
@@ -38,6 +39,15 @@ const RefreshToken = async callback => {
   } catch (error) {
     console.error('Failed to refresh token:', error)
   }
+}
+
+keycloakInstance.onTokenExpired = () => {
+    console.log('token expired', keycloak.token);
+    keycloak.updateToken(1).success(() => {
+        console.log('successfully get a new token', keycloak.token);
+    }).error((e) => {
+        console.log('failed to refresh token', e);
+    });
 }
 
 const KeyCloakService = {
