@@ -14,7 +14,6 @@ class AttachedFile extends Model
 
     protected $fillable = [
         'title',
-        'slug',
         'description',
         'filename',
         'filesize',

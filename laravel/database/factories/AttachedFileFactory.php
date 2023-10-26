@@ -21,7 +21,6 @@ class AttachedFileFactory extends Factory
 
         return [
             'title' => $title,
-            'slug' => Str::slug($title),
             'description' => fake()->sentence(3),
             'filename' => Str::slug($title) . '.png',
             'mime_type' => fake()->mimeType(),

@@ -36,7 +36,6 @@ return new class () extends Migration {
         Schema::create('attached_files', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255)->nullable();
-            $table->string('slug', 255)->nullable()->unique();
             $table->string('description', 400)->nullable();
 
             $table->string('filename', 255)->nullable();
