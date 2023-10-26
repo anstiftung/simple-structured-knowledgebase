@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineProps, computed, defineEmits } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import AttachmentTypeSelector from './AttachmentTypeSelector.vue'
 import AttachFiles from './AttachFiles.vue'
@@ -9,23 +10,35 @@ import EditAttachments from './EditAttachments.vue'
 const props = defineProps({
   recipe: Object,
 })
-
 const emit = defineEmits(['changed'])
 
+const toast = useToast()
+
+const filesDirty = ref(false)
 const savedFileList = ref([])
+const urlsDirty = ref(false)
 const savedUrlList = ref([])
+
 const attachmentMode = ref('file')
 
-const setMode = mode => {
-  attachmentMode.value = mode
+const setMode = newMode => {
+  attachmentMode.value = newMode
+  if (newMode == 'file' && urlsDirty.value == true) {
+    toast.warning(`Achtung! Ungespeicherte URL's`)
+  }
+  if (newMode == 'url' && filesDirty.value == true) {
+    toast.warning(`Achtung! Ungespeicherte Dateien`)
+  }
 }
 
 const persistedFiles = fileList => {
   savedFileList.value = fileList
+  filesDirty.value = false
 }
 
 const persistedUrls = urlList => {
   savedUrlList.value = urlList
+  urlsDirty.value = false
 }
 
 const editState = computed(() => {
@@ -53,14 +66,14 @@ const edited = () => {
 </script>
 
 <template>
-  <div class="my-8">
+  <div class="relative my-8 min-h-[400px]">
     <edit-attachments
       v-if="editState"
       :type="editState"
       :data="editData"
       @edited="edited"
     />
-    <div class="relative flex flex-col gap-6 px-8 py-12 bg-gray-100" v-else>
+    <div class="relative flex flex-col gap-6 px-8 py-12 bg-gray-100">
       <div class="flex justify-between">
         <div>
           <h3 class="text-xl font-bold">
@@ -77,11 +90,13 @@ const edited = () => {
         v-show="attachmentMode == 'file'"
         @persisted="persistedFiles"
         :recipe="recipe"
+        v-model:dirty="filesDirty"
       ></attach-files>
       <attach-urls
         v-show="attachmentMode == 'url'"
         @persisted="persistedUrls"
         :recipe="recipe"
+        v-model:dirty="urlsDirty"
       ></attach-urls>
     </div>
   </div>

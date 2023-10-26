@@ -1,9 +1,9 @@
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue'
+import { ref, defineEmits, defineProps, watch } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
-const emit = defineEmits(['persisted'])
+const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
   recipe: Object,
 })
@@ -12,11 +12,11 @@ const uploadProgress = ref(0)
 const fileList = ref([])
 
 var dragCounter = 0
-const dragEnter = event => {
+const dragEnter = () => {
   dragCounter++
   isDragging.value = true
 }
-const dragLeave = event => {
+const dragLeave = () => {
   dragCounter--
   if (dragCounter === 0) {
     isDragging.value = false
@@ -51,6 +51,18 @@ const removeFileFromList = file => {
   uploadProgress.value = 0
 }
 
+watch(
+  fileList,
+  () => {
+    if (fileList.value.length > 0) {
+      emit('update:dirty', true)
+    } else if (fileList.value.length == 0) {
+      emit('update:dirty', false)
+    }
+  },
+  { deep: true },
+)
+
 const progressCallback = percent => {
   uploadProgress.value = percent
 }
@@ -63,6 +75,7 @@ const persist = () => {
   )
     .then(data => {
       emit('persisted', data)
+      fileList.value = []
       uploadProgress.value = 0
     })
     .catch(() => {

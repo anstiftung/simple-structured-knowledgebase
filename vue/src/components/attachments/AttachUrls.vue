@@ -3,25 +3,34 @@ import { ref, watch, defineProps, defineEmits } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
-const emit = defineEmits(['persisted'])
+const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
   recipe: Object,
 })
-const emptyUrlObject = { url: '' }
-const urlList = ref([emptyUrlObject])
 
-// automaticly adds an empty url object to the list
+const urlList = ref([{ url: '' }])
+
+// automaticly adds an empty url object to the list; triggers dirty event for unsaved urls
 watch(
   urlList,
   () => {
     let numEmptyItems = 0
+    let numFilledItems = 0
     urlList.value.forEach(i => {
       if (i.url.length == 0) {
         numEmptyItems++
+      } else {
+        numFilledItems++
       }
     })
     if (numEmptyItems == 0) {
       addURL()
+    }
+
+    if (numFilledItems > 0) {
+      emit('update:dirty', true)
+    } else {
+      emit('update:dirty', false)
     }
   },
   { deep: true },
@@ -41,6 +50,7 @@ const persist = () => {
     urlList.value.filter(i => i.url != ''),
     props.recipe,
   ).then(data => {
+    urlList.value = []
     emit('persisted', data)
   })
 }

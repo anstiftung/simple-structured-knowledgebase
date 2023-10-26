@@ -142,7 +142,9 @@ const save = () => {
 </script>
 
 <template>
-  <div class="top-0 left-0 w-full h-full p-4 text-white rounded-md bg-green">
+  <div
+    class="absolute top-0 left-0 z-20 w-full h-full p-4 text-white rounded-md bg-green"
+  >
     <h4 class="font-semibold">
       {{ currentAttachment[editConfig.titleAttribute] }}
     </h4>
