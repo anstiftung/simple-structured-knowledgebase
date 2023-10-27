@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\RecipeController;
@@ -25,4 +26,9 @@ Route::get('/', function () {
         'api_version' => '1.0',
         'state' => 'working',
     ]);
+});
+
+// Add protected routes here
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/protected-endpoint', [DashboardControllerController::class, 'index']);
 });

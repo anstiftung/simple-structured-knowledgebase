@@ -1,8 +1,9 @@
 <script setup>
+import axios from 'axios'
 // ToDo: Implement API-Call to keycloak-guard secured route.
-axios.get('api/test-secured/', {
+axios.get('api/protected-endpoint', {
     headers: {
-        'token': window.localStorage.getItem('keycloakToken'),
+        'Authorization': 'Bearer ' + window.localStorage.getItem('keycloakToken'),
     }
 }).then((response) => {
     console.log(response)
