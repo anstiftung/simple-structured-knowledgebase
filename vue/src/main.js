@@ -2,6 +2,9 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 
+import Toast, { POSITION } from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
+
 import VueAxios from 'vue-axios'
 
 import axios from '@/plugins/axios.js'
@@ -12,9 +15,14 @@ const app = createApp(App)
 
 app.config.globalProperties.$filters = filters
 
+const toastSettings = {
+  position: POSITION.TOP_CENTER,
+}
+
 const renderApp = () => {
   app.use(VueAxios, axios)
   app.use(router)
+  app.use(Toast, toastSettings)
   app.provide('axios', app.config.globalProperties.axios)
   app.mount('#app')
 }

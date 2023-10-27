@@ -1,18 +1,22 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, defineProps, watch } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
+import AttachmentService from '@/services/AttachmentService'
 
-const emit = defineEmits(['persist'])
-
+const emit = defineEmits(['persisted', 'update:dirty'])
+const props = defineProps({
+  recipe: Object,
+})
 const isDragging = ref(false)
+const uploadProgress = ref(0)
 const fileList = ref([])
 
 var dragCounter = 0
-const dragEnter = event => {
+const dragEnter = () => {
   dragCounter++
   isDragging.value = true
 }
-const dragLeave = event => {
+const dragLeave = () => {
   dragCounter--
   if (dragCounter === 0) {
     isDragging.value = false
@@ -37,16 +41,46 @@ const addFilesToList = filesToAdd => {
   ;[...filesToAdd].forEach((file, i) => {
     fileList.value.push(file)
   })
+  uploadProgress.value = 0
 }
 
 const removeFileFromList = file => {
   fileList.value = fileList.value.filter(
     e => e.name != file.name || e.size != file.size,
   )
+  uploadProgress.value = 0
 }
 
-const save = () => {
-  emit('persist', fileList.value)
+watch(
+  fileList,
+  () => {
+    if (fileList.value.length > 0) {
+      emit('update:dirty', true)
+    } else if (fileList.value.length == 0) {
+      emit('update:dirty', false)
+    }
+  },
+  { deep: true },
+)
+
+const progressCallback = percent => {
+  uploadProgress.value = percent
+}
+
+const persist = () => {
+  AttachmentService.createAttachmentFiles(
+    fileList.value,
+    props.recipe,
+    progressCallback,
+  )
+    .then(data => {
+      emit('persisted', data)
+      fileList.value = []
+      uploadProgress.value = 0
+    })
+    .catch(() => {
+      uploadProgress.value = 0
+    })
 }
 </script>
 
@@ -103,13 +137,19 @@ const save = () => {
     </div>
     <div
       :class="[
-        'w-full px-4 py-4 text-center text-white rounded-md',
+        'w-full px-4 py-4 text-center text-white rounded-md relative overflow-hidden',
         [fileList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
       role="button"
-      @click="save"
+      @click="persist"
     >
-      {{ fileList.length > 1 ? 'Dateien' : 'Datei' }} hochladen
+      <div
+        class="absolute top-0 bottom-0 left-0 z-0 transition-all bg-green"
+        :style="{ width: uploadProgress + '%' }"
+      ></div>
+      <span class="relative z-10"
+        >{{ fileList.length > 1 ? 'Dateien' : 'Datei' }} hochladen</span
+      >
     </div>
   </div>
 </template>

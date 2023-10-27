@@ -16,9 +16,10 @@ class AttachedFileResource extends BaseResource
         return parent::toArray($request) + [
             'id' => $this->id,
             'title' => $this->title,
-            'slug' => $this->slug,
             'description' => $this->description,
             'filename' => $this->filename,
+            'mime_type' => $this->mime_type,
+            'filesize' => $this->filesize,
             'preview_file' => $this->filename,
             'source' => $this->source,
             'license' => new LicenseResource($this->license),

@@ -1,24 +1,36 @@
 <script setup>
-import { ref, watch, defineEmits } from 'vue'
+import { ref, watch, defineProps, defineEmits } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
+import AttachmentService from '@/services/AttachmentService'
 
-const emit = defineEmits(['persist'])
+const emit = defineEmits(['persisted', 'update:dirty'])
+const props = defineProps({
+  recipe: Object,
+})
 
-const emptyUrlObject = { url: '' }
-const urlList = ref([emptyUrlObject])
+const urlList = ref([{ url: '' }])
 
-// automaticly adds an empty url object to the list
+// automaticly adds an empty url object to the list; triggers dirty event for unsaved urls
 watch(
   urlList,
   () => {
     let numEmptyItems = 0
+    let numFilledItems = 0
     urlList.value.forEach(i => {
       if (i.url.length == 0) {
         numEmptyItems++
+      } else {
+        numFilledItems++
       }
     })
     if (numEmptyItems == 0) {
       addURL()
+    }
+
+    if (numFilledItems > 0) {
+      emit('update:dirty', true)
+    } else {
+      emit('update:dirty', false)
     }
   },
   { deep: true },
@@ -31,10 +43,21 @@ const addURL = () => {
 const removeUrlFromList = url => {
   urlList.value = urlList.value.filter(e => e.url != url.url)
 }
+
+const persist = () => {
+  // persist data with the AttachmentService; removes empty url objects
+  AttachmentService.createAttachmentUrls(
+    urlList.value.filter(i => i.url != ''),
+    props.recipe,
+  ).then(data => {
+    urlList.value = []
+    emit('persisted', data)
+  })
+}
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="relative flex flex-col gap-4">
     <attachment-list-item
       v-for="url in urlList"
       :url="url"
@@ -46,7 +69,7 @@ const removeUrlFromList = url => {
         [urlList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
       role="button"
-      @click="emit('persist', urlList)"
+      @click="persist"
     >
       {{ urlList.length > 1 ? 'URLs' : 'URL' }} speichern
     </div>

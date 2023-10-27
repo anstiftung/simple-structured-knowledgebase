@@ -35,13 +35,14 @@ return new class () extends Migration {
 
         Schema::create('attached_files', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('slug', 255)->unique();
+            $table->string('title', 255)->nullable();
             $table->string('description', 400)->nullable();
 
             $table->string('filename', 255)->nullable();
+            $table->string('mime_type', 255)->nullable();
+            $table->unsignedBigInteger('filesize')->nullable();
             $table->string('preview_file', 255)->nullable();
-            $table->text('source');
+            $table->text('source')->nullable();
 
             $table->foreignId('license_id')->nullable();
             $table->foreign('license_id')->references('id')->on('licenses');
@@ -57,14 +58,14 @@ return new class () extends Migration {
 
         Schema::create('attached_urls', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
             $table->string('description', 400)->nullable();
 
             $table->text('url');
             $table->string('preview_file', 255)->nullable();
 
-            $table->datetime('crawled_at');
-            $table->integer('crawled_status');
+            $table->datetime('crawled_at')->nullable();
+            $table->integer('crawled_status')->nullable();
 
             $table->foreignId('created_by_id')->nullable();
             $table->foreign('created_by_id')->references('id')->on('users');

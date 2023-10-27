@@ -1,8 +1,11 @@
 <script setup>
-import { defineEmits, ref } from 'vue'
+import { defineEmits, defineProps, ref } from 'vue'
+const props = defineProps({
+  mode: String,
+})
 
 const emit = defineEmits(['mode'])
-const fileActive = ref(true)
+const fileActive = ref(props.mode == 'file')
 
 const modeChange = () => {
   fileActive.value = !fileActive.value
@@ -17,7 +20,7 @@ const modeChange = () => {
   >
     <div
       :class="[
-        'p-4 transition-all',
+        'p-2 md:p-4 transition-all',
         [fileActive ? 'scale-110 rounded-full bg-blue' : ''],
       ]"
     >

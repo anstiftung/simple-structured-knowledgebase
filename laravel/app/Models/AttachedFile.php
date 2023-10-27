@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class AttachedFile extends Model
 {
@@ -13,9 +14,10 @@ class AttachedFile extends Model
 
     protected $fillable = [
         'title',
-        'slug',
         'description',
         'filename',
+        'filesize',
+        'mime_type',
         'preview_file',
         'source',
         'license_id'
@@ -34,5 +36,13 @@ class AttachedFile extends Model
     public function recipes()
     {
         return $this->morphToMany(Recipe::class, 'recipe_attachments');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::deleting(function ($attachedFile) {
+            Storage::deleteDirectory('public/attachedFiles/'.$attachedFile->id);
+        });
     }
 }
