@@ -77,9 +77,8 @@ return new class () extends Migration {
         });
 
         Schema::create('recipe_attachments', function (Blueprint $table) {
-            $table->foreignId('recipe_id');
+            $table->foreignId('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
             $table->morphs('attachment');
-            $table->foreign('recipe_id')->references('id')->on('recipes');
         });
     }
 
