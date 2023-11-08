@@ -29,7 +29,9 @@ services:
       - ./vue:/app
 
   laravel:
-    build: laravel/.
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile.local
     container_name: cowiki.laravel
     networks:
       - internal

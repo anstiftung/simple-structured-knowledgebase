@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ingredient;
+use App\Http\Resources\LicenseResource;
+use App\Models\License;
 use Illuminate\Http\Request;
 
-class IngredientController extends Controller
+class LicenseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $licenses = License::all();
+        return LicenseResource::collection($licenses);
     }
 
     /**
@@ -26,7 +28,7 @@ class IngredientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ingredient $ingredient)
+    public function show(License $license)
     {
         //
     }
@@ -34,7 +36,7 @@ class IngredientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ingredient $ingredient)
+    public function update(Request $request, License $license)
     {
         //
     }
@@ -42,7 +44,7 @@ class IngredientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ingredient $ingredient)
+    public function destroy(License $license)
     {
         //
     }

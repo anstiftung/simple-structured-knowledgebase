@@ -3,7 +3,8 @@ name: CI push Vue App to registry.offene-werkstaetten.org
 on:
   push:
     branches:
-      - "main"
+      - 'main'
+      - 'dev'
 
 jobs:
   docker:

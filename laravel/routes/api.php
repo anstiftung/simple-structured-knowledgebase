@@ -1,27 +1,33 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\AttachedUrlController;
+use App\Http\Controllers\AttachedFileController;
+use App\Http\Controllers\LicenseController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-Route::controller(RecipeController::class)->group(function () {
-    Route::get('/recipe', 'index');
-    Route::get('/recipe/{id}', 'show');
+Route::controller(LicenseController::class)->group(function () {
+    Route::get('/licenses', 'index');
 });
 
 Route::controller(RecipeController::class)->group(function () {
-    Route::get('/', 'index');
+    Route::get('/recipes', 'index');
+    Route::get('/recipe/{slug}', 'show');
+});
+
+Route::controller(SearchController::class)->group(function () {
+    Route::get('/search', 'search');
+});
+
+Route::controller(AttachedUrlController::class)->group(function () {
+    Route::post('/attachedUrl/store', 'store');
+    Route::post('/attachedUrl/update', 'update');
+});
+
+Route::controller(AttachedFileController::class)->group(function () {
+    Route::post('/attachedFile/store', 'store');
+    Route::post('/attachedFile/update', 'update');
 });
 
 Route::get('/', function () {

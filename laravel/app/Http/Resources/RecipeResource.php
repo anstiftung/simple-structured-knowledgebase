@@ -3,9 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\AttachedUrlResource;
+use App\Http\Resources\AttachedFileResource;
 
-class RecipeResource extends JsonResource
+class RecipeResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +15,13 @@ class RecipeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        return parent::toArray($request) + [
             'id' => $this->id,
             'title' => $this->title,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'slug' => $this->slug,
+            'description' => $this->description,
+            'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
+            'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
         ];
     }
 }

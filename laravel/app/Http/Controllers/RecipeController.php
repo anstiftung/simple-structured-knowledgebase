@@ -13,15 +13,8 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        return RecipeResource::collection(Recipe::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $recipes = Recipe::paginate();
+        return RecipeResource::collection($recipes);
     }
 
     /**
@@ -35,23 +28,15 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
-        return new RecipeResource(Recipe::findOrFail($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Recipe $recipe)
-    {
-        //
+        return new RecipeResource(Recipe::where('slug', $slug)->with(['attached_urls', 'attached_files'])->firstOrFail());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Recipe $recipe)
+    public function update(Request $request, $id)
     {
         //
     }

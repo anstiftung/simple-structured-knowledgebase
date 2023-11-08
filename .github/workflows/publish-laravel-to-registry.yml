@@ -3,7 +3,8 @@ name: CI push Laravel App to registry.offene-werkstaetten.org
 on:
   push:
     branches:
-      - "main"
+      - 'main'
+      - 'dev'
 
 jobs:
   docker:
@@ -12,23 +13,10 @@ jobs:
       - name: Checkout Repository 🕹️
         uses: actions/checkout@v3
 
-      # pure API project, no NodeJS needed
-      # - name: Nodejs Build Frontend 🚧
-      #   run: |
-      #     cd ./laravel
-      #     yarn install --frozen-lockfile
-
-      - name: Install dependencies
-        uses: php-actions/composer@v6
-        with:
-          args: "--profile --ignore-platform-reqs"
-          working_dir: "laravel/"
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+      - name: Nodejs Build Frontend 🚧
+        run: |
+          cd ./laravel
+          yarn install --frozen-lockfile
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -50,11 +38,16 @@ jobs:
           push: true
           tags: registry.offene-werkstaetten.org/cowiki-laravel:latest
 
-      # - name: Deploy 🚀
-      #   uses: appleboy/ssh-action@v0.1.7
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_KEY }}
-      #     port: ${{ secrets.PORT }}
-      #     script: docker-compose pull && docker-compose down && docker volume rm dca-makakken-de_app_data && docker-compose up --force-recreate -d
+      - name: Deploy 🚀
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/containers/cotest
+            docker-compose pull
+            docker-compose down
+            docker volume rm cotest_app_data
+            docker-compose up --force-recreate -d

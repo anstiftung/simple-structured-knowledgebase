@@ -1,3 +1,21 @@
+@import "styles/fonts";
+
 @tailwind base;
 @tailwind components;
-@tailwind utilities
+@tailwind utilities;
+
+
+@layer base {
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-rubik text-blue;
+    }
+}
+
+@layer utilities {
+    .width-wrapper {
+        @apply w-11/12 max-w-screen-lg mx-auto;
+    }
+    .width-small-wrapper {
+        @apply w-9/12 max-w-screen-md mx-auto;
+    }
+}

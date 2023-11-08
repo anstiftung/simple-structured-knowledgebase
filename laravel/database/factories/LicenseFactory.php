@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ingredient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Recipe>
  */
-class IngredientFactory extends Factory
+class LicenseFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +18,9 @@ class IngredientFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->name(),
+            'description' => fake()->sentence(2),
+            'active' => true
         ];
     }
 }
