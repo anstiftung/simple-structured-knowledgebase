@@ -30,5 +30,5 @@ Route::get('/', function () {
 
 // Add protected routes here
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/protected-endpoint', [DashboardControllerController::class, 'index']);
+    Route::get('/protected-endpoint', [DashboardController::class, 'index']);
 });
