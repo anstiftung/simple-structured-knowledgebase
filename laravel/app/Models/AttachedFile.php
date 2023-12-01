@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Recipe;
-use App\Models\License;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
-class Ingredient extends Model
+class AttachedFile extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
@@ -17,6 +16,9 @@ class Ingredient extends Model
         'title',
         'description',
         'filename',
+        'filesize',
+        'mime_type',
+        'preview_file',
         'source',
         'license_id'
     ];
@@ -33,6 +35,14 @@ class Ingredient extends Model
 
     public function recipes()
     {
-        return $this->belongsToMany(Recipe::class);
+        return $this->morphToMany(Recipe::class, 'recipe_attachments');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::deleting(function ($attachedFile) {
+            Storage::deleteDirectory('public/attachedFiles/'.$attachedFile->id);
+        });
     }
 }

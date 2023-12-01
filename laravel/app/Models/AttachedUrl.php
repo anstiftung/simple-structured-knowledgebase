@@ -7,14 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Collection extends Model
+class AttachedUrl extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
 
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'url',
+        'preview_file',
+        'crawled_at',
+        'crawled_status',
     ];
 
     protected $casts = [
@@ -24,7 +28,6 @@ class Collection extends Model
 
     public function recipes()
     {
-        return $this->belongsToMany(Recipe::class);
+        return $this->morphToMany(Recipe::class, 'recipe_attachments');
     }
-
 }

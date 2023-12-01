@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CollectionResource;
-use App\Models\Collection;
+use App\Http\Resources\LicenseResource;
+use App\Models\License;
 use Illuminate\Http\Request;
 
-class CollectionController extends Controller
+class LicenseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $collections = Collection::paginate();
-        return CollectionResource::collection($collections);
+        $licenses = License::all();
+        return LicenseResource::collection($licenses);
     }
 
     /**
@@ -28,15 +28,15 @@ class CollectionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($slug)
+    public function show(License $license)
     {
-        return new CollectionResource(Collection::where('slug', $slug)->with('recipes')->firstOrFail());
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, License $license)
     {
         //
     }
@@ -44,7 +44,7 @@ class CollectionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Collection $collection)
+    public function destroy(License $license)
     {
         //
     }

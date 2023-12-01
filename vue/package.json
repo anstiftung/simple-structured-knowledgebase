@@ -14,7 +14,8 @@
     "moment": "^2.29.4",
     "vue": "^3.3.4",
     "vue-axios": "^3.5.2",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
