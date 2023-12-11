@@ -26,8 +26,19 @@ axios.get('api/dashboard', {
             <p class="mb-2">Dieses Profil ist nur sichtbar wenn die Keycloak-Auth erfolgreich war.</p>
 
             <div v-if="statusCode == 200">
-                <p><strong>Benutzername:</strong> {{username}}</p>
-                <p><strong>E-Mail Adresse:</strong> {{email}}</p>
+                <section class="mb-4">
+                    <p><strong>Benutzername:</strong> {{username}}</p>
+                    <p><strong>E-Mail Adresse:</strong> {{email}}</p>
+                </section>
+                <section class="mb-4">
+                    <button class="default-button">Anhang erstellen</button>
+                </section>
+                <section class="mb-4">
+                    <button class="default-button">Beitrag erstellen</button>
+                </section>
+                <section class="mb-4">
+                    <button class="default-button">Sammlung erstellen</button>
+                </section>
             </div>
             <div v-else>
                 <p><strong>Fehler:</strong> Du bist nicht authorisiert diese Inhalte zu sehen.</p>

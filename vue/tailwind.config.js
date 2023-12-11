@@ -8,6 +8,7 @@ export default {
         rubik: ['Rubik', 'system-ui'],
       },
       colors: {
+        dark: '#010044',
         blue: '#103f8f',
         orange: '#ff7f5f',
         green: '#07b87e',
