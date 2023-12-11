@@ -1,9 +1,13 @@
 <script setup>
+import {useUserStore} from '@/stores/user.js'
 import KeyCloakService from '@/plugins/keycloak'
 
 const callLogin = () => {
   KeyCloakService.CallLogin()
 }
+
+const userStore = useUserStore()
+console.log(userStore.hasToken)
 </script>
 
 <template>
