@@ -28,9 +28,9 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($slug)
+    public function show(Recipe $recipe)
     {
-        return new RecipeResource(Recipe::where('slug', $slug)->with(['attached_urls', 'attached_files'])->firstOrFail());
+        return new RecipeResource( $recipe->with(['attached_urls', 'attached_files'] )->firstOrFail());
     }
 
     /**

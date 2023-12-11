@@ -14,7 +14,7 @@ Route::controller(LicenseController::class)->group(function () {
 
 Route::controller(RecipeController::class)->group(function () {
     Route::get('/recipes', 'index');
-    Route::get('/recipe/{slug}', 'show');
+    Route::get('/recipe/{recipe}', 'show');
 });
 
 Route::controller(SearchController::class)->group(function () {

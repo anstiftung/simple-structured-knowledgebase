@@ -17,7 +17,7 @@ class RecipeTest extends TestCase
         $countRecipes = 10;
         Recipe::factory($countRecipes)->create();
 
-        $response = $this->get('/api/recipe');
+        $response = $this->get('/api/recipes');
         $response
             ->assertStatus(200)
             ->assertJsonCount($countRecipes, 'data');
@@ -27,7 +27,7 @@ class RecipeTest extends TestCase
     {
         $recipe = Recipe::factory(1)->create()->first();
 
-        $response = $this->get('/api/recipe/'.$recipe->id);
+        $response = $this->get('/api/recipe/'.$recipe->slug);
         $response
             ->assertStatus(200)
             ->assertJsonFragment(['title' => $recipe->title]);

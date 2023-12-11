@@ -23,6 +23,11 @@ class Recipe extends Model
         'updated_at' => 'datetime',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function attached_files()
     {
         return $this->morphedByMany(AttachedFile::class, 'attachment', 'recipe_attachments');
