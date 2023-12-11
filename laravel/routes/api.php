@@ -1,6 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AttachedUrlController;
@@ -35,4 +36,9 @@ Route::get('/', function () {
         'api_version' => '1.0',
         'state' => 'working',
     ]);
+});
+
+// Add protected routes here
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/protected-endpoint', [DashboardController::class, 'index']);
 });
