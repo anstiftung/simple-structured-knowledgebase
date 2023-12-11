@@ -28,8 +28,6 @@ const Login = callback => {
       console.dir(e)
       console.log(`keycloak init exception: ${e}`)
     })
-
-  console.log(keycloakInstance.idTokenParsed?.email)
 }
 
 const RefreshToken = async callback => {

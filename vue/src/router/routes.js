@@ -1,7 +1,7 @@
 import Landing from '@/views/Landing.vue'
 import Recipe from '@/views/Recipe.vue'
 import Recipes from '@/views/Recipes.vue'
-import Profile from '@/views/Profile.vue'
+import Dashboard from '@/views/Dashboard.vue'
 import NotAuthorized from '@/views/NotAuthorized.vue'
 import SearchResults from '@/views/SearchResults.vue'
 
@@ -31,11 +31,11 @@ export const routes = [
     },
   },
   {
-    path: '/profile',
-    component: Profile,
-    name: 'profile',
+    path: '/dashboard',
+    component: Dashboard,
+    name: 'dashboard',
     meta: {
-        title: 'Mein Profil',
+        title: 'Dashboard',
         protected: true,
     }
   },

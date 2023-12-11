@@ -9,6 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index() {
-        return response()->json(Auth::token(), 200);
+        return response()->json(json_decode(Auth::token()), 200);
     }
 }
