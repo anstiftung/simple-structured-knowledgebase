@@ -33,9 +33,9 @@ class AttachedFile extends Model
         return $this->belongsTo(License::class, 'license_id');
     }
 
-    public function recipes()
+    public function articles()
     {
-        return $this->morphToMany(Recipe::class, 'recipe_attachments');
+        return $this->morphToMany(Article::class, 'article_attachments');
     }
 
     public static function boot()

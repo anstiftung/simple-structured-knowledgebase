@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Recipe extends Model
+class Article extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
@@ -30,11 +30,11 @@ class Recipe extends Model
 
     public function attached_files()
     {
-        return $this->morphedByMany(AttachedFile::class, 'attachment', 'recipe_attachments');
+        return $this->morphedByMany(AttachedFile::class, 'attachment', 'article_attachments');
     }
 
     public function attached_urls()
     {
-        return $this->morphedByMany(AttachedUrl::class, 'attachment', 'recipe_attachments');
+        return $this->morphedByMany(AttachedUrl::class, 'attachment', 'article_attachments');
     }
 }

@@ -6,7 +6,7 @@ use App\Models\AttachedFile;
 use App\Models\AttachedUrl;
 use App\Models\User;
 use Faker\Generator;
-use App\Models\Recipe;
+use App\Models\Article;
 use App\Models\License;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     private $numLicenses = 4;
     private $numUsers = 10;
     private $numAttachments = 90;
-    private $numRecipes = 50;
+    private $numArticles = 50;
     private $numCollections = 10;
 
     public function __construct()
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         AttachedFile::truncate();
         AttachedUrl::truncate();
-        Recipe::truncate();
+        Article::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         License::factory($this->numLicenses)->create();
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
             ->create();
 
 
-        $recipes = Recipe::factory()->count($this->numRecipes)
+        $articles = Article::factory()->count($this->numArticles)
             ->state(new Sequence(
                 fn (Sequence $sequence) => [
                     'created_by_id' => User::all()->random()->id,
@@ -79,13 +79,12 @@ class DatabaseSeeder extends Seeder
             ))
             ->create();
 
-        foreach ($recipes as $recipe) {
+        foreach ($articles as $article) {
             $numAttachmentsToAttach = rand(1, $this->numAttachments/2);
             $urls = AttachedUrl::get()->random($numAttachmentsToAttach/2);
             $files = AttachedFile::get()->random($numAttachmentsToAttach/2);
-
-            $recipe->attached_urls()->attach($urls);
-            $recipe->attached_files()->attach($files);
+            $article->attached_urls()->attach($urls);
+            $article->attached_files()->attach($files);
         }
     }
 }
