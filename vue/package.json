@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^10.7.0",
     "axios": "^1.4.0",
     "keycloak-js": "^22.0.3",
     "moment": "^2.29.4",
