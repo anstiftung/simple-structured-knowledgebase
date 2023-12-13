@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { routes } from './routes.js'
+import routes from './routes.js'
 import KeyCloakService from '@/plugins/keycloak.js'
 
 const router = createRouter({
@@ -10,7 +10,7 @@ const router = createRouter({
 const checkAuth = () => {
     // 1. Check if token in local storage
     // 2. If no token try to login
-    KeyCloakService.CallLogin()
+    KeyCloakService.CallLogin() // async, wait for response, do it better nexttime ;)
     if( !window.localStorage.getItem('keycloakToken') ) return false;
     if( window.localStorage.getItem('keycloakToken') == 'undefined') return false;
     console.log('[Router] logged in…');

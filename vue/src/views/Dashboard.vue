@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import { useUserStore } from '../stores/user';
+
+
 
 const username = ref();
 const email = ref();
