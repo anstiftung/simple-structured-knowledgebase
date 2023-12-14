@@ -12,8 +12,12 @@ import axios from '@/plugins/axios.js'
 import filters from '@/plugins/filters.js'
 import router from './router/index.js'
 
+import keycloakInstance from '@/plugins/keycloak.js'
+
 const pinia = createPinia()
 const app = createApp(App)
+
+const _keycloak = keycloakInstance
 
 app.config.globalProperties.$filters = filters
 
@@ -27,7 +31,13 @@ const renderApp = () => {
   app.use(router)
   app.use(Toast, toastSettings)
   app.provide('axios', app.config.globalProperties.axios)
+  app.provide('keycloak', _keycloak)
   app.mount('#app')
 }
 
-renderApp()
+
+_keycloak
+  .init({ checkLoginIframe: false })
+  .then(() => {
+    renderApp()
+  })

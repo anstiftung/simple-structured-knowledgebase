@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import { useUserStore } from '../stores/user';
+import { inject } from 'vue'
+
+const $keycloak = inject('keycloak')
 
 
 
@@ -12,10 +14,9 @@ const statusCode = ref(404);
 // ToDo: Implement API-Call to keycloak-guard secured route.
 axios.get('api/dashboard', {
     headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('keycloakToken'),
+        'Authorization': 'Bearer ' + $keycloak.token,
     }
 }).then((response) => {
-    console.log(response)
     username.value = response.data.preferred_username
     email.value = response.data.email
     statusCode.value = response.status
@@ -41,6 +42,10 @@ axios.get('api/dashboard', {
                 </section>
                 <section class="mb-4">
                     <button class="default-button">Sammlung erstellen</button>
+                </section>
+
+                <section class="mb-4">
+                    <router-link :to="{name:'logout'}" class="default-button">Abmelden</router-link>
                 </section>
             </div>
             <div v-else>
