@@ -13,9 +13,6 @@ const $keycloak = inject('keycloak')
           <span class="font-bold">COWIKI</span>
         </router-link>
       </h1>
-      <router-link :to="{ name: 'login' }">
-        Login
-      </router-link>
       <template v-if="$keycloak.authenticated">
         <router-link :to="{ name:'dashboard' }">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
