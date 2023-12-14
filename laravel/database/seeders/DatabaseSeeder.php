@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\AttachedFile;
-use App\Models\AttachedUrl;
 use App\Models\User;
 use Faker\Generator;
 use App\Models\Article;
 use App\Models\License;
+use App\Models\AttachedUrl;
+use App\Models\AttachedFile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
+use Database\Seeders\RolesPermissionsSeeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class DatabaseSeeder extends Seeder
@@ -86,5 +87,9 @@ class DatabaseSeeder extends Seeder
             $article->attached_urls()->attach($urls);
             $article->attached_files()->attach($files);
         }
+
+        $this->call([
+            RolesPermissionsSeeder::class,
+        ]);
     }
 }
