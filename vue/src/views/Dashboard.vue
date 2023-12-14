@@ -1,26 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-import axios from 'axios'
-import { inject } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '../stores/user';
 
-const $keycloak = inject('keycloak')
-
-
-
-const username = ref();
-const email = ref();
-const statusCode = ref(404);
-
-// ToDo: Implement API-Call to keycloak-guard secured route.
-axios.get('api/dashboard', {
-    headers: {
-        'Authorization': 'Bearer ' + $keycloak.token,
-    }
-}).then((response) => {
-    username.value = response.data.preferred_username
-    email.value = response.data.email
-    statusCode.value = response.status
-})
+// If you need UserPermissions, you'll need the next three lines
+const store = useUserStore()
+const { hasPermission } = storeToRefs(store)
+store.initUser()
 
 </script>
 <template>
@@ -29,10 +14,10 @@ axios.get('api/dashboard', {
         <div class="py-12 width-wrapper">
             <p class="mb-2">Dieses Profil ist nur sichtbar wenn die Keycloak-Auth erfolgreich war.</p>
 
-            <div v-if="statusCode == 200">
+            <div v-if="store.id">
                 <section class="mb-4">
-                    <p><strong>Benutzername:</strong> {{username}}</p>
-                    <p><strong>E-Mail Adresse:</strong> {{email}}</p>
+                    <p><strong>Benutzername:</strong> {{store.name}}</p>
+                    <p><strong>E-Mail Adresse:</strong> {{store.email}}</p>
                 </section>
                 <section class="mb-4">
                     <button class="default-button">Anhang erstellen</button>
@@ -40,7 +25,7 @@ axios.get('api/dashboard', {
                 <section class="mb-4">
                     <button class="default-button">Beitrag erstellen</button>
                 </section>
-                <section class="mb-4">
+                <section class="mb-4" v-if="hasPermission('add collections')">
                     <button class="default-button">Sammlung erstellen</button>
                 </section>
 

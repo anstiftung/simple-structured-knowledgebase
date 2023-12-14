@@ -1,23 +1,34 @@
-import { useLocalStorage } from "@vueuse/core"
+import axios from 'axios'
+import { inject } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('user',{
     state: () => ({
-        token: useLocalStorage('keycloakToken', null)
+        name: null,
+        email: null,
+        id: null,
+        permissions: []
     }),
     getters: {
-      hasToken: (state) => { return state.token !== null ? true : false },
-    },
+        hasPermission: (state) => {
+          return (p) => {
+            return state.permissions.includes(p)
+          }
+        },
+      },
     actions: {
-      setToken(token) {
-        this.token = token
-        window.localStorage.setItem('keycloakToken', token)
-        console.log('set token...' + token)
-      },
-      removeToken() {
-        this.token = undefined
-        window.localStorage.removeItem('keycloakToken')
-        console.log('remove token...')
-      },
-    },
+        async initUser() {
+            const $keycloak = inject('keycloak')
+            await axios.get('api/dashboard', {
+                headers: {
+                    'Authorization': 'Bearer ' + $keycloak.token,
+                }
+            }).then((response) => {
+                this.name = response.data.data.name
+                this.email = response.data.data.email
+                this.id = response.data.data.id
+                this.permissions = response.data.data.permissions
+            })
+        }
+    }
 })
