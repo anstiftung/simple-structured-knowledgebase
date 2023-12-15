@@ -12,8 +12,6 @@ store.initUser()
     <section class="bg-white">
         <!-- todo: generalize -->
         <div class="py-12 width-wrapper">
-            <p class="mb-2">Dieses Profil ist nur sichtbar wenn die Keycloak-Auth erfolgreich war.</p>
-
             <div v-if="store.id">
                 <section class="mb-4">
                     <p><strong>Benutzername:</strong> {{store.name}}</p>
@@ -30,7 +28,7 @@ store.initUser()
                 </section>
 
                 <section class="mb-4">
-                    <router-link :to="{name:'logout'}" class="default-button">Abmelden</router-link>
+                    <router-link :to="{name:'logout'}" class="inline-block default-button">Abmelden</router-link>
                 </section>
             </div>
             <div v-else>

@@ -28,7 +28,15 @@ export const useUserStore = defineStore('user',{
                 this.email = response.data.data.email
                 this.id = response.data.data.id
                 this.permissions = response.data.data.permissions
+            }).catch(err => {
+                console.log(err)
             })
+        },
+        logout() {
+            this.name = null
+            this.email = null
+            this.id = null
+            this.permissions = []
         }
     }
 })
