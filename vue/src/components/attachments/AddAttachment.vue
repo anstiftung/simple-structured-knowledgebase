@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, computed, defineEmits } from 'vue'
+import { ref, computed } from 'vue'
 import { useToast } from 'vue-toastification'
 
 import AttachmentTypeSelector from './AttachmentTypeSelector.vue'

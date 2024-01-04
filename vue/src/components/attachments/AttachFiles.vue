@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, defineProps, watch } from 'vue'
+import { ref, watch } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
