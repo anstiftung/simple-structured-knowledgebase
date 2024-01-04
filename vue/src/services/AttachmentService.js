@@ -1,9 +1,9 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class AttachmentService {
-  createAttachmentUrls(urls, recipe) {
+  createAttachmentUrls(urls, article) {
     const data = {
-      recipe_id: recipe.id,
+      article_id: article.id,
       attached_urls: urls,
     }
     const config = {
@@ -14,9 +14,9 @@ class AttachmentService {
     return makeApiRequest(config)
   }
 
-  createAttachmentFiles(files, recipe, progressCallback) {
+  createAttachmentFiles(files, article, progressCallback) {
     const data = {
-      recipe_id: recipe.id,
+      article_id: article.id,
       attached_files: files,
     }
     const config = {

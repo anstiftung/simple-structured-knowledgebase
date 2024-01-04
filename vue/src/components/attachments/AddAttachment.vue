@@ -8,7 +8,7 @@ import AttachUrls from './AttachUrls.vue'
 import EditAttachments from './EditAttachments.vue'
 
 const props = defineProps({
-  recipe: Object,
+  article: Object,
 })
 const emit = defineEmits(['changed'])
 
@@ -89,13 +89,13 @@ const edited = () => {
       <attach-files
         v-show="attachmentMode == 'file'"
         @persisted="persistedFiles"
-        :recipe="recipe"
+        :article="article"
         v-model:dirty="filesDirty"
       ></attach-files>
       <attach-urls
         v-show="attachmentMode == 'url'"
         @persisted="persistedUrls"
-        :recipe="recipe"
+        :article="article"
         v-model:dirty="urlsDirty"
       ></attach-urls>
     </div>

@@ -51,13 +51,13 @@ const loadFromServer = () => {
         <template v-else>Keine Ergebnisse</template>
       </h2>
 
-      <template v-if="searchMeta.num_recipes">
+      <template v-if="searchMeta.num_articles">
         <h3>
-          {{ searchMeta.num_recipes }}
-          {{ searchMeta.num_recipes > 1 ? 'Rezepte' : 'Rezept' }}
+          {{ searchMeta.num_articles }}
+          Artikel
         </h3>
-        <div v-for="recipe in searchResults.recipes">
-          {{ recipe.title }}
+        <div v-for="article in searchResults.articles">
+          {{ article.title }}
         </div>
       </template>
       <template v-if="searchMeta.num_attached_urls">

@@ -5,7 +5,7 @@ import AttachmentService from '@/services/AttachmentService'
 
 const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
-  recipe: Object,
+  article: Object,
 })
 const isDragging = ref(false)
 const uploadProgress = ref(0)
@@ -70,7 +70,7 @@ const progressCallback = percent => {
 const persist = () => {
   AttachmentService.createAttachmentFiles(
     fileList.value,
-    props.recipe,
+    props.article,
     progressCallback,
   )
     .then(data => {

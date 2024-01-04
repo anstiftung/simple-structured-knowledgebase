@@ -5,7 +5,7 @@ import AttachmentService from '@/services/AttachmentService'
 
 const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
-  recipe: Object,
+  article: Object,
 })
 
 const urlList = ref([{ url: '' }])
@@ -48,7 +48,7 @@ const persist = () => {
   // persist data with the AttachmentService; removes empty url objects
   AttachmentService.createAttachmentUrls(
     urlList.value.filter(i => i.url != ''),
-    props.recipe,
+    props.article,
   ).then(data => {
     urlList.value = []
     emit('persisted', data)

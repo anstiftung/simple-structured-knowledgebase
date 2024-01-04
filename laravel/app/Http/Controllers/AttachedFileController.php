@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recipe;
+use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use App\Http\Resources\AttachedFileResource;
 use Illuminate\Validation\Rules\File;
+use App\Http\Resources\AttachedFileResource;
 
 class AttachedFileController extends Controller
 {
@@ -31,10 +31,10 @@ class AttachedFileController extends Controller
                 File::types(['png', 'jpg'])
                     ->max(12 * 1024)
             ],
-            'recipe_id' => 'required|exists:recipes,id',
+            'article_id' => 'required|exists:articles,id',
         ]);
 
-        $recipe = Recipe::find($request->input('recipe_id'));
+        $article = Article::find($request->input('article_id'));
         $newAttachments = [];
 
         $files = $request->file('attached_files');
@@ -54,7 +54,7 @@ class AttachedFileController extends Controller
             $newAttachments[] = $new;
         }
 
-        $recipe->attached_files()->saveMany($newAttachments);
+        $article->attached_files()->saveMany($newAttachments);
 
         return AttachedFileResource::collection($newAttachments);
     }

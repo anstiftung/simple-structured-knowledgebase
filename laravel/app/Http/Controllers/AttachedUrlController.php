@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AttachedUrlResource;
-use App\Models\Recipe;
+use App\Models\Article;
 use App\Models\AttachedUrl;
 use Illuminate\Http\Request;
+use App\Http\Resources\AttachedUrlResource;
 
 class AttachedUrlController extends Controller
 {
@@ -25,10 +25,10 @@ class AttachedUrlController extends Controller
         $request->validate([
              'attached_urls' => 'required|array|min:1',
              'attached_urls.*.url' => 'required|url:http,https',
-             'recipe_id' => 'required|exists:recipes,id',
+             'article_id' => 'required|exists:articles,id',
          ]);
 
-        $recipe = Recipe::find($request->input('recipe_id'));
+        $article = Article::find($request->input('article_id'));
         $newAttachments = [];
 
         $request->collect('attached_urls')->each(function ($attachedUrl) use (&$newAttachments) {
@@ -38,7 +38,7 @@ class AttachedUrlController extends Controller
             $newAttachments[] = $new;
         });
 
-        $recipe->attached_urls()->saveMany($newAttachments);
+        $article->attached_urls()->saveMany($newAttachments);
 
         return AttachedUrlResource::collection($newAttachments);
     }

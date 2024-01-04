@@ -26,7 +26,7 @@ class AttachedUrl extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function recipes()
+    public function articles()
     {
         return $this->morphToMany(Article::class, 'article_attachments');
     }

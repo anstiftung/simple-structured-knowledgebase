@@ -1,17 +1,17 @@
 import { makeApiRequest } from '@/plugins/api'
 
-class RecipeService {
-  getRecipe(slug) {
+class ArticleService {
+  getArticle(slug) {
     const config = {
       method: 'get',
-      url: `recipe/${slug}`,
+      url: `article/${slug}`,
     }
     return makeApiRequest(config)
   }
-  getRecipes(page) {
+  getArticles(page) {
     const config = {
       method: 'get',
-      url: 'recipes',
+      url: 'articles',
       params: {
         page: page ?? 1,
       },
@@ -20,4 +20,4 @@ class RecipeService {
   }
 }
 
-export default new RecipeService()
+export default new ArticleService()
