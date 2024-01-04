@@ -1,10 +1,13 @@
 name: CI push Laravel App to registry.offene-werkstaetten.org
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Testing Laravel with MySQL"]
     branches:
-      - 'main'
-      - 'dev'
+      - "main"
+      - "dev"
+    types:
+      - completed
 
 jobs:
   docker:
