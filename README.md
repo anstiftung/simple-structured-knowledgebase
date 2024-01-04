@@ -92,7 +92,7 @@ You can now use the `vow-cowiki Xdebug` debug-preset inside Visual Studio Code t
 
 ## Testing
 
-All test files are located in `laravel/tests` and can be run using the following command:
+All test files are located in `laravel/tests` and can be run using the following command: 
 
 ```
 art test
