@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import ArticleService from '@/services/ArticleService'
 import AddAttachment from '@/components/attachments/AddAttachment.vue'
+import AttachmentCard from '@/components/AttachmentCard.vue'
+
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -37,17 +39,14 @@ loadFromServer()
       </div>
     </section>
     <section v-if="article" class="my-8 width-wrapper">
-      <h2>Zutaten</h2>
-      <div class="grid grid-cols-3 gap-4 rounded-md aspect-square">
-        <div
-          class="p-4 text-white bg-green"
-          v-for="ingredient in article.attached_urls.concat(
+      <h2>Anhänge</h2>
+      <div class="grid grid-cols-3 gap-4">
+        <attachment-card
+          v-for="attachment in article.attached_urls.concat(
             article.attached_files,
           )"
-        >
-          <h4>{{ ingredient.title }}</h4>
-          <p>{{ ingredient.description }}</p>
-        </div>
+          :attachment="attachment"
+        />
       </div>
       <h2 class="mt-16">Weitere Anhänge hinzufügen</h2>
       <add-attachment :article="article" @changed="loadFromServer" />
