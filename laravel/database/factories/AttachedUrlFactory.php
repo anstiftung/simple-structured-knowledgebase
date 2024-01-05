@@ -25,7 +25,9 @@ class AttachedUrlFactory extends Factory
             'url' => fake()->url(),
             'preview_file' => Str::slug($title) . '.png',
             'crawled_at' => fake()->dateTime(),
-            'crawled_status' => fake()->numberBetween(200, 500)
+            'crawled_status' => fake()->numberBetween(200, 500),
+            'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];
     }
 }

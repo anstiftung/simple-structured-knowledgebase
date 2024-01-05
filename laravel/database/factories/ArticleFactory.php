@@ -22,7 +22,9 @@ class ArticleFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'description' => fake()->sentence(3)
+            'description' => fake()->sentence(3),
+            'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];
     }
 }

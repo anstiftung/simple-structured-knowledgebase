@@ -27,6 +27,8 @@ class AttachedFileFactory extends Factory
             'filesize' => fake()->numberBetween(10000, 1000000),
             'preview_file' => Str::slug($title) . '_preview.png',
             'source' => fake()->sentence(3),
+            'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];
     }
 }
