@@ -67,7 +67,12 @@ const links = ref([
             >
           </p>
           <p class="mt-4">
-            Gefördert durch:<br />Stiftung für irgendwas Deutschland e.V.
+            Gefördert durch:<br /><a
+              href="https://anstiftung.de/"
+              target="_blank"
+              >anstiftung</a
+            >
+            - gemeinnützige Stiftung bürgerlichen Rechts
           </p>
         </div>
         <p class="md:text-right">
