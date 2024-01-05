@@ -8,12 +8,13 @@ class ArticleService {
     }
     return makeApiRequest(config)
   }
-  getArticles(page) {
+  getArticles(page = 1, creatorId = null) {
     const config = {
       method: 'get',
       url: 'articles',
       params: {
-        page: page ?? 1,
+        page: page,
+        creatorId: creatorId,
       },
     }
     return makeApiRequest(config)
