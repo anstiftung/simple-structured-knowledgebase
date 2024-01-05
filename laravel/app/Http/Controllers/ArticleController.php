@@ -30,7 +30,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return new ArticleResource( $article->with(['attached_urls', 'attached_files'] )->firstOrFail());
+        $article->load(['attached_files', 'attached_urls']);
+        return new ArticleResource($article);
     }
 
     /**
