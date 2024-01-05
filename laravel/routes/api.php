@@ -24,11 +24,13 @@ Route::controller(SearchController::class)->group(function () {
 });
 
 Route::controller(AttachedUrlController::class)->group(function () {
+    Route::get('/attachedUrls', 'index');
     Route::post('/attachedUrl/store', 'store');
     Route::post('/attachedUrl/update', 'update');
 });
 
 Route::controller(AttachedFileController::class)->group(function () {
+    Route::get('/attachedFiles', 'index');
     Route::post('/attachedFile/store', 'store');
     Route::post('/attachedFile/update', 'update');
 });

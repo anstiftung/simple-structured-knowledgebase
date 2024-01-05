@@ -13,9 +13,13 @@ class AttachedFileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $attachedFiles = AttachedFile::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
+
+        return AttachedFileResource::collection($attachedFiles);
     }
 
     /**
