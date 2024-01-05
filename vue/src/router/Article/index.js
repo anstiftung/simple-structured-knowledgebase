@@ -3,19 +3,19 @@ const Articles = () => import('@/views/Articles.vue')
 
 export default [
   {
-    path: '/artikel',
+    path: '/beitraege',
     component: Articles,
     name: 'articles',
     meta: {
-      title: 'Alle Artikel',
+      title: 'Alle Beiträge',
     },
   },
   {
-    path: '/artikel/:slug',
+    path: '/beitrag/:slug',
     component: Article,
     name: 'article',
     meta: {
-      title: 'Artikel',
+      title: 'Beitrag',
     },
   },
 ]

@@ -19,7 +19,7 @@ loadFromServer()
   <section class="bg-white">
     <!-- todo: generalize -->
     <div class="py-12 width-wrapper">
-      <h2 class="mb-4 text-2xl font-bold">Alle Artikel</h2>
+      <h2 class="mb-4 text-2xl font-bold">Alle Beiträge</h2>
       <div class="grid grid-cols-3 gap-4">
         <router-link
           :to="{

@@ -54,7 +54,7 @@ const loadFromServer = () => {
       <template v-if="searchMeta.num_articles">
         <h3>
           {{ searchMeta.num_articles }}
-          Artikel
+          {{ searchMeta.num_articles > 1 ? 'Beiträge:' : 'Beitrag:' }}
         </h3>
         <div v-for="article in searchResults.articles">
           {{ article.title }}
@@ -63,7 +63,7 @@ const loadFromServer = () => {
       <template v-if="searchMeta.num_attached_urls">
         <h3>
           {{ searchMeta.num_attached_urls }}
-          {{ searchMeta.num_attached_urls > 1 ? 'Zutat-URLs' : 'Zutat-URL' }}
+          {{ searchMeta.num_attached_urls > 1 ? 'Zutat-URLs:' : 'Zutat-URL:' }}
         </h3>
         <div v-for="url in searchResults.attached_urls">
           {{ url.title }}
@@ -72,7 +72,9 @@ const loadFromServer = () => {
       <template v-if="searchMeta.num_attached_files">
         <h3>
           {{ searchMeta.num_attached_files }}
-          {{ searchMeta.num_attached_files > 1 ? 'Zutat-Files' : 'Zutat-File' }}
+          {{
+            searchMeta.num_attached_files > 1 ? 'Zutat-Files:' : 'Zutat-File:'
+          }}
         </h3>
         <div v-for="file in searchResults.attached_files">
           {{ file.title }}
