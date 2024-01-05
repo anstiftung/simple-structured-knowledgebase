@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
 use Database\Seeders\RolesPermissionsSeeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
     private $numLicenses = 4;
     private $numUsers = 10;
-    private $numAttachments = 90;
+    private $numAttachments = 10;
     private $numArticles = 50;
     private $numCollections = 10;
 
@@ -51,7 +52,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory($this->numUsers)->create();
 
-        AttachedFile::factory()->count($this->numAttachments)
+        $generatedFiles = AttachedFile::factory()->count($this->numAttachments)
             ->state(new Sequence(
                 fn (Sequence $sequence) => [
                     'license_id' => License::all()->random()->id,
@@ -87,6 +88,22 @@ class DatabaseSeeder extends Seeder
             $article->attached_urls()->attach($urls);
             $article->attached_files()->attach($files);
         }
+
+        foreach ($generatedFiles as $file) {
+            $imagePath = 'public/attachedFiles/'.$file->id;
+            Storage::deleteDirectory($imagePath);
+            Storage::makeDirectory($imagePath);
+
+            $fullPath = storage_path('app/public/attachedFiles/'.$file->id);
+            $fakedImagePath = $this->faker->image($fullPath, 640, 480, null, true);
+
+            // update generated file
+            $file->filename = basename($fakedImagePath);
+            $file->filesize = filesize($fakedImagePath);
+            $file->mime_type = mime_content_type($fakedImagePath);
+            $file->save();
+        }
+
 
         $this->call([
             RolesPermissionsSeeder::class,
