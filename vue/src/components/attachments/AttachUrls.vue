@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
@@ -54,6 +54,10 @@ const persist = () => {
     emit('persisted', data)
   })
 }
+
+const urlListValid = computed(() => {
+  return urlList.value.filter(i => i.url != '').length
+})
 </script>
 
 <template>
@@ -63,16 +67,16 @@ const persist = () => {
       :url="url"
       @remove="removeUrlFromList"
     ></attachment-list-item>
-    <div
+    <button
       :class="[
         'w-full px-4 py-4 text-center text-white rounded-md',
-        [urlList.length ? 'bg-blue' : 'bg-gray-200'],
+        [urlListValid ? 'bg-blue' : 'bg-gray-200'],
       ]"
-      role="button"
+      :disabled="!urlListValid"
       @click="persist"
     >
-      {{ urlList.length > 1 ? 'URLs' : 'URL' }} speichern
-    </div>
+      {{ urlListValid > 1 ? 'URLs' : 'URL' }} speichern
+    </button>
   </div>
 </template>
 

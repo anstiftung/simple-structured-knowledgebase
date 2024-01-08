@@ -2,7 +2,6 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AttachedUrlController;
@@ -25,14 +24,10 @@ Route::controller(SearchController::class)->group(function () {
 
 Route::controller(AttachedUrlController::class)->group(function () {
     Route::get('/attachedUrls', 'index');
-    Route::post('/attachedUrl/store', 'store');
-    Route::post('/attachedUrl/update', 'update');
 });
 
 Route::controller(AttachedFileController::class)->group(function () {
     Route::get('/attachedFiles', 'index');
-    Route::post('/attachedFile/store', 'store');
-    Route::post('/attachedFile/update', 'update');
 });
 
 Route::get('/', function () {
@@ -45,8 +40,11 @@ Route::get('/', function () {
 // Add protected routes here
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
-    Route::get('/article/add', [ArticleController::class, 'store']);
-    Route::get('/attachment/url/add', [AttachedUrlController::class, 'store']);
-    Route::get('/attachment/file/add', [AttachedFileController::class, 'store']);
-    Route::get('/collection/add', [CollectionController::class, 'store']);
+
+    // create and update attachments
+    Route::post('/attachedUrl/store', [AttachedUrlController::class, 'store']);
+    Route::post('/attachedUrl/update', [AttachedUrlController::class, 'update']);
+    Route::post('/attachedFile/store', [AttachedFileController::class, 'store']);
+    Route::post('/attachedFile/update', [AttachedFileController::class, 'update']);
+
 });

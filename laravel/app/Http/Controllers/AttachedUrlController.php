@@ -29,20 +29,22 @@ class AttachedUrlController extends Controller
         $request->validate([
              'attached_urls' => 'required|array|min:1',
              'attached_urls.*.url' => 'required|url:http,https',
-             'article_id' => 'required|exists:articles,id',
+             'article_id' => 'exists:articles,id',
          ]);
 
-        $article = Article::find($request->input('article_id'));
-        $newAttachments = [];
+         $newAttachments = [];
 
-        $request->collect('attached_urls')->each(function ($attachedUrl) use (&$newAttachments) {
-            $new = AttachedUrl::create([
-                'url' => $attachedUrl['url']
-            ]);
-            $newAttachments[] = $new;
-        });
+         $request->collect('attached_urls')->each(function ($attachedUrl) use (&$newAttachments) {
+             $new = AttachedUrl::create([
+                 'url' => $attachedUrl['url']
+                ]);
+                $newAttachments[] = $new;
+            });
 
-        $article->attached_urls()->saveMany($newAttachments);
+        if ($request->input('article_id')) {
+            $article = Article::find($request->input('article_id'));
+            $article->attached_urls()->saveMany($newAttachments);
+        }
 
         return AttachedUrlResource::collection($newAttachments);
     }
