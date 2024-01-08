@@ -9,6 +9,7 @@ import ArticleService from '@/services/ArticleService'
 import AttachmentService from '@/services/AttachmentService'
 
 import AddAttachment from '@/components/attachments/AddAttachment.vue'
+import SearchForm from '@/components/SearchForm.vue'
 
 const recentArticles = ref([])
 const recentAttachedUrls = ref([])
@@ -56,8 +57,13 @@ const activities = computed(() => {
 </script>
 <template>
   <section class="bg-white">
-    <div class="flex items-baseline justify-between py-12 width-wrapper">
-      <h2 class="text-2xl font-bold">Dashboard</h2>
+    <div
+      class="flex items-baseline justify-between py-12 gap-x-12 width-wrapper"
+    >
+      <search-form
+        placeholder="Suche in meinen Beiträgen, Anhängen und Sammlungen"
+        class="grow"
+      />
       <div v-if="userStore.id" class="flex gap-4">
         <button
           class="default-button"

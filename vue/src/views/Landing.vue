@@ -7,7 +7,7 @@ import SearchForm from '@/components/SearchForm.vue'
     <div class="relative width-wrapper">
       <img src="/img/bg.jpg" />
       <div class="absolute w-full -translate-x-1/2 md:w-6/12 top-2/3 left-1/2">
-        <search-form />
+        <search-form placeholder="Suche…" />
       </div>
     </div>
   </section>
