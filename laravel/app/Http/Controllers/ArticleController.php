@@ -10,10 +10,16 @@ class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Avaible params:
+     * – page
+     * – creatorId -> filter by creator
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::paginate();
+        $articles = Article::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
+
         return ArticleResource::collection($articles);
     }
 
