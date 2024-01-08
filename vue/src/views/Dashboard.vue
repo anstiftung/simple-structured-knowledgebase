@@ -51,7 +51,7 @@ const loadFromServer = () => {
 <template>
   <section class="bg-white">
     <div class="flex items-baseline justify-between py-12 width-wrapper">
-      <h2 class="text-2xl font-bold">Dashboard</h2>
+      <h2 class="text-2xl">Dashboard</h2>
       <div v-if="userStore.id" class="flex gap-4">
         <button
           class="default-button"

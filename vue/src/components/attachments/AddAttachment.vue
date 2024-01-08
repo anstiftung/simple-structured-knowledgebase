@@ -76,7 +76,7 @@ const edited = () => {
     <div class="relative flex flex-col gap-6 px-8 py-12 bg-gray-100">
       <div class="flex justify-between">
         <div>
-          <h3 class="text-xl font-bold">
+          <h3 class="text-xl">
             <template v-if="attachmentMode == 'file'">Datenupload</template>
             <template v-else>URL hinzufügen</template>
           </h3>
