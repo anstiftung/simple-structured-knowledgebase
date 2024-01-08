@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Recipe;
+use App\Models\Article;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +28,6 @@ class AttachedUrl extends Model
 
     public function recipes()
     {
-        return $this->morphToMany(Recipe::class, 'recipe_attachments');
+        return $this->morphToMany(Article::class, 'article_attachments');
     }
 }

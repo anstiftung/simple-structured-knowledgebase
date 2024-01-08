@@ -5,7 +5,7 @@ import Foot from './components/Foot.vue'
 
 <template>
   <div class="relative flex flex-col min-h-screen">
-    <navigation></navigation>
+    <Navigation></Navigation>
     <section class="flex-1">
       <router-view></router-view>
     </section>

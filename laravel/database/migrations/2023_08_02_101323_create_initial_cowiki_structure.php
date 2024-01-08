@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('recipes', function (Blueprint $table) {
+        Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
@@ -76,10 +76,9 @@ return new class () extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('recipe_attachments', function (Blueprint $table) {
-            $table->foreignId('recipe_id');
+        Schema::create('article_attachments', function (Blueprint $table) {
+            $table->foreignId('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->morphs('attachment');
-            $table->foreign('recipe_id')->references('id')->on('recipes');
         });
     }
 
@@ -88,23 +87,23 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::table('recipe_attachments', function (Blueprint $table) {
-            $table->dropForeign(['recipe_id']);
+        Schema::table('article_attachments', function (Blueprint $table) {
+            $table->dropForeign(['article_id']);
             $table->dropMorphs('attachment');
         });
 
-        Schema::table('attachmed_files', function (Blueprint $table) {
+        Schema::table('attached_files', function (Blueprint $table) {
             $table->dropForeign(['license_id']);
             $table->dropForeign(['created_by_id']);
             $table->dropForeign(['updated_by_id']);
         });
 
-        Schema::table('attachmed_urls', function (Blueprint $table) {
+        Schema::table('attached_urls', function (Blueprint $table) {
             $table->dropForeign(['created_by_id']);
             $table->dropForeign(['updated_by_id']);
         });
 
-        Schema::table('recipes', function (Blueprint $table) {
+        Schema::table('articles', function (Blueprint $table) {
             $table->dropForeign(['created_by_id']);
             $table->dropForeign(['updated_by_id']);
         });
@@ -112,9 +111,9 @@ return new class () extends Migration {
         Schema::dropIfExists('attachmed_files');
         Schema::dropIfExists('attachmed_urls');
 
-        Schema::dropIfExists('recipes');
+        Schema::dropIfExists('articles');
         Schema::dropIfExists('licenses');
 
-        Schema::dropIfExists('recipe_attachments');
+        Schema::dropIfExists('article_attachments');
     }
 };

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\AttachedUrlResource;
 use App\Http\Resources\AttachedFileResource;
 
-class RecipeResource extends BaseResource
+class ArticleResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

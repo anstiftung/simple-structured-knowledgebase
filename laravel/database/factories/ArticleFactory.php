@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Recipe>
  */
-class RecipeFactory extends Factory
+class ArticleFactory extends Factory
 {
     /**
      * Define the model's default state.

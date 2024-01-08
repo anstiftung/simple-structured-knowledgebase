@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recipe;
+use App\Models\Article;
 use Illuminate\Http\Request;
-use App\Http\Resources\RecipeResource;
+use App\Http\Resources\ArticleResource;
 
-class RecipeController extends Controller
+class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $recipes = Recipe::paginate();
-        return RecipeResource::collection($recipes);
+        $articles = Article::paginate();
+        return ArticleResource::collection($articles);
     }
 
     /**
@@ -28,9 +28,9 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($slug)
+    public function show(Article $article)
     {
-        return new RecipeResource(Recipe::where('slug', $slug)->with(['attached_urls', 'attached_files'])->firstOrFail());
+        return new ArticleResource( $article->with(['attached_urls', 'attached_files'] )->firstOrFail());
     }
 
     /**
@@ -44,7 +44,7 @@ class RecipeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Recipe $recipe)
+    public function destroy(Article $article)
     {
         //
     }

@@ -1,10 +1,13 @@
 name: CI push Laravel App to registry.offene-werkstaetten.org
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Testing Laravel with MySQL"]
     branches:
-      - 'main'
-      - 'dev'
+      - "main"
+      - "dev"
+    types:
+      - completed
 
 jobs:
   docker:
@@ -46,8 +49,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /opt/containers/cotest
-            docker-compose pull
-            docker-compose down
-            docker volume rm cotest_app_data
+            cd /opt/containers/cotest &&
+            docker-compose pull &&
+            docker-compose down &&
             docker-compose up --force-recreate -d

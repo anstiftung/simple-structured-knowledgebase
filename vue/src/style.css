@@ -19,3 +19,15 @@
         @apply w-9/12 max-w-screen-md mx-auto;
     }
 }
+
+.default-button {
+    @apply bg-blue text-white;
+    @apply px-5 py-[10px];
+    @apply rounded-[10px];
+
+    @apply duration-150;
+
+    &:hover {
+        @apply bg-dark;
+    }
+}
