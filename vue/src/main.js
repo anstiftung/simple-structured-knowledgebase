@@ -1,18 +1,16 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import './style.css'
-import App from './App.vue'
-
-import Toast, { POSITION } from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 
+import Toast, { POSITION } from 'vue-toastification'
+
+import App from './App.vue'
 import VueAxios from 'vue-axios'
-
-import axios from '@/plugins/axios.js'
+import axios from 'axios'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import filters from '@/plugins/filters.js'
-import router from './router/index.js'
-
 import keycloakInstance from '@/plugins/keycloak.js'
+import router from './router/index.js'
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -35,9 +33,6 @@ const renderApp = () => {
   app.mount('#app')
 }
 
-
-_keycloak
-  .init({ checkLoginIframe: false })
-  .then(() => {
-    renderApp()
-  })
+_keycloak.init({ checkLoginIframe: false }).then(() => {
+  renderApp()
+})
