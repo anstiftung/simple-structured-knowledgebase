@@ -1,6 +1,7 @@
 <script setup>
 import { inject } from 'vue'
-
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const $keycloak = inject('keycloak')
 </script>
 
@@ -13,6 +14,7 @@ const $keycloak = inject('keycloak')
           <span class="font-bold">COWIKI</span>
         </router-link>
       </h1>
+      <h2>{{ route.meta.navTitle }}</h2>
       <template v-if="$keycloak.authenticated">
         <router-link :to="{ name: 'dashboard' }">
           <svg
