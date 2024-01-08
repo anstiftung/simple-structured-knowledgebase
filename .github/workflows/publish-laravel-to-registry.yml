@@ -49,8 +49,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /opt/containers/cotest
-            docker-compose pull
-            docker-compose down
-            docker volume rm cotest_app_data
+            cd /opt/containers/cotest &&
+            docker-compose pull &&
+            docker-compose down &&
             docker-compose up --force-recreate -d
