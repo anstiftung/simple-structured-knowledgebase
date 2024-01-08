@@ -24,10 +24,10 @@
 }
 
 .default-button {
-    @apply bg-blue text-white;
-    @apply px-5 py-[10px];
-    @apply rounded-[10px];
-
+    @apply text-white bg-blue;
+    @apply px-5 py-[7px];
+    @apply rounded-[7px];
+    @apply text-sm;
     @apply duration-150;
 
     &:hover {
