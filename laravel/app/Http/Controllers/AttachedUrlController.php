@@ -12,9 +12,13 @@ class AttachedUrlController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $attachedUrls = AttachedUrl::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
+
+        return AttachedUrlResource::collection($attachedUrls);
     }
 
     /**
