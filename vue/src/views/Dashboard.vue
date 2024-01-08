@@ -22,15 +22,9 @@ const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
 const showCreateAttachmentModal = () => {
-  modal.open(AddAttachment, [
-    {
-      label: 'Save',
-      callback: dataFromView => {
-        console.log(dataFromView)
-        modal.close()
-      },
-    },
-  ])
+  modal.open(AddAttachment, () => {
+    loadFromServer()
+  })
 }
 userStore.initUser().then(() => {
   loadFromServer()
