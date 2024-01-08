@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useModalStore } from '@/stores/modal'
@@ -9,8 +9,6 @@ import ArticleService from '@/services/ArticleService'
 import AttachmentService from '@/services/AttachmentService'
 
 import AddAttachment from '@/components/attachments/AddAttachment.vue'
-import ArticleCard from '@/components/ArticleCard.vue'
-import AttachmentCard from '@/components/AttachmentCard.vue'
 
 const recentArticles = ref([])
 const recentAttachedUrls = ref([])
@@ -47,6 +45,14 @@ const loadFromServer = () => {
     },
   )
 }
+
+const activities = computed(() => {
+  let activities = recentArticles.value
+    .concat(recentAttachedFiles.value)
+    .concat(recentAttachedUrls.value)
+  activities = activities.sort((a, b) => a.created_at < b.created_at)
+  return activities
+})
 </script>
 <template>
   <section class="bg-white">
@@ -65,24 +71,52 @@ const loadFromServer = () => {
         </button>
       </div>
     </div>
-    <div class="width-wrapper">
-      <h2>Deine letzten Artikel</h2>
-      <div class="grid grid-cols-3 gap-4 py-8">
-        <article-card v-for="article in recentArticles" :article="article" />
+    <div class="grid grid-cols-2 divide-x width-wrapper">
+      <div class="">
+        <div class="pt-3 pb-2 pl-2 font-semibold border-y">
+          <h3 class="text-black">Letzte Aktivitäten</h3>
+        </div>
+        <div class="py-4 pl-2" v-if="activities">
+          <p class="mb-2" v-for="activity in activities">
+            <span>{{
+              activity.type == 'Article' ? 'Beitrag ' : 'Anhang '
+            }}</span>
+            <router-link
+              class="font-semibold text-orange"
+              v-if="activity.type == 'Article'"
+              :to="{
+                name: 'article',
+                params: { slug: activity.slug },
+              }"
+            >
+              {{ activity.title }}
+            </router-link>
+            <span v-else class="font-semibold text-green">
+              {{ activity.title }}
+            </span>
+            <span> erstellt</span>
+            <span class="inline-block ml-2 text-gray-200">{{
+              $filters.formatedDate(activity.created_at)
+            }}</span>
+          </p>
+        </div>
       </div>
-      <h2>Deine letzten Anhänge (Dateien)</h2>
-      <div class="grid grid-cols-3 gap-4 py-8">
-        <attachment-card
-          v-for="attachedFile in recentAttachedFiles"
-          :attachment="attachedFile"
-        />
-      </div>
-      <h2>Deine letzten Anhänge (Urls)</h2>
-      <div class="grid grid-cols-3 gap-4 py-8">
-        <attachment-card
-          v-for="attachedUrl in recentAttachedUrls"
-          :attachment="attachedUrl"
-        />
+      <div class="">
+        <div class="pt-3 pb-2 pl-2 border-y">
+          <h3 class="font-semibold text-black">
+            Anhänge mit unzureichenden Metadaten
+          </h3>
+          <p class="text-gray-200">
+            Solche Anhänge können nicht genutzt und veröffentlicht werden.
+          </p>
+        </div>
+        <div class="min-h-[200px] py-4 pl-2">@todo ;)</div>
+        <div class="pt-3 pb-2 pl-2 border-y">
+          <h3 class="font-semibold text-black">
+            Sammlungen auf der Startseite
+          </h3>
+        </div>
+        <div class="min-h-[200px] py-4 pl-2">@todo ;)</div>
       </div>
     </div>
   </section>
