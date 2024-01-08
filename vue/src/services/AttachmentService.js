@@ -3,8 +3,8 @@ import { makeApiRequest } from '@/plugins/api'
 class AttachmentService {
   createAttachmentUrls(urls, article) {
     const data = {
-      article_id: article.id,
       attached_urls: urls,
+      ...(article && { article_id: article.id }),
     }
     const config = {
       method: 'post',
@@ -16,8 +16,8 @@ class AttachmentService {
 
   createAttachmentFiles(files, article, progressCallback) {
     const data = {
-      article_id: article.id,
       attached_files: files,
+      ...(article && { article_id: article.id }),
     }
     const config = {
       method: 'post',
