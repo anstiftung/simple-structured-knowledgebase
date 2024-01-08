@@ -56,7 +56,6 @@ class migrateAttachments extends Command
             if(User::find($ingredient->created_by)) {
 
                 $attachment = AttachedFile::make([
-                    'id' => $ingredient->id,
                     'title' => $ingredient->title,
                     'filename' => $ingredient->filename,
                     'description' => Str::limit($ingredient->content,390,'…'),
@@ -67,11 +66,11 @@ class migrateAttachments extends Command
                     'license_id' => $license_id->id,
                     'updated_at' => $ingredient->modified,
                     'created_at' => $ingredient->created,
-                    'created_by_id' => $ingredient->created_by,
-                    'updated_by_id' => $ingredient->created_by,
                 ]);
 
+                $attachment->id = $ingredient->id;
                 $attachment->created_by_id = $ingredient->created_by;
+                $attachment->updated_by_id = $ingredient->created_by;
 
                 $attachment->save();
 
