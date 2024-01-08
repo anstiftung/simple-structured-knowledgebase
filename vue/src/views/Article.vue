@@ -28,7 +28,7 @@ loadFromServer()
     <section class="text-white bg-orange" v-if="article">
       <div class="py-12 width-small-wrapper">
         <h4 class="text-sm text-white uppercase">Beitrag</h4>
-        <h2 class="mb-4 text-3xl font-bold text-white">{{ article.title }}</h2>
+        <h2 class="mb-4 text-3xl text-white">{{ article.title }}</h2>
         <p>{{ article.description }}</p>
         <p class="mt-4 text-sm">
           Erstellt am {{ $filters.formatedDateTime(article.created_at) }}

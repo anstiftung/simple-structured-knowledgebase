@@ -9,8 +9,11 @@
     html {
         font-size: 15px;
     }
-    h1, h2, h3, h4, h5, h6 {
-        @apply font-rubik text-blue;
+    h1, h2 {
+        @apply font-rubik;
+    }
+    h3, h4, h5, h6 {
+        @apply font-bold font-rubik;
     }
 }
 
