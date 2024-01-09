@@ -29,7 +29,7 @@ class downloadAttachedFiles extends Command
     public function handle()
     {
         $path = $this->option('folder');
-        $filesInDb = AttachedFile::limit(5)->get();
+        $filesInDb = AttachedFile::all();
 
         foreach($filesInDb as $file) {
             $prefix_url = 'https://www.offene-werkstaetten.org/files/cowiki/';
