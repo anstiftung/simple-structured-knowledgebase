@@ -15,7 +15,7 @@ import SearchForm from '@/components/SearchForm.vue'
     <!-- todo: generalize -->
     <div class="py-12 width-wrapper">
       <router-link :to="{ name: 'articles' }"
-        >[DEBUG] Alle Beiträge</router-link
+        >[DEBUG] Alle Beiträge [/DEBUG]</router-link
       >
       <h2 class="mb-4 text-2xl">Neueste Elemente</h2>
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
