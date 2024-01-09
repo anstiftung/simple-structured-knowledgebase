@@ -13,9 +13,13 @@ class AttachedFileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $attachedFiles = AttachedFile::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
+
+        return AttachedFileResource::collection($attachedFiles);
     }
 
     /**
@@ -31,10 +35,9 @@ class AttachedFileController extends Controller
                 File::types(['png', 'jpg'])
                     ->max(12 * 1024)
             ],
-            'article_id' => 'required|exists:articles,id',
+            'article_id' => 'exists:articles,id',
         ]);
 
-        $article = Article::find($request->input('article_id'));
         $newAttachments = [];
 
         $files = $request->file('attached_files');
@@ -54,7 +57,10 @@ class AttachedFileController extends Controller
             $newAttachments[] = $new;
         }
 
-        $article->attached_files()->saveMany($newAttachments);
+        if ($request->input('article_id')) {
+            $article = Article::find($request->input('article_id'));
+            $article->attached_files()->saveMany($newAttachments);
+        }
 
         return AttachedFileResource::collection($newAttachments);
     }

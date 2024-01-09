@@ -30,7 +30,7 @@ const links = ref([
 </script>
 
 <template>
-  <footer class="font-rubik">
+  <footer>
     <a
       v-if="false"
       href="#"
@@ -53,7 +53,7 @@ const links = ref([
         class="flex flex-wrap items-end justify-between gap-12 pt-12 pb-16 width-wrapper"
       >
         <div>
-          <h1 class="text-2xl text-white">
+          <h1 class="text-2xl text-white font-rubik">
             <router-link to="/">
               <span>VOW_</span>
               <span class="font-bold">COWIKI</span>

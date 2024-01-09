@@ -1,31 +1,31 @@
 @font-face {
-    font-family: "Rubik";
-    font-style: normal;
-    font-weight: 400;
-    src: url("/fonts/rubik-v28-latin-400.woff2") format("woff2");
-    font-display: swap;
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/rubik-v28-latin-400.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
-    font-family: "Rubik";
-    font-style: normal;
-    font-weight: 700;
-    src: url("/fonts/rubik-v28-latin-700.woff2") format("woff2");
-    font-display: swap;
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/rubik-v28-latin-500.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
-    font-family: "Roboto Condensed";
-    font-style: normal;
-    font-weight: 400;
-    src: url("/fonts/roboto-condensed-v25-latin-regular.woff2") format("woff2");
-    font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/inter-v13-latin-regular.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
-    font-family: "Roboto Condensed";
-    font-style: normal;
-    font-weight: 700;
-    src: url("/fonts/roboto-condensed-v25-latin-700.woff2") format("woff2");
-    font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/inter-v13-latin-800.woff2') format('woff2');
+  font-display: swap;
 }

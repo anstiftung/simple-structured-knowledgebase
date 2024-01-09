@@ -63,7 +63,9 @@ const loadFromServer = () => {
       <template v-if="searchMeta.num_attached_urls">
         <h3>
           {{ searchMeta.num_attached_urls }}
-          {{ searchMeta.num_attached_urls > 1 ? 'Zutat-URLs:' : 'Zutat-URL:' }}
+          {{
+            searchMeta.num_attached_urls > 1 ? 'Anhänge (URLs)' : 'Anhang (URL)'
+          }}
         </h3>
         <div v-for="url in searchResults.attached_urls">
           {{ url.title }}
@@ -73,7 +75,9 @@ const loadFromServer = () => {
         <h3>
           {{ searchMeta.num_attached_files }}
           {{
-            searchMeta.num_attached_files > 1 ? 'Zutat-Files:' : 'Zutat-File:'
+            searchMeta.num_attached_files > 1
+              ? 'Anhänge (Dateien):'
+              : 'Anhang (Datei):'
           }}
         </h3>
         <div v-for="file in searchResults.attached_files">

@@ -97,9 +97,9 @@ const currentAttachment = computed(() => {
 const nextHint = computed(() => {
   const attachmentsLeft = attachmentList.value.length - 1 - visibleIndex.value
   if (attachmentsLeft > 1) {
-    return `Benenne noch weitere ${attachmentsLeft} Zutaten`
+    return `Benenne noch weitere ${attachmentsLeft} Anhänge`
   } else if (attachmentsLeft == 1) {
-    return `Benenne noch eine weitere Zutaten`
+    return `Benenne noch einen weiteren Anhang`
   } else {
     return false
   }
@@ -133,7 +133,7 @@ const save = () => {
   request.then(data => {
     toast.success(
       `Erfolgreich ${data.length} ${
-        data.length == 1 ? 'Zutat' : 'Zutaten'
+        data.length == 1 ? 'Anhang' : 'Anhänge'
       } gespeichert`,
     )
     emit('edited')
@@ -142,9 +142,7 @@ const save = () => {
 </script>
 
 <template>
-  <div
-    class="absolute top-0 left-0 z-20 w-full h-full p-4 text-white rounded-md bg-green"
-  >
+  <div class="absolute top-0 left-0 z-20 w-full h-full p-4 text-white bg-green">
     <h4 class="font-semibold">
       {{ currentAttachment[editConfig.titleAttribute] }}
     </h4>
@@ -234,7 +232,7 @@ const save = () => {
       role="button"
       @click="save"
     >
-      {{ data.length > 1 ? 'Alle Zutaten' : 'Zutat' }} speichern
+      {{ data.length > 1 ? 'Alle Anhänge' : 'Anhang' }} speichern
     </div>
   </div>
 </template>

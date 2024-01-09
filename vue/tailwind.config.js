@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Roboto Condensed', 'system-ui'],
+        sans: ['Inter', 'system-ui'],
         rubik: ['Rubik', 'system-ui'],
       },
       colors: {

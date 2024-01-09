@@ -17,7 +17,7 @@ import SearchForm from '@/components/SearchForm.vue'
       <router-link :to="{ name: 'articles' }"
         >[DEBUG] Alle Beiträge</router-link
       >
-      <h2 class="mb-4 text-2xl font-bold">Neueste Elemente</h2>
+      <h2 class="mb-4 text-2xl">Neueste Elemente</h2>
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <div class="rounded-md aspect-square bg-blue"></div>
         <div class="rounded-md aspect-square bg-blue"></div>

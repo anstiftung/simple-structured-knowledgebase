@@ -135,12 +135,12 @@ const persist = () => {
         @remove="removeFileFromList"
       ></attachment-list-item>
     </div>
-    <div
+    <button
       :class="[
         'w-full px-4 py-4 text-center text-white rounded-md relative overflow-hidden',
         [fileList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
-      role="button"
+      :disabled="!fileList.length"
       @click="persist"
     >
       <div
@@ -150,7 +150,7 @@ const persist = () => {
       <span class="relative z-10"
         >{{ fileList.length > 1 ? 'Dateien' : 'Datei' }} hochladen</span
       >
-    </div>
+    </button>
   </div>
 </template>
 

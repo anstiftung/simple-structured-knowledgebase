@@ -10,7 +10,8 @@ use App\Http\Resources\DashboardResource;
 
 class DashboardController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $user = User::find(Auth::id());
 
         return new DashboardResource($user);
