@@ -14,26 +14,27 @@ class downloadAttachedFiles extends Command
      *
      * @var string
      */
-    protected $signature = 'cowiki:download-attached-files';
+    protected $signature = 'cowiki:download-attached-files {--folder=: Specify download folder in default storage with trailing slash}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Download files from old CoWiki into specified folder.';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
+        $path = $this->option('folder');
         $filesInDb = AttachedFile::limit(5)->get();
 
         foreach($filesInDb as $file) {
             $prefix_url = 'https://www.offene-werkstaetten.org/files/cowiki/';
             $url = $prefix_url . rawurlencode($file->filename);
-            $filesystem_target_path = 'test_download/'.$file->filename;
+            $filesystem_target_path = $path.$file->filename;
             try {
                 Storage::disk('local')->put($filesystem_target_path, file_get_contents($url));
 
