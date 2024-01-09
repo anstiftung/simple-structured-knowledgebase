@@ -32,14 +32,14 @@ class AttachedUrlController extends Controller
              'article_id' => 'exists:articles,id',
          ]);
 
-         $newAttachments = [];
+        $newAttachments = [];
 
-         $request->collect('attached_urls')->each(function ($attachedUrl) use (&$newAttachments) {
-             $new = AttachedUrl::create([
-                 'url' => $attachedUrl['url']
-                ]);
-                $newAttachments[] = $new;
-            });
+        $request->collect('attached_urls')->each(function ($attachedUrl) use (&$newAttachments) {
+            $new = AttachedUrl::create([
+                'url' => $attachedUrl['url']
+               ]);
+            $newAttachments[] = $new;
+        });
 
         if ($request->input('article_id')) {
             $article = Article::find($request->input('article_id'));
