@@ -16,7 +16,7 @@ const article = reactive({
 })
 
 const rules = {
-  title: { required, maxLength: maxLength(100), $autoDirty: true },
+  title: { required, maxLength: maxLength(255), $autoDirty: true },
   description: { required, maxLength: maxLength(1000), $autoDirty: true },
 }
 const v$ = useVuelidate(rules, article)
