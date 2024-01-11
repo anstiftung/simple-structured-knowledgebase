@@ -10,16 +10,16 @@ trait HasCreatedByAndUpdatedByTrait
     public static function bootHasCreatedByAndUpdatedByTrait()
     {
         static::creating(function ($model) {
-            if (!$model->isDirty('created_by_id')) {
+            if (!$model->isDirty('created_by_id') && Auth::id()) {
                 $model->created_by_id = Auth::id();
             }
-            if (!$model->isDirty('updated_by_id')) {
+            if (!$model->isDirty('updated_by_id') && Auth::id()) {
                 $model->updated_by_id = Auth::id();
             }
         });
 
         static::updating(function ($model) {
-            if (!$model->isDirty('updated_by_id')) {
+            if (!$model->isDirty('updated_by_id') && Auth::id()) {
                 $model->updated_by_id = Auth::id();
             }
         });
