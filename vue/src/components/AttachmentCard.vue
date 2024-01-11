@@ -13,6 +13,7 @@ const props = defineProps({
     </template>
     <template v-if="attachment.filename">
       <p class="my-4">filename: {{ attachment.filename }}</p>
+      <img :src="'/api/attachedFile/' + attachment.id" />
     </template>
     <p class="text-sm">
       Aktualisiert am:
