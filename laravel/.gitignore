@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/uploads
 /vendor
 .env
 .env.backup
@@ -18,3 +19,5 @@ yarn-error.log
 /.idea
 /.vscode
 .php-cs-fixer.cache
+**/.DS_Store
+.DS_STORE

@@ -7,6 +7,7 @@ use App\Models\AttachedFile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\File;
 use App\Http\Resources\AttachedFileResource;
+use Illuminate\Support\Facades\Storage;
 
 class AttachedFileController extends Controller
 {
@@ -44,9 +45,9 @@ class AttachedFileController extends Controller
         foreach ($files as $file) {
             $new = AttachedFile::create([]);
             $name = $file->getClientOriginalName();
-            $file->storeAs(
-                'public/attachedFiles/'.$new->id,
-                $name
+            Storage::disk('uploads')->put(
+                $new->id .'/'. $name,
+                file_get_contents($file->getRealPath())
             );
 
             $new->update([
@@ -57,6 +58,7 @@ class AttachedFileController extends Controller
             $newAttachments[] = $new;
         }
 
+        /* If article_id is given, attach File to article */
         if ($request->input('article_id')) {
             $article = Article::find($request->input('article_id'));
             $article->attached_files()->saveMany($newAttachments);

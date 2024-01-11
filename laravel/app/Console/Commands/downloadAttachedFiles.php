@@ -14,7 +14,7 @@ class downloadAttachedFiles extends Command
      *
      * @var string
      */
-    protected $signature = 'cowiki:download-attached-files {--folder=: Specify download folder in default storage with trailing slash}';
+    protected $signature = 'cowiki:download-attached-files';
 
     /**
      * The console command description.
@@ -28,18 +28,17 @@ class downloadAttachedFiles extends Command
      */
     public function handle()
     {
-        $path = $this->option('folder');
-        $filesInDb = AttachedFile::all();
+        $filesInDb = AttachedFile::limit(5)->get(); // all();
 
         foreach($filesInDb as $file) {
             $prefix_url = 'https://www.offene-werkstaetten.org/files/cowiki/';
             $url = $prefix_url . rawurlencode($file->filename);
-            $filesystem_target_path = $path.$file->filename;
+            $filesystem_target_path = $file->id.'/'.$file->filename;
             try {
-                Storage::disk('local')->put($filesystem_target_path, file_get_contents($url));
+                Storage::disk('uploads')->put($filesystem_target_path, file_get_contents($url));
 
-                $size = Storage::size($filesystem_target_path);
-                $mime = Storage::mimeType($filesystem_target_path);
+                $size = Storage::disk('uploads')->size($filesystem_target_path);
+                $mime = Storage::disk('uploads')->mimeType($filesystem_target_path);
 
                 $file->mime_type = $mime;
                 $file->filesize = $size;
