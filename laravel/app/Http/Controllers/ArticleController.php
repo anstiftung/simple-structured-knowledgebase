@@ -31,7 +31,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        if (!$user->hasRole('add articles')) {
+        if (!$user->can('add articles')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
