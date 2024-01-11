@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user = User::find(Auth::id());
+        $user = Auth::user();
 
         return new DashboardResource($user);
 
