@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Validation\Rules\File as FileValidator;
+use Illuminate\Support\Facades\File;
 use App\Http\Resources\AttachedFileResource;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,7 +35,7 @@ class AttachedFileController extends Controller
             'attached_files' => 'required|array|min:1',
             'attached_files.*' => [
                 'required',
-                File::types(['png', 'jpg'])
+                FileValidator::types(['png', 'jpg'])
                     ->max(12 * 1024)
             ],
             'article_id' => 'exists:articles,id',
@@ -72,7 +74,19 @@ class AttachedFileController extends Controller
      */
     public function show(AttachedFile $attachedFile)
     {
-        //
+
+        $path = storage_path('app/public/attachedFiles/' . $attachedFile->id . '/' . $attachedFile->filename);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 
     /**
