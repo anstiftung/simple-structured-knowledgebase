@@ -14,6 +14,7 @@ use Illuminate\Container\Container;
 use Database\Seeders\RolesPermissionsSeeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Process;
 
 class DatabaseSeeder extends Seeder
 {
@@ -90,11 +91,10 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach ($generatedFiles as $file) {
-            $imagePath = 'public/attachedFiles/'.$file->id;
-            Storage::deleteDirectory($imagePath);
-            Storage::makeDirectory($imagePath);
+            Storage::disk('uploads')->deleteDirectory($file->id);
+            Storage::disk('uploads')->makeDirectory($file->id);
 
-            $fullPath = storage_path('app/public/attachedFiles/'.$file->id);
+            $fullPath = storage_path('uploads/'.$file->id);
             $fakedImagePath = $this->faker->image($fullPath, 640, 480, null, true);
 
             // update generated file
@@ -102,6 +102,8 @@ class DatabaseSeeder extends Seeder
             $file->filesize = filesize($fakedImagePath);
             $file->mime_type = mime_content_type($fakedImagePath);
             $file->save();
+
+            Process::run('chown -R www-data:www-data '. $fullPath)->throw();
         }
 
 
