@@ -1,5 +1,6 @@
 const Article = () => import('@/views/Article.vue')
 const Articles = () => import('@/views/Articles.vue')
+const ArticleCreate = () => import('@/views/ArticleCreate.vue')
 
 export default [
   {
@@ -8,6 +9,15 @@ export default [
     name: 'articles',
     meta: {
       title: 'Alle Beiträge',
+    },
+  },
+  {
+    path: '/beitrag/neu',
+    component: ArticleCreate,
+    name: 'articleCreate',
+    meta: {
+      title: 'Neuer Beitrag',
+      protected: true,
     },
   },
   {
