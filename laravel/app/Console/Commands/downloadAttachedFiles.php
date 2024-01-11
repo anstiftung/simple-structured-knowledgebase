@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\AttachedFile;
 use Exception;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Process;
 
 class downloadAttachedFiles extends Command
 {
@@ -43,6 +44,8 @@ class downloadAttachedFiles extends Command
                 $file->mime_type = $mime;
                 $file->filesize = $size;
                 $file->save();
+
+                Process::run('chown -R www-data:www-data '. storage_path('uploads/'.$file->id))->throw();
 
                 $this->info('Download: ' . $filesystem_target_path . ' success. ( '. $this::formatBytes($size) . ' , ' . $mime . ')');
             } catch (Exception $e) {
