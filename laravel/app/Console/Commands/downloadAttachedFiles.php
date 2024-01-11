@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\AttachedFile;
 use Exception;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Process;
 
 class downloadAttachedFiles extends Command
 {
@@ -14,7 +15,7 @@ class downloadAttachedFiles extends Command
      *
      * @var string
      */
-    protected $signature = 'cowiki:download-attached-files {--folder=: Specify download folder in default storage with trailing slash}';
+    protected $signature = 'cowiki:download-attached-files';
 
     /**
      * The console command description.
@@ -28,22 +29,23 @@ class downloadAttachedFiles extends Command
      */
     public function handle()
     {
-        $path = $this->option('folder');
         $filesInDb = AttachedFile::all();
 
         foreach($filesInDb as $file) {
             $prefix_url = 'https://www.offene-werkstaetten.org/files/cowiki/';
             $url = $prefix_url . rawurlencode($file->filename);
-            $filesystem_target_path = $path.$file->filename;
+            $filesystem_target_path = $file->id.'/'.$file->filename;
             try {
-                Storage::disk('local')->put($filesystem_target_path, file_get_contents($url));
+                Storage::disk('uploads')->put($filesystem_target_path, file_get_contents($url));
 
-                $size = Storage::size($filesystem_target_path);
-                $mime = Storage::mimeType($filesystem_target_path);
+                $size = Storage::disk('uploads')->size($filesystem_target_path);
+                $mime = Storage::disk('uploads')->mimeType($filesystem_target_path);
 
                 $file->mime_type = $mime;
                 $file->filesize = $size;
                 $file->save();
+
+                Process::run('chown -R www-data:www-data '. storage_path('uploads/'.$file->id))->throw();
 
                 $this->info('Download: ' . $filesystem_target_path . ' success. ( '. $this::formatBytes($size) . ' , ' . $mime . ')');
             } catch (Exception $e) {
