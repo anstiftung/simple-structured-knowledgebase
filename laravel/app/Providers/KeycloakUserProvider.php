@@ -29,7 +29,9 @@ class KeycloakUserProvider extends EloquentUserProvider
         }
 
         // If the current user has no role, it get's the default role
-        if(count($user->roles->pluck('name')) < 1) $user->assignRole($default_role);
+        if(count($user->roles->pluck('name')) < 1) {
+            $user->assignRole($default_role);
+        }
 
         return $user;
     }
