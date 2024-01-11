@@ -1,11 +1,11 @@
 <script setup>
-import { ref, defineEmits, defineProps, watch } from 'vue'
+import { ref, watch } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
 const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
-  recipe: Object,
+  article: Object,
 })
 const isDragging = ref(false)
 const uploadProgress = ref(0)
@@ -70,7 +70,7 @@ const progressCallback = percent => {
 const persist = () => {
   AttachmentService.createAttachmentFiles(
     fileList.value,
-    props.recipe,
+    props.article,
     progressCallback,
   )
     .then(data => {
@@ -135,12 +135,12 @@ const persist = () => {
         @remove="removeFileFromList"
       ></attachment-list-item>
     </div>
-    <div
+    <button
       :class="[
         'w-full px-4 py-4 text-center text-white rounded-md relative overflow-hidden',
         [fileList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
-      role="button"
+      :disabled="!fileList.length"
       @click="persist"
     >
       <div
@@ -150,7 +150,7 @@ const persist = () => {
       <span class="relative z-10"
         >{{ fileList.length > 1 ? 'Dateien' : 'Datei' }} hochladen</span
       >
-    </div>
+    </button>
   </div>
 </template>
 

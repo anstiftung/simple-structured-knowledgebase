@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AttachedUrlResource;
-use App\Models\Recipe;
+use App\Models\Article;
 use App\Models\AttachedUrl;
 use Illuminate\Http\Request;
+use App\Http\Resources\AttachedUrlResource;
 
 class AttachedUrlController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $attachedUrls = AttachedUrl::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
+
+        return AttachedUrlResource::collection($attachedUrls);
     }
 
     /**
@@ -25,20 +29,22 @@ class AttachedUrlController extends Controller
         $request->validate([
              'attached_urls' => 'required|array|min:1',
              'attached_urls.*.url' => 'required|url:http,https',
-             'recipe_id' => 'required|exists:recipes,id',
+             'article_id' => 'exists:articles,id',
          ]);
 
-        $recipe = Recipe::find($request->input('recipe_id'));
         $newAttachments = [];
 
         $request->collect('attached_urls')->each(function ($attachedUrl) use (&$newAttachments) {
             $new = AttachedUrl::create([
                 'url' => $attachedUrl['url']
-            ]);
+               ]);
             $newAttachments[] = $new;
         });
 
-        $recipe->attached_urls()->saveMany($newAttachments);
+        if ($request->input('article_id')) {
+            $article = Article::find($request->input('article_id'));
+            $article->attached_urls()->saveMany($newAttachments);
+        }
 
         return AttachedUrlResource::collection($newAttachments);
     }

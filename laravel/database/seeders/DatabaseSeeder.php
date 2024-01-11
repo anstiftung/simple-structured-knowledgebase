@@ -81,9 +81,9 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         foreach ($articles as $article) {
-            $numAttachmentsToAttach = rand(1, $this->numAttachments/2);
-            $urls = AttachedUrl::get()->random($numAttachmentsToAttach/2);
-            $files = AttachedFile::get()->random($numAttachmentsToAttach/2);
+            $numAttachmentsToAttach = rand(1, $this->numAttachments / 2);
+            $urls = AttachedUrl::get()->random($numAttachmentsToAttach / 2);
+            $files = AttachedFile::get()->random($numAttachmentsToAttach / 2);
             $article->attached_urls()->attach($urls);
             $article->attached_files()->attach($files);
         }

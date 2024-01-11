@@ -1,21 +1,21 @@
-const Recipe = () => import( '@/views/Recipe.vue')
-const Recipes = () => import( '@/views/Recipes.vue')
+const Article = () => import('@/views/Article.vue')
+const Articles = () => import('@/views/Articles.vue')
 
 export default [
   {
-    path: '/rezepte',
-    component: Recipes,
-    name: 'recipes',
+    path: '/beitraege',
+    component: Articles,
+    name: 'articles',
     meta: {
-      title: 'Rezepte',
+      title: 'Alle Beiträge',
     },
   },
   {
-    path: '/rezepte/:slug',
-    component: Recipe,
-    name: 'recipe',
+    path: '/beitrag/:slug',
+    component: Article,
+    name: 'article',
     meta: {
-      title: 'Rezept',
+      title: 'Beitrag',
     },
   },
 ]

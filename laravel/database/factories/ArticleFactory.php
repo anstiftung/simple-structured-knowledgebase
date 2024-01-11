@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Recipe>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
  */
 class ArticleFactory extends Factory
 {
@@ -22,7 +22,9 @@ class ArticleFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'description' => fake()->sentence(3)
+            'description' => fake()->sentence(3),
+            'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];
     }
 }

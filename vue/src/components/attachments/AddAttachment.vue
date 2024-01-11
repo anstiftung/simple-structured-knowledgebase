@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, computed, defineEmits } from 'vue'
+import { ref, computed } from 'vue'
 import { useToast } from 'vue-toastification'
 
 import AttachmentTypeSelector from './AttachmentTypeSelector.vue'
@@ -8,7 +8,7 @@ import AttachUrls from './AttachUrls.vue'
 import EditAttachments from './EditAttachments.vue'
 
 const props = defineProps({
-  recipe: Object,
+  article: Object,
 })
 const emit = defineEmits(['changed'])
 
@@ -76,7 +76,7 @@ const edited = () => {
     <div class="relative flex flex-col gap-6 px-8 py-12 bg-gray-100">
       <div class="flex justify-between">
         <div>
-          <h3 class="text-xl font-bold">
+          <h3 class="text-xl">
             <template v-if="attachmentMode == 'file'">Datenupload</template>
             <template v-else>URL hinzufügen</template>
           </h3>
@@ -89,13 +89,13 @@ const edited = () => {
       <attach-files
         v-show="attachmentMode == 'file'"
         @persisted="persistedFiles"
-        :recipe="recipe"
+        :article="article"
         v-model:dirty="filesDirty"
       ></attach-files>
       <attach-urls
         v-show="attachmentMode == 'url'"
         @persisted="persistedUrls"
-        :recipe="recipe"
+        :article="article"
         v-model:dirty="urlsDirty"
       ></attach-urls>
     </div>

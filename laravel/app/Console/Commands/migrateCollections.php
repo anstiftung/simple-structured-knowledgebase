@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class migrateArticles extends Command
+class migrateCollections extends Command
 {
     /**
      * The name and signature of the console command.

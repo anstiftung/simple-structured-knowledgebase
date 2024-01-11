@@ -51,19 +51,21 @@ const loadFromServer = () => {
         <template v-else>Keine Ergebnisse</template>
       </h2>
 
-      <template v-if="searchMeta.num_recipes">
+      <template v-if="searchMeta.num_articles">
         <h3>
-          {{ searchMeta.num_recipes }}
-          {{ searchMeta.num_recipes > 1 ? 'Rezepte' : 'Rezept' }}
+          {{ searchMeta.num_articles }}
+          {{ searchMeta.num_articles > 1 ? 'Beiträge:' : 'Beitrag:' }}
         </h3>
-        <div v-for="recipe in searchResults.recipes">
-          {{ recipe.title }}
+        <div v-for="article in searchResults.articles">
+          {{ article.title }}
         </div>
       </template>
       <template v-if="searchMeta.num_attached_urls">
         <h3>
           {{ searchMeta.num_attached_urls }}
-          {{ searchMeta.num_attached_urls > 1 ? 'Zutat-URLs' : 'Zutat-URL' }}
+          {{
+            searchMeta.num_attached_urls > 1 ? 'Anhänge (URLs)' : 'Anhang (URL)'
+          }}
         </h3>
         <div v-for="url in searchResults.attached_urls">
           {{ url.title }}
@@ -72,7 +74,11 @@ const loadFromServer = () => {
       <template v-if="searchMeta.num_attached_files">
         <h3>
           {{ searchMeta.num_attached_files }}
-          {{ searchMeta.num_attached_files > 1 ? 'Zutat-Files' : 'Zutat-File' }}
+          {{
+            searchMeta.num_attached_files > 1
+              ? 'Anhänge (Dateien):'
+              : 'Anhang (Datei):'
+          }}
         </h3>
         <div v-for="file in searchResults.attached_files">
           {{ file.title }}

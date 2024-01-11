@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ingredient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AttachedUrl>
  */
 class AttachedFileFactory extends Factory
 {
@@ -27,6 +27,8 @@ class AttachedFileFactory extends Factory
             'filesize' => fake()->numberBetween(10000, 1000000),
             'preview_file' => Str::slug($title) . '_preview.png',
             'source' => fake()->sentence(3),
+            'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];
     }
 }

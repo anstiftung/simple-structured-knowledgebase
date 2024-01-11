@@ -1,10 +1,34 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class AttachmentService {
-  createAttachmentUrls(urls, recipe) {
+  getAttachmentUrls(page = 1, creatorId = null) {
+    const config = {
+      method: 'get',
+      url: 'attachedUrls',
+      params: {
+        page: page,
+        creatorId: creatorId,
+      },
+    }
+    return makeApiRequest(config)
+  }
+
+  getAttachmentFiles(page = 1, creatorId = null) {
+    const config = {
+      method: 'get',
+      url: 'attachedFiles',
+      params: {
+        page: page,
+        creatorId: creatorId,
+      },
+    }
+    return makeApiRequest(config)
+  }
+
+  createAttachmentUrls(urls, article) {
     const data = {
-      recipe_id: recipe.id,
       attached_urls: urls,
+      ...(article && { article_id: article.id }),
     }
     const config = {
       method: 'post',
@@ -14,10 +38,10 @@ class AttachmentService {
     return makeApiRequest(config)
   }
 
-  createAttachmentFiles(files, recipe, progressCallback) {
+  createAttachmentFiles(files, article, progressCallback) {
     const data = {
-      recipe_id: recipe.id,
       attached_files: files,
+      ...(article && { article_id: article.id }),
     }
     const config = {
       method: 'post',

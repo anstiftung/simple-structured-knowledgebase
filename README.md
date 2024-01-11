@@ -73,6 +73,13 @@ To install PHP-CS-Fixer, run the following command within `laravel/tools/php-cs-
 composer install
 ```
 
+To manually trigger a fix run:
+
+```
+cd vow-cowiki/laravel
+tools/php-cs-fixer/vendor/bin/php-cs-fixer fix ./
+```
+
 ### Prettier
 
 For JavaScript and Vue files, we rely on "Prettier". Install the VS Code Extension `esbenp.prettier-vscode` to ensure proper code formatting.
@@ -92,7 +99,7 @@ You can now use the `vow-cowiki Xdebug` debug-preset inside Visual Studio Code t
 
 ## Testing
 
-All test files are located in `laravel/tests` and can be run using the following command:
+All test files are located in `laravel/tests` and can be run using the following command: 
 
 ```
 art test

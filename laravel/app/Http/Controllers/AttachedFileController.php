@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recipe;
+use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use App\Http\Resources\AttachedFileResource;
 use Illuminate\Validation\Rules\File;
+use App\Http\Resources\AttachedFileResource;
 
 class AttachedFileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $attachedFiles = AttachedFile::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
+
+        return AttachedFileResource::collection($attachedFiles);
     }
 
     /**
@@ -31,10 +35,9 @@ class AttachedFileController extends Controller
                 File::types(['png', 'jpg'])
                     ->max(12 * 1024)
             ],
-            'recipe_id' => 'required|exists:recipes,id',
+            'article_id' => 'exists:articles,id',
         ]);
 
-        $recipe = Recipe::find($request->input('recipe_id'));
         $newAttachments = [];
 
         $files = $request->file('attached_files');
@@ -54,7 +57,10 @@ class AttachedFileController extends Controller
             $newAttachments[] = $new;
         }
 
-        $recipe->attached_files()->saveMany($newAttachments);
+        if ($request->input('article_id')) {
+            $article = Article::find($request->input('article_id'));
+            $article->attached_files()->saveMany($newAttachments);
+        }
 
         return AttachedFileResource::collection($newAttachments);
     }

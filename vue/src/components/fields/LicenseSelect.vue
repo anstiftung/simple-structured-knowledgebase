@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref, computed } from 'vue'
+import { ref, computed } from 'vue'
 import LicenseService from '@/services/LicenseService'
 
 const emit = defineEmits(['update:modelValue'])
