@@ -52,3 +52,9 @@
         @apply bg-gray-200;
     }
 }
+.secondary-button-white {
+    @apply text-white border-white;
+    &:hover {
+        @apply bg-gray-200/20;
+    }
+}

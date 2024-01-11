@@ -5,7 +5,7 @@ import { useToast } from 'vue-toastification'
 import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength } from '@vuelidate/validators'
-
+import LeaveToast from '@/components/atoms/LeaveToast.vue'
 const toast = useToast()
 const router = useRouter()
 
@@ -29,12 +29,22 @@ const unsavedChanges = () => {
   return JSON.stringify(article) != persistedArticle
 }
 
-onBeforeRouteLeave((to, from) => {
+onBeforeRouteLeave((to, from, next) => {
   if (unsavedChanges()) {
-    const answer = window.confirm(
-      'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
-    )
-    if (!answer) return false
+    toast.clear()
+    const content = {
+      component: LeaveToast,
+      listeners: {
+        'allow-route-change': () => next(),
+      },
+    }
+    toast(content, {
+      timeout: false,
+      icon: false,
+      closeButton: false,
+    })
+  } else {
+    next()
   }
 })
 
