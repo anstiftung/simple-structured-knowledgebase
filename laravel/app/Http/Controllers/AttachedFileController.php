@@ -48,7 +48,7 @@ class AttachedFileController extends Controller
             $new = AttachedFile::create([]);
             $name = $file->getClientOriginalName();
             Storage::disk('uploads')->put(
-                $new->id .'/'. $name,
+                $new->id . '/' . $name,
                 file_get_contents($file->getRealPath())
             );
 
@@ -75,7 +75,7 @@ class AttachedFileController extends Controller
     public function show(AttachedFile $attachedFile)
     {
 
-        $path = storage_path('app/public/attachedFiles/' . $attachedFile->id . '/' . $attachedFile->filename);
+        $path = storage_path('uploads/' . $attachedFile->id . '/' . $attachedFile->filename);
         if (!File::exists($path)) {
             abort(404);
         }
