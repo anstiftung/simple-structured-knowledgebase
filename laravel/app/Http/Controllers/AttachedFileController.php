@@ -76,6 +76,7 @@ class AttachedFileController extends Controller
     {
 
         $path = storage_path('uploads/' . $attachedFile->id . '/' . $attachedFile->filename);
+
         if (!File::exists($path)) {
             abort(404);
         }
