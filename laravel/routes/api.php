@@ -24,12 +24,12 @@ Route::controller(SearchController::class)->group(function () {
 });
 
 Route::controller(AttachedUrlController::class)->group(function () {
-    Route::get('/attachedUrls', 'index');
+    Route::get('/attached-urls', 'index');
 });
 
 Route::controller(AttachedFileController::class)->group(function () {
-    Route::get('/attachedFiles', 'index');
-    Route::get('/attachedFile/{attachedFile:id}', 'show');
+    Route::get('/attached-files', 'index');
+    Route::get('/attached-file/{attachedFile:id}', 'show');
 });
 
 Route::get('/', function () {
@@ -44,10 +44,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // create and update attachments
-    Route::post('/attachedUrl/store', [AttachedUrlController::class, 'store']);
-    Route::post('/attachedUrl/update', [AttachedUrlController::class, 'update']);
-    Route::post('/attachedFile/store', [AttachedFileController::class, 'store']);
-    Route::post('/attachedFile/update', [AttachedFileController::class, 'update']);
+    Route::post('/attached-url/store', [AttachedUrlController::class, 'store']);
+    Route::post('/attached-url/update', [AttachedUrlController::class, 'update']);
+    Route::post('/attached-file/store', [AttachedFileController::class, 'store']);
+    Route::post('/attached-file/update', [AttachedFileController::class, 'update']);
 
     // create and update articles
     Route::post('/article/store', [ArticleController::class, 'store']);
