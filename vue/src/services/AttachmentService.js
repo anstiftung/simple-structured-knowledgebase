@@ -4,7 +4,7 @@ class AttachmentService {
   getAttachmentUrls(page = 1, creatorId = null) {
     const config = {
       method: 'get',
-      url: 'attachedUrls',
+      url: 'attached-urls',
       params: {
         page: page,
         creatorId: creatorId,
@@ -16,7 +16,7 @@ class AttachmentService {
   getAttachmentFiles(page = 1, creatorId = null) {
     const config = {
       method: 'get',
-      url: 'attachedFiles',
+      url: 'attached-files',
       params: {
         page: page,
         creatorId: creatorId,
@@ -32,7 +32,7 @@ class AttachmentService {
     }
     const config = {
       method: 'post',
-      url: 'attachedUrl/store',
+      url: 'attached-url/store',
       data: data,
     }
     return makeApiRequest(config)
@@ -45,7 +45,7 @@ class AttachmentService {
     }
     const config = {
       method: 'post',
-      url: 'attachedFile/store',
+      url: 'attached-file/store',
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -65,7 +65,7 @@ class AttachmentService {
     }
     const config = {
       method: 'post',
-      url: 'attachedUrl/update',
+      url: 'attached-url/update',
       data: data,
     }
     return makeApiRequest(config)
@@ -77,7 +77,7 @@ class AttachmentService {
     }
     const config = {
       method: 'post',
-      url: 'attachedFile/update',
+      url: 'attached-file/update',
       data: data,
     }
     return makeApiRequest(config)
