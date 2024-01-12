@@ -188,14 +188,13 @@ const save = () => {
       </div>
     </div>
     <div class="flex items-center justify-between my-6">
-      <a role="button" @click="prev">
+      <a role="button" @click="prev" v-show="prevValid">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
           height="40"
           viewBox="0 0 66 66"
           fill="none"
-          :class="[prevValid ? 'opacity-100' : 'opacity-50']"
         >
           <circle cx="33" cy="33" r="33" fill="white" />
           <path
@@ -204,7 +203,13 @@ const save = () => {
           />
         </svg>
       </a>
-      <a role="button" class="flex items-center gap-2" @click="next">
+      <a class="grow"></a>
+      <a
+        role="button"
+        class="flex items-center gap-2"
+        @click="next"
+        v-show="nextValid"
+      >
         <span v-if="nextHint" class="text-sm">{{ nextHint }}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +217,6 @@ const save = () => {
           height="40"
           viewBox="0 0 66 66"
           fill="none"
-          :class="[nextValid ? 'opacity-100' : 'opacity-50']"
         >
           <circle
             cx="33"
