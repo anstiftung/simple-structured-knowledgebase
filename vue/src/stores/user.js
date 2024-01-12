@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import { inject } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    name: null,
-    email: null,
-    id: null,
-    permissions: [],
+    name: useLocalStorage('auth-name', null),
+    email: useLocalStorage('auth-email', null),
+    id: useLocalStorage('auth-id', null),
+    permissions: useLocalStorage('auth-permissions', []),
   }),
   getters: {
     hasPermission: state => {
@@ -17,6 +18,7 @@ export const useUserStore = defineStore('user', {
     },
   },
   actions: {
+    /* ToDo: rename this function, it's not doing what it sound like */
     async initUser() {
       const $keycloak = inject('keycloak')
       await axios
