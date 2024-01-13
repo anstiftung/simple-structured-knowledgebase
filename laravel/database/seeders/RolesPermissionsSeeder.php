@@ -22,18 +22,28 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'add collections']);
         Permission::create(['name' => 'edit collections']);
         Permission::create(['name' => 'delete collections']);
+        Permission::create(['name' => 'create attached files']);
+        Permission::create(['name' => 'update attached files']);
+        Permission::create(['name' => 'delete attached files']);
+        Permission::create(['name' => 'create attached urls']);
+        Permission::create(['name' => 'update attached urls']);
+        Permission::create(['name' => 'delete attached urls']);
 
         // create roles and assign created permissions
 
         // this can be done as separate statements
         $role = Role::create(['name' => 'writer']);
         $role->givePermissionTo(['edit articles', 'publish articles', 'add articles']);
+        $role->givePermissionTo(['create attached files','update attached files']);
+        $role->givePermissionTo(['create attached urls','update attached urls']);
 
         // or may be done by chaining
         $role = Role::create(['name' => 'editor']);
         $role->givePermissionTo(['publish articles', 'unpublish articles']);
         $role->givePermissionTo(['edit articles', 'publish articles', 'add articles']);
         $role->givePermissionTo(['add collections','edit collections', 'delete collections']);
+        $role->givePermissionTo(['create attached files','update attached files', 'delete attached files']);
+        $role->givePermissionTo(['create attached urls','update attached urls', 'delete attached urls']);
 
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());

@@ -30,6 +30,10 @@ class AttachedFileController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->can('create attached files')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'attached_files' => 'required|array|min:1',
@@ -95,6 +99,11 @@ class AttachedFileController extends Controller
      */
     public function update(Request $request, AttachedFile $attachedFile)
     {
+        $user = Auth::user();
+        if (!$user->can('update attached files')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $request->validate([
             'attached_files' => 'required|array|min:1',
             'attached_files.*.id' => 'required|exists:attached_files,id',

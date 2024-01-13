@@ -26,6 +26,11 @@ class AttachedUrlController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->can('create attached urls')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $request->validate([
              'attached_urls' => 'required|array|min:1',
              'attached_urls.*.url' => 'required|url:http,https',
@@ -62,6 +67,11 @@ class AttachedUrlController extends Controller
      */
     public function update(Request $request, AttachedUrl $attachedUrl)
     {
+        $user = Auth::user();
+        if (!$user->can('update attached urls')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $request->validate([
             'attached_urls' => 'required|array|min:1',
             'attached_urls.*.id' => 'required|exists:attached_urls,id',
