@@ -28,6 +28,12 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'create attached urls']);
         Permission::create(['name' => 'update attached urls']);
         Permission::create(['name' => 'delete attached urls']);
+        Permission::create(['name' => 'update others attached files']);
+        Permission::create(['name' => 'update others attached urls']);
+        Permission::create(['name' => 'create others attached files']);
+        Permission::create(['name' => 'create others attached urls']);
+        Permission::create(['name' => 'delete others attached files']);
+        Permission::create(['name' => 'delete others attached urls']);
 
         // create roles and assign created permissions
 
@@ -44,6 +50,8 @@ class RolesPermissionsSeeder extends Seeder
         $role->givePermissionTo(['add collections','edit collections', 'delete collections']);
         $role->givePermissionTo(['create attached files','update attached files', 'delete attached files']);
         $role->givePermissionTo(['create attached urls','update attached urls', 'delete attached urls']);
+        $role->givePermissionTo(['create others attached files','update others attached files', 'delete others attached files']);
+        $role->givePermissionTo(['create others attached urls','update others attached urls', 'delete others attached urls']);
 
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());
