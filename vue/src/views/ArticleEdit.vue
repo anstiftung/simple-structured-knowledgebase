@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive, computed } from 'vue'
 import ArticleService from '@/services/ArticleService'
 import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
@@ -28,7 +28,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData)
 
-onMounted(() => {
+const init = () => {
   // edit mode
   if (route.params.slug) {
     ArticleService.getArticle(route.params.slug).then(data => {
@@ -39,14 +39,15 @@ onMounted(() => {
   } else {
     persistedArticle = JSON.stringify(formData.article)
   }
+}
+init()
+
+const unsavedChanges = computed(() => {
+  return JSON.stringify(formData.article) != persistedArticle
 })
 
-const unsavedChanges = () => {
-  return JSON.stringify(formData.article) != persistedArticle
-}
-
 onBeforeRouteLeave((to, from, next) => {
-  if (unsavedChanges()) {
+  if (unsavedChanges.value) {
     toast.clear()
     const content = {
       component: LeaveToast,
@@ -133,7 +134,13 @@ const restore = () => {
         <div class="text-sm">@todo: Edit creator and state of the article!</div>
         <div class="flex justify-end gap-4">
           <button class="secondary-button" @click="restore">Verwerfen</button>
-          <button class="default-button" @click="persist">Speichern</button>
+          <button
+            class="default-button"
+            :disabled="!unsavedChanges"
+            @click="persist"
+          >
+            Speichern
+          </button>
         </div>
       </div>
     </div>
