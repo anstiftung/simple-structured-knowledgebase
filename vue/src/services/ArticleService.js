@@ -31,6 +31,18 @@ class ArticleService {
     }
     return makeApiRequest(config)
   }
+
+  updateArticle(article) {
+    const data = {
+      ...article,
+    }
+    const config = {
+      method: 'post',
+      url: `/article/${article.slug}/update`,
+      data: data,
+    }
+    return makeApiRequest(config)
+  }
 }
 
 export default new ArticleService()
