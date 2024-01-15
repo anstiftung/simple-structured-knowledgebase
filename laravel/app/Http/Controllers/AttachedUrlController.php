@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\AttachedUrl;
 use Illuminate\Http\Request;
 use App\Http\Resources\AttachedUrlResource;
+use Illuminate\Support\Facades\Auth;
 
 class AttachedUrlController extends Controller
 {

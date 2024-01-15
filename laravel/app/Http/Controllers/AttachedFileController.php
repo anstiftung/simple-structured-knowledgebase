@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules\File as FileValidator;
 use Illuminate\Support\Facades\File;
 use App\Http\Resources\AttachedFileResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AttachedFileController extends Controller
 {
