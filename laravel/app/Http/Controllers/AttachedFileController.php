@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Validation\Rules\File as FileValidator;
-use Illuminate\Support\Facades\File;
-use App\Http\Resources\AttachedFileResource;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use App\Http\Resources\AttachedFileResource;
+use Illuminate\Validation\Rules\File as FileValidator;
 
 class AttachedFileController extends Controller
 {
@@ -33,7 +34,7 @@ class AttachedFileController extends Controller
     {
         $user = Auth::user();
         if (!$user->can('create attached files')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return parent::abortUnauthorized();
         }
 
         $request->validate([
@@ -102,7 +103,7 @@ class AttachedFileController extends Controller
     {
         $user = Auth::user();
         if (!$user->can('update attached files')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return parent::abortUnauthorized();
         }
 
         $request->validate([

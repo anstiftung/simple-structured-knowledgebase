@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\AttachedUrl;
 use Illuminate\Http\Request;
-use App\Http\Resources\AttachedUrlResource;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\AttachedUrlResource;
 
 class AttachedUrlController extends Controller
 {
@@ -29,7 +30,7 @@ class AttachedUrlController extends Controller
     {
         $user = Auth::user();
         if (!$user->can('create attached urls')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return parent::abortUnauthorized();
         }
 
         $request->validate([
@@ -70,7 +71,7 @@ class AttachedUrlController extends Controller
     {
         $user = Auth::user();
         if (!$user->can('update attached urls')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return parent::abortUnauthorized();
         }
 
         $request->validate([
