@@ -68,6 +68,12 @@ const loadFromServer = () => {
         <button v-if="hasPermission('add collections')" class="default-button">
           Sammlung erstellen
         </button>
+        <router-link
+          tag="button"
+          :to="{ name: 'logout' }"
+          class="default-button"
+          >[DEBUG] Logout</router-link
+        >
       </div>
     </div>
     <div class="width-wrapper">
