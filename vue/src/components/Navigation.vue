@@ -1,11 +1,8 @@
 <script setup>
-import { inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
-const $keycloak = inject('keycloak')
-
 const userStore = useUserStore()
 </script>
 
@@ -20,12 +17,12 @@ const userStore = useUserStore()
       </h1>
       <h2 class="justify-self-center">{{ route.meta.navTitle }}</h2>
       <div class="flex items-center gap-2 justify-self-end">
-        <h3 v-if="$keycloak.authenticated">
+        <h3 v-if="userStore.id">
           {{ userStore.name }}
         </h3>
         <router-link :to="{ name: 'dashboard' }">
           <svg
-            v-if="$keycloak.authenticated"
+            v-if="userStore.id"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
