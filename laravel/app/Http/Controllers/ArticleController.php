@@ -62,9 +62,23 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Article $article, Request $request)
     {
-        //
+        $user = Auth::user();
+        if (!$user->can('edit articles')) {
+            return parent::abortUnauthorized();
+        }
+
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:1000'
+        ]);
+
+        $article->title = $request->title;
+        $article->description = $request->description;
+        $article->save();
+        $article->load(['attached_files', 'attached_urls']);
+        return new ArticleResource($article);
     }
 
     /**
