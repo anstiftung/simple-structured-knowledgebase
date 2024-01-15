@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use Illuminate\Http\Request;
-use App\Http\Resources\ArticleResource;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\ArticleResource;
 
 class ArticleController extends Controller
 {
@@ -32,7 +33,7 @@ class ArticleController extends Controller
     {
         $user = Auth::user();
         if (!$user->can('add articles')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return parent::abortUnauthorized();
         }
 
         $request->validate([

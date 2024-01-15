@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Validation\Rules\File as FileValidator;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use App\Http\Resources\AttachedFileResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use App\Http\Resources\AttachedFileResource;
+use Illuminate\Validation\Rules\File as FileValidator;
 
 class AttachedFileController extends Controller
 {
@@ -30,6 +32,10 @@ class AttachedFileController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->can('create attached files')) {
+            return parent::abortUnauthorized();
+        }
 
         $request->validate([
             'attached_files' => 'required|array|min:1',
@@ -95,6 +101,11 @@ class AttachedFileController extends Controller
      */
     public function update(Request $request, AttachedFile $attachedFile)
     {
+        $user = Auth::user();
+        if (!$user->can('update attached files')) {
+            return parent::abortUnauthorized();
+        }
+
         $request->validate([
             'attached_files' => 'required|array|min:1',
             'attached_files.*.id' => 'required|exists:attached_files,id',
