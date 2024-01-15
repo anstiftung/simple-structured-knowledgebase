@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\AttachedUrl;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AttachedUrlResource;
 
 class AttachedUrlController extends Controller
@@ -26,6 +28,11 @@ class AttachedUrlController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->can('create attached urls')) {
+            return parent::abortUnauthorized();
+        }
+
         $request->validate([
              'attached_urls' => 'required|array|min:1',
              'attached_urls.*.url' => 'required|url:http,https',
@@ -62,6 +69,11 @@ class AttachedUrlController extends Controller
      */
     public function update(Request $request, AttachedUrl $attachedUrl)
     {
+        $user = Auth::user();
+        if (!$user->can('update attached urls')) {
+            return parent::abortUnauthorized();
+        }
+
         $request->validate([
             'attached_urls' => 'required|array|min:1',
             'attached_urls.*.id' => 'required|exists:attached_urls,id',
