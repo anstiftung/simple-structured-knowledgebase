@@ -37,6 +37,10 @@ loadFromServer()
         <p class="mt-4 text-sm">
           Zuletzt bearbeitet {{ $filters.formatedDateTime(article.updated_at) }}
         </p>
+        <router-link
+          :to="{ name: 'articleEdit', params: { slug: article.slug } }"
+          >[DEBUG] Bearbeiten</router-link
+        >
       </div>
     </section>
     <section v-if="article" class="my-8 width-wrapper">

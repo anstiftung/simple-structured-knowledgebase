@@ -2,31 +2,47 @@
 import { reactive, onMounted } from 'vue'
 import ArticleService from '@/services/ArticleService'
 import { useToast } from 'vue-toastification'
-import { useRouter, onBeforeRouteLeave } from 'vue-router'
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength } from '@vuelidate/validators'
 import LeaveToast from '@/components/atoms/LeaveToast.vue'
+
 const toast = useToast()
 const router = useRouter()
+const route = useRoute()
 
 let persistedArticle = ''
-const article = reactive({
-  title: '',
-  description: '',
+const formData = reactive({
+  article: {
+    title: '',
+    description: '',
+  },
 })
 
 const rules = {
-  title: { required, maxLength: maxLength(255), $autoDirty: true },
-  description: { required, maxLength: maxLength(1000), $autoDirty: true },
+  article: {
+    title: { required, maxLength: maxLength(255), $autoDirty: true },
+    description: { required, maxLength: maxLength(1000), $autoDirty: true },
+  },
 }
-const v$ = useVuelidate(rules, article)
+
+const v$ = useVuelidate(rules, formData)
 
 onMounted(() => {
-  persistedArticle = JSON.stringify(article)
+  // edit mode
+  if (route.params.slug) {
+    ArticleService.getArticle(route.params.slug).then(data => {
+      formData.article = data
+      document.title = `Cowiki | ${formData.article.title} Bearbeiten`
+      persistedArticle = JSON.stringify(formData.article)
+    })
+  } else {
+    persistedArticle = JSON.stringify(formData.article)
+  }
 })
 
 const unsavedChanges = () => {
-  return JSON.stringify(article) != persistedArticle
+  return JSON.stringify(formData.article) != persistedArticle
 }
 
 onBeforeRouteLeave((to, from, next) => {
@@ -54,12 +70,23 @@ const persist = async () => {
     toast.error('Formular ungültig')
     return
   }
-  ArticleService.createArticle(article).then(data => {
-    // updates persisted article
-    persistedArticle = JSON.stringify(article)
+
+  const afterPersist = data => {
+    formData.article = data
+    persistedArticle = JSON.stringify(data)
     toast.success('Beitrag erfolgreich gespeichert')
     router.push({ name: 'article', params: { slug: data.slug } })
-  })
+  }
+
+  if (formData.article.id) {
+    ArticleService.updateArticle(formData.article).then(afterPersist)
+  } else {
+    ArticleService.createArticle(formData.article).then(afterPersist)
+  }
+}
+
+const restore = () => {
+  formData.article = JSON.parse(persistedArticle)
 }
 </script>
 
@@ -69,14 +96,14 @@ const persist = async () => {
       <div class="text-center">
         <input
           class="text-xl bg-transparent outline-none"
-          v-model="article.title"
+          v-model="formData.article.title"
           autofocus
           placeholder="Titel des neuen Eintrags"
-          @update:modelValue="v$.formData.title.$touch"
+          @update:modelValue="v$.article.title.$touch"
         />
         <div
           class="text-sm text-red"
-          v-for="error of v$.title.$errors"
+          v-for="error of v$.article.title.$errors"
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
@@ -87,13 +114,13 @@ const persist = async () => {
       <div class="col-span-4 px-8 py-16 bg-white">
         <textarea
           class="w-full text-xl bg-transparent outline-none"
-          v-model="article.description"
+          v-model="formData.article.description"
           placeholder="Kurzbeschreibung"
-          @update:modelValue="v$.formData.description.$touch"
+          @update:modelValue="v$.article.description.$touch"
         />
         <div
           class="text-sm text-red"
-          v-for="error of v$.description.$errors"
+          v-for="error of v$.article.description.$errors"
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
@@ -105,7 +132,7 @@ const persist = async () => {
       >
         <div class="text-sm">@todo: Edit creator and state of the article!</div>
         <div class="flex justify-end gap-4">
-          <button class="secondary-button" v-if="false">Verwerfen</button>
+          <button class="secondary-button" @click="restore">Verwerfen</button>
           <button class="default-button" @click="persist">Speichern</button>
         </div>
       </div>
