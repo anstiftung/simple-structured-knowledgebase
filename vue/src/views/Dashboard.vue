@@ -10,10 +10,14 @@ import AttachmentService from '@/services/AttachmentService'
 
 import AddAttachment from '@/components/attachments/AddAttachment.vue'
 import SearchForm from '@/components/SearchForm.vue'
+import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const recentArticles = ref([])
 const recentAttachedUrls = ref([])
 const recentAttachedFiles = ref([])
+
+const invalidAttachedFiles = ref({ data: [], meta: null })
+const invalidAttachedUrls = ref({ data: [], meta: null })
 
 const modal = useModalStore()
 // If you need UserPermissions, you'll need the next three lines
@@ -45,6 +49,20 @@ const loadFromServer = () => {
       recentAttachedFiles.value = data.slice(0, Math.min(5, data.length))
     },
   )
+
+  AttachmentService.getAttachmentFiles(1, userStore.id, true).then(
+    ({ data, meta }) => {
+      invalidAttachedFiles.value.data = data
+      invalidAttachedFiles.value.meta = meta
+    },
+  )
+
+  AttachmentService.getAttachmentUrls(1, userStore.id, true).then(
+    ({ data, meta }) => {
+      invalidAttachedUrls.value.data = data
+      invalidAttachedUrls.value.meta = meta
+    },
+  )
 }
 
 const activities = computed(() => {
@@ -54,6 +72,22 @@ const activities = computed(() => {
   activities = activities.sort((a, b) => a.created_at < b.created_at)
   return activities
 })
+
+const invalidAttachments = computed(() => {
+  let attachments = invalidAttachedFiles.value.data.concat(
+    invalidAttachedUrls.value.data,
+  )
+  attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+  return attachments
+})
+
+const listMissingFields = attachment => {
+  if (attachment.type == 'AttachedUrl') {
+    return 'Titel und Beschreibung'
+  } else if (attachment.type == 'AttachedFile') {
+    return 'Titel, Beschreibung, Quelle und Lizens'
+  }
+}
 </script>
 <template>
   <section class="bg-white">
@@ -88,28 +122,11 @@ const activities = computed(() => {
           <h3 class="text-black">Letzte Aktivitäten</h3>
         </div>
         <div class="py-4 pl-2" v-if="activities">
-          <p class="mb-2" v-for="activity in activities">
-            <span>{{
-              activity.type == 'Article' ? 'Beitrag ' : 'Anhang '
-            }}</span>
-            <router-link
-              class="font-semibold text-orange"
-              v-if="activity.type == 'Article'"
-              :to="{
-                name: 'article',
-                params: { slug: activity.slug },
-              }"
-            >
-              {{ activity.title }}
-            </router-link>
-            <span v-else class="font-semibold text-green">
-              {{ activity.title ?? '[Ohne Titel]' }}
-            </span>
-            <span> erstellt</span>
-            <span class="inline-block ml-2 text-gray-200">{{
-              $filters.formatedDate(activity.created_at)
-            }}</span>
-          </p>
+          <item-line
+            :model="activity"
+            class="mb-2"
+            v-for="activity in activities"
+          />
         </div>
       </div>
       <div class="">
@@ -121,7 +138,18 @@ const activities = computed(() => {
             Solche Anhänge können nicht genutzt und veröffentlicht werden.
           </p>
         </div>
-        <div class="min-h-[200px] py-4 pl-2">@todo ;)</div>
+        <div class="min-h-[200px] py-4 pl-2">
+          <p class="mb-2" v-for="attachment in invalidAttachments">
+            <span
+              >{{ attachment.type == 'AttachedUrl' ? 'URL ' : 'Datei ' }}
+            </span>
+            <span class="font-semibold text-orange">
+              {{ attachment.url ? attachment.url : attachment.filename }}
+            </span>
+            <span> fehlt: </span>
+            <span>{{ listMissingFields(attachment) }}</span>
+          </p>
+        </div>
         <div class="pt-3 pb-2 pl-2 border-y">
           <h3 class="font-semibold text-black">
             Sammlungen auf der Startseite
