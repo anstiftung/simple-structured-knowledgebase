@@ -103,7 +103,7 @@ const activities = computed(() => {
               {{ activity.title }}
             </router-link>
             <span v-else class="font-semibold text-green">
-              {{ activity.title }}
+              {{ activity.title ?? '[Ohne Titel]' }}
             </span>
             <span> erstellt</span>
             <span class="inline-block ml-2 text-gray-200">{{
