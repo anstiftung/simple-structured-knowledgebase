@@ -7,8 +7,10 @@ const $keycloak = inject('keycloak')
 const userStore = useUserStore()
 const router = useRouter()
 
+const BASE_ROUTE = import.meta.env.VITE_BASE_URL
+
 if ($keycloak.authenticated) {
-  $keycloak.logout({ redirectUri: 'http://localhost:8080/auth/logout' })
+  $keycloak.logout({ redirectUri: BASE_ROUTE + 'auth/logout' })
 } else {
   userStore.logout()
   router.push({ name: 'landing', replace: true })
