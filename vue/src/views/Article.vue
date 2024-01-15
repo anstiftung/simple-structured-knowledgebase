@@ -14,6 +14,7 @@ const loadFromServer = () => {
   ArticleService.getArticle(slug)
     .then(data => {
       article.value = data
+      document.title = `Cowiki | ${article.value.title}`
     })
     .catch(error => {
       // ? do anything here?s

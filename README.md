@@ -73,6 +73,13 @@ To install PHP-CS-Fixer, run the following command within `laravel/tools/php-cs-
 composer install
 ```
 
+To manually trigger a fix run:
+
+```
+cd vow-cowiki/laravel
+tools/php-cs-fixer/vendor/bin/php-cs-fixer fix ./
+```
+
 ### Prettier
 
 For JavaScript and Vue files, we rely on "Prettier". Install the VS Code Extension `esbenp.prettier-vscode` to ensure proper code formatting.

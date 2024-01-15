@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Resources\ArticleResource;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -28,7 +30,23 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        if (!$user->can('add articles')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $request->validate([
+             'title' => 'required|max:255',
+             'description' => 'required|max:1000'
+         ]);
+
+        $newArticle = Article::create([
+           'title' => $request->title,
+           'slug' => Str::slug($request->title),
+           'description' => $request->description
+        ]);
+
+        return new ArticleResource($newArticle);
     }
 
     /**

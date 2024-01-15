@@ -42,7 +42,7 @@ class AttachedFile extends Model
     {
         parent::boot();
         self::deleting(function ($attachedFile) {
-            Storage::deleteDirectory('public/attachedFiles/'.$attachedFile->id);
+            Storage::disk('uploads')->deleteDirectory($attachedFile->id);
         });
     }
 }

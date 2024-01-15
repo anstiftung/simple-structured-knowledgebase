@@ -71,7 +71,12 @@ const activities = computed(() => {
         >
           Anhang erstellen
         </button>
-        <button class="default-button">Beitrag erstellen</button>
+        <router-link
+          tag="button"
+          :to="{ name: 'articleCreate' }"
+          class="default-button"
+          >Beitrag erstellen</router-link
+        >
         <button v-if="hasPermission('add collections')" class="default-button">
           Sammlung erstellen
         </button>

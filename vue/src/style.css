@@ -1,39 +1,60 @@
-@import "styles/fonts";
+@import 'styles/fonts';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
-    html {
-        font-size: 15px;
-    }
-    h1, h2 {
-        @apply font-rubik;
-    }
-    h3, h4, h5, h6 {
-        @apply font-bold font-rubik;
-    }
+  html {
+    font-size: 15px;
+  }
+  h1,
+  h2 {
+    @apply font-rubik;
+  }
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-medium font-rubik;
+  }
 }
 
 @layer utilities {
-    .width-wrapper {
-        @apply w-11/12 max-w-screen-lg mx-auto;
-    }
-    .width-small-wrapper {
-        @apply w-9/12 max-w-screen-md mx-auto;
-    }
+  .width-wrapper {
+    @apply w-11/12 max-w-screen-lg mx-auto;
+  }
+  .width-small-wrapper {
+    @apply w-9/12 max-w-screen-md mx-auto;
+  }
 }
 
 .default-button {
-    @apply text-white bg-blue;
+  @apply text-white bg-blue;
+  @apply px-5 py-[7px];
+  @apply rounded-[7px];
+  @apply text-sm;
+  @apply duration-150;
+
+  &:hover {
+    @apply bg-dark;
+  }
+}
+
+.secondary-button {
+    @apply text-gray-800 border-2 border-gray-800;
     @apply px-5 py-[7px];
     @apply rounded-[7px];
     @apply text-sm;
     @apply duration-150;
 
     &:hover {
-        @apply bg-dark;
+        @apply bg-gray-200;
+    }
+}
+.secondary-button-white {
+    @apply text-white border-white;
+    &:hover {
+        @apply bg-gray-200/20;
     }
 }

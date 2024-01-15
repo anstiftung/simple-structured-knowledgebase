@@ -49,41 +49,64 @@ const links = ref([
     </a>
     <div class="bg-blue-200 before-clip"></div>
     <div class="text-white bg-blue content-clip">
-      <div
-        class="flex flex-wrap items-end justify-between gap-12 pt-12 pb-16 width-wrapper"
-      >
-        <div>
-          <h1 class="text-2xl text-white font-rubik">
-            <router-link to="/">
-              <span>VOW_</span>
-              <span class="font-bold">COWIKI</span>
-            </router-link>
-          </h1>
-          <p class="mt-6">
-            Eine Initiative von:<br />
-            <b>VERBUND OFFENER WERKSTÄTTEN</b><br />
-            <a href="http://www.offene-werkstaetten.org"
-              >www.offene-werkstaetten.org</a
-            >
-          </p>
-          <p class="mt-4">
-            Gefördert durch:<br /><a
-              href="https://anstiftung.de/"
+      <div class="grid grid-cols-3 pt-12 pb-16 gap-y-8 gap-x-24 width-wrapper">
+        <h1 class="col-span-3 text-2xl text-white font-rubik">
+          <router-link to="/">
+            <span>VOW_</span>
+            <span class="font-bold">COWIKI</span>
+          </router-link>
+        </h1>
+        <div class="col-span-3 md:col-span-1">
+          <p>
+            <a
+              class="block mb-2 uppercase"
+              v-for="menuItem in links"
               target="_blank"
-              >anstiftung</a
+              :href="menuItem.link"
+              >{{ menuItem.title }}</a
             >
-            - gemeinnützige Stiftung bürgerlichen Rechts
           </p>
         </div>
-        <p class="md:text-right">
+        <div class="col-span-3 md:col-span-1">
+          <p>
+            Eine Initiative von:<br /><br />
+            <b>VERBUND OFFENER WERKSTÄTTEN</b><br />
+            <a href="http://www.offene-werkstaetten.org" target="_blank"
+              >www.offene-werkstaetten.org</a
+            >
+            <a
+              class="max-w-[300px] block"
+              href="http://www.offene-werkstaetten.org"
+              target="_blank"
+            >
+              <img
+                class="mt-4"
+                src="/img/vow_logo.svg"
+                alt="Logo des Verbund offener Werkstätten"
+              />
+            </a>
+          </p>
+        </div>
+        <div class="col-span-3 md:col-span-1">
+          <p>
+            Gefördert durch:<br /><br />
+            <b>anstiftung</b><br />
+            <a href="https://anstiftung.de/" target="_blank"
+              >www.anstiftung.de</a
+            >
+          </p>
           <a
-            class="block mb-2 uppercase"
-            v-for="menuItem in links"
+            class="max-w-[300px] block"
+            href="https://anstiftung.de/"
             target="_blank"
-            :href="menuItem.link"
-            >{{ menuItem.title }}</a
           >
-        </p>
+            <img
+              class="mt-4"
+              src="/img/anstiftung_logo.svg"
+              alt="Logo der anstiftung"
+            />
+          </a>
+        </div>
       </div>
     </div>
   </footer>
