@@ -38,13 +38,14 @@ class ArticleController extends Controller
 
         $request->validate([
              'title' => 'required|max:255',
-             'description' => 'required|max:1000'
+             'description' => 'required|max:1000',
          ]);
 
         $newArticle = Article::create([
            'title' => $request->title,
            'slug' => Str::slug($request->title),
-           'description' => $request->description
+           'description' => $request->description,
+           'content' => $request->content
         ]);
 
         return new ArticleResource($newArticle);
