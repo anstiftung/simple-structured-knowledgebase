@@ -14,6 +14,7 @@ class AttachedFileResource extends BaseResource
     public function toArray(Request $request): array
     {
         return parent::toArray($request) + [
+            'type' => 'AttachedFile',
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
