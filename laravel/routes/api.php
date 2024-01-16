@@ -50,5 +50,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/attached-file/update', [AttachedFileController::class, 'update']);
 
     // create and update articles
-    Route::post('/article/store', [ArticleController::class, 'store']);
+    Route::post('/article', [ArticleController::class, 'store']);
+    Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
 });
