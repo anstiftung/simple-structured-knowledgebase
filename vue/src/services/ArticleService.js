@@ -25,7 +25,7 @@ class ArticleService {
       ...article,
     }
     const config = {
-      method: 'put',
+      method: 'post',
       url: 'article',
       data: data,
     }
