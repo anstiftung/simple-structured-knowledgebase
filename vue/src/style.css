@@ -39,6 +39,9 @@
   &:hover {
     @apply bg-dark;
   }
+  &:disabled {
+    @apply bg-blue/20;
+  }
 }
 
 .secondary-button {
@@ -49,6 +52,10 @@
     @apply duration-150;
 
     &:hover {
+        @apply bg-gray-200;
+    }
+
+    &:disabled {
         @apply bg-gray-200;
     }
 }

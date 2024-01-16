@@ -16,6 +16,7 @@ class ArticleResource extends BaseResource
     public function toArray(Request $request): array
     {
         return parent::toArray($request) + [
+            'type' => 'Article',
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,

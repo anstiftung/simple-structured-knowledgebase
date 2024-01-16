@@ -26,7 +26,19 @@ class ArticleService {
     }
     const config = {
       method: 'post',
-      url: 'article/store',
+      url: 'article',
+      data: data,
+    }
+    return makeApiRequest(config)
+  }
+
+  updateArticle(article) {
+    const data = {
+      ...article,
+    }
+    const config = {
+      method: 'patch',
+      url: `/article/${article.slug}`,
       data: data,
     }
     return makeApiRequest(config)

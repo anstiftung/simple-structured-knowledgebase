@@ -26,14 +26,17 @@ const editor = useEditor({
   },
 })
 
-watch(props.modelValue, (newValue, oldValue) => {
-  const isSame = editor.getHTML() === newValue
-  if (isSame) {
-    return
-  }
+watch(
+  () => props.modelValue,
+  newValue => {
+    const isSame = editor.value?.getHTML() === newValue
+    if (isSame) {
+      return
+    }
 
-  editor.commands.setContent(newValue, false)
-})
+    editor.value?.commands.setContent(newValue, false)
+  },
+)
 </script>
 
 <template>

@@ -32,7 +32,7 @@ class AttachmentService {
     }
     const config = {
       method: 'post',
-      url: 'attached-url/store',
+      url: 'attached-url',
       data: data,
     }
     return makeApiRequest(config)
@@ -45,7 +45,7 @@ class AttachmentService {
     }
     const config = {
       method: 'post',
-      url: 'attached-file/store',
+      url: 'attached-file',
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -64,8 +64,8 @@ class AttachmentService {
       attached_urls: urls,
     }
     const config = {
-      method: 'post',
-      url: 'attached-url/update',
+      method: 'patch',
+      url: 'attached-url',
       data: data,
     }
     return makeApiRequest(config)
@@ -76,8 +76,8 @@ class AttachmentService {
       attached_files: files,
     }
     const config = {
-      method: 'post',
-      url: 'attached-file/update',
+      method: 'patch',
+      url: 'attached-file',
       data: data,
     }
     return makeApiRequest(config)

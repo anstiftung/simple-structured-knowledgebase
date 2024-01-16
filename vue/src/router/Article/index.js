@@ -1,6 +1,6 @@
 const Article = () => import('@/views/Article.vue')
 const Articles = () => import('@/views/Articles.vue')
-const ArticleCreate = () => import('@/views/ArticleCreate.vue')
+const ArticleEdit = () => import('@/views/ArticleEdit.vue')
 
 export default [
   {
@@ -13,10 +13,19 @@ export default [
   },
   {
     path: '/beitrag/neu',
-    component: ArticleCreate,
+    component: ArticleEdit,
     name: 'articleCreate',
     meta: {
       title: 'Neuer Beitrag',
+      protected: true,
+    },
+  },
+  {
+    path: '/beitrag/:slug/bearbeiten',
+    component: ArticleEdit,
+    name: 'articleEdit',
+    meta: {
+      title: 'Beitrag bearbeiten',
       protected: true,
     },
   },

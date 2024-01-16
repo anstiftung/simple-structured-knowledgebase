@@ -4,6 +4,9 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
+const props = defineProps({
+  placeholder: String,
+})
 const searchQuery = ref('')
 
 onMounted(() => {
@@ -25,7 +28,7 @@ const runSearch = () => {
     <input
       class="w-full outline-none placeholder:text-gray-200"
       type="text"
-      placeholder="Suche…"
+      :placeholder="placeholder"
       v-model="searchQuery"
     />
     <svg
