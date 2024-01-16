@@ -6,6 +6,8 @@ import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength } from '@vuelidate/validators'
 import LeaveToast from '@/components/atoms/LeaveToast.vue'
+import Editor from '@/components/fields/Editor.vue'
+
 const toast = useToast()
 const router = useRouter()
 
@@ -13,6 +15,7 @@ let persistedArticle = ''
 const article = reactive({
   title: '',
   description: '',
+  content: '',
 })
 
 const rules = {
@@ -84,7 +87,7 @@ const persist = async () => {
       </div>
     </div>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
-      <div class="col-span-4 px-8 py-16 bg-white">
+      <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
         <textarea
           class="w-full text-xl bg-transparent outline-none"
           v-model="article.description"
@@ -98,7 +101,9 @@ const persist = async () => {
         >
           <div>! {{ error.$message }}</div>
         </div>
-        <p class="mt-8">@todo: Editor!</p>
+        <div class="mt-8 grow">
+          <editor v-model="article.content" />
+        </div>
       </div>
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100"
