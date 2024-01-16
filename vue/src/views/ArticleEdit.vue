@@ -5,7 +5,7 @@ import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength } from '@vuelidate/validators'
-import LeaveToast from '@/components/atoms/LeaveToast.vue'
+import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 
 const toast = useToast()
 const router = useRouter()
@@ -42,15 +42,18 @@ const init = () => {
 }
 init()
 
-const unsavedChanges = computed(() => {
+const isDirty = computed(() => {
   return JSON.stringify(formData.article) != persistedArticle
 })
 
 onBeforeRouteLeave((to, from, next) => {
-  if (unsavedChanges.value) {
+  if (isDirty.value) {
     toast.clear()
     const content = {
-      component: LeaveToast,
+      component: ConfirmationToast,
+      props: {
+        message: 'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
+      },
       listeners: {
         'allow-route-change': () => next(),
       },
@@ -86,8 +89,26 @@ const persist = async () => {
   }
 }
 
-const restore = () => {
-  formData.article = JSON.parse(persistedArticle)
+const discard = () => {
+  if (isDirty.value) {
+    toast.clear()
+    const content = {
+      component: ConfirmationToast,
+      props: {
+        message: 'Ungespeicherte Änderungen wirklich verwerfen?',
+      },
+      listeners: {
+        'allow-route-change': () => {
+          formData.article = JSON.parse(persistedArticle)
+        },
+      },
+    }
+    toast(content, {
+      timeout: false,
+      icon: false,
+      closeButton: false,
+    })
+  }
 }
 </script>
 
@@ -133,12 +154,14 @@ const restore = () => {
       >
         <div class="text-sm">@todo: Edit creator and state of the article!</div>
         <div class="flex justify-end gap-4">
-          <button class="secondary-button" @click="restore">Verwerfen</button>
           <button
-            class="default-button"
-            :disabled="!unsavedChanges"
-            @click="persist"
+            class="secondary-button"
+            v-show="formData.article.id"
+            @click="discard"
           >
+            Verwerfen
+          </button>
+          <button class="default-button" :disabled="!isDirty" @click="persist">
             Speichern
           </button>
         </div>

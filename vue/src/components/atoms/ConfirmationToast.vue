@@ -1,8 +1,12 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  message: String,
+})
+</script>
 
 <template>
   <div>
-    <p>Ungespeicherte Änderungen! Diese Seite wirklich verlassen?</p>
+    <p>{{ message }}</p>
     <div class="flex justify-end gap-2 mt-4">
       <button
         class="secondary-button secondary-button-white"
