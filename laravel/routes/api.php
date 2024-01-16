@@ -44,10 +44,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // create and update attachments
-    Route::post('/attached-url/store', [AttachedUrlController::class, 'store']);
-    Route::post('/attached-url/update', [AttachedUrlController::class, 'update']);
-    Route::post('/attached-file/store', [AttachedFileController::class, 'store']);
-    Route::post('/attached-file/update', [AttachedFileController::class, 'update']);
+    Route::post('/attached-url', [AttachedUrlController::class, 'store']);
+    Route::patch('/attached-url', [AttachedUrlController::class, 'update']);
+
+    Route::post('/attached-file', [AttachedFileController::class, 'store']);
+    Route::patch('/attached-file', [AttachedFileController::class, 'update']);
 
     // create and update articles
     Route::post('/article/store', [ArticleController::class, 'store']);
