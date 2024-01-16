@@ -25,8 +25,8 @@ class ArticleService {
       ...article,
     }
     const config = {
-      method: 'post',
-      url: 'article/store',
+      method: 'put',
+      url: 'article',
       data: data,
     }
     return makeApiRequest(config)
@@ -37,8 +37,8 @@ class ArticleService {
       ...article,
     }
     const config = {
-      method: 'post',
-      url: `/article/${article.slug}/update`,
+      method: 'patch',
+      url: `/article/${article.slug}`,
       data: data,
     }
     return makeApiRequest(config)
