@@ -11,7 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->text('content')->after('description');
+            $table->text('content')->after('description')->nullable();
 
         });
     }

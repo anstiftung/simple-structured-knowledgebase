@@ -39,6 +39,7 @@ class ArticleController extends Controller
         $request->validate([
              'title' => 'required|max:255',
              'description' => 'required|max:1000',
+             'content' => 'present|string|nullable'
          ]);
 
         $newArticle = Article::create([
@@ -73,12 +74,15 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required|max:1000',
+            'content' => 'present|string|nullable'
         ]);
 
-        $article->title = $request->title;
-        $article->description = $request->description;
-        $article->content = $request->content;
-        $article->save();
+        $article->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'content' => $request->content
+        ]);
+
         $article->load(['attached_files', 'attached_urls']);
         return new ArticleResource($article);
     }
