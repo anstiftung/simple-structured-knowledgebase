@@ -21,6 +21,7 @@ class ArticleResource extends BaseResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
+            'content' => $this->content,
             'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
             'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
         ];

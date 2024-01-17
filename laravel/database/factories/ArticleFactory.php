@@ -18,11 +18,12 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         $title = fake()->name();
-
+        $content = '<h3>' . fake()->words(4, true) . '</h3><p>' . fake()->sentence(3) . '</p>';
         return [
             'title' => $title,
             'slug' => Str::slug($title),
             'description' => fake()->sentence(3),
+            'content' => $content,
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];

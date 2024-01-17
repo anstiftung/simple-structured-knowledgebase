@@ -38,13 +38,15 @@ class ArticleController extends Controller
 
         $request->validate([
              'title' => 'required|max:255',
-             'description' => 'required|max:1000'
+             'description' => 'required|max:1000',
+             'content' => 'present|string|nullable'
          ]);
 
         $newArticle = Article::create([
            'title' => $request->title,
            'slug' => Str::slug($request->title),
-           'description' => $request->description
+           'description' => $request->description,
+           'content' => $request->content
         ]);
 
         return new ArticleResource($newArticle);
@@ -62,9 +64,27 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Article $article, Request $request)
     {
-        //
+        $user = Auth::user();
+        if (!$user->can('edit articles')) {
+            return parent::abortUnauthorized();
+        }
+
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:1000',
+            'content' => 'present|string|nullable'
+        ]);
+
+        $article->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'content' => $request->content
+        ]);
+
+        $article->load(['attached_files', 'attached_urls']);
+        return new ArticleResource($article);
     }
 
     /**

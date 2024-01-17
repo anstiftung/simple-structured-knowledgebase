@@ -6,9 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:production": "NODE_ENV=production vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/extension-bullet-list": "^2.1.16",
+    "@tiptap/extension-list-item": "^2.1.16",
+    "@tiptap/extension-placeholder": "^2.1.16",
+    "@tiptap/pm": "^2.1.16",
+    "@tiptap/starter-kit": "^2.1.16",
+    "@tiptap/vue-3": "^2.1.16",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^10.7.0",
