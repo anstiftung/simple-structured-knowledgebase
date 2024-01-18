@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
 
         $generatedFiles = AttachedFile::factory()->count($this->numAttachments)
             ->state(new Sequence(
-                fn (Sequence $sequence) => [
+                fn(Sequence $sequence) => [
                     'license_id' => License::all()->random()->id,
                     'created_by_id' => User::all()->random()->id,
                     'updated_by_id' => User::all()->random()->id
@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
 
         AttachedUrl::factory()->count($this->numAttachments)
             ->state(new Sequence(
-                fn (Sequence $sequence) => [
+                fn(Sequence $sequence) => [
                     'created_by_id' => User::all()->random()->id,
                     'updated_by_id' => User::all()->random()->id
                 ],
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
 
         $articles = Article::factory()->count($this->numArticles)
             ->state(new Sequence(
-                fn (Sequence $sequence) => [
+                fn(Sequence $sequence) => [
                     'created_by_id' => User::all()->random()->id,
                     'updated_by_id' => User::all()->random()->id
                 ],
@@ -94,16 +94,15 @@ class DatabaseSeeder extends Seeder
             Storage::disk('uploads')->deleteDirectory($file->id);
             Storage::disk('uploads')->makeDirectory($file->id);
 
-            $fullPath = storage_path('uploads/'.$file->id);
+            $fullPath = storage_path('uploads/' . $file->id);
             $fakedImagePath = $this->faker->image($fullPath, 640, 480, null, true);
-
             // update generated file
             $file->filename = basename($fakedImagePath);
             $file->filesize = filesize($fakedImagePath);
             $file->mime_type = mime_content_type($fakedImagePath);
             $file->save();
 
-            Process::run('chown -R www-data:www-data '. $fullPath)->throw();
+            Process::run('chown -R www-data:www-data ' . $fullPath)->throw();
         }
 
 
