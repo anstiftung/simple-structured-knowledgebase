@@ -3,7 +3,7 @@ import { computed, ref, reactive } from 'vue'
 import { useToast } from 'vue-toastification'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
-import { required$ } from '@/plugins/validators.js'
+import { required$, maxLength$ } from '@/plugins/validators.js'
 
 import LicenseSelect from '@/components/fields/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
@@ -22,9 +22,9 @@ const formData = reactive({
 const rules = {
   attachmentList: {
     $each: helpers.forEach({
-      title: { required$ },
-      description: { required$ },
-      source: { required$ },
+      title: { required$, maxLength: maxLength$(30) },
+      description: { required$, maxLength: maxLength$(50) },
+      source: { required$, maxLength: maxLength$(400) },
       license: { required$ },
     }),
   },
