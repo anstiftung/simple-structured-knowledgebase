@@ -4,7 +4,7 @@ import ArticleService from '@/services/ArticleService'
 import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
-import { required, maxLength } from '@vuelidate/validators'
+import { required$, maxLength$ } from '@/plugins/validators.js'
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import Editor from '@/components/fields/Editor.vue'
 
@@ -23,8 +23,8 @@ const formData = reactive({
 
 const rules = {
   article: {
-    title: { required, maxLength: maxLength(255), $autoDirty: true },
-    description: { required, maxLength: maxLength(1000), $autoDirty: true },
+    title: { required$, maxLength: maxLength$(255), $autoDirty: true },
+    description: { required$, maxLength: maxLength$(1000), $autoDirty: true },
   },
 }
 
