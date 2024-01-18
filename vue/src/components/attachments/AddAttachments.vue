@@ -5,19 +5,16 @@ import { useToast } from 'vue-toastification'
 import AttachmentTypeSelector from './AttachmentTypeSelector.vue'
 import AttachFiles from './AttachFiles.vue'
 import AttachUrls from './AttachUrls.vue'
-import EditAttachments from './EditAttachments.vue'
 
 const props = defineProps({
   article: Object,
 })
-const emit = defineEmits(['changed'])
+const emit = defineEmits(['done'])
 
 const toast = useToast()
 
 const filesDirty = ref(false)
-const savedFileList = ref([])
 const urlsDirty = ref(false)
-const savedUrlList = ref([])
 
 const attachmentMode = ref('file')
 
@@ -32,47 +29,18 @@ const setMode = newMode => {
 }
 
 const persistedFiles = fileList => {
-  savedFileList.value = fileList
   filesDirty.value = false
+  emit('done', fileList)
 }
 
 const persistedUrls = urlList => {
-  savedUrlList.value = urlList
   urlsDirty.value = false
-}
-
-const editState = computed(() => {
-  if (savedUrlList.value.length) {
-    return 'url'
-  } else if (savedFileList.value.length) {
-    return 'file'
-  } else {
-    return false
-  }
-})
-const editData = computed(() => {
-  if (editState.value == 'url') {
-    return savedUrlList.value
-  } else if (editState.value == 'file') {
-    return savedFileList.value
-  }
-})
-
-const edited = () => {
-  savedUrlList.value = []
-  savedFileList.value = []
-  emit('changed')
+  emit('done', urlList)
 }
 </script>
 
 <template>
   <div class="relative my-8 min-h-[400px]">
-    <edit-attachments
-      v-if="editState"
-      :type="editState"
-      :data="editData"
-      @edited="edited"
-    />
     <div class="relative flex flex-col gap-6 px-8 py-12 bg-gray-100">
       <div class="flex justify-between">
         <div>

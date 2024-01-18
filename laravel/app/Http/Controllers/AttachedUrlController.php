@@ -18,7 +18,16 @@ class AttachedUrlController extends Controller
     {
         $attachedUrls = AttachedUrl::when(!empty($request->creatorId), function ($query) use ($request) {
             $query->where('created_by_id', $request->creatorId);
-        })->orderBy('updated_at', 'DESC')->paginate();
+        })
+        ->when(!empty($request->invalid), function ($query) use ($request) {
+            if ($request->boolean('invalid')) {
+                $query->invalid();
+            } else {
+                $query->valid();
+            }
+        })
+        ->orderBy('created_at', 'DESC')
+        ->paginate();
 
         return AttachedUrlResource::collection($attachedUrls);
     }

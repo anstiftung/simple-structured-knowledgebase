@@ -30,4 +30,14 @@ class AttachedUrl extends Model
     {
         return $this->morphToMany(Article::class, 'article_attachments');
     }
+
+    public function scopeValid($query)
+    {
+        return $query->whereNotNull('title')->whereNotNull('description');
+    }
+
+    public function scopeInvalid($query)
+    {
+        return $query->whereNull('title')->orWhereNull('description');
+    }
 }

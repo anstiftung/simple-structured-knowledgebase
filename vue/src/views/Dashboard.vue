@@ -8,12 +8,18 @@ import { useUserStore } from '@/stores/user'
 import ArticleService from '@/services/ArticleService'
 import AttachmentService from '@/services/AttachmentService'
 
-import AddAttachment from '@/components/attachments/AddAttachment.vue'
+import AddAttachments from '@/components/attachments/AddAttachments.vue'
+import EditAttachments from '@/components/attachments/EditAttachments.vue'
+
 import SearchForm from '@/components/SearchForm.vue'
+import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const recentArticles = ref([])
 const recentAttachedUrls = ref([])
 const recentAttachedFiles = ref([])
+
+const invalidAttachedFiles = ref({ data: [], meta: null })
+const invalidAttachedUrls = ref({ data: [], meta: null })
 
 const modal = useModalStore()
 // If you need UserPermissions, you'll need the next three lines
@@ -21,13 +27,26 @@ const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
 const showCreateAttachmentModal = () => {
-  modal.open(AddAttachment, () => {
-    loadFromServer()
+  modal.open(AddAttachments, {}, savedAttachments => {
+    if (savedAttachments && savedAttachments.length) {
+      const props = { attachments: savedAttachments }
+      modal.open(EditAttachments, props, () => {
+        loadFromServer()
+      })
+    }
   })
 }
+
 userStore.initUser().then(() => {
   loadFromServer()
 })
+
+const editAttachment = attachment => {
+  const props = { attachments: [attachment] }
+  modal.open(EditAttachments, props, () => {
+    loadFromServer()
+  })
+}
 
 const loadFromServer = () => {
   ArticleService.getArticles(1, userStore.id).then(({ data, meta }) => {
@@ -45,6 +64,20 @@ const loadFromServer = () => {
       recentAttachedFiles.value = data.slice(0, Math.min(5, data.length))
     },
   )
+
+  AttachmentService.getAttachmentFiles(1, userStore.id, true).then(
+    ({ data, meta }) => {
+      invalidAttachedFiles.value.data = data
+      invalidAttachedFiles.value.meta = meta
+    },
+  )
+
+  AttachmentService.getAttachmentUrls(1, userStore.id, true).then(
+    ({ data, meta }) => {
+      invalidAttachedUrls.value.data = data
+      invalidAttachedUrls.value.meta = meta
+    },
+  )
 }
 
 const activities = computed(() => {
@@ -53,6 +86,31 @@ const activities = computed(() => {
     .concat(recentAttachedUrls.value)
   activities = activities.sort((a, b) => a.created_at < b.created_at)
   return activities
+})
+
+const invalidAttachments = computed(() => {
+  let attachments = invalidAttachedFiles.value.data.concat(
+    invalidAttachedUrls.value.data,
+  )
+  attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+  return attachments
+})
+
+const invalidAttachmentsLimited = computed(() => {
+  return invalidAttachments.value.slice(
+    0,
+    Math.min(10, invalidAttachments.value.length),
+  )
+})
+const invalidAttachmentsTotal = computed(() => {
+  if (invalidAttachedFiles.value.meta && invalidAttachedUrls.value.meta) {
+    return (
+      invalidAttachedFiles.value.meta.total +
+      invalidAttachedUrls.value.meta.total
+    )
+  } else {
+    return 0
+  }
 })
 </script>
 <template>
@@ -94,28 +152,11 @@ const activities = computed(() => {
           <h3 class="text-black">Letzte Aktivitäten</h3>
         </div>
         <div class="py-4 pl-2" v-if="activities">
-          <p class="mb-2" v-for="activity in activities">
-            <span>{{
-              activity.type == 'Article' ? 'Beitrag ' : 'Anhang '
-            }}</span>
-            <router-link
-              class="font-semibold text-orange"
-              v-if="activity.type == 'Article'"
-              :to="{
-                name: 'article',
-                params: { slug: activity.slug },
-              }"
-            >
-              {{ activity.title }}
-            </router-link>
-            <span v-else class="font-semibold text-green">
-              {{ activity.title ?? '[Ohne Titel]' }}
-            </span>
-            <span> erstellt</span>
-            <span class="inline-block ml-2 text-gray-200">{{
-              $filters.formatedDate(activity.created_at)
-            }}</span>
-          </p>
+          <item-line
+            :model="activity"
+            class="mb-2"
+            v-for="activity in activities"
+          />
         </div>
       </div>
       <div class="">
@@ -127,7 +168,34 @@ const activities = computed(() => {
             Solche Anhänge können nicht genutzt und veröffentlicht werden.
           </p>
         </div>
-        <div class="min-h-[200px] py-4 pl-2">@todo ;)</div>
+        <div class="min-h-[200px] py-4 pl-2">
+          <p class="mb-2" v-for="attachment in invalidAttachmentsLimited">
+            <span
+              >{{ attachment.type == 'AttachedUrl' ? 'URL ' : 'Datei ' }}
+            </span>
+            <span
+              class="font-semibold cursor-pointer text-green"
+              @click="editAttachment(attachment)"
+            >
+              {{ attachment.url ? attachment.url : attachment.filename }}
+            </span>
+          </p>
+          <p
+            class="text-gray-200"
+            v-if="invalidAttachmentsTotal > invalidAttachmentsLimited.length"
+          >
+            und
+            {{ invalidAttachmentsTotal - invalidAttachmentsLimited.length }}
+            {{
+              invalidAttachmentsTotal - invalidAttachmentsLimited.length > 1
+                ? 'weitere'
+                : 'weiterer'
+            }}
+          </p>
+          <p class="text-gray-200" v-if="!invalidAttachmentsLimited.length">
+            Keine Anhänge vorhanden!
+          </p>
+        </div>
         <div class="pt-3 pb-2 pl-2 border-y">
           <h3 class="font-semibold text-black">
             Sammlungen auf der Startseite

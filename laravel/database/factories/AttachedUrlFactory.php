@@ -18,10 +18,11 @@ class AttachedUrlFactory extends Factory
     public function definition(): array
     {
         $title = fake()->name();
+        $isFilled = fake()->boolean(70);
 
         return [
-            'title' => $title,
-            'description' => fake()->sentence(3),
+            'title' => $isFilled ? $title : null,
+            'description' => $isFilled ? fake()->sentence(3) : null,
             'url' => fake()->url(),
             'preview_file' => Str::slug($title) . '.png',
             'crawled_at' => fake()->dateTime(),
