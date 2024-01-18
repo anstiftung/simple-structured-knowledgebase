@@ -109,8 +109,10 @@ const persist = () => {
         <p class="text-gray-400">
           <template v-if="isDragging">Elemente zum Hochladen ablegen</template>
           <template v-else>
-            Ein kleiner Hilfetext, dass hier Dateien (in welchem Format)
-            reingedroppt werden können.
+            Ein kleiner Hilfetext, dass hier Dateien ('png', 'jpg', 'jpeg',
+            'svg', 'mp4', 'zip', 'tar.gz', 'pdf', 'doc', 'xls', 'csv', 'pdf',
+            'ai', 'indd', 'odt', 'ods', 'odp' – maximal 10MB) reingedroppt
+            werden können.
           </template>
         </p>
         <label
