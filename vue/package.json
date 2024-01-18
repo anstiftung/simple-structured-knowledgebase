@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:production": "NODE_ENV=production vite build",
     "preview": "vite preview"
   },
   "dependencies": {
