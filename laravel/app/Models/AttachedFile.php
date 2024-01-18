@@ -38,6 +38,16 @@ class AttachedFile extends Model
         return $this->morphToMany(Article::class, 'article_attachments');
     }
 
+    public function scopeValid($query)
+    {
+        return $query->whereNotNull('title')->whereNotNull('description')->whereNotNull('source')->whereNotNull('license_id');
+    }
+
+    public function scopeInvalid($query)
+    {
+        return $query->whereNull('title')->orWhereNull('description')->orWhereNull('source')->orWhereNull('license_id');
+    }
+
     public static function boot()
     {
         parent::boot();
