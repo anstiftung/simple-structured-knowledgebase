@@ -31,8 +31,8 @@ const v$ = useVuelidate(rules, formData)
 
 // automaticly adds an empty url object to the list; triggers dirty event for unsaved urls
 watch(
-  formData.urlList,
-  () => {
+  () => formData,
+  formData => {
     let numEmptyItems = 0
     let numFilledItems = 0
     formData.urlList.forEach(i => {
@@ -42,6 +42,7 @@ watch(
         numFilledItems++
       }
     })
+    console.log('Watcher: ', numEmptyItems, numFilledItems)
     if (numEmptyItems == 0) {
       addURL()
     }
