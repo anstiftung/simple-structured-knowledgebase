@@ -8,7 +8,9 @@ import { useUserStore } from '@/stores/user'
 import ArticleService from '@/services/ArticleService'
 import AttachmentService from '@/services/AttachmentService'
 
-import AddAttachment from '@/components/attachments/AddAttachment.vue'
+import AddAttachments from '@/components/attachments/AddAttachments.vue'
+import EditAttachments from '@/components/attachments/EditAttachments.vue'
+
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 
@@ -25,13 +27,26 @@ const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
 const showCreateAttachmentModal = () => {
-  modal.open(AddAttachment, () => {
-    loadFromServer()
+  modal.open(AddAttachments, {}, savedAttachments => {
+    if (savedAttachments && savedAttachments.length) {
+      const props = { attachments: savedAttachments }
+      modal.open(EditAttachments, props, () => {
+        loadFromServer()
+      })
+    }
   })
 }
+
 userStore.initUser().then(() => {
   loadFromServer()
 })
+
+const editAttachment = attachment => {
+  const props = { attachments: [attachment] }
+  modal.open(EditAttachments, props, () => {
+    loadFromServer()
+  })
+}
 
 const loadFromServer = () => {
   ArticleService.getArticles(1, userStore.id).then(({ data, meta }) => {
@@ -81,13 +96,22 @@ const invalidAttachments = computed(() => {
   return attachments
 })
 
-const listMissingFields = attachment => {
-  if (attachment.type == 'AttachedUrl') {
-    return 'Titel und Beschreibung'
-  } else if (attachment.type == 'AttachedFile') {
-    return 'Titel, Beschreibung, Quelle und Lizens'
+const invalidAttachmentsLimited = computed(() => {
+  return invalidAttachments.value.slice(
+    0,
+    Math.min(10, invalidAttachments.value.length),
+  )
+})
+const invalidAttachmentsTotal = computed(() => {
+  if (invalidAttachedFiles.value.meta && invalidAttachedUrls.value.meta) {
+    return (
+      invalidAttachedFiles.value.meta.total +
+      invalidAttachedUrls.value.meta.total
+    )
+  } else {
+    return 0
   }
-}
+})
 </script>
 <template>
   <section class="bg-white">
@@ -145,15 +169,31 @@ const listMissingFields = attachment => {
           </p>
         </div>
         <div class="min-h-[200px] py-4 pl-2">
-          <p class="mb-2" v-for="attachment in invalidAttachments">
+          <p class="mb-2" v-for="attachment in invalidAttachmentsLimited">
             <span
               >{{ attachment.type == 'AttachedUrl' ? 'URL ' : 'Datei ' }}
             </span>
-            <span class="font-semibold text-orange">
+            <span
+              class="font-semibold cursor-pointer text-green"
+              @click="editAttachment(attachment)"
+            >
               {{ attachment.url ? attachment.url : attachment.filename }}
             </span>
-            <span> fehlt: </span>
-            <span>{{ listMissingFields(attachment) }}</span>
+          </p>
+          <p
+            class="text-gray-200"
+            v-if="invalidAttachmentsTotal > invalidAttachmentsLimited.length"
+          >
+            und
+            {{ invalidAttachmentsTotal - invalidAttachmentsLimited.length }}
+            {{
+              invalidAttachmentsTotal - invalidAttachmentsLimited.length > 1
+                ? 'weitere'
+                : 'weiterer'
+            }}
+          </p>
+          <p class="text-gray-200" v-if="!invalidAttachmentsLimited.length">
+            Keine Anhänge vorhanden!
           </p>
         </div>
         <div class="pt-3 pb-2 pl-2 border-y">

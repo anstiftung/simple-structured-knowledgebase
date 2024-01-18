@@ -5,11 +5,10 @@ import LicenseSelect from '@/components/fields/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
 
 const props = defineProps({
-  data: Array,
-  type: String,
+  attachments: Array,
 })
 
-const emit = defineEmits(['edited'])
+const emit = defineEmits(['done'])
 const toast = useToast()
 
 const editConfigUrls = {
@@ -78,17 +77,17 @@ const editConfigFiles = {
   ],
 }
 
-const editConfig = computed(() => {
-  if (props.type == 'url') {
-    return editConfigUrls
-  } else if (props.type == 'file') {
-    return editConfigFiles
+const getEditConfig = (attachment, attribute) => {
+  if (attachment.type === 'AttachedFile') {
+    return editConfigFiles[attribute]
+  } else if (attachment.type === 'AttachedUrl') {
+    return editConfigUrls[attribute]
   }
-})
+}
 
 const visibleIndex = ref(0)
 // save to local ref that allows modifying the list
-const attachmentList = ref([...props.data])
+const attachmentList = ref([...props.attachments])
 
 const currentAttachment = computed(() => {
   return attachmentList.value[visibleIndex.value]
@@ -123,32 +122,44 @@ const prev = () => {
 }
 
 const save = () => {
-  let request = null
-  if (props.type == 'file') {
-    request = AttachmentService.updateAttachmentFiles(attachmentList.value)
+  let filesToSave = []
+  let urlsToSave = []
+  attachmentList.value.forEach(attachment => {
+    if (attachment.type === 'AttachedFile') {
+      filesToSave.push(attachment)
+    } else if (attachment.type === 'AttachedUrl') {
+      urlsToSave.push(attachment)
+    }
+  })
+
+  let promises = []
+  if (filesToSave.length > 0) {
+    promises.push(AttachmentService.updateAttachmentFiles(filesToSave))
   }
-  if (props.type == 'url') {
-    request = AttachmentService.updateAttachmentUrls(attachmentList.value)
+  if (urlsToSave.length > 0) {
+    promises.push(AttachmentService.updateAttachmentUrls(urlsToSave))
   }
-  request.then(data => {
+  Promise.all(promises).then(values => {
     toast.success(
-      `Erfolgreich ${data.length} ${
-        data.length == 1 ? 'Anhang' : 'Anhänge'
+      `Erfolgreich ${attachmentList.value.length} ${
+        attachmentList.value.length == 1 ? 'Anhang' : 'Anhänge'
       } gespeichert`,
     )
-    emit('edited')
+    emit('done')
   })
 }
 </script>
 
 <template>
-  <div class="absolute top-0 left-0 z-20 w-full h-full p-4 text-white bg-green">
+  <div class="w-full h-full p-4 text-white bg-green">
     <h4 class="font-semibold">
-      {{ currentAttachment[editConfig.titleAttribute] }}
+      {{
+        currentAttachment[getEditConfig(currentAttachment, 'titleAttribute')]
+      }}
     </h4>
     <div class="flex flex-col items-start gap-4 my-6 md:flex-row">
       <div class="flex flex-col w-full gap-4 grow">
-        <template v-for="field in editConfig.inputs">
+        <template v-for="field in getEditConfig(currentAttachment, 'inputs')">
           <template v-if="field.type == 'license'">
             <license-select v-model="currentAttachment[field.attribute]" />
           </template>
@@ -164,7 +175,7 @@ const save = () => {
       <div
         class="grid w-full grid-cols-2 gap-2 text-sm text-gray-400 md:w-auto"
       >
-        <template v-for="field in editConfig.labels" class="">
+        <template v-for="field in getEditConfig(currentAttachment, 'labels')">
           <span>{{ field.label }}:</span>
           <span v-if="field.type == 'date'">
             {{ $filters.formatedDateTime(currentAttachment[field.attribute]) }}
@@ -236,7 +247,7 @@ const save = () => {
       role="button"
       @click="save"
     >
-      {{ data.length > 1 ? 'Alle Anhänge' : 'Anhang' }} speichern
+      {{ attachmentList.length > 1 ? 'Alle Anhänge' : 'Anhang' }} speichern
     </div>
   </div>
 </template>
