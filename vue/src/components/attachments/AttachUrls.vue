@@ -42,7 +42,6 @@ watch(
         numFilledItems++
       }
     })
-    console.log('Watcher: ', numEmptyItems, numFilledItems)
     if (numEmptyItems == 0) {
       addURL()
     }
