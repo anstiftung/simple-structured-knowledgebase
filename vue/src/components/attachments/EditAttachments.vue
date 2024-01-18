@@ -181,9 +181,7 @@ const save = () => {
             {{ $filters.formatedDateTime(currentAttachment[field.attribute]) }}
           </span>
           <span v-else-if="field.type == 'mime_type'"
-            >{{
-              $filters.mimeTypeToFileType(currentAttachment[field.attribute])
-            }}
+            >{{ $filters.fileNameToFileType(currentAttachment.filename) }}
           </span>
           <span v-else-if="field.type == 'filesize'">
             {{
