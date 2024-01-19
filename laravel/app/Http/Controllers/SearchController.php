@@ -19,9 +19,9 @@ class SearchController extends Controller
     {
         $searchQuery = $request->query('query', false);
 
-        $articles = Article::where('title', 'like', '%' . $searchQuery . '%')->get();
-        $attachedUrls = AttachedUrl::where('title', 'like', '%' . $searchQuery . '%')->get();
-        $attachedFiles = AttachedFile::where('title', 'like', '%' . $searchQuery . '%')->get();
+        $articles = Article::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
+        $attachedUrls = AttachedUrl::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
+        $attachedFiles = AttachedFile::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
 
         $numArticles = $articles->count();
         $numAttachedUrls = $attachedUrls->count();
