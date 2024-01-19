@@ -30,24 +30,24 @@
 }
 
 .default-button {
-  @apply text-white bg-blue;
-  @apply px-5 py-[7px];
-  @apply rounded-[7px];
+  @apply text-white border border-blue bg-blue;
+  @apply px-5 py-[5px];
+  @apply rounded-[5px];
   @apply text-sm;
   @apply duration-150;
 
   &:hover {
-    @apply bg-dark;
+    @apply bg-dark border-dark;
   }
   &:disabled {
-    @apply bg-blue/20;
+    @apply bg-blue/20 border-blue/20;
   }
 }
 
 .secondary-button {
-    @apply text-gray-800 border-2 border-gray-800;
-    @apply px-5 py-[7px];
-    @apply rounded-[7px];
+    @apply text-gray-800 border border-gray-800;
+    @apply px-5 py-[5px];
+    @apply rounded-[5px];
     @apply text-sm;
     @apply duration-150;
 
