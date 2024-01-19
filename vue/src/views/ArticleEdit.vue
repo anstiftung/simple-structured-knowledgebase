@@ -57,7 +57,7 @@ onBeforeRouteLeave((to, from, next) => {
         message: 'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
       },
       listeners: {
-        'allow-route-change': () => next(),
+        granted: () => next(),
       },
     }
     toast(content, {
@@ -100,7 +100,7 @@ const discard = () => {
         message: 'Ungespeicherte Änderungen wirklich verwerfen?',
       },
       listeners: {
-        'allow-route-change': () => {
+        granted: () => {
           formData.article = JSON.parse(persistedArticle)
         },
       },

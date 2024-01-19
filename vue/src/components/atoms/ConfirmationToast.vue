@@ -14,9 +14,7 @@ const props = defineProps({
       >
         Abbrechen
       </button>
-      <button class="default-button" @click="$emit('allow-route-change')">
-        OK
-      </button>
+      <button class="default-button" @click="$emit('granted')">OK</button>
     </div>
   </div>
 </template>
