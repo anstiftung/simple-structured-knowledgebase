@@ -1,50 +1,118 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-const router = useRouter()
-const route = useRoute()
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+import SearchService from '@/services/SearchService'
+
+import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const props = defineProps({
   placeholder: String,
 })
+
 const searchQuery = ref('')
+const searchResults = ref([])
+const searchMeta = ref([])
+const resultsVisible = ref(false)
+
+const escapeKeyHandler = e => {
+  if (e.key === 'Escape' && resultsVisible.value) {
+    resultsVisible.value = false
+  }
+}
 
 onMounted(() => {
-  if (route.name === 'search' && route.params.query) {
-    searchQuery.value = route.params.query
-  }
+  document.addEventListener('keyup', escapeKeyHandler)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('keyup', escapeKeyHandler)
 })
 
-const runSearch = () => {
-  router.push({ name: 'search', params: { query: searchQuery.value } })
+const onQueryInput = useDebounceFn(() => {
+  searchResults.value = []
+  searchMeta.value = []
+  resultsVisible.value = false
+  querySearch()
+}, 300)
+
+const querySearch = () => {
+  if (!searchQuery.value || searchQuery.value.length <= 3) {
+    return
+  }
+  SearchService.search(searchQuery.value).then(({ data, meta }) => {
+    searchResults.value = data
+    searchMeta.value = meta
+
+    resultsVisible.value = true
+  })
 }
+
+const numSearchResults = computed(() => {
+  return (
+    searchMeta.value.num_articles +
+    searchMeta.value.num_attached_urls +
+    searchMeta.value.num_attached_files
+  )
+})
+
+const resultArticlesLimited = computed(() => {
+  let articles = searchResults.value.articles ?? []
+  articles = articles.slice(0, Math.min(5, articles.length))
+  return articles
+})
+
+const resultAttachemntsLimited = computed(() => {
+  let files = searchResults.value.attached_urls ?? []
+  let urls = searchResults.value.attached_files ?? []
+  let attachments = files.concat(urls)
+  attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+  attachments = attachments.slice(0, Math.min(5, attachments.length))
+  return attachments
+})
 </script>
 
 <template>
-  <form
-    class="flex gap-2 px-4 py-2 bg-white rounded-md drop-shadow-lg"
-    v-on:submit.prevent="runSearch()"
-  >
-    <input
-      class="w-full outline-none placeholder:text-gray-200"
-      type="text"
-      :placeholder="placeholder"
-      v-model="searchQuery"
-    />
-    <svg
-      role="button"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      class="fill-gray-800"
-      height="24"
-      viewBox="0 0 24 24"
-      @click.prevent="runSearch()"
+  <div class="relative overflow-visible">
+    <form
+      class="flex gap-2 px-4 py-2 bg-white rounded-md"
+      v-on:submit.prevent="querySearch()"
     >
-      <path
-        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+      <input
+        class="w-full outline-none placeholder:text-gray-200"
+        type="text"
+        :placeholder="placeholder"
+        v-model="searchQuery"
+        @input="onQueryInput"
       />
-    </svg>
-  </form>
+      <img
+        role="button"
+        src="/icons/search.svg"
+        @click.prevent="querySearch()"
+      />
+    </form>
+    <div
+      v-if="resultsVisible"
+      class="min-h-[100px] max-h-[400px] overflow-y-scroll w-full absolute bg-white rounded drop-shadow-lg p-4"
+    >
+      <p v-if="numSearchResults == 0" class="mt-8 text-center text-gray-300">
+        Keine Ergebnisse
+      </p>
+      <div v-else class="flex flex-col gap-2">
+        <p class="text-sm italic text-gray-300">Beiträge</p>
+        <item-line v-for="article in resultArticlesLimited" :model="article" />
+        <p class="text-sm" v-if="searchMeta.num_articles == 0">
+          Keine Ergebnisse
+        </p>
+        <p class="mt-4 text-sm italic text-gray-300">Anhänge</p>
+        <item-line
+          v-for="attachment in resultAttachemntsLimited"
+          :model="attachment"
+        />
+        <p class="text-sm" v-if="resultAttachemntsLimited.length == 0">
+          Keine Ergebnisse
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
