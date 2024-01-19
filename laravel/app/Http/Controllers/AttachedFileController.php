@@ -50,8 +50,8 @@ class AttachedFileController extends Controller
             'attached_files' => 'required|array|min:1',
             'attached_files.*' => [
                 'required',
-                FileValidator::types(['png', 'jpg'])
-                    ->max(12 * 1024)
+                FileValidator::types(config('cowiki.upload_file_types'))
+                    ->max(config('cowiki.upload_file_size'))
             ],
             'article_id' => 'exists:articles,id',
         ]);
