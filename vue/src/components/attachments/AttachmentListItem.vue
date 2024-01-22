@@ -5,6 +5,7 @@ const emit = defineEmits(['remove'])
 const props = defineProps({
   file: Object,
   url: Object,
+  errors: Object,
 })
 
 const removeAttachment = () => {
@@ -27,7 +28,6 @@ const fileType = computed(() => {
   switch (props.file.type) {
     case 'text/rtf':
       return 'RTF'
-      break
     case 'application/pdf':
       return 'PDF'
     default:
@@ -54,6 +54,14 @@ const fileType = computed(() => {
       placeholder="URL einfügen"
       class="px-4 py-2 outline-none grow text-blue"
     />
+    <div
+      class="text-sm text-red"
+      v-if="errors"
+      v-for="error of errors"
+      :key="error.$uid"
+    >
+      <div>! {{ error.$message }}</div>
+    </div>
     <a class="cursor-pointer" @click="removeAttachment">
       <svg
         xmlns="http://www.w3.org/2000/svg"

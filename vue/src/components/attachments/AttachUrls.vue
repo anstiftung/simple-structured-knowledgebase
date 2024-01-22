@@ -1,5 +1,11 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { reactive, watch, computed } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { helpers } from '@vuelidate/validators'
+import { url$ } from '@/plugins/validators.js'
+
+import { useToast } from 'vue-toastification'
+
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
@@ -7,16 +13,29 @@ const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
   article: Object,
 })
+const toast = useToast()
 
-const urlList = ref([{ url: '' }])
+const formData = reactive({
+  urlList: [{ url: '' }],
+})
+
+const rules = {
+  urlList: {
+    $each: helpers.forEach({
+      url: { url$ },
+    }),
+  },
+}
+
+const v$ = useVuelidate(rules, formData)
 
 // automaticly adds an empty url object to the list; triggers dirty event for unsaved urls
 watch(
-  urlList,
-  () => {
+  () => formData,
+  formData => {
     let numEmptyItems = 0
     let numFilledItems = 0
-    urlList.value.forEach(i => {
+    formData.urlList.forEach(i => {
       if (i.url.length == 0) {
         numEmptyItems++
       } else {
@@ -37,35 +56,44 @@ watch(
 )
 
 const addURL = () => {
-  urlList.value.push({ url: '' })
+  formData.urlList.push({ url: '' })
 }
 
 const removeUrlFromList = url => {
-  urlList.value = urlList.value.filter(e => e.url != url.url)
+  formData.urlList = formData.urlList.filter(e => e.url != url.url)
 }
 
-const persist = () => {
+const persist = async () => {
+  const formIsCorret = await v$.value.$validate()
+  if (!formIsCorret) {
+    toast.error('Formular ungültig')
+    return
+  }
   // persist data with the AttachmentService; removes empty url objects
   AttachmentService.createAttachmentUrls(
-    urlList.value.filter(i => i.url != ''),
+    formData.urlList.filter(i => i.url != ''),
     props.article,
   ).then(data => {
-    urlList.value = []
+    formData.urlList = []
     emit('persisted', data)
   })
 }
 
-const urlListValid = computed(() => {
-  return urlList.value.filter(i => i.url != '').length
+const urlListValid = computed(async () => {
+  return (
+    formData.urlList.filter(i => i.url != '').length &&
+    (await v$.value.$validate())
+  )
 })
 </script>
 
 <template>
   <div class="relative flex flex-col gap-4">
     <attachment-list-item
-      v-for="url in urlList"
+      v-for="(url, index) in formData.urlList"
       :url="url"
       @remove="removeUrlFromList"
+      :errors="v$.urlList.$each.$response.$errors[index].url"
     ></attachment-list-item>
     <button
       :class="[

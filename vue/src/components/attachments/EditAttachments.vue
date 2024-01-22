@@ -1,6 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { useToast } from 'vue-toastification'
+import { useVuelidate } from '@vuelidate/core'
+import { helpers } from '@vuelidate/validators'
+import { required$, maxLength$ } from '@/plugins/validators.js'
+
 import LicenseSelect from '@/components/fields/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
 
@@ -10,6 +14,23 @@ const props = defineProps({
 
 const emit = defineEmits(['done'])
 const toast = useToast()
+
+// save to local reactive that allows modifying the list
+const formData = reactive({
+  attachmentList: [...props.attachments],
+})
+const rules = {
+  attachmentList: {
+    $each: helpers.forEach({
+      title: { required$, maxLength: maxLength$(30) },
+      description: { required$, maxLength: maxLength$(50) },
+      source: { required$, maxLength: maxLength$(400) },
+      license: { required$ },
+    }),
+  },
+}
+
+const v$ = useVuelidate(rules, formData)
 
 const editConfigUrls = {
   titleAttribute: 'url',
@@ -86,15 +107,14 @@ const getEditConfig = (attachment, attribute) => {
 }
 
 const visibleIndex = ref(0)
-// save to local ref that allows modifying the list
-const attachmentList = ref([...props.attachments])
 
 const currentAttachment = computed(() => {
-  return attachmentList.value[visibleIndex.value]
+  return formData.attachmentList[visibleIndex.value]
 })
 
 const nextHint = computed(() => {
-  const attachmentsLeft = attachmentList.value.length - 1 - visibleIndex.value
+  const attachmentsLeft =
+    formData.attachmentList.length - 1 - visibleIndex.value
   if (attachmentsLeft > 1) {
     return `Benenne noch weitere ${attachmentsLeft} Anhänge`
   } else if (attachmentsLeft == 1) {
@@ -108,7 +128,7 @@ const prevValid = computed(() => {
   return visibleIndex.value > 0
 })
 const nextValid = computed(() => {
-  return visibleIndex.value < attachmentList.value.length - 1
+  return visibleIndex.value < formData.attachmentList.length - 1
 })
 const next = () => {
   if (nextValid.value) {
@@ -121,10 +141,16 @@ const prev = () => {
   }
 }
 
-const save = () => {
+const save = async () => {
+  const formIsCorret = await v$.value.$validate()
+  if (!formIsCorret) {
+    toast.error('Formular ungültig')
+    return
+  }
+
   let filesToSave = []
   let urlsToSave = []
-  attachmentList.value.forEach(attachment => {
+  formData.attachmentList.forEach(attachment => {
     if (attachment.type === 'AttachedFile') {
       filesToSave.push(attachment)
     } else if (attachment.type === 'AttachedUrl') {
@@ -141,8 +167,8 @@ const save = () => {
   }
   Promise.all(promises).then(values => {
     toast.success(
-      `Erfolgreich ${attachmentList.value.length} ${
-        attachmentList.value.length == 1 ? 'Anhang' : 'Anhänge'
+      `Erfolgreich ${formData.attachmentList.length} ${
+        formData.attachmentList.length == 1 ? 'Anhang' : 'Anhänge'
       } gespeichert`,
     )
     emit('done')
@@ -160,16 +186,26 @@ const save = () => {
     <div class="flex flex-col items-start gap-4 my-6 md:flex-row">
       <div class="flex flex-col w-full gap-4 grow">
         <template v-for="field in getEditConfig(currentAttachment, 'inputs')">
+          <div
+            class="text-sm text-red"
+            v-for="error of v$.attachmentList.$each.$response.$errors[
+              visibleIndex
+            ][field.attribute]"
+            :key="error.$uid"
+          >
+            <div>! {{ error.$message }}</div>
+          </div>
           <template v-if="field.type == 'license'">
             <license-select v-model="currentAttachment[field.attribute]" />
           </template>
-          <input
-            v-else
-            class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
-            :placeholder="field.label"
-            :type="field.type"
-            v-model="currentAttachment[field.attribute]"
-          />
+          <template v-else>
+            <input
+              class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
+              :placeholder="field.label"
+              :type="field.type"
+              v-model="currentAttachment[field.attribute]"
+            />
+          </template>
         </template>
       </div>
       <div
@@ -245,7 +281,8 @@ const save = () => {
       role="button"
       @click="save"
     >
-      {{ attachmentList.length > 1 ? 'Alle Anhänge' : 'Anhang' }} speichern
+      {{ formData.attachmentList.length > 1 ? 'Alle Anhänge' : 'Anhang' }}
+      speichern
     </div>
   </div>
 </template>
