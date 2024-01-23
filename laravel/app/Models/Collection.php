@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 

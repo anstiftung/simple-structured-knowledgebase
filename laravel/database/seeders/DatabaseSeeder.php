@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
     private $numUsers = 10;
     private $numAttachments = 10;
     private $numArticles = 50;
-    private $numCollections = 10;
 
     public function __construct()
     {
@@ -48,6 +47,10 @@ class DatabaseSeeder extends Seeder
         AttachedUrl::truncate();
         Article::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
+        $this->call([
+            RolesPermissionsSeeder::class,
+        ]);
 
         License::factory($this->numLicenses)->create();
 
@@ -105,9 +108,8 @@ class DatabaseSeeder extends Seeder
             Process::run('chown -R www-data:www-data ' . $fullPath)->throw();
         }
 
-
         $this->call([
-            RolesPermissionsSeeder::class,
+            CollectionSeeder::class,
         ]);
     }
 }
