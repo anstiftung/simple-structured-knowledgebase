@@ -1,11 +1,13 @@
 <script setup>
 import { inject, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { onClickOutside } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
 
 const userMenuVisible = ref(false)
+const userMenuOverlay = ref(null)
 
-const route = useRoute()
+onClickOutside(userMenuOverlay, () => (userMenuVisible.value = false))
+
 const userStore = useUserStore()
 const $keycloak = inject('keycloak')
 </script>
@@ -55,6 +57,7 @@ const $keycloak = inject('keycloak')
             <div
               class="absolute left-[-1px] w-full user-menu-border-bottom min-w-[140px] bg-white"
               v-show="userMenuVisible"
+              ref="userMenuOverlay"
             >
               <botton class="flex items-center gap-2 px-2 py-2">
                 <img src="/icons/settings.svg" />
