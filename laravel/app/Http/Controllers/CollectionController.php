@@ -11,7 +11,11 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        //
+        $collections = Collection::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
+
+        return CollectionResource::collection($collections);
     }
 
     /**

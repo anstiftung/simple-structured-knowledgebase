@@ -6,6 +6,7 @@ import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
 
 import ArticleService from '@/services/ArticleService'
+import CollectionService from '@/services/CollectionService'
 import AttachmentService from '@/services/AttachmentService'
 
 import AddAttachments from '@/components/attachments/AddAttachments.vue'
@@ -15,6 +16,7 @@ import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const recentArticles = ref([])
+const frontpageCollections = ref([])
 const recentAttachedUrls = ref([])
 const recentAttachedFiles = ref([])
 
@@ -78,6 +80,10 @@ const loadFromServer = () => {
       invalidAttachedUrls.value.meta = meta
     },
   )
+
+  CollectionService.getCollections(1, userStore.id).then(({ data, meta }) => {
+    frontpageArticles.value = data
+  })
 }
 
 const activities = computed(() => {
@@ -195,7 +201,15 @@ const invalidAttachmentsTotal = computed(() => {
             Sammlungen auf der Startseite
           </h3>
         </div>
-        <div class="min-h-[200px] py-4 pl-2">@todo ;)</div>
+        <div class="min-h-[200px] py-4 pl-2">
+          <div class="py-4 pl-2" v-if="frontpageCollections">
+            <item-line
+              :model="collection"
+              class="mb-2"
+              v-for="collection in frontpageCollections"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </section>
