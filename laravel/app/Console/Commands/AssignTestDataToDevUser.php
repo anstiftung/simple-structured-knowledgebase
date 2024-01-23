@@ -32,6 +32,12 @@ class AssignTestDataToDevUser extends Command
     {
         $userId = $this->option('userid');
         $user = User::find($userId);
+
+        if (app()->environment(['production'])) {
+            $this->error('You are not allowed to run this command in production.');
+            return;
+        }
+
         if (!$user) {
             $this->error('Unable to find user');
         } else {
