@@ -4,7 +4,6 @@ import { useEditor, EditorContent } from '@tiptap/vue-3'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
-import Heading from '@tiptap/extension-heading'
 import FloatingMenu from '@/components/fields/FloatingMenu.vue'
 import FixedMenu from '@/components/fields/FixedMenu.vue'
 
@@ -18,13 +17,12 @@ const props = defineProps({
 
 const editor = useEditor({
   extensions: [
-    StarterKit,
+    StarterKit.configure({
+      headings: { levels: [1, 2, 3, 4] },
+    }),
     Underline,
     Placeholder.configure({
       placeholder: 'Inhalte einpflegen',
-    }),
-    Heading.configure({
-      levels: [1, 2, 3, 4],
     }),
   ],
   content: props.modelValue,
