@@ -1,9 +1,12 @@
 <script setup>
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useModalStore } from '@/stores/modal'
+import { onClickOutside } from '@vueuse/core'
 
 const modal = useModalStore()
 const { isOpen, view, props } = storeToRefs(modal)
+const mainModal = ref(null)
 
 document.addEventListener('keyup', function (evt) {
   if (evt.key === 'Escape' && isOpen.value) {
@@ -11,11 +14,11 @@ document.addEventListener('keyup', function (evt) {
   }
 })
 
-const onClickOutside = () => {
+onClickOutside(mainModal, () => {
   if (isOpen.value) {
     modal.close()
   }
-}
+})
 
 const modalComponentDone = data => {
   modal.close(data)
@@ -27,9 +30,8 @@ const modalComponentDone = data => {
     <div
       v-if="isOpen"
       class="fixed top-0 left-0 right-0 z-50 items-center justify-center overflow-x-hidden overflow-y-auto bg-gray-800/75 md:h-full md:inset-0"
-      @click.self="onClickOutside"
     >
-      <div class="relative mx-auto mt-32 width-wrapper">
+      <div class="relative mx-auto mt-32 width-wrapper" ref="mainModal">
         <component
           :is="view"
           v-bind="props"
