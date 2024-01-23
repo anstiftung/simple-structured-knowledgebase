@@ -14,6 +14,7 @@ import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import CollectionLine from '@/components/atoms/CollectionLine.vue'
 
 const recentArticles = ref([])
 const frontpageCollections = ref([])
@@ -81,9 +82,11 @@ const loadFromServer = () => {
     },
   )
 
-  CollectionService.getCollections(1, userStore.id).then(({ data, meta }) => {
-    frontpageArticles.value = data
-  })
+  CollectionService.getCollections(1, { featured: true }).then(
+    ({ data, meta }) => {
+      frontpageCollections.value = data
+    },
+  )
 }
 
 const activities = computed(() => {
@@ -203,7 +206,7 @@ const invalidAttachmentsTotal = computed(() => {
         </div>
         <div class="min-h-[200px] py-4 pl-2">
           <div class="py-4 pl-2" v-if="frontpageCollections">
-            <item-line
+            <collection-line
               :model="collection"
               class="mb-2"
               v-for="collection in frontpageCollections"

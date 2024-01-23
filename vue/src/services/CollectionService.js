@@ -8,13 +8,13 @@ class CollectionService {
     }
     return makeApiRequest(config)
   }
-  getCollections(page = 1, creatorId = null) {
+  getCollections(page = 1, parameters = {}) {
     const config = {
       method: 'get',
       url: 'collections',
       params: {
         page: page,
-        creatorId: creatorId,
+        ...parameters,
       },
     }
     return makeApiRequest(config)
