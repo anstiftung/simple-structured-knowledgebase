@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useDebounceFn } from '@vueuse/core'
+import { useDebounceFn, onClickOutside } from '@vueuse/core'
 import SearchService from '@/services/SearchService'
 
 import ItemLine from '@/components/atoms/ItemLine.vue'
@@ -13,12 +13,14 @@ const searchQuery = ref('')
 const searchResults = ref([])
 const searchMeta = ref([])
 const resultsVisible = ref(false)
+const resultsOverlay = ref(null)
 
 const escapeKeyHandler = e => {
   if (e.key === 'Escape' && resultsVisible.value) {
     resultsVisible.value = false
   }
 }
+onClickOutside(resultsOverlay, () => (resultsVisible.value = false))
 
 onMounted(() => {
   document.addEventListener('keyup', escapeKeyHandler)
@@ -30,7 +32,6 @@ onBeforeUnmount(() => {
 const onQueryInput = useDebounceFn(() => {
   searchResults.value = []
   searchMeta.value = []
-  resultsVisible.value = false
   querySearch()
 }, 300)
 
@@ -41,7 +42,6 @@ const querySearch = () => {
   SearchService.search(searchQuery.value).then(({ data, meta }) => {
     searchResults.value = data
     searchMeta.value = meta
-
     resultsVisible.value = true
   })
 }
@@ -91,6 +91,7 @@ const resultAttachemntsLimited = computed(() => {
     </form>
     <div
       v-if="resultsVisible"
+      ref="resultsOverlay"
       class="min-h-[100px] max-h-[400px] overflow-y-scroll w-full absolute bg-white rounded drop-shadow-lg p-4"
     >
       <p v-if="numSearchResults == 0" class="mt-8 text-center text-gray-300">
@@ -99,7 +100,7 @@ const resultAttachemntsLimited = computed(() => {
       <div v-else class="flex flex-col gap-2">
         <p class="text-sm italic text-gray-300">Beiträge</p>
         <item-line v-for="article in resultArticlesLimited" :model="article" />
-        <p class="text-sm" v-if="searchMeta.num_articles == 0">
+        <p class="text-sm" v-if="resultArticlesLimited.length == 0">
           Keine Ergebnisse
         </p>
         <p class="mt-4 text-sm italic text-gray-300">Anhänge</p>
