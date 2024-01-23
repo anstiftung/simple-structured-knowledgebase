@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Collection;
 use Illuminate\Http\Request;
+use App\Http\Resources\CollectionResource;
 
 class CollectionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $collections = Collection::when(!empty($request->creatorId), function ($query) use ($request) {
-            $query->where('created_by_id', $request->creatorId);
-        })->orderBy('updated_at', 'DESC')->paginate();
+        $collections = Collection::when($request->featured == true, function ($query) {
+            return $query->featured()->orderBy('order', 'ASC');
+        })->paginate();
 
         return CollectionResource::collection($collections);
     }
