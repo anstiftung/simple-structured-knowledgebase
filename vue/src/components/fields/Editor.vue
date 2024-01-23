@@ -1,9 +1,11 @@
 <script setup>
 import { watch } from 'vue'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
-
+import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
+
+import FloatingMenu from '@/components/fields/FloatingMenu.vue'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -16,6 +18,7 @@ const props = defineProps({
 const editor = useEditor({
   extensions: [
     StarterKit,
+    Underline,
     Placeholder.configure({
       placeholder: 'Inhalte einpflegen',
     }),
@@ -68,6 +71,8 @@ watch(
       </button>
     </div>
     <editor-content :editor="editor" class="grow" />
+
+    <floating-menu :editor="editor" />
   </div>
 </template>
 

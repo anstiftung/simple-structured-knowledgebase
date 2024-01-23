@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/extension-bubble-menu": "^2.1.16",
     "@tiptap/extension-bullet-list": "^2.1.16",
     "@tiptap/extension-list-item": "^2.1.16",
     "@tiptap/extension-placeholder": "^2.1.16",
+    "@tiptap/extension-underline": "^2.1.16",
     "@tiptap/pm": "^2.1.16",
     "@tiptap/starter-kit": "^2.1.16",
     "@tiptap/vue-3": "^2.1.16",
@@ -19,8 +21,10 @@
     "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^10.7.2",
     "axios": "^1.4.0",
+    "install": "^0.13.0",
     "keycloak-js": "^22.0.3",
     "moment": "^2.29.4",
+    "npm": "^10.3.0",
     "pinia": "^2.1.7",
     "vue": "^3.3.4",
     "vue-axios": "^3.5.2",

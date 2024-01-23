@@ -59,6 +59,9 @@
         @apply bg-gray-200;
     }
 }
+.secondary-button-square {
+    @apply w-[20px] h-[20px] text-center p-1 box-content;
+}
 .secondary-button-white {
     @apply text-white border-white;
     &:hover {
