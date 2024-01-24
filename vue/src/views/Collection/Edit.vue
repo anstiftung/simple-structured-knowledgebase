@@ -79,7 +79,7 @@ const persist = async () => {
   const afterPersist = data => {
     formData.collection = data
     persistedCollection = JSON.stringify(data)
-    toast.success('Beitrag erfolgreich gespeichert')
+    toast.success('Sammlung erfolgreich gespeichert')
     router.push({ name: 'collection', params: { slug: data.slug } })
   }
 
