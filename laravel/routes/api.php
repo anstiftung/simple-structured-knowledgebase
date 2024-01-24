@@ -59,4 +59,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     // create and update articles
     Route::post('/article', [ArticleController::class, 'store']);
     Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
+
+    // create and update collections
+    Route::post('/collection', [CollectionController::class, 'store']);
+    Route::patch('/collection/{collection:slug}', [CollectionController::class, 'update']);
 });

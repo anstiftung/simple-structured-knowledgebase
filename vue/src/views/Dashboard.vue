@@ -144,9 +144,13 @@ const invalidAttachmentsTotal = computed(() => {
           class="default-button"
           >Beitrag erstellen</router-link
         >
-        <button v-if="hasPermission('add collections')" class="default-button">
-          Sammlung erstellen
-        </button>
+        <router-link
+          v-if="hasPermission('add collections')"
+          tag="button"
+          :to="{ name: 'collectionCreate' }"
+          class="default-button"
+          >Sammlung erstellen</router-link
+        >
       </div>
     </div>
     <div class="grid grid-cols-2 divide-x width-wrapper">

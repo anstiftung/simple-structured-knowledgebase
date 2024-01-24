@@ -80,10 +80,10 @@ const persist = async () => {
     formData.collection = data
     persistedCollection = JSON.stringify(data)
     toast.success('Beitrag erfolgreich gespeichert')
-    router.push({ name: 'article', params: { slug: data.slug } })
+    router.push({ name: 'collection', params: { slug: data.slug } })
   }
 
-  if (formData.article.id) {
+  if (formData.collection.id) {
     CollectionService.updateCollection(formData.collection).then(afterPersist)
   } else {
     CollectionService.createCollection(formData.collection).then(afterPersist)
@@ -115,7 +115,9 @@ const discard = () => {
 
 <template>
   <section class="bg-orange/50">
-    <div class="px-12 py-8 header-clip width-wrapper rounded-[20px] bg-orange">
+    <div
+      class="px-12 py-8 header-clip width-wrapper rounded-[20px] bg-blue-400"
+    >
       <div class="text-center">
         <input
           class="text-xl bg-transparent outline-none"
@@ -147,9 +149,6 @@ const discard = () => {
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
-        </div>
-        <div class="mt-8 grow">
-          <editor v-model="formData.collection.content" />
         </div>
       </div>
       <div

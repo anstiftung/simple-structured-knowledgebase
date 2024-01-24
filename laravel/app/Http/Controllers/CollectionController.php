@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CollectionResource;
 
 class CollectionController extends Controller
@@ -25,7 +27,24 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        if (!$user->can('add collections')) {
+            return parent::abortUnauthorized();
+        }
+
+        $request->validate([
+             'title' => 'required|max:255',
+             'description' => 'required|max:1000',
+         ]);
+
+        $newCollection = Collection::create([
+           'title' => $request->title,
+           'slug' => Str::slug($request->title),
+           'description' => $request->description,
+           'content' => $request->content
+        ]);
+
+        return new CollectionResource($newCollection);
     }
 
     /**
@@ -40,9 +59,25 @@ class CollectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Collection $collection, Request $request)
     {
-        //
+        $user = Auth::user();
+        if (!$user->can('edit collections')) {
+            return parent::abortUnauthorized();
+        }
+
+        $request->validate([
+             'title' => 'required|max:255',
+             'description' => 'required|max:1000',
+         ]);
+
+        $collection->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'description' => $request->description,
+        ]);
+
+        return new CollectionResource($collection);
     }
 
     /**
