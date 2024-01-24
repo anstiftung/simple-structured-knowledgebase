@@ -46,8 +46,8 @@
 
 .secondary-button {
     @apply text-gray-800 border border-gray-800;
-    @apply px-3 py-[7px];
-    @apply rounded-[7px];
+    @apply px-5 py-[5px];
+    @apply rounded-[5px];
     @apply text-sm;
     @apply duration-150;
 
@@ -59,6 +59,12 @@
         @apply bg-gray-200;
     }
 }
+
+.secondary-button.dense {
+    @apply px-3 py-[7px];
+    @apply rounded-[7px];
+}
+
 .secondary-button-white {
     @apply text-white border-white;
     &:hover {

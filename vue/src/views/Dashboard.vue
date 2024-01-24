@@ -211,7 +211,7 @@ const invalidAttachmentsTotal = computed(() => {
         <div class="pl-4 mt-5 mb-5">
           <button
             v-if="hasPermission('feature collections')"
-            class="secondary-button"
+            class="secondary-button dense"
           >
             Sammlung zur Startseite hinzufügen
           </button>
