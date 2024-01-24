@@ -6,6 +6,7 @@ import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
 
 import ArticleService from '@/services/ArticleService'
+import CollectionService from '@/services/CollectionService'
 import AttachmentService from '@/services/AttachmentService'
 
 import AddAttachments from '@/components/attachments/AddAttachments.vue'
@@ -13,8 +14,10 @@ import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import CollectionLine from '@/components/atoms/CollectionLine.vue'
 
 const recentArticles = ref([])
+const frontpageCollections = ref([])
 const recentAttachedUrls = ref([])
 const recentAttachedFiles = ref([])
 
@@ -78,6 +81,12 @@ const loadFromServer = () => {
       invalidAttachedUrls.value.meta = meta
     },
   )
+
+  CollectionService.getCollections(1, { featured: true }).then(
+    ({ data, meta }) => {
+      frontpageCollections.value = data
+    },
+  )
 }
 
 const activities = computed(() => {
@@ -135,9 +144,13 @@ const invalidAttachmentsTotal = computed(() => {
           class="default-button"
           >Beitrag erstellen</router-link
         >
-        <button v-if="hasPermission('add collections')" class="default-button">
-          Sammlung erstellen
-        </button>
+        <router-link
+          v-if="hasPermission('add collections')"
+          tag="button"
+          :to="{ name: 'collectionCreate' }"
+          class="default-button"
+          >Sammlung erstellen</router-link
+        >
       </div>
     </div>
     <div class="grid grid-cols-2 divide-x width-wrapper">
@@ -190,12 +203,29 @@ const invalidAttachmentsTotal = computed(() => {
             Keine Anhänge vorhanden!
           </p>
         </div>
-        <div class="pt-3 pb-2 pl-2 border-y">
+        <div class="pt-3 pb-2 pl-4 border-y">
           <h3 class="font-semibold text-black">
             Sammlungen auf der Startseite
           </h3>
         </div>
-        <div class="min-h-[200px] py-4 pl-2">@todo ;)</div>
+        <div class="pl-4 mt-5 mb-5">
+          <button
+            v-if="hasPermission('feature collections')"
+            class="secondary-button dense"
+          >
+            Sammlung zur Startseite hinzufügen
+          </button>
+        </div>
+        <div class="min-h-[200px]">
+          <div class="pl-4 pt-3" v-if="frontpageCollections">
+            <collection-line
+              :collection="collection"
+              class="mb-2"
+              :dragable="hasPermission('feature collections') ? true : false"
+              v-for="collection in frontpageCollections"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </section>

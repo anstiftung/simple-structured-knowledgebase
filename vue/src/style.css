@@ -65,9 +65,16 @@
         @apply bg-gray-200;
     }
 }
+
+.secondary-button.dense {
+    @apply px-3 py-[7px];
+    @apply rounded-[7px];
+}
+
 .secondary-button-square {
     @apply w-[20px] h-[20px] text-center p-1 box-content;
 }
+
 .secondary-button-white {
     @apply text-white border-white;
     &:hover {

@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\LicenseController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CollectionController;
+
 use App\Http\Controllers\AttachedUrlController;
 use App\Http\Controllers\AttachedFileController;
-
-use App\Http\Controllers\LicenseController;
 
 Route::controller(LicenseController::class)->group(function () {
     Route::get('/licenses', 'index');
@@ -32,6 +33,11 @@ Route::controller(AttachedFileController::class)->group(function () {
     Route::get('/attached-file/{attachedFile:id}', 'show');
 });
 
+Route::controller(CollectionController::class)->group(function () {
+    Route::get('/collections', 'index');
+    Route::get('/collection/{collection:slug}', 'show');
+});
+
 Route::get('/', function () {
     return response()->json([
         'api_version' => '1.0',
@@ -53,4 +59,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     // create and update articles
     Route::post('/article', [ArticleController::class, 'store']);
     Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
+
+    // create and update collections
+    Route::post('/collection', [CollectionController::class, 'store']);
+    Route::patch('/collection/{collection:slug}', [CollectionController::class, 'update']);
 });
