@@ -1,5 +1,6 @@
 <script setup>
 import { watch } from 'vue'
+import { Mark, mergeAttributes } from '@tiptap/core'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
@@ -15,12 +16,49 @@ const props = defineProps({
   },
 })
 
+const ModelLink = Mark.create({
+  name: 'ModelLink',
+  defaultOptions: {
+    HTMLAttributes: {},
+  },
+
+  addAttributes() {
+    return {
+      modelId: {
+        default: null,
+      },
+    }
+  },
+  renderHTML({ HTMLAttributes }) {
+    return [
+      'a',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      0,
+    ]
+  },
+  addCommands() {
+    return {
+      setModelLink:
+        model =>
+        ({ commands }) => {
+          return commands.setMark(this.name, { 'data-id': 1 })
+        },
+      unsetModelLink:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
+    }
+  },
+})
+
 const editor = useEditor({
   extensions: [
     StarterKit.configure({
       headings: { levels: [1, 2, 3, 4] },
     }),
     Underline,
+    ModelLink,
     Placeholder.configure({
       placeholder: 'Inhalte einpflegen',
     }),

@@ -1,5 +1,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useModalStore } from '@/stores/modal'
+
+import ModelSelector from '@/components/atoms/ModelSelector.vue'
+
+const modal = useModalStore()
 
 const props = defineProps({
   editor: Object,
@@ -27,6 +32,24 @@ const onStyleInput = () => {
 const mode = computed(() => {
   return props.editor.isActive('heading', { level: 1 })
 })
+
+const showModalSelector = type => {
+  props.editor.chain().focus().togglePage().run()
+  return
+  const props = {
+    modelType: type,
+  }
+
+  modal.open(ModelSelector, props, selection => {
+    if (selection) {
+      markFocusWithModel(selection)
+    }
+  })
+}
+
+const markFocusWithModel = model => {
+  console.log('MArk: ', model)
+}
 
 onMounted(() => {
   props.editor.on('selectionUpdate', ({ editor }) => {
@@ -71,6 +94,26 @@ onMounted(() => {
       ]"
     >
       Liste numeriert
+    </button>
+
+    <button @click="showModalSelector('article')" class="secondary-button">
+      Beitrag
+    </button>
+    <button
+      @click="
+        editor
+          .chain()
+          .focus()
+          .extendMarkRange('link')
+          .setLink({
+            href: `recipe:${selectedLink.value}`,
+            'data-id': 23,
+            'data-type': 'article',
+          })
+          .run()
+      "
+    >
+      DEBUG
     </button>
   </div>
 </template>
