@@ -1,9 +1,11 @@
 <script setup>
 import { watch } from 'vue'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
-
+import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
+import FloatingMenu from '@/components/fields/FloatingMenu.vue'
+import FixedMenu from '@/components/fields/FixedMenu.vue'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -15,7 +17,10 @@ const props = defineProps({
 
 const editor = useEditor({
   extensions: [
-    StarterKit,
+    StarterKit.configure({
+      headings: { levels: [1, 2, 3, 4] },
+    }),
+    Underline,
     Placeholder.configure({
       placeholder: 'Inhalte einpflegen',
     }),
@@ -41,33 +46,11 @@ watch(
 
 <template>
   <div class="flex flex-col h-full gap-4">
-    <div class="flex gap-2" v-if="editor">
-      <button
-        class="secondary-button"
-        @click="editor.chain().focus().toggleBold().run()"
-      >
-        Bold {{ editor.isActive('bold') ? '*' : '' }}
-      </button>
-      <button
-        class="secondary-button"
-        @click="editor.chain().focus().toggleItalic().run()"
-      >
-        Italic {{ editor.isActive('italic') ? '*' : '' }}
-      </button>
-      <button
-        class="secondary-button"
-        @click="editor.commands.toggleBulletList()"
-      >
-        List {{ editor.isActive('bulletList') ? '*' : '' }}
-      </button>
-      <button class="secondary-button" @click="editor.commands.undo()">
-        Undo
-      </button>
-      <button class="secondary-button" @click="editor.commands.redo()">
-        Redo
-      </button>
-    </div>
+    <fixed-menu :editor="editor" v-if="editor" />
+
     <editor-content :editor="editor" class="grow" />
+
+    <floating-menu :editor="editor" />
   </div>
 </template>
 
@@ -83,7 +66,9 @@ watch(
   height: 0;
 }
 
-.tiptap ul {
-  list-style: disc;
+/* make p inside lists inline to fix marker position */
+.tiptap ul li p,
+.tiptap ol li p {
+  display: inline;
 }
 </style>
