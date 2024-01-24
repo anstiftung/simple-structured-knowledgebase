@@ -199,16 +199,25 @@ const invalidAttachmentsTotal = computed(() => {
             Keine Anhänge vorhanden!
           </p>
         </div>
-        <div class="pt-3 pb-2 pl-2 border-y">
+        <div class="pt-3 pb-2 pl-4 border-y">
           <h3 class="font-semibold text-black">
             Sammlungen auf der Startseite
           </h3>
         </div>
-        <div class="min-h-[200px] py-4 pl-2">
-          <div class="py-4 pl-2" v-if="frontpageCollections">
+        <div class="pl-4 mt-5 mb-5">
+          <button
+            v-if="hasPermission('feature collections')"
+            class="secondary-button"
+          >
+            Sammlung zur Startseite hinzufügen
+          </button>
+        </div>
+        <div class="min-h-[200px]">
+          <div class="pl-4 pt-3" v-if="frontpageCollections">
             <collection-line
               :model="collection"
               class="mb-2"
+              :dragable="hasPermission('feature collections') ? true : false"
               v-for="collection in frontpageCollections"
             />
           </div>

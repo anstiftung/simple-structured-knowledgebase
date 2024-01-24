@@ -24,6 +24,8 @@ class ArticleResource extends BaseResource
             'content' => $this->content,
             'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
             'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
+            'created_by' => new UserResource($this->created_by),
+            'updated_by' => new UserResource($this->updated_by),
         ];
     }
 }

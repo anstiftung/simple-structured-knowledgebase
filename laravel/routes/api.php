@@ -35,7 +35,7 @@ Route::controller(AttachedFileController::class)->group(function () {
 
 Route::controller(CollectionController::class)->group(function () {
     Route::get('/collections', 'index');
-    Route::get('/collection/{attachedFile:id}', 'show');
+    Route::get('/collection/{collection:slug}', 'show');
 });
 
 Route::get('/', function () {

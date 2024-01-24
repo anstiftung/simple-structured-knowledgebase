@@ -6,6 +6,7 @@ use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Collection extends Model
@@ -33,6 +34,14 @@ class Collection extends Model
     public function articles(): BelongsToMany
     {
         return $this->belongsToMany(Article::class);
+    }
+
+    public function created_by() : BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+    public function updated_by() : BelongsTo {
+        return $this->belongsTo(User::class);
     }
 
     public function scopeFeatured($query)

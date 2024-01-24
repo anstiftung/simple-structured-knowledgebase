@@ -1,6 +1,6 @@
-const Collection = () => import('@/views/Article/Show.vue')
-const Collections = () => import('@/views/Article/List.vue')
-const CollectionEdit = () => import('@/views/Article/Edit.vue')
+const Collection = () => import('@/views/Collection/Show.vue')
+const Collections = () => import('@/views/Collection/List.vue')
+const CollectionEdit = () => import('@/views/Collection/Edit.vue')
 
 export default [
   {

@@ -7,6 +7,7 @@ use App\Models\AttachedFile;
 use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -46,5 +47,13 @@ class Article extends Model
     public function collections(): BelongsToMany
     {
         return $this->belongsToMany(Collection::class);
+    }
+
+    public function created_by() : BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+    public function updated_by() : BelongsTo {
+        return $this->belongsTo(User::class);
     }
 }

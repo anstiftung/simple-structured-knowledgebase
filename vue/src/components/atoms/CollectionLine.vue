@@ -3,7 +3,7 @@ const props = defineProps({
   model: Object,
   dragable: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 })
 </script>
