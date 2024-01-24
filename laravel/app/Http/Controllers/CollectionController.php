@@ -73,7 +73,6 @@ class CollectionController extends Controller
 
         $collection->update([
             'title' => $request->title,
-            'slug' => Str::slug($request->title),
             'description' => $request->description,
         ]);
 

@@ -43,7 +43,7 @@ loadFromServer()
         >
       </div>
     </section>
-    <section v-if="collection.articles" class="my-8 width-wrapper">
+    <section v-if="collection?.articles" class="my-8 width-wrapper">
       <h2>Beiträge</h2>
       <div class="grid grid-cols-3 gap-4">
         <article-card

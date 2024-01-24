@@ -219,7 +219,7 @@ const invalidAttachmentsTotal = computed(() => {
         <div class="min-h-[200px]">
           <div class="pl-4 pt-3" v-if="frontpageCollections">
             <collection-line
-              :model="collection"
+              :collection="collection"
               class="mb-2"
               :dragable="hasPermission('feature collections') ? true : false"
               v-for="collection in frontpageCollections"

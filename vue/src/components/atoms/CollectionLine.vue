@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  model: Object,
+  collection: Object,
   dragable: {
     type: Boolean,
     default: false,
@@ -15,10 +15,10 @@ const props = defineProps({
         class="font-semibold text-blue-400"
         :to="{
           name: 'collection',
-          params: { slug: model.slug },
+          params: { slug: collection.slug },
         }"
       >
-        {{ model.title }}
+        {{ collection.title }}
       </router-link>
     </span>
     <span v-else class="font-semibold text-blue-400">
@@ -38,14 +38,14 @@ const props = defineProps({
         class="font-semibold text-blue-400"
         :to="{
           name: 'collection',
-          params: { slug: model.slug },
+          params: { slug: collection.slug },
         }"
       >
-        {{ model.title }}
+        {{ collection.title }}
       </router-link>
     </span>
     <span class="inline-block ml-2 text-gray-200">{{
-      $filters.formatedDate(model.created_at)
+      $filters.formatedDate(collection.created_at)
     }}</span>
   </p>
 </template>
