@@ -48,12 +48,4 @@ class Article extends Model
     {
         return $this->belongsToMany(Collection::class);
     }
-
-    public function created_by() : BelongsTo {
-        return $this->belongsTo(User::class);
-    }
-
-    public function updated_by() : BelongsTo {
-        return $this->belongsTo(User::class);
-    }
 }

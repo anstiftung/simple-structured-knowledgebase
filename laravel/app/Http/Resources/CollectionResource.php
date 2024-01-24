@@ -3,11 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
 use App\Http\Resources\ArticleResource;
-use Illuminate\Http\Resources\Json\JsonResource;
 
-class CollectionResource extends JsonResource
+class CollectionResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -25,8 +23,6 @@ class CollectionResource extends JsonResource
             'order' => $this->order,
             'featured' => $this->featured,
             'articles' => ArticleResource::collection($this->whenLoaded('articles')),
-            'created_by' => new UserResource($this->created_by),
-            'updated_by' => new UserResource($this->updated_by),
         ];
     }
 }

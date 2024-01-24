@@ -36,14 +36,6 @@ class Collection extends Model
         return $this->belongsToMany(Article::class);
     }
 
-    public function created_by() : BelongsTo {
-        return $this->belongsTo(User::class);
-    }
-
-    public function updated_by() : BelongsTo {
-        return $this->belongsTo(User::class);
-    }
-
     public function scopeFeatured($query)
     {
         return $query->where('featured',true);
