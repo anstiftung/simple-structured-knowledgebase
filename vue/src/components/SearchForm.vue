@@ -1,17 +1,21 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useDebounceFn, onClickOutside } from '@vueuse/core'
-import SearchService from '@/services/SearchService'
 
+import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const props = defineProps({
   placeholder: String,
+  initialQuery: String,
 })
+
+const emit = defineEmits(['queryChanged'])
 
 const searchQuery = ref('')
 const searchResults = ref([])
 const searchMeta = ref([])
+
 const resultsVisible = ref(false)
 const resultsOverlay = ref(null)
 
@@ -22,7 +26,17 @@ const escapeKeyHandler = e => {
 }
 onClickOutside(resultsOverlay, () => (resultsVisible.value = false))
 
+const showResultsFromFocus = () => {
+  resultsVisible.value = true
+  // the results may have been changed in the meantime
+  querySearch()
+}
+
 onMounted(() => {
+  // set inital query
+  if (props.initialQuery) {
+    searchQuery.value = props.initialQuery
+  }
   document.addEventListener('keyup', escapeKeyHandler)
 })
 onBeforeUnmount(() => {
@@ -33,7 +47,7 @@ const onQueryInput = useDebounceFn(() => {
   searchResults.value = []
   searchMeta.value = []
   querySearch()
-}, 300)
+}, 250)
 
 const querySearch = () => {
   if (!searchQuery.value || searchQuery.value.length <= 3) {
@@ -46,18 +60,16 @@ const querySearch = () => {
   })
 }
 
-const numSearchResults = computed(() => {
-  return (
-    searchMeta.value.num_articles +
-    searchMeta.value.num_attached_urls +
-    searchMeta.value.num_attached_files
-  )
-})
-
 const resultArticlesLimited = computed(() => {
   let articles = searchResults.value.articles ?? []
   articles = articles.slice(0, Math.min(5, articles.length))
   return articles
+})
+
+const resultCollectionsLimited = computed(() => {
+  let collections = searchResults.value.collections ?? []
+  collections = collections.slice(0, Math.min(5, collections.length))
+  return collections
 })
 
 const resultAttachemntsLimited = computed(() => {
@@ -82,6 +94,7 @@ const resultAttachemntsLimited = computed(() => {
         :placeholder="placeholder"
         v-model="searchQuery"
         @input="onQueryInput"
+        @focus="showResultsFromFocus"
       />
       <img
         role="button"
@@ -94,15 +107,22 @@ const resultAttachemntsLimited = computed(() => {
       ref="resultsOverlay"
       class="min-h-[100px] max-h-[400px] overflow-y-scroll w-full absolute bg-white rounded drop-shadow-lg p-4"
     >
-      <p v-if="numSearchResults == 0" class="mt-8 text-center text-gray-300">
-        Keine Ergebnisse
-      </p>
-      <div v-else class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2">
         <p class="text-sm italic text-gray-300">Beiträge</p>
         <item-line v-for="article in resultArticlesLimited" :model="article" />
         <p class="text-sm" v-if="resultArticlesLimited.length == 0">
           Keine Ergebnisse
         </p>
+
+        <p class="mt-4 text-sm italic text-gray-300">Sammlungen</p>
+        <item-line
+          v-for="collection in resultCollectionsLimited"
+          :model="collection"
+        />
+        <p class="text-sm" v-if="resultCollectionsLimited.length == 0">
+          Keine Ergebnisse
+        </p>
+
         <p class="mt-4 text-sm italic text-gray-300">Anhänge</p>
         <item-line
           v-for="attachment in resultAttachemntsLimited"

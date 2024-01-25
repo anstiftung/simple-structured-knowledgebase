@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, computed } from 'vue'
-import ArticleService from '@/services/ArticleService'
+import CollectionService from '@/services/CollectionService'
 import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
@@ -12,17 +12,16 @@ const toast = useToast()
 const router = useRouter()
 const route = useRoute()
 
-let persistedArticle = ''
+let persistedCollection = ''
 const formData = reactive({
-  article: {
+  collection: {
     title: '',
     description: '',
-    content: '',
   },
 })
 
 const rules = {
-  article: {
+  collection: {
     title: { required$, maxLength: maxLength$(255), $autoDirty: true },
     description: { required$, maxLength: maxLength$(1000), $autoDirty: true },
   },
@@ -33,19 +32,19 @@ const v$ = useVuelidate(rules, formData)
 const init = () => {
   // edit mode
   if (route.params.slug) {
-    ArticleService.getArticle(route.params.slug).then(data => {
-      formData.article = data
-      document.title = `Cowiki | ${formData.article.title} Bearbeiten`
-      persistedArticle = JSON.stringify(formData.article)
+    CollectionService.getCollection(route.params.slug).then(data => {
+      formData.collection = data
+      document.title = `Cowiki | ${formData.collection.title} Bearbeiten`
+      persistedCollection = JSON.stringify(formData.collection)
     })
   } else {
-    persistedArticle = JSON.stringify(formData.article)
+    persistedCollection = JSON.stringify(formData.collection)
   }
 }
 init()
 
 const isDirty = computed(() => {
-  return JSON.stringify(formData.article) != persistedArticle
+  return JSON.stringify(formData.collection) != persistedCollection
 })
 
 onBeforeRouteLeave((to, from, next) => {
@@ -78,16 +77,16 @@ const persist = async () => {
   }
 
   const afterPersist = data => {
-    formData.article = data
-    persistedArticle = JSON.stringify(data)
-    toast.success('Beitrag erfolgreich gespeichert')
-    router.push({ name: 'article', params: { slug: data.slug } })
+    formData.collection = data
+    persistedCollection = JSON.stringify(data)
+    toast.success('Sammlung erfolgreich gespeichert')
+    router.push({ name: 'collection', params: { slug: data.slug } })
   }
 
-  if (formData.article.id) {
-    ArticleService.updateArticle(formData.article).then(afterPersist)
+  if (formData.collection.id) {
+    CollectionService.updateCollection(formData.collection).then(afterPersist)
   } else {
-    ArticleService.createArticle(formData.article).then(afterPersist)
+    CollectionService.createCollection(formData.collection).then(afterPersist)
   }
 }
 
@@ -101,7 +100,7 @@ const discard = () => {
       },
       listeners: {
         granted: () => {
-          formData.article = JSON.parse(persistedArticle)
+          formData.collection = JSON.parse(persistedCollection)
         },
       },
     }
@@ -116,18 +115,21 @@ const discard = () => {
 
 <template>
   <section class="bg-orange/50">
-    <div class="px-12 py-8 header-clip width-wrapper rounded-[20px] bg-orange">
-      <div class="text-center">
+    <div class="bg-blue-400 header-clip">
+      <div class="py-12 text-center text-white width-wrapper">
+        <h3 class="mb-2 font-normal text-center opacity-70">
+          Sammlung {{ formData.collection.id ? 'bearbeiten' : 'erstellen' }}
+        </h3>
         <input
-          class="text-xl bg-transparent outline-none"
-          v-model="formData.article.title"
+          class="w-full text-4xl text-center bg-transparent outline-none"
+          v-model="formData.collection.title"
           autofocus
           placeholder="Titel des neuen Eintrags"
-          @update:modelValue="v$.article.title.$touch"
+          @update:modelValue="v$.collection.title.$touch"
         />
         <div
           class="text-sm text-red"
-          v-for="error of v$.article.title.$errors"
+          v-for="error of v$.collection.title.$errors"
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
@@ -138,29 +140,28 @@ const discard = () => {
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
         <textarea
           class="w-full text-xl bg-transparent outline-none"
-          v-model="formData.article.description"
+          v-model="formData.collection.description"
           placeholder="Kurzbeschreibung"
-          @update:modelValue="v$.article.description.$touch"
+          @update:modelValue="v$.collection.description.$touch"
         />
         <div
           class="text-sm text-red"
-          v-for="error of v$.article.description.$errors"
+          v-for="error of v$.collection.description.$errors"
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
-        </div>
-        <div class="mt-8 grow">
-          <editor v-model="formData.article.content" />
         </div>
       </div>
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100"
       >
-        <div class="text-sm">@todo: Edit creator and state of the article!</div>
+        <div class="text-sm">
+          @todo: Edit creator and state of the collection!
+        </div>
         <div class="flex justify-end gap-4">
           <button
             class="secondary-button"
-            v-show="formData.article.id"
+            v-show="formData.collection.id"
             @click="discard"
           >
             Verwerfen
@@ -174,8 +175,4 @@ const discard = () => {
   </section>
 </template>
 
-<style scoped>
-.header-clip {
-  /* clip-path: polygon(0px 0px, 0 80%, 100% 100%, 100% 0px); */
-}
-</style>
+<style scoped></style>

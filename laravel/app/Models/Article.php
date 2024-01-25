@@ -7,7 +7,9 @@ use App\Models\AttachedFile;
 use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Article extends Model
 {
@@ -40,5 +42,10 @@ class Article extends Model
     public function attached_urls()
     {
         return $this->morphedByMany(AttachedUrl::class, 'attachment', 'article_attachments');
+    }
+
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class);
     }
 }

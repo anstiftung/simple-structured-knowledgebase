@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use App\Models\Article;
+use App\Models\Collection;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use Illuminate\Console\Command;
@@ -31,6 +32,12 @@ class AssignTestDataToDevUser extends Command
     {
         $userId = $this->option('userid');
         $user = User::find($userId);
+
+        if (app()->environment(['production'])) {
+            $this->error('You are not allowed to run this command in production.');
+            return;
+        }
+
         if (!$user) {
             $this->error('Unable to find user');
         } else {
@@ -54,6 +61,13 @@ class AssignTestDataToDevUser extends Command
                 $article->created_by()->associate($user);
                 $article->updated_by()->associate($user);
                 $article->save();
+            }
+
+            $collections = Collection::all();
+            foreach ($collections as $collection) {
+                $collection->created_by()->associate($user);
+                $collection->updated_by()->associate($user);
+                $collection->save();
             }
         }
 

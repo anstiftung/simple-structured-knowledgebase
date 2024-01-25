@@ -59,10 +59,10 @@ const $keycloak = inject('keycloak')
               v-show="userMenuVisible"
               ref="userMenuOverlay"
             >
-              <botton class="flex items-center gap-2 px-2 py-2">
+              <button class="flex items-center gap-2 px-2 py-2">
                 <img src="/icons/settings.svg" />
                 Einstellungen
-              </botton>
+              </button>
               <router-link
                 tag="button"
                 :to="{ name: 'logout' }"

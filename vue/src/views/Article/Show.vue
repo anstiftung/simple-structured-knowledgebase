@@ -25,21 +25,16 @@ loadFromServer()
 
 <template>
   <div>
-    <section class="text-white bg-orange" v-if="article">
-      <div class="py-12 width-small-wrapper">
-        <h4 class="text-sm text-white uppercase">Beitrag</h4>
-        <h2 class="mb-4 text-3xl text-white">{{ article.title }}</h2>
-        <p>{{ article.description }}</p>
-        <p class="mt-4 text-sm">
-          Erstellt am {{ $filters.formatedDateTime(article.created_at) }}
-        </p>
-        <p class="mt-4 text-sm">
-          Zuletzt bearbeitet {{ $filters.formatedDateTime(article.updated_at) }}
-        </p>
-        <router-link
-          :to="{ name: 'articleEdit', params: { slug: article.slug } }"
-          >[DEBUG] Bearbeiten</router-link
-        >
+    <section class="text-white bg-orange/50" v-if="article">
+      <div class="bg-orange/50 header-clip">
+        <div class="py-12 width-wrapper">
+          <h3 class="mb-2 font-normal text-center opacity-70">Beitrag</h3>
+          <h2 class="text-4xl text-center">{{ article.title }}</h2>
+          <router-link
+            :to="{ name: 'articleEdit', params: { slug: article.slug } }"
+            >[DEBUG] Bearbeiten</router-link
+          >
+        </div>
       </div>
     </section>
     <section v-if="article" class="my-8 width-wrapper">
