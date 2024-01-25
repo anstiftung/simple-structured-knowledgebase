@@ -16,6 +16,7 @@ export default {
           400: '#007FFF',
         },
         orange: '#ff7f5f',
+        yellow: '#FFE24B',
         red: 'red',
         green: '#07b87e',
         gray: {
