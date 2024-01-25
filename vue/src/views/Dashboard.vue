@@ -16,13 +16,15 @@ import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import CollectionLine from '@/components/atoms/CollectionLine.vue'
 
+const recentCollections = ref([])
 const recentArticles = ref([])
-const frontpageCollections = ref([])
 const recentAttachedUrls = ref([])
 const recentAttachedFiles = ref([])
 
 const invalidAttachedFiles = ref({ data: [], meta: null })
 const invalidAttachedUrls = ref({ data: [], meta: null })
+
+const frontpageCollections = ref([])
 
 const modal = useModalStore()
 // If you need UserPermissions, you'll need the next three lines
@@ -82,6 +84,13 @@ const loadFromServer = () => {
     },
   )
 
+  CollectionService.getCollections(1, {
+    featured: true,
+    creatorId: userStore.id,
+  }).then(({ data, meta }) => {
+    recentCollections.value = data
+  })
+
   CollectionService.getCollections(1, { featured: true }).then(
     ({ data, meta }) => {
       frontpageCollections.value = data
@@ -93,6 +102,7 @@ const activities = computed(() => {
   let activities = recentArticles.value
     .concat(recentAttachedFiles.value)
     .concat(recentAttachedUrls.value)
+    .concat(recentCollections.value)
   activities = activities.sort((a, b) => a.created_at < b.created_at)
   return activities
 })
@@ -217,7 +227,7 @@ const invalidAttachmentsTotal = computed(() => {
           </button>
         </div>
         <div class="min-h-[200px]">
-          <div class="pl-4 pt-3" v-if="frontpageCollections">
+          <div class="pt-3 pl-4" v-if="frontpageCollections">
             <collection-line
               :collection="collection"
               class="mb-2"
