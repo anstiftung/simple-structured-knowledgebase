@@ -4,6 +4,12 @@ export default {
   content: ['./index.html', './src/**/*.{js,vue}'],
   theme: {
     extend: {
+      height: {
+        header: '100px',
+      },
+      spacing: {
+        header: '100px',
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui'],
         rubik: ['Rubik', 'system-ui'],

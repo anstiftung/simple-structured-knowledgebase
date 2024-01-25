@@ -83,7 +83,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex gap-2" v-if="editor">
+  <div class="sticky z-20 flex gap-2 bg-white top-header" v-if="editor">
     <select
       class="secondary-button"
       @change="onStyleInput"
