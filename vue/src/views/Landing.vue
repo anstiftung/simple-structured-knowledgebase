@@ -1,6 +1,4 @@
-<script setup>
-import SearchForm from '@/components/SearchForm.vue'
-</script>
+<script setup></script>
 
 <template>
   <section class="bg-gray-100">
