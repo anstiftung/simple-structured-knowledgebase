@@ -22,6 +22,7 @@ const props = defineProps({
       <template v-else>Anhang</template>
     </span>
 
+    <!-- articles -->
     <span
       v-if="model.type == 'Article'"
       class="font-semibold cursor-pointer text-orange"
@@ -32,6 +33,7 @@ const props = defineProps({
       <template v-else>{{ model.title }}</template>
     </span>
 
+    <!-- collections -->
     <span
       class="font-semibold text-blue-400 cursor-pointer"
       v-else-if="model.type == 'Collection'"
@@ -43,9 +45,14 @@ const props = defineProps({
     </span>
 
     <!-- attachments -->
-    <span v-else class="font-semibold text-green">
+    <a
+      v-else
+      :href="model.url"
+      target="_blank"
+      class="font-semibold cursor-pointer text-green"
+    >
       {{ model.title ?? '[Ohne Titel]' }}
-    </span>
+    </a>
 
     <span class="inline-block ml-2 text-gray-200"
       >erstellt {{ $filters.formatedDate(model.created_at) }}</span
