@@ -62,7 +62,8 @@ const editor = useEditor({
       openOnClick: false,
     }),
     Placeholder.configure({
-      placeholder: 'Inhalte einpflegen',
+      placeholder:
+        'Inhalte einpflegen (Hinweise, dass Markdown erlaubt ist? ###, * etc.)',
     }),
   ],
   content: props.modelValue,
