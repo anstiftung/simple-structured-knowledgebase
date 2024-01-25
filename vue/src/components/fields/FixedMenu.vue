@@ -62,7 +62,10 @@ const toggleLinkSelection = type => {
 
 const editorLinkActive = linkType => {
   if (props.editor.isActive('link') && props.editor.isFocused) {
-    const type = props.editor.getAttributes('link')['data-type']
+    let type = props.editor.getAttributes('link')['data-type']
+    if (type == 'AttachedFile' || type == 'AttachedUrl') {
+      type = 'Attachment'
+    }
     return type == linkType
   }
   return false
