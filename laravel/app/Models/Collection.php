@@ -33,11 +33,11 @@ class Collection extends Model
 
     public function articles(): BelongsToMany
     {
-        return $this->belongsToMany(Article::class);
+        return $this->belongsToMany(Article::class)->orderBy('order');
     }
 
     public function scopeFeatured($query)
     {
-        return $query->where('featured',true);
+        return $query->where('featured', true);
     }
 }
