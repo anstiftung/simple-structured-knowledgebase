@@ -115,12 +115,13 @@ const discard = () => {
 
 <template>
   <section class="bg-orange/50">
-    <div
-      class="px-12 py-8 header-clip width-wrapper rounded-[20px] bg-blue-400"
-    >
-      <div class="text-center">
+    <div class="bg-blue-400 header-clip">
+      <div class="py-12 text-center text-white width-wrapper">
+        <h3 class="mb-2 font-normal text-center opacity-70">
+          Sammlung {{ formData.collection.id ? 'bearbeiten' : 'erstellen' }}
+        </h3>
         <input
-          class="text-xl bg-transparent outline-none"
+          class="w-full text-4xl text-center bg-transparent outline-none"
           v-model="formData.collection.title"
           autofocus
           placeholder="Titel des neuen Eintrags"
@@ -174,8 +175,4 @@ const discard = () => {
   </section>
 </template>
 
-<style scoped>
-.header-clip {
-  /* clip-path: polygon(0px 0px, 0 80%, 100% 100%, 100% 0px); */
-}
-</style>
+<style scoped></style>

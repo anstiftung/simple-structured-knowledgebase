@@ -17,7 +17,9 @@ class CollectionController extends Controller
     {
         $collections = Collection::when($request->featured == true, function ($query) {
             return $query->featured()->orderBy('order', 'ASC');
-        })->paginate();
+        })->when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })->orderBy('updated_at', 'DESC')->paginate();
 
         return CollectionResource::collection($collections);
     }

@@ -27,7 +27,7 @@ loadFromServer()
   <div>
     <section class="text-white bg-blue-400/50" v-if="collection">
       <div class="bg-blue-400 header-clip">
-        <div class="py-12 width-small-wrapper">
+        <div class="py-12 width-wrapper">
           <h3 class="mb-2 font-normal text-center opacity-70">Sammlung</h3>
           <h2 class="text-4xl text-center">{{ collection.title }}</h2>
         </div>
@@ -60,8 +60,4 @@ loadFromServer()
   </div>
 </template>
 
-<style scoped>
-.header-clip {
-  clip-path: polygon(0px 0px, 0 95%, 100% 100%, 100% 0px);
-}
-</style>
+<style scoped></style>

@@ -6,8 +6,6 @@ use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Collection extends Model
 {
@@ -31,7 +29,7 @@ class Collection extends Model
         return 'slug';
     }
 
-    public function articles(): BelongsToMany
+    public function articles()
     {
         return $this->belongsToMany(Article::class)->orderBy('order');
     }
