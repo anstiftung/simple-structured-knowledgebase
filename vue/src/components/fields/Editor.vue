@@ -98,6 +98,8 @@ watch(
 <style>
 .tiptap {
   height: 100%;
+  /* this is important because we are moving a:after elements to z=-1 */
+  z-index: 0;
 }
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
@@ -106,7 +108,7 @@ watch(
   pointer-events: none;
   height: 0;
 }
-.ProseMirror:focus {
+.tiptap:focus {
   outline: none;
 }
 </style>
