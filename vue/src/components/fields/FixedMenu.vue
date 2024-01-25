@@ -51,7 +51,6 @@ const toggleLinkSelection = type => {
       if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
         attributes['target'] = '_blank'
       }
-      console.log('set attributes: ', attributes)
       props.editor
         .chain()
         .focus()
