@@ -29,7 +29,7 @@ const props = defineProps({
         'secondary-button-square secondary-button',
       ]"
     >
-      <italic>K</italic>
+      <i>K</i>
     </button>
     <button
       @click="editor.chain().focus().toggleUnderline().run()"
@@ -47,7 +47,7 @@ const props = defineProps({
         'secondary-button-square secondary-button',
       ]"
     >
-      <strike>D</strike>
+      <s>D</s>
     </button>
   </bubble-menu>
 </template>
