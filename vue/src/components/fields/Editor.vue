@@ -25,6 +25,9 @@ const ModelLink = Link.extend({
       href: {
         default: null,
       },
+      target: {
+        default: null,
+      },
     }
   },
 })
@@ -37,9 +40,6 @@ const editor = useEditor({
     Underline,
     ModelLink.configure({
       openOnClick: false,
-      HTMLAttributes: {
-        target: null,
-      },
     }),
     Placeholder.configure({
       placeholder: 'Inhalte einpflegen',
