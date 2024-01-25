@@ -1,8 +1,8 @@
 <script setup>
 import { watch } from 'vue'
-import { Mark, mergeAttributes } from '@tiptap/core'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import Underline from '@tiptap/extension-underline'
+import Link from '@tiptap/extension-link'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import FloatingMenu from '@/components/fields/FloatingMenu.vue'
@@ -16,38 +16,15 @@ const props = defineProps({
   },
 })
 
-const ModelLink = Mark.create({
-  name: 'ModelLink',
-  defaultOptions: {
-    HTMLAttributes: {},
-  },
-
+const ModelLink = Link.extend({
   addAttributes() {
     return {
-      modelId: {
+      'data-type': {
         default: null,
       },
-    }
-  },
-  renderHTML({ HTMLAttributes }) {
-    return [
-      'a',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
-    ]
-  },
-  addCommands() {
-    return {
-      setModelLink:
-        model =>
-        ({ commands }) => {
-          return commands.setMark(this.name, { 'data-id': 1 })
-        },
-      unsetModelLink:
-        () =>
-        ({ commands }) => {
-          return commands.unsetMark(this.name)
-        },
+      href: {
+        default: null,
+      },
     }
   },
 })
@@ -58,7 +35,12 @@ const editor = useEditor({
       headings: { levels: [1, 2, 3, 4] },
     }),
     Underline,
-    ModelLink,
+    ModelLink.configure({
+      openOnClick: false,
+      HTMLAttributes: {
+        target: null,
+      },
+    }),
     Placeholder.configure({
       placeholder: 'Inhalte einpflegen',
     }),
@@ -86,7 +68,7 @@ watch(
   <div class="flex flex-col h-full gap-4">
     <fixed-menu :editor="editor" v-if="editor" />
 
-    <editor-content :editor="editor" class="grow" />
+    <editor-content :editor="editor" class="prose grow" />
 
     <floating-menu :editor="editor" />
   </div>

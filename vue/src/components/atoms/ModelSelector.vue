@@ -41,14 +41,25 @@ const selectModel = model => {
 
 const modelLabel = computed(() => {
   switch (props.modelType) {
-    case 'article':
+    case 'articles':
       return 'Beiträge'
       break
-    case 'attachment':
-      return 'Anhänge'
+    case 'collections':
+      return 'Sammlungen'
     default:
       return '[Modeltype]'
       break
+  }
+})
+
+const modelResults = computed(() => {
+  if (searchResults.value[props.modelType]) {
+    return searchResults.value[props.modelType]
+  } else {
+    console.error(
+      'Unable to extract search results for modelType',
+      props.modelType,
+    )
   }
 })
 </script>
@@ -79,12 +90,14 @@ const modelLabel = computed(() => {
       </p>
       <div v-else class="flex flex-col gap-2">
         <p class="text-sm italic text-gray-300">{{ modelLabel }}</p>
-        <item-line
-          v-for="item in searchResults"
+        <p
+          v-for="item in modelResults"
           :model="item"
           class="cursor-pointer"
           @click.prevent="selectModel(item)"
-        />
+        >
+          {{ item.title }}
+        </p>
       </div>
     </div>
   </div>

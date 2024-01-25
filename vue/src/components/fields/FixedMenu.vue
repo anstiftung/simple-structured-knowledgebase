@@ -33,22 +33,35 @@ const mode = computed(() => {
   return props.editor.isActive('heading', { level: 1 })
 })
 
-const showModalSelector = type => {
-  props.editor.chain().focus().togglePage().run()
-  return
-  const props = {
+const toggleLinkSelection = type => {
+  if (props.editor.isActive('link')) {
+    props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
+    return
+  }
+  const componentProps = {
     modelType: type,
   }
-
-  modal.open(ModelSelector, props, selection => {
+  modal.open(ModelSelector, componentProps, selection => {
     if (selection) {
-      markFocusWithModel(selection)
+      props.editor
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink({
+          href: selection.url,
+          'data-type': selection.type,
+        })
+        .run()
     }
   })
 }
 
-const markFocusWithModel = model => {
-  console.log('MArk: ', model)
+const editorLinkActive = linkType => {
+  if (props.editor.isActive('link')) {
+    const type = props.editor.getAttributes('link')['data-type']
+    return type == linkType
+  }
+  return false
 }
 
 onMounted(() => {
@@ -96,24 +109,32 @@ onMounted(() => {
       Liste numeriert
     </button>
 
-    <button @click="showModalSelector('article')" class="secondary-button">
+    <button
+      :class="[
+        [editorLinkActive('Article') ? 'bg-gray-200' : ''],
+        'secondary-button',
+      ]"
+      @click="toggleLinkSelection('articles')"
+    >
       Beitrag
     </button>
     <button
-      @click="
-        editor
-          .chain()
-          .focus()
-          .extendMarkRange('link')
-          .setLink({
-            href: `recipe:${selectedLink.value}`,
-            'data-id': 23,
-            'data-type': 'article',
-          })
-          .run()
-      "
+      :class="[
+        [editorLinkActive('Collection') ? 'bg-gray-200' : ''],
+        'secondary-button',
+      ]"
+      @click="toggleLinkSelection('collections')"
     >
-      DEBUG
+      Sammlung
+    </button>
+    <button
+      @click="toggleLinkSelection('attachments')"
+      :class="[
+        [editorLinkActive('Attachment') ? 'bg-gray-200' : ''],
+        'secondary-button',
+      ]"
+    >
+      Anhang
     </button>
   </div>
 </template>
