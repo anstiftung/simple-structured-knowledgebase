@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter, useRoute } from 'vue-router'
 
 import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
@@ -16,18 +17,36 @@ import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import CollectionLine from '@/components/atoms/CollectionLine.vue'
 
+const router = useRouter()
+const route = useRoute()
+
+const recentCollections = ref([])
 const recentArticles = ref([])
-const frontpageCollections = ref([])
 const recentAttachedUrls = ref([])
 const recentAttachedFiles = ref([])
 
 const invalidAttachedFiles = ref({ data: [], meta: null })
 const invalidAttachedUrls = ref({ data: [], meta: null })
 
+const frontpageCollections = ref([])
+
+const initialQuery = ref('')
+
 const modal = useModalStore()
 // If you need UserPermissions, you'll need the next three lines
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
+
+const searchQueryUpdated = searchQuery => {
+  router.replace({ query: { q: searchQuery } })
+}
+
+onBeforeMount(() => {
+  // if present load url query
+  if (route.query.q) {
+    initialQuery.value = route.query.q
+  }
+})
 
 const showCreateAttachmentModal = () => {
   modal.open(AddAttachments, {}, savedAttachments => {
@@ -82,6 +101,13 @@ const loadFromServer = () => {
     },
   )
 
+  CollectionService.getCollections(1, {
+    featured: true,
+    creatorId: userStore.id,
+  }).then(({ data, meta }) => {
+    recentCollections.value = data
+  })
+
   CollectionService.getCollections(1, { featured: true }).then(
     ({ data, meta }) => {
       frontpageCollections.value = data
@@ -93,6 +119,7 @@ const activities = computed(() => {
   let activities = recentArticles.value
     .concat(recentAttachedFiles.value)
     .concat(recentAttachedUrls.value)
+    .concat(recentCollections.value)
   activities = activities.sort((a, b) => a.created_at < b.created_at)
   return activities
 })
@@ -130,6 +157,8 @@ const invalidAttachmentsTotal = computed(() => {
       <search-form
         placeholder="Suche in meinen Beiträgen, Anhängen und Sammlungen"
         class="grow"
+        @queryChanged="searchQueryUpdated"
+        :initialQuery="initialQuery"
       />
       <div v-if="userStore.id" class="flex gap-4">
         <button
@@ -217,7 +246,7 @@ const invalidAttachmentsTotal = computed(() => {
           </button>
         </div>
         <div class="min-h-[200px]">
-          <div class="pl-4 pt-3" v-if="frontpageCollections">
+          <div class="pt-3 pl-4" v-if="frontpageCollections">
             <collection-line
               :collection="collection"
               class="mb-2"
