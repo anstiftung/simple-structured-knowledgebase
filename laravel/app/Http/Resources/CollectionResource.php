@@ -19,6 +19,7 @@ class CollectionResource extends BaseResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
+            'url' => '/sammlung/' . $this->slug,
             'description' => $this->description,
             'order' => $this->order,
             'featured' => $this->featured,
