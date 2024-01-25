@@ -97,23 +97,21 @@
     a {
         @apply relative inline-block font-bold no-underline;
         &:after {
-            @apply content-[''] block h-[3px] w-full rounded bottom-[3px] absolute left-0 bg-yellow;
+            @apply z-[-1] content-[''] block h-[3px] w-full rounded bottom-[3px] absolute right-0  bg-yellow transition-all;
+        }
+        &:hover:after {
+            @apply w-[80%];
         }
     }
 
-    a[data-type="Article"] {
-        &:after {
-            @apply bg-orange;
-        }
+    a[data-type="Article"]:after {
+        @apply bg-orange;
     }
-    a[data-type="Collection"] {
-        &:after {
-            @apply bg-blue-400;
-        }
+    a[data-type="Collection"]:after {
+        @apply bg-blue-400;
     }
-    a[data-type="AttachedUrl"], a[data-type="AttachedFile"] {
-        &:after {
-            @apply bg-green;
-        }
+    a[data-type="AttachedUrl"]:after,
+    a[data-type="AttachedFile"]:after {
+        @apply bg-green;
     }
 }
