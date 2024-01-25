@@ -26,7 +26,7 @@ loadFromServer()
 <template>
   <div>
     <section class="text-white bg-orange/50" v-if="article">
-      <div class="bg-orange/50 header-clip">
+      <div class="bg-orange header-clip">
         <div class="py-12 width-wrapper">
           <h3 class="mb-2 font-normal text-center opacity-70">Beitrag</h3>
           <h2 class="text-4xl text-center">{{ article.title }}</h2>
@@ -39,7 +39,7 @@ loadFromServer()
     </section>
     <section v-if="article" class="my-8 width-wrapper">
       <h2>Inhalt</h2>
-      <div v-html="article.content"></div>
+      <div class="prose" v-html="article.content"></div>
       <h2>Anhänge</h2>
       <div class="grid grid-cols-3 gap-4">
         <attachment-card

@@ -84,3 +84,36 @@
         @apply bg-gray-200/20;
     }
 }
+
+
+.prose {
+    ul, ol {
+        @apply pl-0;
+    }
+    ul li p,
+    ol li p {
+        @apply inline;
+    }
+    a {
+        @apply relative inline-block font-bold no-underline;
+        &:after {
+            @apply content-[''] block h-[3px] w-full rounded bottom-[3px] absolute left-0 bg-yellow;
+        }
+    }
+
+    a[data-type="Article"] {
+        &:after {
+            @apply bg-orange;
+        }
+    }
+    a[data-type="Collection"] {
+        &:after {
+            @apply bg-blue-400;
+        }
+    }
+    a[data-type="AttachedUrl"], a[data-type="AttachedFile"] {
+        &:after {
+            @apply bg-green;
+        }
+    }
+}

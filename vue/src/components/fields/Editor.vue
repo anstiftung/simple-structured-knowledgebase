@@ -103,10 +103,7 @@ watch(
   pointer-events: none;
   height: 0;
 }
-
-/* make p inside lists inline to fix marker position */
-.tiptap ul li p,
-.tiptap ol li p {
-  display: inline;
+.ProseMirror:focus {
+  outline: none;
 }
 </style>
