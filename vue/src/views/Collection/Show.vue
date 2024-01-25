@@ -25,22 +25,12 @@ loadFromServer()
 
 <template>
   <div>
-    <section class="text-white bg-blue-400" v-if="collection">
-      <div class="py-12 width-small-wrapper">
-        <h4 class="text-sm text-white uppercase">Sammlung</h4>
-        <h2 class="mb-4 text-3xl text-white">{{ collection.title }}</h2>
-        <p>{{ collection.description }}</p>
-        <p class="mt-4 text-sm">
-          Erstellt am {{ $filters.formatedDateTime(collection.created_at) }}
-        </p>
-        <p class="mt-4 text-sm">
-          Zuletzt bearbeitet
-          {{ $filters.formatedDateTime(collection.updated_at) }}
-        </p>
-        <router-link
-          :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
-          >[DEBUG] Bearbeiten</router-link
-        >
+    <section class="text-white bg-blue-400/50" v-if="collection">
+      <div class="bg-blue-400 header-clip">
+        <div class="py-12 width-wrapper">
+          <h3 class="mb-2 font-normal text-center opacity-70">Sammlung</h3>
+          <h2 class="text-4xl text-center">{{ collection.title }}</h2>
+        </div>
       </div>
     </section>
     <section v-if="collection?.articles" class="my-8 width-wrapper">
@@ -54,3 +44,5 @@ loadFromServer()
     </section>
   </div>
 </template>
+
+<style scoped></style>
