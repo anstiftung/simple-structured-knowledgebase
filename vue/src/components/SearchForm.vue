@@ -1,13 +1,16 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useDebounceFn, onClickOutside } from '@vueuse/core'
-import SearchService from '@/services/SearchService'
 
+import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const props = defineProps({
   placeholder: String,
+  initialQuery: String,
 })
+
+const emit = defineEmits(['queryChanged'])
 
 const searchQuery = ref('')
 const searchResults = ref([])
@@ -30,6 +33,10 @@ const showResultsFromFocus = () => {
 }
 
 onMounted(() => {
+  // set inital query
+  if (props.initialQuery) {
+    searchQuery.value = props.initialQuery
+  }
   document.addEventListener('keyup', escapeKeyHandler)
 })
 onBeforeUnmount(() => {

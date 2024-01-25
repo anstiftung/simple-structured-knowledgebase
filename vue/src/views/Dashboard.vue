@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter, useRoute } from 'vue-router'
 
 import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
@@ -16,6 +17,9 @@ import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import CollectionLine from '@/components/atoms/CollectionLine.vue'
 
+const router = useRouter()
+const route = useRoute()
+
 const recentCollections = ref([])
 const recentArticles = ref([])
 const recentAttachedUrls = ref([])
@@ -26,10 +30,23 @@ const invalidAttachedUrls = ref({ data: [], meta: null })
 
 const frontpageCollections = ref([])
 
+const initialQuery = ref('')
+
 const modal = useModalStore()
 // If you need UserPermissions, you'll need the next three lines
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
+
+const searchQueryUpdated = searchQuery => {
+  router.replace({ query: { q: searchQuery } })
+}
+
+onBeforeMount(() => {
+  // if present load url query
+  if (route.query.q) {
+    initialQuery.value = route.query.q
+  }
+})
 
 const showCreateAttachmentModal = () => {
   modal.open(AddAttachments, {}, savedAttachments => {
@@ -140,6 +157,8 @@ const invalidAttachmentsTotal = computed(() => {
       <search-form
         placeholder="Suche in meinen Beiträgen, Anhängen und Sammlungen"
         class="grow"
+        @queryChanged="searchQueryUpdated"
+        :initialQuery="initialQuery"
       />
       <div v-if="userStore.id" class="flex gap-4">
         <button
