@@ -43,21 +43,27 @@ const toggleLinkSelection = type => {
   }
   modal.open(ModelSelector, componentProps, selection => {
     if (selection) {
+      let attributes = {
+        href: selection.url,
+        'data-type': selection.type,
+      }
+      // lets open links to attachments in a new tab
+      if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
+        attributes['target'] = '_blank'
+      }
+      console.log('set attributes: ', attributes)
       props.editor
         .chain()
         .focus()
         .extendMarkRange('link')
-        .setLink({
-          href: selection.url,
-          'data-type': selection.type,
-        })
+        .setLink(attributes)
         .run()
     }
   })
 }
 
 const editorLinkActive = linkType => {
-  if (props.editor.isActive('link')) {
+  if (props.editor.isActive('link') && props.editor.isFocused) {
     const type = props.editor.getAttributes('link')['data-type']
     return type == linkType
   }
