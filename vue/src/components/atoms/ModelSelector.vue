@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
-import SearchService from '@/services/SearchService'
 
+import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const props = defineProps({
@@ -23,7 +23,7 @@ const onQueryInput = useDebounceFn(() => {
   searchResults.value = []
   searchMeta.value = null
   querySearch()
-}, 300)
+}, 250)
 
 const querySearch = () => {
   if (!searchQuery.value || searchQuery.value.length <= 3) {
@@ -46,8 +46,10 @@ const modelLabel = computed(() => {
       break
     case 'collections':
       return 'Sammlungen'
+    case 'attachments':
+      return 'Anhänge'
     default:
-      return '[Modeltype]'
+      return '[Unkown]'
       break
   }
 })
@@ -55,6 +57,12 @@ const modelLabel = computed(() => {
 const modelResults = computed(() => {
   if (searchResults.value[props.modelType]) {
     return searchResults.value[props.modelType]
+  } else if (props.modelType == 'attachments') {
+    let attachments = searchResults.value.attached_urls.concat(
+      searchResults.value.attached_files,
+    )
+    attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+    return attachments
   } else {
     console.error(
       'Unable to extract search results for modelType',
@@ -67,6 +75,11 @@ const modelResults = computed(() => {
 <template>
   <div class="relative overflow-visible bg-white rounded-md">
     <form class="flex gap-2 px-4 py-2" v-on:submit.prevent="querySearch()">
+      <img
+        role="button"
+        src="/icons/search.svg"
+        @click.prevent="querySearch()"
+      />
       <input
         class="w-full outline-none placeholder:text-gray-200"
         type="text"
@@ -74,11 +87,6 @@ const modelResults = computed(() => {
         v-model="searchQuery"
         @input="onQueryInput"
         ref="searchInput"
-      />
-      <img
-        role="button"
-        src="/icons/search.svg"
-        @click.prevent="querySearch()"
       />
     </form>
     <div class="min-h-[100px] max-h-[400px] overflow-y-scroll bg-white p-4">
@@ -90,14 +98,13 @@ const modelResults = computed(() => {
       </p>
       <div v-else class="flex flex-col gap-2">
         <p class="text-sm italic text-gray-300">{{ modelLabel }}</p>
-        <p
+        <item-line
           v-for="item in modelResults"
           :model="item"
-          class="cursor-pointer"
+          :showType="false"
+          :navigate="false"
           @click.prevent="selectModel(item)"
-        >
-          {{ item.title }}
-        </p>
+        />
       </div>
     </div>
   </div>

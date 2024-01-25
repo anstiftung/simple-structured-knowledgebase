@@ -80,7 +80,7 @@ const persist = async () => {
     formData.collection = data
     persistedCollection = JSON.stringify(data)
     toast.success('Sammlung erfolgreich gespeichert')
-    router.push({ name: 'collection', params: { slug: data.slug } })
+    router.push(collection.url)
   }
 
   if (formData.collection.id) {

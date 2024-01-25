@@ -81,7 +81,7 @@ const persist = async () => {
     formData.article = data
     persistedArticle = JSON.stringify(data)
     toast.success('Beitrag erfolgreich gespeichert')
-    router.push({ name: 'article', params: { slug: data.slug } })
+    router.push(data.url)
   }
 
   if (formData.article.id) {
@@ -159,6 +159,7 @@ const discard = () => {
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100"
       >
+        {{ formData.article.content }}
         <div class="text-sm">@todo: Edit creator and state of the article!</div>
         <div class="flex justify-end gap-4">
           <button

@@ -5,14 +5,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <router-link
-    :to="{
-      name: 'article',
-      params: { slug: article.slug },
-    }"
-    tag="div"
-    class="p-4 text-white bg-orange"
-  >
+  <router-link :to="article.url" tag="div" class="p-4 text-white bg-orange">
     <h4 class="font-bold">{{ article.title }}</h4>
     <p class="my-4">{{ article.description }}</p>
     <p class="text-sm">
