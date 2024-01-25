@@ -50,7 +50,7 @@ const editor = useEditor({
     Document,
     Paragraph,
     Text,
-    Heading.configure({ levels: [1, 2, 3, 4] }),
+    Heading.configure({ levels: [2, 3, 4] }),
     Bold,
     Underline,
     BulletList,

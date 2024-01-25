@@ -14,7 +14,6 @@ const selectedStyle = ref('p')
 
 const options = ref({
   p: { label: 'Absatz' },
-  h1: { label: 'Ü1', level: 1 },
   h2: { label: 'Ü2', level: 2 },
   h3: { label: 'Ü3', level: 3 },
   h4: { label: 'Ü4', level: 4 },
