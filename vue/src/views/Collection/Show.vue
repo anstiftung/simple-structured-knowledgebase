@@ -25,32 +25,43 @@ loadFromServer()
 
 <template>
   <div>
-    <section class="text-white bg-blue-400" v-if="collection">
-      <div class="py-12 width-small-wrapper">
-        <h4 class="text-sm text-white uppercase">Sammlung</h4>
-        <h2 class="mb-4 text-3xl text-white">{{ collection.title }}</h2>
-        <p>{{ collection.description }}</p>
-        <p class="mt-4 text-sm">
-          Erstellt am {{ $filters.formatedDateTime(collection.created_at) }}
-        </p>
-        <p class="mt-4 text-sm">
-          Zuletzt bearbeitet
-          {{ $filters.formatedDateTime(collection.updated_at) }}
-        </p>
-        <router-link
-          :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
-          >[DEBUG] Bearbeiten</router-link
-        >
+    <section class="text-white bg-blue-400/50" v-if="collection">
+      <div class="bg-blue-400 header-clip">
+        <div class="py-12 width-small-wrapper">
+          <h3 class="mb-2 font-normal text-center opacity-70">Sammlung</h3>
+          <h2 class="text-4xl text-center">{{ collection.title }}</h2>
+        </div>
       </div>
     </section>
     <section v-if="collection?.articles" class="my-8 width-wrapper">
-      <h2>Beiträge</h2>
-      <div class="grid grid-cols-3 gap-4">
+      <p class="my-12">{{ collection.description }}</p>
+      <div class="flex items-center gap-4 my-8">
+        <div class="border-b border-blue-600 border-dotted grow" />
+        <h4 class="text-xl text-blue-600">
+          {{
+            collection.articles.length ? collection.articles.length : 'Keine'
+          }}
+          {{ collection.articles.length == 1 ? 'Beitrag' : 'Beiträge' }}
+        </h4>
+        <div class="border-b border-blue-600 border-dotted grow" />
+      </div>
+      <div class="grid grid-cols-4 gap-4">
         <article-card
           v-for="article in collection.articles"
           :article="article"
         />
       </div>
+      <router-link
+        class="block mt-8"
+        :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
+        >[DEBUG] Bearbeiten</router-link
+      >
     </section>
   </div>
 </template>
+
+<style scoped>
+.header-clip {
+  clip-path: polygon(0px 0px, 0 95%, 100% 100%, 100% 0px);
+}
+</style>
