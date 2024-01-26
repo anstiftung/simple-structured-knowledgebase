@@ -213,7 +213,11 @@ const invalidAttachmentsTotal = computed(() => {
               class="font-semibold cursor-pointer text-green"
               @click="editAttachment(attachment)"
             >
-              {{ attachment.url ? attachment.url : attachment.filename }}
+              {{
+                attachment.type == 'AttachedUrl'
+                  ? attachment.url
+                  : attachment.filename
+              }}
             </span>
           </p>
           <p
