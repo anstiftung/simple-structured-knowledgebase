@@ -6,6 +6,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
 
+import draggable from 'vuedraggable'
+
 import ArticleService from '@/services/ArticleService'
 import CollectionService from '@/services/CollectionService'
 import AttachmentService from '@/services/AttachmentService'
@@ -68,6 +70,17 @@ const editAttachment = attachment => {
   modal.open(EditAttachments, props, () => {
     loadFromServer()
   })
+}
+
+const sortCallback = event => {
+  // make order-property consistent with sorting
+  let i = 0
+  frontpageCollections.value.map(element => {
+    element.order = i
+    i++
+  })
+
+  // CollectionService.reorderFeaturedCollection()
 }
 
 const loadFromServer = () => {
@@ -251,12 +264,23 @@ const invalidAttachmentsTotal = computed(() => {
         </div>
         <div class="min-h-[200px]">
           <div class="pt-3 pl-4" v-if="frontpageCollections">
-            <collection-line
-              :collection="collection"
-              class="mb-2"
-              :dragable="hasPermission('feature collections') ? true : false"
-              v-for="collection in frontpageCollections"
-            />
+            <draggable
+              v-model="frontpageCollections"
+              group="people"
+              @change="sortCallback"
+              item-key="id"
+              :disabled="hasPermission('feature collections') ? false : true"
+            >
+              <template #item="{ element }">
+                <collection-line
+                  :collection="element"
+                  class="mb-2"
+                  :dragable="
+                    hasPermission('feature collections') ? true : false
+                  "
+                />
+              </template>
+            </draggable>
           </div>
         </div>
       </div>
