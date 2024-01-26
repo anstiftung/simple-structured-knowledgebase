@@ -81,9 +81,7 @@ const sortCallback = event => {
   })
 
   CollectionService.reorderFeaturedCollections(featuredCollections.value).then(
-    () => {
-      loadFromServer()
-    },
+    data => (featuredCollections.value = data),
   )
 }
 
@@ -273,15 +271,13 @@ const invalidAttachmentsTotal = computed(() => {
               group="people"
               @change="sortCallback"
               item-key="id"
-              :disabled="hasPermission('feature collections') ? false : true"
+              :disabled="!hasPermission('feature collections')"
             >
               <template #item="{ element }">
                 <collection-line
                   :collection="element"
                   class="mb-2"
-                  :dragable="
-                    hasPermission('feature collections') ? true : false
-                  "
+                  :dragable="hasPermission('feature collections')"
                 />
               </template>
             </draggable>
