@@ -66,7 +66,6 @@ const $keycloak = inject('keycloak')
                 Einstellungen
               </button>
               <router-link
-                tag="button"
                 :to="{ name: 'logout' }"
                 class="flex items-center gap-2 px-2 py-2"
               >
