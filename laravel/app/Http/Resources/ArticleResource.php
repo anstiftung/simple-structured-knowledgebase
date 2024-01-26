@@ -23,6 +23,7 @@ class ArticleResource extends BaseResource
             'url' => '/beitrag/' . $this->slug,
             'description' => $this->description,
             'content' => $this->content,
+            'num_attachments' => $this->attached_urls->count() + $this->attached_files->count(),
             'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
             'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
         ];

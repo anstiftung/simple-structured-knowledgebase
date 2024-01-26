@@ -8,12 +8,11 @@ use App\Models\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CollectionSeeder extends Seeder
 {
     private $numCollections = 10;
-    private $numAttachedArticles = 5;
+    private $numAttachedArticlesMax = 15;
 
     /**
      * Run the database seeds.
@@ -42,8 +41,15 @@ class CollectionSeeder extends Seeder
 
         if($collections) {
             foreach($collections as $collection) {
-                $articles = Article::get()->random($this->numAttachedArticles);
-                $collection->articles()->sync($articles);
+                $numAttachedArticles = rand(1, $this->numAttachedArticlesMax);
+                $articles = Article::get()->random($numAttachedArticles);
+
+                $i = 0;
+                $syncData = $articles->mapWithKeys(function ($item) use (&$i) {
+                    $i++;
+                    return [$item->id => ['order' => $i]];
+                });
+                $collection->articles()->sync($syncData);
             }
         }
 

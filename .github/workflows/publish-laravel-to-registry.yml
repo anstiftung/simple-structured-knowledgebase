@@ -3,8 +3,8 @@ name: CI push Laravel App to registry.offene-werkstaetten.org
 on:
   push:
     branches:
-      - "main"
-      - "dev"
+      - 'main'
+      - 'dev'
 
 jobs:
   laravel-test:
@@ -18,14 +18,14 @@ jobs:
       DB_USERNAME: root
       DB_PASSWORD: root
       BROADCAST_DRIVER: log
-      KEYCLOAK_REALM_PUBLIC_KEY: "MIIBI"
+      KEYCLOAK_REALM_PUBLIC_KEY: 'MIIBI'
       KEYCLOAK_ALLOWED_RESOURCES: account
       KEYCLOAK_USER_PROVIDER_CREDENTIAL: email
       KEYCLOAK_TOKEN_PRINCIPAL_ATTRIBUTE: email
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.1", "8.2"]
+        php-versions: ['8.2', '8.3']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,7 +44,9 @@ jobs:
         run: sudo systemctl start mysql.service
 
       - name: Create default Database
-        run: mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }}
+        run:
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{
+          env.DB_USERNAME }} -p${{ env.DB_PASSWORD }}
 
       - name: Get composer cache directory
         id: composer-cache
