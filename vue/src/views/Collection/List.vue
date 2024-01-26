@@ -21,14 +21,9 @@ loadFromServer()
     <div class="py-12 width-wrapper">
       <h2 class="mb-4 text-2xl">Alle Sammlungen</h2>
       <div class="grid grid-cols-3 gap-4">
-        <router-link
-          :to="{
-            name: 'collection',
-            params: { slug: collection.slug },
-          }"
-          v-for="collection in collections"
-          >{{ collection.title }}</router-link
-        >
+        <router-link :to="collection.url" v-for="collection in collections">
+          {{ collection.title }}
+        </router-link>
       </div>
       <template
         v-if="

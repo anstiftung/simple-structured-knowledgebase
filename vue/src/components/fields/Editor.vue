@@ -1,9 +1,22 @@
 <script setup>
 import { watch } from 'vue'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+
+import History from '@tiptap/extension-history'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Heading from '@tiptap/extension-heading'
+import Bold from '@tiptap/extension-bold'
 import Underline from '@tiptap/extension-underline'
-import StarterKit from '@tiptap/starter-kit'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
+import BulletList from '@tiptap/extension-bullet-list'
+import Italic from '@tiptap/extension-italic'
+import Strike from '@tiptap/extension-strike'
+import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
+import { useEditor, EditorContent } from '@tiptap/vue-3'
+
 import FloatingMenu from '@/components/fields/FloatingMenu.vue'
 import FixedMenu from '@/components/fields/FixedMenu.vue'
 
@@ -15,14 +28,42 @@ const props = defineProps({
   },
 })
 
+const ModelLink = Link.extend({
+  addAttributes() {
+    return {
+      'data-type': {
+        default: null,
+      },
+      href: {
+        default: null,
+      },
+      target: {
+        default: null,
+      },
+    }
+  },
+})
+
 const editor = useEditor({
   extensions: [
-    StarterKit.configure({
-      headings: { levels: [1, 2, 3, 4] },
-    }),
+    History,
+    Document,
+    Paragraph,
+    Text,
+    Heading.configure({ levels: [2, 3, 4] }),
+    Bold,
     Underline,
+    BulletList,
+    OrderedList,
+    ListItem,
+    Italic,
+    Strike,
+    ModelLink.configure({
+      openOnClick: false,
+    }),
     Placeholder.configure({
-      placeholder: 'Inhalte einpflegen',
+      placeholder:
+        'Inhalte einpflegen (Hinweise, dass Markdown erlaubt ist? ###, * etc.)',
     }),
   ],
   content: props.modelValue,
@@ -48,7 +89,7 @@ watch(
   <div class="flex flex-col h-full gap-4">
     <fixed-menu :editor="editor" v-if="editor" />
 
-    <editor-content :editor="editor" class="grow" />
+    <editor-content :editor="editor" class="prose grow" />
 
     <floating-menu :editor="editor" />
   </div>
@@ -57,6 +98,8 @@ watch(
 <style>
 .tiptap {
   height: 100%;
+  /* this is important because we are moving a:after elements to z=-1 */
+  z-index: 0;
 }
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
@@ -65,10 +108,7 @@ watch(
   pointer-events: none;
   height: 0;
 }
-
-/* make p inside lists inline to fix marker position */
-.tiptap ul li p,
-.tiptap ol li p {
-  display: inline;
+.tiptap:focus {
+  outline: none;
 }
 </style>
