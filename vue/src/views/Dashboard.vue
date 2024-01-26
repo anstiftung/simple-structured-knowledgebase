@@ -30,7 +30,7 @@ const recentAttachedFiles = ref([])
 const invalidAttachedFiles = ref({ data: [], meta: null })
 const invalidAttachedUrls = ref({ data: [], meta: null })
 
-const frontpageCollections = ref([])
+const featuredCollections = ref([])
 
 const initialQuery = ref('')
 
@@ -75,12 +75,16 @@ const editAttachment = attachment => {
 const sortCallback = event => {
   // make order-property consistent with sorting
   let i = 0
-  frontpageCollections.value.map(element => {
+  featuredCollections.value.map(element => {
     element.order = i
     i++
   })
 
-  // CollectionService.reorderFeaturedCollection()
+  CollectionService.reorderFeaturedCollections(featuredCollections.value).then(
+    () => {
+      loadFromServer()
+    },
+  )
 }
 
 const loadFromServer = () => {
@@ -123,7 +127,7 @@ const loadFromServer = () => {
 
   CollectionService.getCollections(1, { featured: true }).then(
     ({ data, meta }) => {
-      frontpageCollections.value = data
+      featuredCollections.value = data
     },
   )
 }
@@ -263,9 +267,9 @@ const invalidAttachmentsTotal = computed(() => {
           </button>
         </div>
         <div class="min-h-[200px]">
-          <div class="pt-3 pl-4" v-if="frontpageCollections">
+          <div class="pt-3 pl-4" v-if="featuredCollections">
             <draggable
-              v-model="frontpageCollections"
+              v-model="featuredCollections"
               group="people"
               @change="sortCallback"
               item-key="id"

@@ -66,5 +66,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('/collection/{collection:slug}', [CollectionController::class, 'update']);
 
     // resort collections
-    Route::patch('/collection/{collection:slug}', [CollectionListController::class, 'reorder']);
+    Route::patch('/collections/featured/reorder', [CollectionListController::class, 'reorder']);
 });

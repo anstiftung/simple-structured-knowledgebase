@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CollectionResource;
 
 class CollectionListController extends Controller
 {
@@ -16,11 +19,21 @@ class CollectionListController extends Controller
             return parent::abortUnauthorized();
         }
 
-        $validated = $request->validate([
-            'collections.*.id' => 'required|exists:collections,id',
-            'collections.*.order' => 'required|integer',
-        ]);
+        $collections = collect($request->validate([
+            '*.id' => 'required|exists:collections,id',
+            '*.order' => 'required|integer',
+        ]));
 
-        dd($validated);
+        $updatedCollections = collect();
+
+        $collections->each(function ($collection, $key) use ($updatedCollections) {
+            $toUpdate = Collection::find($collection['id']);
+            $toUpdate->order = $collection['order'];
+            $toUpdate->save();
+
+            $updatedCollections->push($toUpdate);
+        });
+
+        return CollectionResource::collection($updatedCollections);
     }
 }
