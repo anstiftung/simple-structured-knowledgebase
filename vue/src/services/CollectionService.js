@@ -43,6 +43,16 @@ class CollectionService {
     }
     return makeApiRequest(config)
   }
+
+  reorderFeaturedCollections(collections) {
+    const config = {
+      method: 'patch',
+      url: `/collections/featured/reorder`,
+      data: collections,
+    }
+
+    return makeApiRequest(config)
+  }
 }
 
 export default new CollectionService()

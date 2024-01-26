@@ -10,6 +10,7 @@ use App\Http\Controllers\CollectionController;
 
 use App\Http\Controllers\AttachedUrlController;
 use App\Http\Controllers\AttachedFileController;
+use App\Http\Controllers\CollectionListController;
 
 Route::controller(LicenseController::class)->group(function () {
     Route::get('/licenses', 'index');
@@ -63,4 +64,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // create and update collections
     Route::post('/collection', [CollectionController::class, 'store']);
     Route::patch('/collection/{collection:slug}', [CollectionController::class, 'update']);
+
+    // resort collections
+    Route::patch('/collections/featured/reorder', [CollectionListController::class, 'reorder']);
 });
