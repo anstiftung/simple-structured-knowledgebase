@@ -1,6 +1,8 @@
 <script setup>
 import SearchForm from '@/components/SearchForm.vue'
 import ArticleCard from '@/components/ArticleCard.vue'
+import ExplainSection from '@/components/atoms/ExplainSection.vue'
+
 import { ref } from 'vue'
 
 import CollectionService from '@/services/CollectionService'
@@ -38,11 +40,15 @@ loadFromServer()
       </div>
     </section>
     <section class="bg-white">
-      <div class="py-12 divide-y-2 divide-blue-400 width-wrapper">
-        <div v-for="collection in collections" v-if="collections" class="py-12">
+      <div class="py-12 width-wrapper">
+        <div
+          v-for="collection in collections"
+          v-if="collections"
+          class="py-12 border-b-2 border-b-blue-400"
+        >
           <h3 class="mb-4 text-xl text-blue-600">{{ collection.title }}</h3>
           <div class="grid grid-cols-3 gap-12">
-            <div class="flex flex-col col-span-1 gap-4 mt-4">
+            <div class="flex flex-col col-span-1 gap-6 mt-4">
               <p class="text-blue-600 line-clamp-5">
                 {{ collection.description }}
               </p>
@@ -70,6 +76,9 @@ loadFromServer()
           </div>
         </div>
       </div>
+    </section>
+    <section class="width-wrapper">
+      <explain-section />
     </section>
     <router-link :to="{ name: 'articles' }"
       >[DEBUG] Alle Beiträge [/DEBUG]</router-link
