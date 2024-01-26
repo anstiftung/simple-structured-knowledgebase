@@ -22,7 +22,7 @@ class CollectionFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'description' => fake()->sentence(3),
+            'description' => fake()->sentence(50),
             'featured' => fake()->boolean(40),
             'order' => null,
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),

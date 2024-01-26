@@ -1,4 +1,26 @@
-<script setup></script>
+<script setup>
+import SearchForm from '@/components/SearchForm.vue'
+import ArticleCard from '@/components/ArticleCard.vue'
+import { ref } from 'vue'
+
+import CollectionService from '@/services/CollectionService'
+
+const collections = ref([])
+
+const loadFromServer = () => {
+  CollectionService.getCollections(1, { featured: true }).then(
+    ({ data, meta }) => {
+      collections.value = data
+    },
+  )
+}
+
+const limitedArticles = collection => {
+  return collection.articles.slice(0, Math.min(3, collection.articles.length))
+}
+
+loadFromServer()
+</script>
 
 <template>
   <div>
@@ -7,29 +29,53 @@
         <img src="/img/bg.jpg" />
         <div
           class="absolute w-full -translate-x-1/2 md:w-6/12 top-2/3 left-1/2"
-        ></div>
-      </div>
-    </section>
-    <section class="bg-white">
-      <!-- todo: generalize -->
-      <div class="py-12 width-wrapper">
-        <router-link :to="{ name: 'articles' }"
-          >[DEBUG] Alle Beiträge [/DEBUG]</router-link
         >
-        <router-link :to="{ name: 'collections' }"
-          >[DEBUG] Alle Sammlungen [/DEBUG]</router-link
-        >
-        <h2 class="mb-4 text-2xl">Neueste Elemente</h2>
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div class="rounded-md aspect-square bg-blue"></div>
-          <div class="rounded-md aspect-square bg-blue"></div>
-          <div class="rounded-md aspect-square bg-blue"></div>
-          <div class="rounded-md aspect-square bg-blue"></div>
-          <div class="rounded-md aspect-square bg-blue"></div>
-          <div class="rounded-md aspect-square bg-blue"></div>
-          <div class="rounded-md aspect-square bg-blue"></div>
+          <search-form
+            class="drop-shadow-lg"
+            placeholder="Suche…"
+          ></search-form>
         </div>
       </div>
     </section>
+    <section class="bg-white">
+      <div class="py-12 divide-y-2 divide-blue-400 width-wrapper">
+        <div v-for="collection in collections" v-if="collections" class="py-12">
+          <h3 class="mb-4 text-xl text-blue-600">{{ collection.title }}</h3>
+          <div class="grid grid-cols-3 gap-12">
+            <div class="flex flex-col col-span-1 gap-4 mt-4">
+              <p class="text-blue-600 line-clamp-5">
+                {{ collection.description }}
+              </p>
+              <p class="text-sm text-blue-600">
+                <span class="font-bold text-orange"
+                  >{{ collection.articles.length }}
+                  {{
+                    collection.articles.length == 1 ? 'Beitrag' : 'Beiträge'
+                  }}</span
+                >
+                <span> in dieser Sammlung</span>
+              </p>
+              <router-link
+                :to="{ name: 'collection', params: { slug: collection.slug } }"
+                class="self-start default-button"
+                >Sammlung öffnen</router-link
+              >
+            </div>
+            <div class="grid grid-cols-3 col-span-2 gap-12">
+              <article-card
+                v-for="article in limitedArticles(collection)"
+                :article="article"
+              ></article-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <router-link :to="{ name: 'articles' }"
+      >[DEBUG] Alle Beiträge [/DEBUG]</router-link
+    >
+    <router-link :to="{ name: 'collections' }"
+      >[DEBUG] Alle Sammlungen [/DEBUG]</router-link
+    >
   </div>
 </template>
