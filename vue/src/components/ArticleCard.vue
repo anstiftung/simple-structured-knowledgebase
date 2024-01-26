@@ -11,17 +11,16 @@ const props = defineProps({
       params: { slug: article.slug },
     }"
     tag="div"
-    class="p-4 text-white bg-orange"
+    class="p-5 text-white bg-orange rounded-b-md rounded-tl-md rounded-tr-[3rem] min-h-[280px] drop-shadow-md flex flex-col gap-2"
   >
-    <h4 class="font-bold">{{ article.title }}</h4>
-    <p class="my-4">{{ article.description }}</p>
-    <p class="text-sm">
-      Aktualisiert am: {{ $filters.formatedDateTime(article.updated_at) }} von
-      {{ article.updated_by.name }}
-    </p>
-    <p class="text-sm">
-      Erstellt am: {{ $filters.formatedDateTime(article.created_at) }} von
-      {{ article.created_by.name }}
+    <h4 class="text-xl font-medium">{{ article.title }}</h4>
+    <p class="text-sm grow text-white/70">{{ article.description }}</p>
+    <p class="flex justify-between text-sm text-white/70">
+      <span>{{ $filters.formatedDate(article.created_at) }}</span>
+      <span
+        >{{ article.num_attachments }}
+        {{ article.num_attachments == 1 ? 'Anhang' : 'Anhänge' }}</span
+      >
     </p>
   </router-link>
 </template>

@@ -14,6 +14,7 @@ export default {
           200: '#5879b1',
           DEFAULT: '#103f8f',
           400: '#007FFF',
+          600: '#0F3F8F',
         },
         orange: '#ff7f5f',
         red: 'red',
