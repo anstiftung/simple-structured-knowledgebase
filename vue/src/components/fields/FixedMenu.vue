@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useModalStore } from '@/stores/modal'
+import BaseIcon from '../icons/BaseIcon.vue'
 
 import ModelSelector from '@/components/atoms/ModelSelector.vue'
 
@@ -104,7 +105,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      Liste
+      <base-icon name="unordered-list"></base-icon>
     </button>
     <button
       @click="editor.chain().focus().toggleOrderedList().run()"
@@ -113,7 +114,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      Liste numeriert
+      <base-icon name="ordered-list"></base-icon>
     </button>
 
     <button
@@ -141,7 +142,16 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      Anhang
+      <base-icon name="attachment"></base-icon>
+    </button>
+    <button
+      @click="toggleLinkSelection('attachments')"
+      :class="[
+        [editorLinkActive('Attachment') ? 'bg-gray-200' : ''],
+        'secondary-button',
+      ]"
+    >
+      <base-icon name="image"></base-icon>
     </button>
   </div>
 </template>
