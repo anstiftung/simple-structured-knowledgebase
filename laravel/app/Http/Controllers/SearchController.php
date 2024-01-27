@@ -20,12 +20,17 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $searchQuery = $request->query('query', false);
+        $images_only = $request->query('images', false);
 
 
         $collections = Collection::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
         $articles = Article::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
         $attachedUrls = AttachedUrl::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
-        $attachedFiles = AttachedFile::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
+        $attachedFiles = AttachedFile::where('title', 'like', '%' . $searchQuery . '%')
+            ->when($images_only, function ($query) {
+                $query->whereIn('mime_type', ['image/png','image/jpg','image/jpeg']);
+            })
+            ->orderBy('created_at', 'DESC')->get();
 
         $numCollections = $collections->count();
         $numArticles = $articles->count();

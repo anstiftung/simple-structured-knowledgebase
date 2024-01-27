@@ -4,6 +4,7 @@ import { useModalStore } from '@/stores/modal'
 import BaseIcon from '../icons/BaseIcon.vue'
 
 import ModelSelector from '@/components/atoms/ModelSelector.vue'
+import ImageSelector from '@/components/atoms/ImageSelector.vue'
 
 const modal = useModalStore()
 
@@ -68,7 +69,7 @@ const toggleImageSelection = type => {
   const componentProps = {
     modelType: type,
   }
-  modal.open(ModelSelector, componentProps, selection => {
+  modal.open(ImageSelector, componentProps, selection => {
     if (selection) {
       let attributes = {
         src: selection.url,
