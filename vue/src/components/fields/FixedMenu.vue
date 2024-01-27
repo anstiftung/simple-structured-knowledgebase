@@ -61,6 +61,23 @@ const toggleLinkSelection = type => {
   })
 }
 
+const toggleImageSelection = type => {
+  if (props.editor.isActive('image')) {
+    console.log('youve selected a image')
+  }
+  const componentProps = {
+    modelType: type,
+  }
+  modal.open(ModelSelector, componentProps, selection => {
+    if (selection) {
+      let attributes = {
+        src: selection.url,
+      }
+      props.editor.commands.setImage(attributes)
+    }
+  })
+}
+
 const editorLinkActive = linkType => {
   if (props.editor.isActive('link') && props.editor.isFocused) {
     let type = props.editor.getAttributes('link')['data-type']
@@ -145,7 +162,7 @@ onMounted(() => {
       <base-icon name="attachment"></base-icon>
     </button>
     <button
-      @click="toggleLinkSelection('attachments')"
+      @click="toggleImageSelection('attachments')"
       :class="[
         [editorLinkActive('Attachment') ? 'bg-gray-200' : ''],
         'secondary-button',
