@@ -39,21 +39,6 @@ const selectModel = model => {
   emit('done', model)
 }
 
-const modelLabel = computed(() => {
-  switch (props.modelType) {
-    case 'articles':
-      return 'Beiträge'
-      break
-    case 'collections':
-      return 'Sammlungen'
-    case 'attachments':
-      return 'Anhänge'
-    default:
-      return '[Unkown]'
-      break
-  }
-})
-
 const modelResults = computed(() => {
   if (searchResults.value[props.modelType]) {
     return searchResults.value[props.modelType]
@@ -97,7 +82,7 @@ const modelResults = computed(() => {
         Keine Ergebnisse
       </p>
       <div v-else class="flex flex-col gap-2">
-        <p class="text-sm italic text-gray-300">{{ modelLabel }}</p>
+        <p class="text-sm italic text-gray-300">Bildauswahl zum einfügen</p>
         <item-line
           v-for="item in modelResults"
           :model="item"
