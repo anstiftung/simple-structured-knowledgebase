@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 
+import AttachmentService from '@/services/AttachmentService'
 import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 
@@ -70,11 +71,10 @@ const modelResults = computed(() => {
   if (searchResults.value[props.modelType]) {
     return searchResults.value[props.modelType]
   } else if (props.modelType == 'attachments') {
-    let attachments = searchResults.value.attached_urls.concat(
+    return AttachmentService.combineAttachments(
+      searchResults.value.attached_urls,
       searchResults.value.attached_files,
     )
-    attachments = attachments.sort((a, b) => a.created_at < b.created_at)
-    return attachments
   } else {
     console.error(
       'Unable to extract search results for modelType',
