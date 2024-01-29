@@ -34,7 +34,6 @@ export default [
     name: 'dashboard',
     meta: {
       title: 'Dashboard',
-      navTitle: 'Dashboard',
       protected: true,
     },
   },
