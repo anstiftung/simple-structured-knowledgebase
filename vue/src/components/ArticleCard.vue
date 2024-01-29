@@ -5,14 +5,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <router-link
-    :to="{
-      name: 'article',
-      params: { slug: article.slug },
-    }"
-    custom
-    v-slot="{ href, navigate }"
-  >
+  <router-link :to="article.url" custom v-slot="{ href, navigate }">
     <div
       @click="navigate"
       class="cursor-pointer p-5 text-white bg-orange rounded-b-md rounded-tl-md rounded-tr-[3rem] min-h-[280px] drop-shadow-md flex flex-col gap-2"

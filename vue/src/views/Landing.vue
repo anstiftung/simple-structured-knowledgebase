@@ -62,7 +62,7 @@ loadFromServer()
                 <span> in dieser Sammlung</span>
               </p>
               <router-link
-                :to="{ name: 'collection', params: { slug: collection.slug } }"
+                :to="collection.url"
                 class="self-start default-button"
                 >Sammlung öffnen</router-link
               >
@@ -77,9 +77,7 @@ loadFromServer()
               class="absolute -right-[50px] top-1/2"
               v-if="collection.articles.length > 3"
             >
-              <router-link
-                :to="{ name: 'collection', params: { slug: collection.slug } }"
-              >
+              <router-link :to="collection.url">
                 <img class="max-w-8" src="/icons/recipesStacked.svg" />
               </router-link>
             </div>
