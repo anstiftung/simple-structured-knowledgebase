@@ -73,12 +73,24 @@ class CollectionController extends Controller
         $request->validate([
              'title' => 'required|max:255',
              'description' => 'required|max:1000',
+             'articles.*.id' => 'exists:articles,id',
+             'articles.*.order' => 'integer'
          ]);
 
         $collection->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
+
+        if($request->articles) {
+            $articles = [];
+            foreach($request->articles as $article) {
+                $articles[$article['id']] = ['order' => $article['order']];
+            }
+            $collection->articles()->sync($articles);
+        }
+
+        $collection->load(['articles']);
 
         return new CollectionResource($collection);
     }
