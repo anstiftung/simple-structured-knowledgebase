@@ -53,19 +53,23 @@ const toggleLinkSelection = type => {
         attributes['target'] = '_blank'
       }
 
-      if (selection.type == 'Image') {
-        let attributes = {
-          src: selection.url,
-        }
-        props.editor.commands.setImage(attributes)
-      } else {
-        props.editor
-          .chain()
-          .focus()
-          .extendMarkRange('link')
-          .setLink(attributes)
-          .run()
+      props.editor
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink(attributes)
+        .run()
+    }
+  })
+}
+
+const insertAttachmentAsImage = () => {
+  modal.open(ModelSelector, { modelType: 'images' }, selection => {
+    if (selection) {
+      let attributes = {
+        src: selection.url,
       }
+      props.editor.commands.setImage(attributes)
     }
   })
 }
@@ -154,9 +158,9 @@ onMounted(() => {
       <base-icon name="attachment"></base-icon>
     </button>
     <button
-      @click="toggleLinkSelection('images')"
+      @click="insertAttachmentAsImage()"
       :class="[
-        [editorLinkActive('Attachment') ? 'bg-gray-200' : ''],
+        [editor.isActive('image') ? 'bg-gray-200' : ''],
         'secondary-button',
       ]"
     >
