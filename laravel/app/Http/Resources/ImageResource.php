@@ -16,6 +16,7 @@ class ImageResource extends BaseResource
         return parent::toArray($request) + [
             'type' => 'Image',
             'id' => $this->id,
+            'title' => $this->title,
             'url' => '/api/attached-file/' . $this->id,
             'filename' => $this->filename,
             'preview_file' => $this->filename,
