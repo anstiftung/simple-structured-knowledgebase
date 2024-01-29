@@ -7,9 +7,9 @@ import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
-import ItemLine from '@/components/atoms/ItemLine.vue'
 import draggable from 'vuedraggable'
-import { useDebounceFn } from '@vueuse/core'
+import SearchForm from '@/components/SearchForm.vue'
+import ItemLine from '../../components/atoms/ItemLine.vue'
 
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -30,10 +30,6 @@ const formData = reactive({
     articles: [],
   },
 })
-const searchQuery = ref('')
-const searchResults = ref([])
-const searchMeta = ref(null)
-const searchInput = ref(null)
 
 const rules = {
   collection: {
@@ -58,38 +54,9 @@ const init = () => {
 }
 init()
 
-const onQueryInput = useDebounceFn(() => {
-  searchResults.value = []
-  searchMeta.value = null
-  querySearch()
-}, 250)
-
-const querySearch = () => {
-  if (!searchQuery.value || searchQuery.value.length <= 3) {
-    return
-  }
-  SearchService.search(searchQuery.value).then(({ data, meta }) => {
-    searchResults.value = data
-    searchMeta.value = meta
-  })
-}
-
-const modelLabel = 'Beitrag'
-
-const modelResults = computed(() => {
-  if (searchResults.value.articles) {
-    return searchResults.value.articles
-  }
-})
-
 const selectModel = model => {
   model.order = formData.collection.articles.length
   formData.collection.articles.push(model)
-  searchResults.value.articles = searchResults.value.articles.filter(function (
-    item,
-  ) {
-    return item.id !== model.id
-  })
 }
 
 const sortCallback = event => {
@@ -231,46 +198,13 @@ const discard = () => {
         </div>
         <div class="mb-4" v-if="formData.collection.articles">
           <h3 class="text-lg mb-2">Verknüpften Beitrag hinzufügen</h3>
-          <div class="relative overflow-visible bg-white rounded-md">
-            <form
-              class="flex gap-2 px-4 py-2"
-              v-on:submit.prevent="querySearch()"
-            >
-              <img
-                role="button"
-                src="/icons/search.svg"
-                @click.prevent="querySearch()"
-              />
-              <input
-                class="w-full outline-none placeholder:text-gray-200"
-                type="text"
-                placeholder="Suchen"
-                v-model="searchQuery"
-                @input="onQueryInput"
-                ref="searchInput"
-              />
-            </form>
-            <div
-              class="min-h-[100px] max-h-[400px] overflow-y-scroll bg-white p-4"
-            >
-              <p
-                v-if="!searchMeta || searchMeta.num_results == 0"
-                class="mt-8 text-center text-gray-300"
-              >
-                Keine Ergebnisse
-              </p>
-              <div v-else class="flex flex-col gap-2">
-                <p class="text-sm italic text-gray-300">{{ modelLabel }}</p>
-                <item-line
-                  v-for="item in modelResults"
-                  :model="item"
-                  :showType="false"
-                  :navigate="false"
-                  @click.prevent="selectModel(item)"
-                />
-              </div>
-            </div>
-          </div>
+          <search-form
+            placeholder="Suche in meinen Beiträgen, Anhängen und Sammlungen"
+            class="grow"
+            @selected="selectModel"
+            :navigate="false"
+            :returned-types="['articles']"
+          />
         </div>
       </div>
       <div
