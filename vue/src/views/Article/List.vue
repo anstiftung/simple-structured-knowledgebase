@@ -21,14 +21,9 @@ loadFromServer()
     <div class="py-12 width-wrapper">
       <h2 class="mb-4 text-2xl">Alle Beiträge</h2>
       <div class="grid grid-cols-3 gap-4">
-        <router-link
-          :to="{
-            name: 'article',
-            params: { slug: article.slug },
-          }"
-          v-for="article in articles"
-          >{{ article.title }}</router-link
-        >
+        <router-link :to="article.url" v-for="article in articles">{{
+          article.title
+        }}</router-link>
       </div>
       <template
         v-if="

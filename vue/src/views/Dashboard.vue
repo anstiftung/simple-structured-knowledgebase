@@ -182,15 +182,11 @@ const invalidAttachmentsTotal = computed(() => {
         >
           Anhang erstellen
         </button>
-        <router-link
-          tag="button"
-          :to="{ name: 'articleCreate' }"
-          class="default-button"
+        <router-link :to="{ name: 'articleCreate' }" class="default-button"
           >Beitrag erstellen</router-link
         >
         <router-link
           v-if="hasPermission('add collections')"
-          tag="button"
           :to="{ name: 'collectionCreate' }"
           class="default-button"
           >Sammlung erstellen</router-link

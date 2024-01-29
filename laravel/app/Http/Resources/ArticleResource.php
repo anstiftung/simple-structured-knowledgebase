@@ -20,6 +20,7 @@ class ArticleResource extends BaseResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
+            'url' => '/beitrag/' . $this->slug,
             'description' => $this->description,
             'content' => $this->content,
             'num_attachments' => $this->attached_urls->count() + $this->attached_files->count(),

@@ -3,47 +3,60 @@ import { computed } from 'vue'
 
 const props = defineProps({
   model: Object,
+  showType: {
+    type: Boolean,
+    default: true,
+  },
+  navigate: {
+    type: Boolean,
+    default: true,
+  },
 })
 </script>
 
 <template>
   <p>
-    <span class="mr-1">
+    <span class="mr-1" v-if="showType">
       <template v-if="model.type == 'Article'">Beitrag</template>
       <template v-else-if="model.type == 'Collection'">Sammlung</template>
       <template v-else>Anhang</template>
     </span>
 
-    <router-link
-      class="font-semibold text-orange"
+    <!-- articles -->
+    <span
       v-if="model.type == 'Article'"
-      :to="{
-        name: 'article',
-        params: { slug: model.slug },
-      }"
+      class="font-semibold cursor-pointer text-orange"
     >
-      {{ model.title }}
-    </router-link>
-
-    <router-link
-      class="font-semibold text-blue-400"
-      v-else-if="model.type == 'Collection'"
-      :to="{
-        name: 'collection',
-        params: { slug: model.slug },
-      }"
-    >
-      {{ model.title }}
-    </router-link>
-
-    <span v-else class="font-semibold text-green">
-      {{ model.title ?? '[Ohne Titel]' }}
+      <router-link v-if="navigate" :to="model.url">
+        {{ model.title }}
+      </router-link>
+      <template v-else>{{ model.title }}</template>
     </span>
 
-    <span> erstellt</span>
-    <span class="inline-block ml-2 text-gray-200">{{
-      $filters.formatedDate(model.created_at)
-    }}</span>
+    <!-- collections -->
+    <span
+      class="font-semibold text-blue-400 cursor-pointer"
+      v-else-if="model.type == 'Collection'"
+    >
+      <router-link v-if="navigate" :to="model.url">
+        {{ model.title }}
+      </router-link>
+      <template v-else>{{ model.title }}</template>
+    </span>
+
+    <!-- attachments -->
+    <a
+      v-else
+      :href="model.url"
+      target="_blank"
+      class="font-semibold cursor-pointer text-green"
+    >
+      {{ model.title ?? '[Ohne Titel]' }}
+    </a>
+
+    <span class="inline-block ml-2 text-gray-200"
+      >erstellt {{ $filters.formatedDate(model.created_at) }}</span
+    >
   </p>
 </template>
 

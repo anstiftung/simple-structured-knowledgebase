@@ -13,8 +13,10 @@ const $keycloak = inject('keycloak')
 </script>
 
 <template>
-  <header class="sticky top-0 z-40 w-full bg-white">
-    <div class="grid items-center grid-cols-2 gap-4 py-8 width-wrapper">
+  <header
+    class="sticky top-0 z-40 flex flex-col justify-center w-full bg-white h-header"
+  >
+    <div class="grid items-center grid-cols-2 gap-4 width-wrapper">
       <h1 class="text-3xl text-blue">
         <router-link to="/">
           <span>VOW_</span>
@@ -64,7 +66,6 @@ const $keycloak = inject('keycloak')
                 Einstellungen
               </button>
               <router-link
-                tag="button"
                 :to="{ name: 'logout' }"
                 class="flex items-center gap-2 px-2 py-2"
               >

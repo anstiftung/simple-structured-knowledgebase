@@ -81,7 +81,7 @@ const persist = async () => {
     formData.article = data
     persistedArticle = JSON.stringify(data)
     toast.success('Beitrag erfolgreich gespeichert')
-    router.push({ name: 'article', params: { slug: data.slug } })
+    router.push(data.url)
   }
 
   if (formData.article.id) {
