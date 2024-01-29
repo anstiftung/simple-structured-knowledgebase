@@ -53,10 +53,7 @@ const toggleLinkSelection = type => {
         attributes['target'] = '_blank'
       }
 
-      console.log(selection)
-
       if (selection.type == 'Image') {
-        console.log('image node')
         let attributes = {
           src: selection.url,
         }
