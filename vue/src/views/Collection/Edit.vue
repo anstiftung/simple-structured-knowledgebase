@@ -6,7 +6,7 @@ import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
-import Editor from '@/components/fields/Editor.vue'
+import ItemLine from '@/components/atoms/ItemLine.vue'
 
 const toast = useToast()
 const router = useRouter()
@@ -17,6 +17,7 @@ const formData = reactive({
   collection: {
     title: '',
     description: '',
+    articles: [],
   },
 })
 
@@ -42,6 +43,9 @@ const init = () => {
   }
 }
 init()
+
+const syncAttachedArticles = () => {}
+const addAttachedArticle = () => {}
 
 const isDirty = computed(() => {
   return JSON.stringify(formData.collection) != persistedCollection
@@ -139,17 +143,25 @@ const discard = () => {
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
         <textarea
-          class="w-full text-xl bg-transparent outline-none"
+          class="w-full text-xl bg-transparent outline-none mb-4"
           v-model="formData.collection.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.collection.description.$touch"
         />
         <div
-          class="text-sm text-red"
+          class="text-sm text-red mb-4"
           v-for="error of v$.collection.description.$errors"
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-lg mb-2">Verknüpfte Artikel</h3>
+          <item-line
+            :model="article"
+            class="mb-2"
+            v-for="article in formData.collection.articles"
+          />
         </div>
       </div>
       <div
