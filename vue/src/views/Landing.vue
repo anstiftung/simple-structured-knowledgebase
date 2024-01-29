@@ -47,7 +47,7 @@ loadFromServer()
           class="py-12 border-b-2 border-b-blue-400"
         >
           <h3 class="mb-4 text-xl text-blue-600">{{ collection.title }}</h3>
-          <div class="grid grid-cols-3 gap-12">
+          <div class="relative grid grid-cols-3 gap-12">
             <div class="flex flex-col col-span-1 gap-6 mt-4">
               <p class="text-blue-600 line-clamp-5">
                 {{ collection.description }}
@@ -72,6 +72,16 @@ loadFromServer()
                 v-for="article in limitedArticles(collection)"
                 :article="article"
               ></article-card>
+            </div>
+            <div
+              class="absolute -right-[50px] top-1/2"
+              v-if="collection.articles.length > 3"
+            >
+              <router-link
+                :to="{ name: 'collection', params: { slug: collection.slug } }"
+              >
+                <img class="max-w-8" src="/icons/recipesStacked.svg" />
+              </router-link>
             </div>
           </div>
         </div>
