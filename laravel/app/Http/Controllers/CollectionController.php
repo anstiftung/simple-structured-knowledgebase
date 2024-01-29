@@ -21,6 +21,8 @@ class CollectionController extends Controller
             $query->where('created_by_id', $request->creatorId);
         })->orderBy('updated_at', 'DESC')->paginate();
 
+        $collections->load(['articles']);
+
         return CollectionResource::collection($collections);
     }
 
