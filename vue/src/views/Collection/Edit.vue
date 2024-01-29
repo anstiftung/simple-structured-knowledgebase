@@ -66,8 +66,6 @@ const sortCallback = event => {
     element.order = i
     i++
   })
-
-  console.log(formData.collection.articles)
 }
 
 const isDirty = computed(() => {
