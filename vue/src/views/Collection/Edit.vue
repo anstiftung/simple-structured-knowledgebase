@@ -160,6 +160,8 @@ const discard = () => {
           <item-line
             :model="article"
             class="mb-2"
+            dragable="true"
+            :show-type="false"
             v-for="article in formData.collection.articles"
           />
         </div>
