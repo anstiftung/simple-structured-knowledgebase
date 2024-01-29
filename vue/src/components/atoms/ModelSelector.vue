@@ -29,10 +29,20 @@ const querySearch = () => {
   if (!searchQuery.value || searchQuery.value.length <= 3) {
     return
   }
-  SearchService.search(searchQuery.value).then(({ data, meta }) => {
-    searchResults.value = data
-    searchMeta.value = meta
-  })
+
+  if (props.modelType == 'images') {
+    SearchService.searchAttachedFile(searchQuery.value).then(
+      ({ data, meta }) => {
+        searchResults.value = data
+        searchMeta.value = meta
+      },
+    )
+  } else {
+    SearchService.search(searchQuery.value).then(({ data, meta }) => {
+      searchResults.value = data
+      searchMeta.value = meta
+    })
+  }
 }
 
 const selectModel = model => {
@@ -48,6 +58,8 @@ const modelLabel = computed(() => {
       return 'Sammlungen'
     case 'attachments':
       return 'Anhänge'
+    case 'images':
+      return 'Bilder'
     default:
       return '[Unkown]'
       break

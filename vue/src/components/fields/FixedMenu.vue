@@ -4,7 +4,6 @@ import { useModalStore } from '@/stores/modal'
 import BaseIcon from '../icons/BaseIcon.vue'
 
 import ModelSelector from '@/components/atoms/ModelSelector.vue'
-import ImageSelector from '@/components/atoms/ImageSelector.vue'
 
 const modal = useModalStore()
 
@@ -42,6 +41,7 @@ const toggleLinkSelection = type => {
   const componentProps = {
     modelType: type,
   }
+
   modal.open(ModelSelector, componentProps, selection => {
     if (selection) {
       let attributes = {
@@ -52,29 +52,23 @@ const toggleLinkSelection = type => {
       if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
         attributes['target'] = '_blank'
       }
-      props.editor
-        .chain()
-        .focus()
-        .extendMarkRange('link')
-        .setLink(attributes)
-        .run()
-    }
-  })
-}
 
-const toggleImageSelection = type => {
-  if (props.editor.isActive('image')) {
-    console.log('youve selected a image')
-  }
-  const componentProps = {
-    modelType: type,
-  }
-  modal.open(ImageSelector, componentProps, selection => {
-    if (selection) {
-      let attributes = {
-        src: selection.url,
+      console.log(selection)
+
+      if (selection.type == 'Image') {
+        console.log('image node')
+        let attributes = {
+          src: selection.url,
+        }
+        props.editor.commands.setImage(attributes)
+      } else {
+        props.editor
+          .chain()
+          .focus()
+          .extendMarkRange('link')
+          .setLink(attributes)
+          .run()
       }
-      props.editor.commands.setImage(attributes)
     }
   })
 }
@@ -163,7 +157,7 @@ onMounted(() => {
       <base-icon name="attachment"></base-icon>
     </button>
     <button
-      @click="toggleImageSelection('attachments')"
+      @click="toggleLinkSelection('images')"
       :class="[
         [editorLinkActive('Attachment') ? 'bg-gray-200' : ''],
         'secondary-button',

@@ -44,6 +44,16 @@ const props = defineProps({
       <template v-else>{{ model.title }}</template>
     </span>
 
+    <!-- images -->
+    <a
+      v-else-if="model.type == 'Image'"
+      :href="model.url"
+      target="_blank"
+      class="font-semibold cursor-pointer text-green"
+    >
+      {{ model.title ?? '[Ohne Titel]' }}
+    </a>
+
     <!-- attachments -->
     <a
       v-else

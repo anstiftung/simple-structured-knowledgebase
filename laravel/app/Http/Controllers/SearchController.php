@@ -7,6 +7,7 @@ use App\Models\Collection;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
+use App\Http\Resources\ImageResource;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\CollectionResource;
 use App\Http\Resources\AttachedUrlResource;
@@ -38,12 +39,30 @@ class SearchController extends Controller
         $numAttachediles = $attachedFiles->count();
         $numResults = $numCollections + $numArticles + $numAttachedUrls + $numAttachediles;
 
+        if($images_only) {
+            $result = [
+                'data' => [
+                    'images' => ImageResource::collection($attachedFiles)
+                ],
+                'meta' => [
+                    'num_collections' => $numCollections,
+                    'num_articles' => $numArticles,
+                    'num_attached_urls' => $numAttachedUrls,
+                    'num_attached_files' => $numAttachediles,
+                    'num_images' => $numAttachediles,
+                    'num_results' => $numResults
+                ]
+            ];
+
+            return response()->json($result);
+        }
+
         $result = [
             'data' => [
                 'collections' => CollectionResource::collection($collections),
                 'articles' => ArticleResource::collection($articles),
                 'attached_urls' => AttachedUrlResource::collection($attachedUrls),
-                'attached_files' => AttachedFileResource::collection($attachedFiles)
+                'attached_files' => AttachedFileResource::collection($attachedFiles),
             ],
             'meta' => [
                 'num_collections' => $numCollections,
