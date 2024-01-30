@@ -1,12 +1,22 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import CollectionService from '@/services/CollectionService'
+import SearchService from '@/services/SearchService'
 import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
-import Editor from '@/components/fields/Editor.vue'
+import draggable from 'vuedraggable'
+import SearchForm from '@/components/SearchForm.vue'
+import ItemLine from '../../components/atoms/ItemLine.vue'
+
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+
+// If you need UserPermissions, you'll need the next three lines
+const userStore = useUserStore()
+const { hasPermission } = storeToRefs(userStore)
 
 const toast = useToast()
 const router = useRouter()
@@ -17,6 +27,7 @@ const formData = reactive({
   collection: {
     title: '',
     description: '',
+    articles: [],
   },
 })
 
@@ -42,6 +53,28 @@ const init = () => {
   }
 }
 init()
+
+const selectModel = model => {
+  model.order = formData.collection.articles.length
+  formData.collection.articles.push(model)
+}
+
+const removeArticle = article => {
+  formData.collection.articles = formData.collection.articles.filter(function (
+    a,
+  ) {
+    return a.id != article.id
+  })
+}
+
+const sortCallback = event => {
+  // make order-property consistent with sorting
+  let i = 0
+  formData.collection.articles.map(element => {
+    element.order = i
+    i++
+  })
+}
 
 const isDirty = computed(() => {
   return JSON.stringify(formData.collection) != persistedCollection
@@ -80,9 +113,8 @@ const persist = async () => {
     formData.collection = data
     persistedCollection = JSON.stringify(data)
     toast.success('Sammlung erfolgreich gespeichert')
-    router.push(collection.url)
+    router.push(data.url)
   }
-
   if (formData.collection.id) {
     CollectionService.updateCollection(formData.collection).then(afterPersist)
   } else {
@@ -139,17 +171,59 @@ const discard = () => {
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
         <textarea
-          class="w-full text-xl bg-transparent outline-none"
+          class="w-full mb-4 text-xl bg-transparent outline-none"
           v-model="formData.collection.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.collection.description.$touch"
         />
         <div
-          class="text-sm text-red"
+          class="mb-4 text-sm text-red"
           v-for="error of v$.collection.description.$errors"
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
+        </div>
+        <div
+          class="mb-4"
+          v-if="
+            formData.collection.articles &&
+            formData.collection.articles.length > 0
+          "
+        >
+          <h3 class="mb-2 text-lg">
+            <template v-if="formData.collection.articles.length == 1"
+              >Verknüpfter Beitrag</template
+            >
+            <template v-else>Verknüpfte Beiträge</template>
+          </h3>
+          <draggable
+            v-model="formData.collection.articles"
+            group="articles"
+            @change="sortCallback"
+            item-key="id"
+          >
+            <template #item="{ element }">
+              <div class="flex justify-between">
+                <item-line
+                  :model="element"
+                  class="mb-2"
+                  :dragable="hasPermission('edit collections')"
+                  :show-type="false"
+                />
+                <div @click="removeArticle(element)">[REMOVE]</div>
+              </div>
+            </template>
+          </draggable>
+        </div>
+        <div class="mb-4" v-if="formData.collection.articles">
+          <h3 class="mb-2 text-lg">Verknüpften Beitrag hinzufügen</h3>
+          <search-form
+            placeholder="Suche in meinen Beiträgen, Anhängen und Sammlungen"
+            class="grow"
+            @selected="selectModel"
+            :navigate="false"
+            :returned-types="['articles']"
+          />
         </div>
       </div>
       <div

@@ -23,7 +23,7 @@ class CollectionResource extends BaseResource
             'description' => $this->description,
             'order' => $this->order,
             'featured' => $this->featured,
-            'articles' => ArticleResource::collection($this->whenLoaded('articles')),
+            'articles' => AttachedArticleResource::collection($this->whenLoaded('articles')),
         ];
     }
 }

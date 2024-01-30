@@ -31,7 +31,7 @@ class Collection extends Model
 
     public function articles()
     {
-        return $this->belongsToMany(Article::class)->orderBy('order');
+        return $this->belongsToMany(Article::class)->withPivot('order')->orderBy('order');
     }
 
     public function scopeFeatured($query)

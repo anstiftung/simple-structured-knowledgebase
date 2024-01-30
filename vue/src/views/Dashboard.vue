@@ -17,7 +17,6 @@ import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
-import CollectionLine from '@/components/atoms/CollectionLine.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -117,7 +116,6 @@ const loadFromServer = () => {
   )
 
   CollectionService.getCollections(1, {
-    featured: true,
     creatorId: userStore.id,
   }).then(({ data, meta }) => {
     recentCollections.value = data
@@ -270,8 +268,9 @@ const invalidAttachmentsTotal = computed(() => {
               :disabled="!hasPermission('feature collections')"
             >
               <template #item="{ element }">
-                <collection-line
-                  :collection="element"
+                <item-line
+                  :model="element"
+                  :show-type="false"
                   class="mb-2"
                   :dragable="hasPermission('feature collections')"
                 />

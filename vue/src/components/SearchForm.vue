@@ -8,9 +8,17 @@ import ItemLine from '@/components/atoms/ItemLine.vue'
 const props = defineProps({
   placeholder: String,
   initialQuery: String,
+  returnedTypes: {
+    type: Array,
+    default: ['articles', 'collections', 'attachments'],
+  },
+  navigate: {
+    type: Boolean,
+    default: true,
+  },
 })
 
-const emit = defineEmits(['queryChanged'])
+const emit = defineEmits(['queryChanged', 'selected'])
 
 const searchQuery = ref('')
 const searchResults = ref([])
@@ -108,29 +116,44 @@ const resultAttachemntsLimited = computed(() => {
       class="min-h-[100px] max-h-[400px] overflow-y-scroll w-full absolute bg-white rounded drop-shadow-lg p-4"
     >
       <div class="flex flex-col gap-2">
-        <p class="text-sm italic text-gray-300">Beiträge</p>
-        <item-line v-for="article in resultArticlesLimited" :model="article" />
-        <p class="text-sm" v-if="resultArticlesLimited.length == 0">
-          Keine Ergebnisse
-        </p>
+        <template v-if="props.returnedTypes.includes('articles')">
+          <p class="text-sm italic text-gray-300">Beiträge</p>
+          <item-line
+            v-for="article in resultArticlesLimited"
+            :model="article"
+            :navigate="props.navigate"
+            @click="$emit('selected', article)"
+          />
+          <p class="text-sm" v-if="resultArticlesLimited.length == 0">
+            Keine Ergebnisse
+          </p>
+        </template>
 
-        <p class="mt-4 text-sm italic text-gray-300">Sammlungen</p>
-        <item-line
-          v-for="collection in resultCollectionsLimited"
-          :model="collection"
-        />
-        <p class="text-sm" v-if="resultCollectionsLimited.length == 0">
-          Keine Ergebnisse
-        </p>
+        <template v-if="props.returnedTypes.includes('collections')">
+          <p class="mt-4 text-sm italic text-gray-300">Sammlungen</p>
+          <item-line
+            v-for="collection in resultCollectionsLimited"
+            :model="collection"
+            :navigate="props.navigate"
+            @click="$emit('selected', collection)"
+          />
+          <p class="text-sm" v-if="resultCollectionsLimited.length == 0">
+            Keine Ergebnisse
+          </p>
+        </template>
 
-        <p class="mt-4 text-sm italic text-gray-300">Anhänge</p>
-        <item-line
-          v-for="attachment in resultAttachemntsLimited"
-          :model="attachment"
-        />
-        <p class="text-sm" v-if="resultAttachemntsLimited.length == 0">
-          Keine Ergebnisse
-        </p>
+        <template v-if="props.returnedTypes.includes('attachments')">
+          <p class="mt-4 text-sm italic text-gray-300">Anhänge</p>
+          <item-line
+            v-for="attachment in resultAttachemntsLimited"
+            :model="attachment"
+            :navigate="props.navigate"
+            @click="$emit('selected', attachment)"
+          />
+          <p class="text-sm" v-if="resultAttachemntsLimited.length == 0">
+            Keine Ergebnisse
+          </p>
+        </template>
       </div>
     </div>
   </div>

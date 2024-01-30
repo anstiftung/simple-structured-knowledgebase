@@ -39,16 +39,26 @@ class CollectionController extends Controller
         $request->validate([
              'title' => 'required|max:255',
              'description' => 'required|max:1000',
+             'articles.*.id' => 'exists:articles,id',
+             'articles.*.order' => 'integer'
          ]);
 
-        $newCollection = Collection::create([
+        $collection = Collection::create([
            'title' => $request->title,
            'slug' => Str::slug($request->title),
            'description' => $request->description,
            'content' => $request->content
         ]);
 
-        return new CollectionResource($newCollection);
+        $articles = [];
+        foreach($request->articles ?? [] as $article) {
+            $articles[$article['id']] = ['order' => $article['order']];
+        }
+        $collection->articles()->sync($articles);
+
+        $collection->load(['articles']);
+
+        return new CollectionResource($collection);
     }
 
     /**
@@ -73,12 +83,22 @@ class CollectionController extends Controller
         $request->validate([
              'title' => 'required|max:255',
              'description' => 'required|max:1000',
+             'articles.*.id' => 'exists:articles,id',
+             'articles.*.order' => 'integer'
          ]);
 
         $collection->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
+
+        $articles = [];
+        foreach($request->articles ?? [] as $article) {
+            $articles[$article['id']] = ['order' => $article['order']];
+        }
+        $collection->articles()->sync($articles);
+
+        $collection->load(['articles']);
 
         return new CollectionResource($collection);
     }
