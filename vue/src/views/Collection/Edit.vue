@@ -59,6 +59,14 @@ const selectModel = model => {
   formData.collection.articles.push(model)
 }
 
+const removeArticle = article => {
+  formData.collection.articles = formData.collection.articles.filter(function (
+    a,
+  ) {
+    return a.id != article.id
+  })
+}
+
 const sortCallback = event => {
   // make order-property consistent with sorting
   let i = 0
@@ -105,9 +113,8 @@ const persist = async () => {
     formData.collection = data
     persistedCollection = JSON.stringify(data)
     toast.success('Sammlung erfolgreich gespeichert')
-    router.push(collection.url)
+    router.push(data.url)
   }
-
   if (formData.collection.id) {
     CollectionService.updateCollection(formData.collection).then(afterPersist)
   } else {
@@ -164,20 +171,31 @@ const discard = () => {
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
         <textarea
-          class="w-full text-xl bg-transparent outline-none mb-4"
+          class="w-full mb-4 text-xl bg-transparent outline-none"
           v-model="formData.collection.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.collection.description.$touch"
         />
         <div
-          class="text-sm text-red mb-4"
+          class="mb-4 text-sm text-red"
           v-for="error of v$.collection.description.$errors"
           :key="error.$uid"
         >
           <div>! {{ error.$message }}</div>
         </div>
-        <div class="mb-4" v-if="formData.collection.articles">
-          <h3 class="text-lg mb-2">Verknüpfte Beiträge</h3>
+        <div
+          class="mb-4"
+          v-if="
+            formData.collection.articles &&
+            formData.collection.articles.length > 0
+          "
+        >
+          <h3 class="mb-2 text-lg">
+            <template v-if="formData.collection.articles.length == 1"
+              >Verknüpfter Beitrag</template
+            >
+            <template v-else>Verknüpfte Beiträge</template>
+          </h3>
           <draggable
             v-model="formData.collection.articles"
             group="articles"
@@ -185,17 +203,20 @@ const discard = () => {
             item-key="id"
           >
             <template #item="{ element }">
-              <item-line
-                :model="element"
-                class="mb-2"
-                :dragable="hasPermission('edit collections')"
-                :show-type="false"
-              />
+              <div class="flex justify-between">
+                <item-line
+                  :model="element"
+                  class="mb-2"
+                  :dragable="hasPermission('edit collections')"
+                  :show-type="false"
+                />
+                <div @click="removeArticle(element)">[REMOVE]</div>
+              </div>
             </template>
           </draggable>
         </div>
         <div class="mb-4" v-if="formData.collection.articles">
-          <h3 class="text-lg mb-2">Verknüpften Beitrag hinzufügen</h3>
+          <h3 class="mb-2 text-lg">Verknüpften Beitrag hinzufügen</h3>
           <search-form
             placeholder="Suche in meinen Beiträgen, Anhängen und Sammlungen"
             class="grow"
