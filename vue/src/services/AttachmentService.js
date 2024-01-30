@@ -84,6 +84,12 @@ class AttachmentService {
     }
     return makeApiRequest(config)
   }
+
+  combineAttachments(urls, files) {
+    let attachments = urls.concat(files)
+    attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+    return attachments
+  }
 }
 
 export default new AttachmentService()

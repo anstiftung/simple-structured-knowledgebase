@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useModalStore } from '@/stores/modal'
+import BaseIcon from '../icons/BaseIcon.vue'
 
 import ModelSelector from '@/components/atoms/ModelSelector.vue'
 
@@ -40,6 +41,7 @@ const toggleLinkSelection = type => {
   const componentProps = {
     modelType: type,
   }
+
   modal.open(ModelSelector, componentProps, selection => {
     if (selection) {
       let attributes = {
@@ -50,12 +52,26 @@ const toggleLinkSelection = type => {
       if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
         attributes['target'] = '_blank'
       }
+
       props.editor
         .chain()
         .focus()
         .extendMarkRange('link')
         .setLink(attributes)
         .run()
+    }
+  })
+}
+
+const insertAttachmentAsImage = () => {
+  modal.open(ModelSelector, { modelType: 'images' }, selection => {
+    if (selection) {
+      let attributes = {
+        src: selection.url,
+        alt: selection.filename,
+        title: '(c) ' + selection.source,
+      }
+      props.editor.commands.setImage(attributes)
     }
   })
 }
@@ -104,7 +120,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      Liste
+      <base-icon name="unordered-list"></base-icon>
     </button>
     <button
       @click="editor.chain().focus().toggleOrderedList().run()"
@@ -113,7 +129,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      Liste numeriert
+      <base-icon name="ordered-list"></base-icon>
     </button>
 
     <button
@@ -141,7 +157,16 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      Anhang
+      <base-icon name="attachment"></base-icon>
+    </button>
+    <button
+      @click="insertAttachmentAsImage()"
+      :class="[
+        [editor.isActive('image') ? 'bg-gray-200' : ''],
+        'secondary-button',
+      ]"
+    >
+      <base-icon name="image"></base-icon>
     </button>
   </div>
 </template>

@@ -15,6 +15,8 @@ import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
+import Image from '@tiptap/extension-image'
+import Dropcursor from '@tiptap/extension-dropcursor'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 
 import FloatingMenu from '@/components/fields/FloatingMenu.vue'
@@ -58,6 +60,8 @@ const editor = useEditor({
     ListItem,
     Italic,
     Strike,
+    Image,
+    Dropcursor,
     ModelLink.configure({
       openOnClick: false,
     }),
@@ -110,5 +114,14 @@ watch(
 }
 .tiptap:focus {
   outline: none;
+}
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+}
+
+.tiptap img.ProseMirror-selectednode {
+  outline: 3px solid #68cef8;
 }
 </style>

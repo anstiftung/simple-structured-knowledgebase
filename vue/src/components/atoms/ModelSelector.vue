@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 
+import AttachmentService from '@/services/AttachmentService'
 import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 
@@ -29,10 +30,20 @@ const querySearch = () => {
   if (!searchQuery.value || searchQuery.value.length <= 3) {
     return
   }
-  SearchService.search(searchQuery.value).then(({ data, meta }) => {
-    searchResults.value = data
-    searchMeta.value = meta
-  })
+
+  if (props.modelType == 'images') {
+    SearchService.searchAttachedFile(searchQuery.value).then(
+      ({ data, meta }) => {
+        searchResults.value = data
+        searchMeta.value = meta
+      },
+    )
+  } else {
+    SearchService.search(searchQuery.value).then(({ data, meta }) => {
+      searchResults.value = data
+      searchMeta.value = meta
+    })
+  }
 }
 
 const selectModel = model => {
@@ -48,6 +59,8 @@ const modelLabel = computed(() => {
       return 'Sammlungen'
     case 'attachments':
       return 'Anhänge'
+    case 'images':
+      return 'Bilder'
     default:
       return '[Unkown]'
       break
@@ -58,11 +71,10 @@ const modelResults = computed(() => {
   if (searchResults.value[props.modelType]) {
     return searchResults.value[props.modelType]
   } else if (props.modelType == 'attachments') {
-    let attachments = searchResults.value.attached_urls.concat(
+    return AttachmentService.combineAttachments(
+      searchResults.value.attached_urls,
       searchResults.value.attached_files,
     )
-    attachments = attachments.sort((a, b) => a.created_at < b.created_at)
-    return attachments
   } else {
     console.error(
       'Unable to extract search results for modelType',
