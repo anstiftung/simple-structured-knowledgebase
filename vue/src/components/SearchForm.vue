@@ -4,6 +4,7 @@ import { useDebounceFn, onClickOutside } from '@vueuse/core'
 
 import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import Icon from './Icon.vue'
 
 const props = defineProps({
   placeholder: String,
@@ -104,9 +105,10 @@ const resultAttachemntsLimited = computed(() => {
         @input="onQueryInput"
         @focus="showResultsFromFocus"
       />
-      <img
+      <icon
+        name="search"
         role="button"
-        src="/icons/search.svg"
+        class="fill-gray-400"
         @click.prevent="querySearch()"
       />
     </form>
