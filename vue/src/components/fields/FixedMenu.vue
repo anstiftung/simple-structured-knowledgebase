@@ -68,7 +68,7 @@ const insertAttachmentAsImage = () => {
     if (selection) {
       let attributes = {
         src: selection.url,
-        alt: selection.filename,
+        alt: selection.title,
         title: '(c) ' + selection.source,
       }
       props.editor.commands.setImage(attributes)
