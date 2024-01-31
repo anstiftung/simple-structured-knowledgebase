@@ -118,7 +118,7 @@ const loadFromServer = () => {
   CollectionService.getCollections(1, {
     creatorId: userStore.id,
   }).then(({ data, meta }) => {
-    recentCollections.value = data
+    recentCollections.value = data.slice(0, Math.min(5, data.length))
   })
 
   CollectionService.getCollections(1, { featured: true }).then(
