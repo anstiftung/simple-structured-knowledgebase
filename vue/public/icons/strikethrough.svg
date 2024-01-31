@@ -1,11 +1,10 @@
-<template>
-  <svg
+<svg
     xmlns="http://www.w3.org/2000/svg"
     width="18"
     height="13"
     viewBox="0 0 18 13"
-    fill="none"
-  >
+    id="strikethrough"
+>
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -14,5 +13,4 @@
     <path
       d="M16.6127 7.08976H0.949298C0.425285 7.08976 0 6.66447 0 6.14046C0 5.61645 0.425285 5.19116 0.949298 5.19116H16.6127C17.1367 5.19116 17.562 5.61645 17.562 6.14046C17.562 6.66447 17.1367 7.08976 16.6127 7.08976Z"
     />
-  </svg>
-</template>
+</svg>

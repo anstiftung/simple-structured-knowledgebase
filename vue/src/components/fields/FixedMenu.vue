@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useModalStore } from '@/stores/modal'
-import BaseIcon from '../icons/BaseIcon.vue'
+import Icon from '@/components/Icon.vue'
 
 import ModelSelector from '@/components/atoms/ModelSelector.vue'
 
@@ -120,7 +120,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="unordered-list"></base-icon>
+      <icon name="unorderedlist"></icon>
     </button>
     <button
       @click="editor.chain().focus().toggleOrderedList().run()"
@@ -129,7 +129,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="ordered-list"></base-icon>
+      <icon name="orderedlist"></icon>
     </button>
 
     <button
@@ -157,7 +157,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="attachment"></base-icon>
+      <icon name="attachment"></icon>
     </button>
     <button
       @click="insertAttachmentAsImage()"
@@ -166,7 +166,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="image"></base-icon>
+      <icon name="image"></icon>
     </button>
   </div>
 </template>

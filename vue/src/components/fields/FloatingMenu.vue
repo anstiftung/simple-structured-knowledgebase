@@ -1,6 +1,6 @@
 <script setup>
 import { BubbleMenu } from '@tiptap/vue-3'
-import BaseIcon from '../icons/BaseIcon.vue'
+import Icon from '@/components/Icon.vue'
 
 const props = defineProps({
   editor: Object,
@@ -21,7 +21,7 @@ const props = defineProps({
         'secondary-button-square secondary-button',
       ]"
     >
-      <base-icon name="bold" />
+      <icon name="bold" />
     </button>
     <button
       @click="editor.chain().focus().toggleItalic().run()"
@@ -30,7 +30,7 @@ const props = defineProps({
         'secondary-button-square secondary-button',
       ]"
     >
-      <base-icon name="italic" />
+      <icon name="italic" />
     </button>
     <button
       @click="editor.chain().focus().toggleUnderline().run()"
@@ -39,7 +39,7 @@ const props = defineProps({
         'secondary-button-square secondary-button',
       ]"
     >
-      <base-icon name="underline" />
+      <icon name="underline" />
     </button>
     <button
       @click="editor.chain().focus().toggleStrike().run()"
@@ -48,7 +48,7 @@ const props = defineProps({
         'secondary-button-square secondary-button',
       ]"
     >
-      <base-icon name="strikethrough" />
+      <icon name="strikethrough" />
     </button>
   </bubble-menu>
 </template>
