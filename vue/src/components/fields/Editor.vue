@@ -17,7 +17,10 @@ import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+import { useEditor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
+import { mergeAttributes, Node } from '@tiptap/core'
+
+import ItemLink from '@/components/atoms/ItemLink.vue'
 
 import FloatingMenu from '@/components/fields/FloatingMenu.vue'
 import FixedMenu from '@/components/fields/FixedMenu.vue'
@@ -46,6 +49,30 @@ const ModelLink = Link.extend({
   },
 })
 
+const ItemLinkNode = Node.create({
+  name: 'itemLink',
+
+  group: 'block',
+
+  content: 'inline*',
+
+  parseHTML() {
+    return [
+      {
+        tag: 'item-link',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['item-link', mergeAttributes(HTMLAttributes), 0]
+  },
+
+  addNodeView() {
+    return VueNodeViewRenderer(ItemLink)
+  },
+})
+
 const editor = useEditor({
   extensions: [
     History,
@@ -65,6 +92,7 @@ const editor = useEditor({
     ModelLink.configure({
       openOnClick: false,
     }),
+    ItemLinkNode,
     Placeholder.configure({
       placeholder:
         'Inhalte einpflegen (Hinweise, dass Markdown erlaubt ist? ###, * etc.)',

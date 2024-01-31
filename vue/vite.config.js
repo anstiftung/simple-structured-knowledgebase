@@ -1,5 +1,6 @@
+import { URL, fileURLToPath } from 'url'
+
 import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'url'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
@@ -17,11 +18,9 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: [
-      {
-        find: '@',
-        replacement: fileURLToPath(new URL('./src', import.meta.url)),
-      },
-    ],
+    alias: {
+      vue: 'vue/dist/vue.esm-bundler.js',
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
 })

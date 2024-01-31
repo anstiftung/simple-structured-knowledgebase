@@ -41,7 +41,8 @@ const toggleLinkSelection = type => {
   const componentProps = {
     modelType: type,
   }
-
+  props.editor.commands.setNode('itemLink')
+  return
   modal.open(ModelSelector, componentProps, selection => {
     if (selection) {
       let attributes = {
@@ -53,12 +54,12 @@ const toggleLinkSelection = type => {
         attributes['target'] = '_blank'
       }
 
-      props.editor
+      /* props.editor
         .chain()
         .focus()
         .extendMarkRange('link')
         .setLink(attributes)
-        .run()
+        .run() */
     }
   })
 }

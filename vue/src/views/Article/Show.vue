@@ -1,7 +1,9 @@
-<script setup>
-import { ref } from 'vue'
+<!-- <script setup>
+import { ref, compile, h, onCreated } from 'vue'
 import ArticleService from '@/services/ArticleService'
 import AttachmentCard from '@/components/AttachmentCard.vue'
+
+import ItemLink from '@/components/atoms/ItemLink.vue'
 
 import { useRoute } from 'vue-router'
 
@@ -14,13 +16,33 @@ const loadFromServer = () => {
     .then(data => {
       article.value = data
       document.title = `Cowiki | ${article.value.title}`
+      return render()
     })
     .catch(error => {
       // ? do anything here?s
     })
 }
+setup() {
+    return h({ render: compile(article.value.content) })
+}
+
 
 loadFromServer()
+</script>
+ -->
+<script>
+import { ref, compile, h } from 'vue'
+
+export default {
+  setup() {
+    return () =>
+      h({
+        render: compile(
+          '<p></p><p>iefhuofupowfw</p><p>ewrwehfewphfouwhoufew</p><item-link>Hello World!rwe</item-link><img src="/api/attached-file/2" alt="1f8d90d3b8fe695a350ebd252074a593.png" title="(c) Maxime voluptatibus enim aut."><item-link>Hello World!rwe</item-link>',
+        ),
+      })
+  },
+}
 </script>
 
 <template>
