@@ -1,38 +1,37 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   id="arrow-up"
-   version="1.1"
-   sodipodi:docname="arrow-up.svg"
-   width="15"
-   height="15"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="1.5733333"
-     inkscape:cx="149.36441"
-     inkscape:cy="75"
-     inkscape:window-width="1472"
-     inkscape:window-height="847"
-     inkscape:window-x="0"
-     inkscape:window-y="37"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="arrow-up" />
-  <path
-     fill-rule="evenodd"
-     clip-rule="evenodd"
-     d="m 2.6909941,10.297239 c -0.2546742,-0.27035 -0.2546741,-0.70872 0,-0.97906 l 4.347845,-4.615421 c 0.25467,-0.270346 0.66763,-0.270346 0.9223,0 l 4.3478399,4.615421 c 0.25471,0.27034 0.25471,0.70871 0,0.97906 -0.25473,0.27035 -0.66762,0.27035 -0.9223,0 l -3.8866899,-4.12582 -3.88669,4.12582 c -0.254676,0.27035 -0.667632,0.27035 -0.922305,0 z"
-     id="path1" />
+    id="arrow-up"
+    version="1.1"
+    sodipodi:docname="arrow-up.svg"
+    width="15"
+    height="15"
+    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg">
+    <defs
+        id="defs1" />
+    <sodipodi:namedview
+        id="namedview1"
+        pagecolor="#ffffff"
+        bordercolor="#000000"
+        borderopacity="0.25"
+        inkscape:showpageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:deskcolor="#d1d1d1"
+        inkscape:zoom="1.5733333"
+        inkscape:cx="149.36441"
+        inkscape:cy="75"
+        inkscape:window-width="1472"
+        inkscape:window-height="847"
+        inkscape:window-x="0"
+        inkscape:window-y="37"
+        inkscape:window-maximized="1"
+        inkscape:current-layer="arrow-up" />
+    <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="m 2.6909941,10.297239 c -0.2546742,-0.27035 -0.2546741,-0.70872 0,-0.97906 l 4.347845,-4.615421 c 0.25467,-0.270346 0.66763,-0.270346 0.9223,0 l 4.3478399,4.615421 c 0.25471,0.27034 0.25471,0.70871 0,0.97906 -0.25473,0.27035 -0.66762,0.27035 -0.9223,0 l -3.8866899,-4.12582 -3.88669,4.12582 c -0.254676,0.27035 -0.667632,0.27035 -0.922305,0 z"
+        id="path1" />
 </svg>
