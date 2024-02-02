@@ -50,7 +50,7 @@ loadFromServer()
           />
         </div>
       </div>
-      <div class="self-start col-span-2 px-8 py-16 border-l">
+      <div class="self-start col-span-2 px-8 py-8 border-l">
         <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
         <p>{{ article.created_by.name }}</p>
         <div class="grid grid-cols-2 mt-8">
