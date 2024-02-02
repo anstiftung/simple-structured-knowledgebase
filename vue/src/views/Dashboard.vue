@@ -17,6 +17,7 @@ import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import ModelSelector from '@/components/atoms/ModelSelector.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -82,6 +83,24 @@ const sortCallback = event => {
   CollectionService.reorderFeaturedCollections(featuredCollections.value).then(
     data => (featuredCollections.value = data),
   )
+}
+
+const markCollectionFeatured = () => {
+  modal.open(ModelSelector, { modelType: 'collections' }, collection => {
+    if (collection && !collection.featured) {
+      collection.featured = true
+      CollectionService.updateCollection(collection).then(() => {
+        loadFromServer()
+      })
+    }
+  })
+}
+
+const markCollectionUnFeatured = collection => {
+  collection.featured = false
+  CollectionService.updateCollection(collection).then(() => {
+    loadFromServer()
+  })
 }
 
 const loadFromServer = () => {
@@ -254,6 +273,7 @@ const invalidAttachmentsTotal = computed(() => {
           <button
             v-if="hasPermission('feature collections')"
             class="secondary-button dense"
+            @click="markCollectionFeatured"
           >
             Sammlung zur Startseite hinzufügen
           </button>
@@ -268,12 +288,20 @@ const invalidAttachmentsTotal = computed(() => {
               :disabled="!hasPermission('feature collections')"
             >
               <template #item="{ element }">
-                <item-line
-                  :model="element"
-                  :show-type="false"
-                  class="mb-2"
-                  :dragable="hasPermission('feature collections')"
-                />
+                <div class="flex justify-between">
+                  <item-line
+                    :model="element"
+                    :show-type="false"
+                    class="mb-2"
+                    :dragable="hasPermission('feature collections')"
+                  />
+                  <div
+                    v-if="hasPermission('feature collections')"
+                    @click="markCollectionUnFeatured(element)"
+                  >
+                    [DELETE]
+                  </div>
+                </div>
               </template>
             </draggable>
           </div>
