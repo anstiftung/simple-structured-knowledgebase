@@ -1,14 +1,16 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CollectionController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\SearchController;
+
 use App\Http\Controllers\AttachedUrlController;
 use App\Http\Controllers\AttachedFileController;
-
-use App\Http\Controllers\LicenseController;
+use App\Http\Controllers\CollectionListController;
 
 Route::controller(LicenseController::class)->group(function () {
     Route::get('/licenses', 'index');
@@ -16,7 +18,7 @@ Route::controller(LicenseController::class)->group(function () {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles', 'index');
-    Route::get('/article/{article}', 'show');
+    Route::get('/article/{article:slug}', 'show');
 });
 
 Route::controller(SearchController::class)->group(function () {
@@ -24,13 +26,17 @@ Route::controller(SearchController::class)->group(function () {
 });
 
 Route::controller(AttachedUrlController::class)->group(function () {
-    Route::post('/attachedUrl/store', 'store');
-    Route::post('/attachedUrl/update', 'update');
+    Route::get('/attached-urls', 'index');
 });
 
 Route::controller(AttachedFileController::class)->group(function () {
-    Route::post('/attachedFile/store', 'store');
-    Route::post('/attachedFile/update', 'update');
+    Route::get('/attached-files', 'index');
+    Route::get('/attached-file/{attachedFile:id}', 'show');
+});
+
+Route::controller(CollectionController::class)->group(function () {
+    Route::get('/collections', 'index');
+    Route::get('/collection/{collection:slug}', 'show');
 });
 
 Route::get('/', function () {
@@ -43,8 +49,22 @@ Route::get('/', function () {
 // Add protected routes here
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
-    Route::get('/article/add', [ArticleController::class, 'store']);
-    Route::get('/attachment/url/add', [AttachedUrlController::class, 'store']);
-    Route::get('/attachment/file/add', [AttachedFileController::class, 'store']);
-    Route::get('/collection/add', [CollectionController::class, 'store']);
+
+    // create and update attachments
+    Route::post('/attached-url', [AttachedUrlController::class, 'store']);
+    Route::patch('/attached-url', [AttachedUrlController::class, 'update']);
+
+    Route::post('/attached-file', [AttachedFileController::class, 'store']);
+    Route::patch('/attached-file', [AttachedFileController::class, 'update']);
+
+    // create and update articles
+    Route::post('/article', [ArticleController::class, 'store']);
+    Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
+
+    // create and update collections
+    Route::post('/collection', [CollectionController::class, 'store']);
+    Route::patch('/collection/{collection:slug}', [CollectionController::class, 'update']);
+
+    // resort collections
+    Route::patch('/collections/featured/reorder', [CollectionListController::class, 'reorder']);
 });

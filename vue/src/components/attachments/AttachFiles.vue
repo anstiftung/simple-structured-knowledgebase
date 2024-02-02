@@ -1,11 +1,11 @@
 <script setup>
-import { ref, defineEmits, defineProps, watch } from 'vue'
+import { ref, watch } from 'vue'
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
 const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
-  recipe: Object,
+  article: Object,
 })
 const isDragging = ref(false)
 const uploadProgress = ref(0)
@@ -70,7 +70,7 @@ const progressCallback = percent => {
 const persist = () => {
   AttachmentService.createAttachmentFiles(
     fileList.value,
-    props.recipe,
+    props.article,
     progressCallback,
   )
     .then(data => {
@@ -109,8 +109,10 @@ const persist = () => {
         <p class="text-gray-400">
           <template v-if="isDragging">Elemente zum Hochladen ablegen</template>
           <template v-else>
-            Ein kleiner Hilfetext, dass hier Dateien (in welchem Format)
-            reingedroppt werden können.
+            Ein kleiner Hilfetext, dass hier Dateien ('png', 'jpg', 'jpeg',
+            'svg', 'mp4', 'zip', 'tar.gz', 'pdf', 'doc', 'xls', 'csv', 'pdf',
+            'ai', 'indd', 'odt', 'ods', 'odp' – maximal 10MB) reingedroppt
+            werden können.
           </template>
         </p>
         <label
@@ -135,12 +137,12 @@ const persist = () => {
         @remove="removeFileFromList"
       ></attachment-list-item>
     </div>
-    <div
+    <button
       :class="[
         'w-full px-4 py-4 text-center text-white rounded-md relative overflow-hidden',
         [fileList.length ? 'bg-blue' : 'bg-gray-200'],
       ]"
-      role="button"
+      :disabled="!fileList.length"
       @click="persist"
     >
       <div
@@ -150,7 +152,7 @@ const persist = () => {
       <span class="relative z-10"
         >{{ fileList.length > 1 ? 'Dateien' : 'Datei' }} hochladen</span
       >
-    </div>
+    </button>
   </div>
 </template>
 

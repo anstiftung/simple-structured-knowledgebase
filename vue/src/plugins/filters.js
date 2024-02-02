@@ -7,18 +7,9 @@ const filters = {
   formatedDateTime(date) {
     return moment(date).format('DD.MM.YYYY HH:mm') + ' Uhr'
   },
-  mimeTypeToFileType(mimeType) {
-    switch (mimeType) {
-      case 'image/png':
-        return 'png'
-        break
-      case 'image/jpeg':
-        return 'jpg'
-        break
-      default:
-        return '?'
-        break
-    }
+  fileNameToFileType(fileName) {
+    const parts = fileName.split('.')
+    return '.' + parts[parts.length - 1]
   },
   bytesToHumandReadableSize(size) {
     const i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024))

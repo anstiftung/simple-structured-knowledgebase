@@ -2,20 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recipe;
+use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use App\Http\Resources\AttachedFileResource;
-use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\File as FileValidator;
 
 class AttachedFileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $attachedFiles = AttachedFile::when(!empty($request->creatorId), function ($query) use ($request) {
+            $query->where('created_by_id', $request->creatorId);
+        })
+        ->when(!empty($request->invalid), function ($query) use ($request) {
+            if ($request->boolean('invalid')) {
+                $query->invalid();
+            } else {
+                $query->valid();
+            }
+        })
+        ->orderBy('created_at', 'DESC')
+        ->paginate();
+
+        return AttachedFileResource::collection($attachedFiles);
     }
 
     /**
@@ -23,27 +41,30 @@ class AttachedFileController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->can('create attached files')) {
+            return parent::abortUnauthorized();
+        }
 
         $request->validate([
             'attached_files' => 'required|array|min:1',
             'attached_files.*' => [
                 'required',
-                File::types(['png', 'jpg'])
-                    ->max(12 * 1024)
+                FileValidator::types(config('cowiki.upload_file_types'))
+                    ->max(config('cowiki.upload_file_size'))
             ],
-            'recipe_id' => 'required|exists:recipes,id',
+            'article_id' => 'exists:articles,id',
         ]);
 
-        $recipe = Recipe::find($request->input('recipe_id'));
         $newAttachments = [];
 
         $files = $request->file('attached_files');
         foreach ($files as $file) {
             $new = AttachedFile::create([]);
             $name = $file->getClientOriginalName();
-            $file->storeAs(
-                'public/attachedFiles/'.$new->id,
-                $name
+            Storage::disk('uploads')->put(
+                $new->id . '/' . $name,
+                file_get_contents($file->getRealPath())
             );
 
             $new->update([
@@ -54,7 +75,11 @@ class AttachedFileController extends Controller
             $newAttachments[] = $new;
         }
 
-        $recipe->attached_files()->saveMany($newAttachments);
+        /* If article_id is given, attach File to article */
+        if ($request->input('article_id')) {
+            $article = Article::find($request->input('article_id'));
+            $article->attached_files()->saveMany($newAttachments);
+        }
 
         return AttachedFileResource::collection($newAttachments);
     }
@@ -64,7 +89,20 @@ class AttachedFileController extends Controller
      */
     public function show(AttachedFile $attachedFile)
     {
-        //
+
+        $path = storage_path('uploads/' . $attachedFile->id . '/' . $attachedFile->filename);
+
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 
     /**
@@ -72,6 +110,11 @@ class AttachedFileController extends Controller
      */
     public function update(Request $request, AttachedFile $attachedFile)
     {
+        $user = Auth::user();
+        if (!$user->can('update attached files')) {
+            return parent::abortUnauthorized();
+        }
+
         $request->validate([
             'attached_files' => 'required|array|min:1',
             'attached_files.*.id' => 'required|exists:attached_files,id',

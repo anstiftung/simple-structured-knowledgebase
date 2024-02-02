@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ingredient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AttachedUrl>
  */
 class AttachedFileFactory extends Factory
 {
@@ -19,14 +19,18 @@ class AttachedFileFactory extends Factory
     {
         $title = fake()->name();
 
+        $isFilled = fake()->boolean(70);
+
         return [
-            'title' => $title,
-            'description' => fake()->sentence(3),
+            'title' => $isFilled ? $title : null,
+            'description' => $isFilled ? fake()->sentence(3) : null,
             'filename' => Str::slug($title) . '.png',
             'mime_type' => fake()->mimeType(),
             'filesize' => fake()->numberBetween(10000, 1000000),
             'preview_file' => Str::slug($title) . '_preview.png',
-            'source' => fake()->sentence(3),
+            'source' => $isFilled ? fake()->sentence(3) : null,
+            'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];
     }
 }

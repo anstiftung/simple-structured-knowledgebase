@@ -26,8 +26,18 @@ class AttachedUrl extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function recipes()
+    public function articles()
     {
         return $this->morphToMany(Article::class, 'article_attachments');
+    }
+
+    public function scopeValid($query)
+    {
+        return $query->whereNotNull('title')->whereNotNull('description');
+    }
+
+    public function scopeInvalid($query)
+    {
+        return $query->whereNull('title')->orWhereNull('description');
     }
 }

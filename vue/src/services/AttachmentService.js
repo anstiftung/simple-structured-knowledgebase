@@ -1,27 +1,53 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class AttachmentService {
-  createAttachmentUrls(urls, recipe) {
+  getAttachmentUrls(page = 1, creatorId = null, invalid = false) {
+    const config = {
+      method: 'get',
+      url: 'attached-urls',
+      params: {
+        page: page,
+        creatorId: creatorId,
+        invalid: invalid,
+      },
+    }
+    return makeApiRequest(config)
+  }
+
+  getAttachmentFiles(page = 1, creatorId = null, invalid = false) {
+    const config = {
+      method: 'get',
+      url: 'attached-files',
+      params: {
+        page: page,
+        creatorId: creatorId,
+        invalid: invalid,
+      },
+    }
+    return makeApiRequest(config)
+  }
+
+  createAttachmentUrls(urls, article) {
     const data = {
-      recipe_id: recipe.id,
       attached_urls: urls,
+      ...(article && { article_id: article.id }),
     }
     const config = {
       method: 'post',
-      url: 'attachedUrl/store',
+      url: 'attached-url',
       data: data,
     }
     return makeApiRequest(config)
   }
 
-  createAttachmentFiles(files, recipe, progressCallback) {
+  createAttachmentFiles(files, article, progressCallback) {
     const data = {
-      recipe_id: recipe.id,
       attached_files: files,
+      ...(article && { article_id: article.id }),
     }
     const config = {
       method: 'post',
-      url: 'attachedFile/store',
+      url: 'attached-file',
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -40,8 +66,8 @@ class AttachmentService {
       attached_urls: urls,
     }
     const config = {
-      method: 'post',
-      url: 'attachedUrl/update',
+      method: 'patch',
+      url: 'attached-url',
       data: data,
     }
     return makeApiRequest(config)
@@ -52,11 +78,17 @@ class AttachmentService {
       attached_files: files,
     }
     const config = {
-      method: 'post',
-      url: 'attachedFile/update',
+      method: 'patch',
+      url: 'attached-file',
       data: data,
     }
     return makeApiRequest(config)
+  }
+
+  combineAttachments(urls, files) {
+    let attachments = urls.concat(files)
+    attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+    return attachments
   }
 }
 

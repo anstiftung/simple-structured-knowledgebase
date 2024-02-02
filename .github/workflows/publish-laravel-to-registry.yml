@@ -1,16 +1,89 @@
 name: CI push Laravel App to registry.offene-werkstaetten.org
 
 on:
-  workflow_run:
-    workflows: ["Testing Laravel with MySQL"]
+  push:
     branches:
-      - "main"
-      - "dev"
-    types:
-      - completed
+      - 'main'
+      - 'dev'
 
 jobs:
+  laravel-test:
+    name: Laravel Testing (PHP ${{ matrix.php-versions }})
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./laravel
+    env:
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      BROADCAST_DRIVER: log
+      KEYCLOAK_REALM_PUBLIC_KEY: 'MIIBI'
+      KEYCLOAK_ALLOWED_RESOURCES: account
+      KEYCLOAK_USER_PROVIDER_CREDENTIAL: email
+      KEYCLOAK_TOKEN_PRINCIPAL_ATTRIBUTE: email
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.2', '8.3']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Docs: https://github.com/shivammathur/setup-php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: xdebug
+
+      # Local MySQL service in GitHub hosted environments is disabled by default.
+      # If you are using it instead of service containers, make sure you start it.
+      - name: Start mysql service
+        run: sudo systemctl start mysql.service
+
+      - name: Create default Database
+        run:
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{
+          env.DB_USERNAME }} -p${{ env.DB_PASSWORD }}
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          # Use composer.json for key, if composer.lock is not committed.
+          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Prepare the application
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate
+      #  php artisan jwt:secret
+      - name: Clear Config
+        run: php artisan config:clear
+
+      - name: Run Migration
+        run: php artisan migrate -v
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+
+      - name: Test with phpunit
+        run: vendor/bin/phpunit --coverage-text
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
   docker:
+    name: Deployment via Docker-Image
+    needs: laravel-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository 🕹️
@@ -49,7 +122,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /opt/containers/cotest &&
-            docker-compose pull &&
-            docker-compose down &&
+            cd /opt/containers/cotest
+            docker-compose pull
+            docker-compose down
             docker-compose up --force-recreate -d

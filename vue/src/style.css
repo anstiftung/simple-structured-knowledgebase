@@ -1,33 +1,117 @@
-@import "styles/fonts";
+@import 'styles/fonts';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
-    h1, h2, h3, h4, h5, h6 {
-        @apply font-rubik text-blue;
-    }
+  html {
+    font-size: 15px;
+  }
+  h1,
+  h2 {
+    @apply font-rubik;
+  }
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-medium font-rubik;
+  }
+  ul {
+    @apply list-disc list-inside;
+  }
+  ol {
+    @apply list-decimal list-inside;
+  }
 }
 
 @layer utilities {
-    .width-wrapper {
-        @apply w-11/12 max-w-screen-lg mx-auto;
-    }
-    .width-small-wrapper {
-        @apply w-9/12 max-w-screen-md mx-auto;
-    }
+  .width-wrapper {
+    @apply w-11/12 max-w-screen-lg mx-auto;
+  }
+  .width-small-wrapper {
+    @apply w-9/12 max-w-screen-md mx-auto;
+  }
+  .header-clip {
+      clip-path: polygon(0px 0px, 0 80%, 100% 100%, 100% 0px);
+  }
 }
 
 .default-button {
-    @apply bg-blue text-white;
-    @apply px-5 py-[10px];
-    @apply rounded-[10px];
+  @apply text-white border border-blue bg-blue;
+  @apply px-5 py-[5px];
+  @apply rounded-[5px];
+  @apply text-sm;
+  @apply duration-150;
 
+  &:hover {
+    @apply bg-dark border-dark;
+  }
+  &:disabled {
+    @apply bg-blue/20 border-blue/20;
+  }
+}
+
+.secondary-button {
+    @apply text-gray-800 border border-gray-800;
+    @apply px-5 py-[5px];
+    @apply rounded-[5px];
+    @apply text-sm;
     @apply duration-150;
 
     &:hover {
-        @apply bg-dark;
+        @apply bg-gray-200;
+    }
+
+    &:disabled {
+        @apply bg-gray-200;
+    }
+}
+
+.secondary-button.dense {
+    @apply px-3 py-[7px];
+    @apply rounded-[7px];
+}
+
+.secondary-button-square {
+    @apply w-[20px] h-[20px] text-center p-1 box-content;
+}
+
+.secondary-button-white {
+    @apply text-white border-white;
+    &:hover {
+        @apply bg-gray-200/20;
+    }
+}
+
+
+.prose {
+    ul, ol {
+        @apply pl-0;
+    }
+    ul li p,
+    ol li p {
+        @apply inline;
+    }
+    a {
+        @apply relative inline-block font-bold no-underline;
+        &:after {
+            @apply z-[-1] content-[''] block h-[3px] w-full rounded bottom-[3px] absolute right-0  bg-yellow transition-all;
+        }
+        &:hover:after {
+            @apply w-[80%];
+        }
+    }
+
+    a[data-type="Article"]:after {
+        @apply bg-orange;
+    }
+    a[data-type="Collection"]:after {
+        @apply bg-blue-400;
+    }
+    a[data-type="AttachedUrl"]:after,
+    a[data-type="AttachedFile"]:after {
+        @apply bg-green;
     }
 }
