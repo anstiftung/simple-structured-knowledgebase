@@ -36,8 +36,8 @@ class SearchController extends Controller
         foreach($types as $type) {
             $method = 'search' . ucfirst($type);
             if(method_exists($this, $method)) {
-                $result['data'] = array_merge($result['data'], $this->$method['data']);
-                $result['meta'] = array_merge($result['meta'], $this->$method['meta']);
+                $result['data'] = array_merge($result['data'], $this->$method()['data']);
+                $result['meta'] = array_merge($result['meta'], $this->$method()['meta']);
             }
             // I think we could refactor meta -> RecourceCollectionClass add count
         }
@@ -49,7 +49,8 @@ class SearchController extends Controller
     {
         $attachedImages = AttachedFile::where('title', 'like', '%' . $this->query . '%')
             ->whereIn('mime_type', ['image/png','image/jpg','image/jpeg'])
-            ->orderBy('created_at', 'DESC')->get();
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         $numAttachedImages = $attachedImages->count();
 
