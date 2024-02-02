@@ -33,22 +33,14 @@ class SearchController extends Controller
             'meta' => []
         ];
 
-        // ToDo: get $request->types and only append types defined in the array
-        // foreach($types as $type) {
-        // $tmp = call_user_func( 'search'. firstUppercase($type));
-        // $result['data'] = array_merge($result['data'],$tmp['data'])
-        // $result['meta'] = array_merge($result['meta'],$tmp['meta'])
-        // }
-
-        $result['data'] = array_merge($result['data'], $this->searchArticles()['data']);
-        $result['data'] = array_merge($result['data'], $this->searchCollections()['data']);
-        $result['data'] = array_merge($result['data'], $this->searchAttachments()['data']);
-        $result['data'] = array_merge($result['data'], $this->searchImages()['data']);
-
-        $result['meta'] = array_merge($result['meta'], $this->searchArticles()['meta']);
-        $result['meta'] = array_merge($result['meta'], $this->searchCollections()['meta']);
-        $result['meta'] = array_merge($result['meta'], $this->searchAttachments()['meta']);
-        $result['meta'] = array_merge($result['meta'], $this->searchImages()['meta']);
+        foreach($types as $type) {
+            $method = 'search' . ucfirst($type);
+            if(method_exists($this, $method)) {
+                $result['data'] = array_merge($result['data'], $this->$method['data']);
+                $result['meta'] = array_merge($result['meta'], $this->$method['meta']);
+            }
+            // I think we could refactor meta -> RecourceCollectionClass add count
+        }
 
         return response()->json($result);
     }
