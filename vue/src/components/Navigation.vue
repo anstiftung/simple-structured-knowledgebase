@@ -2,7 +2,6 @@
 import { inject, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
-import Icon from './Icon.vue'
 
 const userMenuVisible = ref(false)
 const userMenuOverlay = ref(null)
@@ -44,7 +43,7 @@ const $keycloak = inject('keycloak')
             ]"
           >
             <div
-              class="flex items-center gap-2 px-2 py-2 bg-white cursor-pointer items-center"
+              class="flex items-center gap-2 px-2 py-2 bg-white cursor-pointer"
               @click="userMenuVisible = !userMenuVisible"
             >
               <icon name="user" class="text-gray-900" />

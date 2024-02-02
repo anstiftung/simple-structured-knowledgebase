@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useModalStore } from '@/stores/modal'
-import Icon from '@/components/Icon.vue'
 
 import ModelSelector from '@/components/atoms/ModelSelector.vue'
 

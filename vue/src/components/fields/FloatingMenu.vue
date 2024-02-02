@@ -1,6 +1,5 @@
 <script setup>
 import { BubbleMenu } from '@tiptap/vue-3'
-import Icon from '@/components/Icon.vue'
 
 const props = defineProps({
   editor: Object,

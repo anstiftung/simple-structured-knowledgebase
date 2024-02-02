@@ -4,7 +4,6 @@ import { useDebounceFn, onClickOutside } from '@vueuse/core'
 
 import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
-import Icon from './Icon.vue'
 
 const props = defineProps({
   placeholder: String,
@@ -94,7 +93,7 @@ const resultAttachemntsLimited = computed(() => {
 <template>
   <div class="relative overflow-visible">
     <form
-      class="flex gap-2 px-4 py-2 bg-white rounded-md items-center"
+      class="flex items-center gap-2 px-4 py-2 bg-white rounded-md"
       v-on:submit.prevent="querySearch()"
     >
       <input
