@@ -2,6 +2,7 @@
 import { inject, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
+import Icon from './Icon.vue'
 
 const userMenuVisible = ref(false)
 const userMenuOverlay = ref(null)
@@ -29,7 +30,7 @@ const $keycloak = inject('keycloak')
             :to="{ name: 'dashboard' }"
             class="flex items-center gap-2 text-gray-300"
           >
-            <img src="/icons/dashboard.svg" />
+            <icon name="dashboard" />
             Dashboard
           </router-link>
           <div
@@ -43,18 +44,13 @@ const $keycloak = inject('keycloak')
             ]"
           >
             <div
-              class="flex items-center gap-2 px-2 py-2 bg-white cursor-pointer"
+              class="flex items-center gap-2 px-2 py-2 bg-white cursor-pointer items-center"
               @click="userMenuVisible = !userMenuVisible"
             >
-              <img src="/icons/user.svg" />
+              <icon name="user" class="text-gray-900" />
               <span class="grow">{{ userStore.name }}</span>
-              <img
-                :src="
-                  userMenuVisible
-                    ? '/icons/arrowUp.svg'
-                    : '/icons/arrowDown.svg'
-                "
-              />
+              <icon name="arrow-down" v-if="userMenuVisible" />
+              <icon name="arrow-up" v-else />
             </div>
             <div
               class="absolute left-[-1px] w-full user-menu-border-bottom min-w-[140px] bg-white"

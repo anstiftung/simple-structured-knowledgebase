@@ -94,7 +94,7 @@ const resultAttachemntsLimited = computed(() => {
 <template>
   <div class="relative overflow-visible">
     <form
-      class="flex gap-2 px-4 py-2 bg-white rounded-md"
+      class="flex gap-2 px-4 py-2 bg-white rounded-md items-center"
       v-on:submit.prevent="querySearch()"
     >
       <input
