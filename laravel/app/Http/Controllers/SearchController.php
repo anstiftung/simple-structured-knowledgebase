@@ -15,63 +15,94 @@ use App\Http\Resources\AttachedFileResource;
 
 class SearchController extends Controller
 {
+    protected $query = false;
+
+    public function __construct(Request $request)
+    {
+        $this->query = $request->query('query', false);
+    }
     /**
      * Run Search
      */
     public function search(Request $request)
     {
-        $searchQuery = $request->query('query', false);
-        $images_only = $request->query('images', false);
-
-
-        $collections = Collection::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
-        $articles = Article::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
-        $attachedUrls = AttachedUrl::where('title', 'like', '%' . $searchQuery . '%')->orderBy('created_at', 'DESC')->get();
-        $attachedFiles = AttachedFile::where('title', 'like', '%' . $searchQuery . '%')
-            ->when($images_only, function ($query) {
-                $query->whereIn('mime_type', ['image/png','image/jpg','image/jpeg']);
-            })
-            ->orderBy('created_at', 'DESC')->get();
-
-        $numCollections = $collections->count();
-        $numArticles = $articles->count();
-        $numAttachedUrls = $attachedUrls->count();
-        $numAttachediles = $attachedFiles->count();
-        $numResults = $numCollections + $numArticles + $numAttachedUrls + $numAttachediles;
-
-        if($images_only) {
-            $result = [
-                'data' => [
-                    'images' => ImageResource::collection($attachedFiles)
-                ],
-                'meta' => [
-                    'num_collections' => $numCollections,
-                    'num_articles' => $numArticles,
-                    'num_attached_urls' => $numAttachedUrls,
-                    'num_attached_files' => $numAttachediles,
-                    'num_images' => $numAttachediles,
-                    'num_results' => $numResults
-                ]
-            ];
-
-            return response()->json($result);
-        }
+        $types = $request->query('types', ['articles','collections','attachments','images']);
 
         $result = [
+            'data' => [],
+            'meta' => []
+        ];
+
+        // ToDo: get $request->types and only append types defined in the array
+        // foreach($types as $type) {
+        // $tmp = call_user_func( 'search'. firstUppercase($type));
+        // $result['data'] = array_merge($result['data'],$tmp['data'])
+        // $result['meta'] = array_merge($result['meta'],$tmp['meta'])
+        // }
+
+        $result['data'] = array_merge($result['data'], $this->searchArticles()['data']);
+        $result['data'] = array_merge($result['data'], $this->searchCollections()['data']);
+        $result['data'] = array_merge($result['data'], $this->searchAttachments()['data']);
+        $result['data'] = array_merge($result['data'], $this->searchImages()['data']);
+
+        $result['meta'] = array_merge($result['meta'], $this->searchArticles()['meta']);
+        $result['meta'] = array_merge($result['meta'], $this->searchCollections()['meta']);
+        $result['meta'] = array_merge($result['meta'], $this->searchAttachments()['meta']);
+        $result['meta'] = array_merge($result['meta'], $this->searchImages()['meta']);
+
+        return response()->json($result);
+    }
+
+    public function searchImages()
+    {
+        $attachedImages = AttachedFile::where('title', 'like', '%' . $this->query . '%')
+            ->whereIn('mime_type', ['image/png','image/jpg','image/jpeg'])
+            ->orderBy('created_at', 'DESC')->get();
+
+        $numAttachedImages = $attachedImages->count();
+
+        return [
+            'data' => [ 'images' => ImageResource::collection($attachedImages) ],
+            'meta' => [ 'num_images' => $numAttachedImages ]
+        ];
+    }
+    public function searchAttachments()
+    {
+        $attachedUrls = AttachedUrl::where('title', 'like', '%' . $this->query . '%')->get();
+        $attachedFiles = AttachedFile::where('title', 'like', '%' . $this->query . '%')->get();
+        $numAttachedUrls = $attachedUrls->count();
+        $numAttachedFiles = $attachedFiles->count();
+
+        return [
             'data' => [
-                'collections' => CollectionResource::collection($collections),
-                'articles' => ArticleResource::collection($articles),
                 'attached_urls' => AttachedUrlResource::collection($attachedUrls),
-                'attached_files' => AttachedFileResource::collection($attachedFiles),
+                'attached_files' => AttachedFileResource::collection($attachedFiles)
             ],
             'meta' => [
-                'num_collections' => $numCollections,
-                'num_articles' => $numArticles,
                 'num_attached_urls' => $numAttachedUrls,
-                'num_attached_files' => $numAttachediles,
-                'num_results' => $numResults
+                'num_attached_files' => $numAttachedFiles,
             ]
         ];
-        return response()->json($result);
+    }
+
+    public function searchCollections()
+    {
+        $collections = Collection::where('title', 'like', '%' . $this->query . '%')->orderBy('created_at', 'DESC')->get();
+        $numCollections = $collections->count();
+
+        return [
+            'data' => [ 'collections' => CollectionResource::collection($collections) ],
+            'meta' => [ 'num_collections' => $numCollections ]
+        ];
+    }
+    public function searchArticles()
+    {
+        $articles = Article::where('title', 'like', '%' . $this->query . '%')->get();
+        $numArticles = $articles->count();
+
+        return [
+            'data' => [ 'articles' => ArticleResource::collection($articles) ],
+            'meta' => [ 'num_articles' => $numArticles ]
+        ];
     }
 }
