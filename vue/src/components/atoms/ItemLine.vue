@@ -29,19 +29,12 @@ const props = defineProps({
       v-if="model.type == 'Article'"
       class="font-semibold cursor-pointer text-orange"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1rem"
-        height="1rem"
-        fill="#000000"
-        viewBox="0 0 256 256"
+      <icon
+        name="drag"
         class="inline-block mr-1 cursor-grab"
         v-if="dragable"
-      >
-        <path
-          d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z"
-        ></path>
-      </svg>
+      ></icon>
+
       <router-link v-if="navigate" :to="model.url">
         {{ model.title }}
       </router-link>
@@ -53,19 +46,11 @@ const props = defineProps({
       class="font-semibold text-blue-400 cursor-pointer"
       v-else-if="model.type == 'Collection'"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1rem"
-        height="1rem"
-        fill="#000000"
-        viewBox="0 0 256 256"
-        class="inline-block mr-1 cursor-grab"
+      <icon
+        name="drag"
+        class="inline-block mr-1 text-gray-200 cursor-grab"
         v-if="dragable"
-      >
-        <path
-          d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z"
-        ></path>
-      </svg>
+      ></icon>
       <router-link v-if="navigate" :to="model.url">
         {{ model.title }}
       </router-link>
