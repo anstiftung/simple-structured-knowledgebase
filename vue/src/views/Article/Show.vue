@@ -1,9 +1,9 @@
-<!-- <script setup>
-import { ref, compile, h, onCreated } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import ArticleService from '@/services/ArticleService'
 import AttachmentCard from '@/components/AttachmentCard.vue'
 
-import ItemLink from '@/components/atoms/ItemLink.vue'
+import ContentRenderer from './ContentRenderer.vue'
 
 import { useRoute } from 'vue-router'
 
@@ -12,37 +12,13 @@ const slug = route.params.slug
 const article = ref()
 
 const loadFromServer = () => {
-  ArticleService.getArticle(slug)
-    .then(data => {
-      article.value = data
-      document.title = `Cowiki | ${article.value.title}`
-      return render()
-    })
-    .catch(error => {
-      // ? do anything here?s
-    })
+  ArticleService.getArticle(slug).then(data => {
+    article.value = data
+    document.title = `Cowiki | ${article.value.title}`
+  })
 }
-setup() {
-    return h({ render: compile(article.value.content) })
-}
-
 
 loadFromServer()
-</script>
- -->
-<script>
-import { ref, compile, h } from 'vue'
-
-export default {
-  setup() {
-    return () =>
-      h({
-        render: compile(
-          '<p></p><p>iefhuofupowfw</p><p>ewrwehfewphfouwhoufew</p><item-link>Hello World!rwe</item-link><img src="/api/attached-file/2" alt="1f8d90d3b8fe695a350ebd252074a593.png" title="(c) Maxime voluptatibus enim aut."><item-link>Hello World!rwe</item-link>',
-        ),
-      })
-  },
-}
 </script>
 
 <template>
@@ -60,8 +36,9 @@ export default {
       </div>
     </section>
     <section v-if="article" class="my-8 width-wrapper">
-      <h2>Inhalt</h2>
-      <div class="prose" v-html="article.content"></div>
+      <div class="prose">
+        <content-renderer :content="article.content" />
+      </div>
       <h2>Anhänge</h2>
       <div class="grid grid-cols-3 gap-4">
         <attachment-card

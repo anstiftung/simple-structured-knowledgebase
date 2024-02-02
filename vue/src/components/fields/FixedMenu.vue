@@ -41,18 +41,19 @@ const toggleLinkSelection = type => {
   const componentProps = {
     modelType: type,
   }
-  props.editor.commands.setNode('itemLink')
-  return
   modal.open(ModelSelector, componentProps, selection => {
     if (selection) {
       let attributes = {
         href: selection.url,
         'data-type': selection.type,
+        'data-id': selection.id,
       }
       // lets open links to attachments in a new tab
       if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
         attributes['target'] = '_blank'
       }
+
+      props.editor.commands.setNode('itemLink', attributes)
 
       /* props.editor
         .chain()

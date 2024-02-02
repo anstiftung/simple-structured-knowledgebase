@@ -20,7 +20,7 @@ import Dropcursor from '@tiptap/extension-dropcursor'
 import { useEditor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
 import { mergeAttributes, Node } from '@tiptap/core'
 
-import ItemLink from '@/components/atoms/ItemLink.vue'
+import ItemLinkTipTap from '@/components/fields/ItemLinkTipTap.vue'
 
 import FloatingMenu from '@/components/fields/FloatingMenu.vue'
 import FixedMenu from '@/components/fields/FixedMenu.vue'
@@ -56,6 +56,23 @@ const ItemLinkNode = Node.create({
 
   content: 'inline*',
 
+  addAttributes() {
+    return {
+      'data-type': {
+        default: null,
+      },
+      'data-id': {
+        default: null,
+      },
+      href: {
+        default: null,
+      },
+      target: {
+        default: null,
+      },
+    }
+  },
+
   parseHTML() {
     return [
       {
@@ -69,7 +86,7 @@ const ItemLinkNode = Node.create({
   },
 
   addNodeView() {
-    return VueNodeViewRenderer(ItemLink)
+    return VueNodeViewRenderer(ItemLinkTipTap)
   },
 })
 

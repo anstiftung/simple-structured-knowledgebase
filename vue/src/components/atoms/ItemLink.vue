@@ -1,47 +1,33 @@
 <script setup>
-import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import { ref } from 'vue'
+import AttachmentService from '@/services/AttachmentService'
 const props = defineProps({
-  node: {
-    type: Object,
-    required: true,
-  },
+  dataType: String,
+  dataId: String,
+  href: String,
+  target: String,
 })
+const attachedFile = ref(null)
+
+const loadFromServer = () => {
+  if (props.dataType == 'AttachedFile') {
+    AttachmentService.getAttachedFile(props.dataId).then(data => {
+      attachedFile.value = data
+    })
+  }
+}
+loadFromServer()
 </script>
 
 <template>
-  <node-view-wrapper class="vue-component">
-    <span class="label" contenteditable="false">Vue Component</span>
-    <node-view-content class="content" />
-  </node-view-wrapper>
+  <a :data-type="props['dataType']" :href="props.href">
+    <slot></slot>
+    <span
+      class="inline-block ml-2 text-sm"
+      v-if="attachedFile && attachedFile.filesize"
+      >{{ $filters.bytesToHumandReadableSize(attachedFile.filesize) }}</span
+    >
+  </a>
 </template>
 
-<style scoped>
-.vue-component {
-  background: #faf594;
-  border: 3px solid #0d0d0d;
-  border-radius: 0.5rem;
-  margin: 1rem 0;
-  position: relative;
-}
-
-.label {
-  margin-left: 1rem;
-  background-color: #0d0d0d;
-  font-size: 0.6rem;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #fff;
-  position: absolute;
-  top: 0;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0 0 0.5rem 0.5rem;
-}
-
-.content {
-  margin: 2.5rem 1rem 1rem;
-  padding: 0.5rem;
-  border: 2px dashed #0d0d0d20;
-  border-radius: 0.5rem;
-}
-</style>
+<style scoped></style>
