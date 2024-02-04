@@ -79,7 +79,7 @@ class SearchTest extends TestCase
             ->create();
     }
 
-    public function test_empty_search_query_returns_everything_by_default(): void
+    public function test_empty_search_query_returns_everything(): void
     {
         $response = $this->get('/api/search');
 
@@ -92,5 +92,21 @@ class SearchTest extends TestCase
         $this->assertTrue($content->meta->num_attached_urls == AttachedUrl::valid()->get()->count(), 'Wrong number of attached_urls returned');
         $this->assertTrue($content->meta->num_attached_files == AttachedFile::valid()->get()->count(), 'Wrong number of attached_files returned');
         $this->assertTrue($content->meta->num_images == AttachedFile::whereIn('mime_type', ['image/png','image/jpg','image/jpeg'])->valid()->get()->count(), 'Wrong number of images returned');
+    }
+
+    public function test_search_type_article_returns_articles_only(): void
+    {
+        $response = $this->get('/api/search?types[]=articles');
+
+        $response->assertStatus(200);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertTrue(!property_exists($content->data, 'collections'), 'Data Property collections is not allowed to exist.');
+        $this->assertTrue(!property_exists($content->data, 'attached_urls'), 'Data Property attached_urls is not allowed to exist.');
+        $this->assertTrue(!property_exists($content->data, 'attached_files'), 'Data Property attached_files is not allowed to exist.');
+        $this->assertTrue(!property_exists($content->data, 'images'), 'Data Property images is not allowed to exist.');
+
+        $this->assertTrue($content->meta->num_articles == Article::all()->count(), 'Wrong number of articles returned');
     }
 }
