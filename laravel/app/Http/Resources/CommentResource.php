@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\ArticleResource;
 
 class CommentResource extends BaseResource
 {
@@ -18,8 +17,7 @@ class CommentResource extends BaseResource
         return parent::toArray($request) + [
             'type' => 'Comment',
             'id' => $this->id,
-            'content' => $this->content,
-            'article' => new ArticleResource($this->whenLoaded('article'))
+            'content' => $this->content
         ];
     }
 }
