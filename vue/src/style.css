@@ -87,12 +87,30 @@
 
 
 .prose {
+    h1, h2, h3, h4 {
+        @apply font-sans;
+    }
     ul, ol {
         @apply pl-0;
     }
     ul li p,
     ol li p {
         @apply inline;
+    }
+
+    ul {
+        @apply list-none;
+        li:before {
+            @apply content-[''] bg-yellow w-[15px] h-[15px] inline-block rounded-full mr-4;
+        }
+    }
+    ol {
+        @apply list-none;
+        counter-reset: list-number;
+        li:before {
+            @apply content-[counter(list-number)] bg-yellow w-[15px] h-[15px] text-xs text-center font-bold inline-block rounded-full mr-4;
+            counter-increment: list-number;
+        }
     }
     a {
         @apply relative inline-block font-bold no-underline;

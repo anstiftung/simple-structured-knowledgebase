@@ -57,7 +57,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->load(['attached_files', 'attached_urls']);
+        $article->load(['attached_files', 'attached_urls', 'collections']);
+
         return new ArticleResource($article);
     }
 
