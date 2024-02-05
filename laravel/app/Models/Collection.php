@@ -16,7 +16,8 @@ class Collection extends Model
     protected $fillable = [
         'title',
         'slug',
-        'description'
+        'description',
+        'featured'
     ];
 
     protected $casts = [

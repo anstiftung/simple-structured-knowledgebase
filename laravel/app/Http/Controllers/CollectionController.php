@@ -92,6 +92,12 @@ class CollectionController extends Controller
             'description' => $request->description,
         ]);
 
+        if ($user->can('feature collections')) {
+            $collection->update([
+                'featured' => $request->featured
+            ]);
+        }
+
         $articles = [];
         foreach($request->articles ?? [] as $article) {
             $articles[$article['id']] = ['order' => $article['order']];
