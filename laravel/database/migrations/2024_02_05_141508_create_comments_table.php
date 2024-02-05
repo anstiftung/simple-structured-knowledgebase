@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->text('content');
 
-            $table->foreignId('article_id')->nullable();
+            $table->foreignId('article_id');
             $table->foreign('article_id')->references('id')->on('articles');
 
             $table->foreignId('created_by_id')->nullable();

@@ -13,7 +13,8 @@ class Comment extends Model
     use HasCreatedByAndUpdatedByTrait;
 
     protected $fillable = [
-        'content'
+        'content',
+        'article_id'
     ];
 
     protected $casts = [
