@@ -93,7 +93,7 @@ const resultAttachemntsLimited = computed(() => {
 <template>
   <div class="relative overflow-visible">
     <form
-      class="flex gap-2 px-4 py-2 bg-white rounded-md"
+      class="flex items-center gap-2 px-4 py-2 bg-white rounded-md"
       v-on:submit.prevent="querySearch()"
     >
       <input
@@ -104,9 +104,10 @@ const resultAttachemntsLimited = computed(() => {
         @input="onQueryInput"
         @focus="showResultsFromFocus"
       />
-      <img
+      <icon
+        name="search"
         role="button"
-        src="/icons/search.svg"
+        class="fill-gray-400"
         @click.prevent="querySearch()"
       />
     </form>

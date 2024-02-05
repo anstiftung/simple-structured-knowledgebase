@@ -4,6 +4,7 @@ import 'vue-toastification/dist/index.css'
 import Toast, { POSITION } from 'vue-toastification'
 
 import App from './App.vue'
+import Icon from '@/components/atoms/Icon.vue'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import { createApp } from 'vue'
@@ -22,6 +23,8 @@ app.config.globalProperties.$filters = filters
 const toastSettings = {
   position: POSITION.TOP_CENTER,
 }
+
+app.component('Icon', Icon)
 
 const renderApp = () => {
   app.use(pinia)
