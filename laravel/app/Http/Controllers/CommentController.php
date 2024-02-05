@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Http\Resources\CommentResource;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -20,7 +22,22 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        if (!$user->can('create comments')) {
+            return parent::abortUnauthorized();
+        }
+
+        $request->validate([
+             'content' => 'required|max:1000',
+             'article_id' => 'exists:articles,id'
+         ]);
+
+        $newComment = Comment::create([
+           'content' => $request->content,
+           'article_id' => $request->article_id
+        ]);
+
+        return new CommentResource($newComment);
     }
 
     /**
