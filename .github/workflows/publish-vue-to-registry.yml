@@ -27,6 +27,16 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Build 🚜
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: docker/build-push-action@v4
+        with:
+          context: ./vue
+          build-args: MODE=production
+          push: true
+          tags: registry.offene-werkstaetten.org/cowiki-vue:${GITHUB_REF##*/}
+
+      - name: Build 🚜
+        if: ${{ github.ref == 'refs/heads/dev' }}
         uses: docker/build-push-action@v4
         with:
           context: ./vue

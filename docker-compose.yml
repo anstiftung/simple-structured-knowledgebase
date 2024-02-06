@@ -14,19 +14,21 @@ services:
       - ./nginx/.docker/default.conf:/etc/nginx/conf.d/default.conf
 
   vue:
-    build:
-      context: vue/.
-      dockerfile: Dockerfile.local
+    image: cowiki:staging
+    # build:
+    #   context: vue/.
+    #   dockerfile: Dockerfile.local
     container_name: cowiki.vue
-    command: yarn run dev
+    # command: yarn run dev
     ports:
-      - "8080:8080"
+    #  - "8080:8080"
+      - "8080:80"
     networks:
       - internal
-    volumes:
-      - /app/vendor
-      - /app/node_modules
-      - ./vue:/app
+    # volumes:
+    #   - /app/vendor
+    #   - /app/node_modules
+    #   - ./vue:/app
 
   laravel:
     build:
