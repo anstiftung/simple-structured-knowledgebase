@@ -31,9 +31,9 @@ const onStyleInput = () => {
 /* dropdown with differenct Infoboxes */
 const selectedInfoBox = ref(null)
 const infoBoxOptions = ref({
-  warning: { label: 'Infobox Warnung' },
-  danger: { label: 'Infobox Gefahr' },
-  question: { label: 'Infobox Frage' },
+  warning: { label: 'Hinweis' },
+  danger: { label: 'Gefahrenhinweis' },
+  question: { label: 'Fragestellung' },
 })
 
 const onInfoBoxInput = () => {
