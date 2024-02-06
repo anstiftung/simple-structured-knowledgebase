@@ -132,7 +132,7 @@ jobs:
           script: |
             cd /opt/containers/cotest
             docker-compose pull cotest.api
-            docker-compose restart -t 60 cotest.api
+            docker-compose up --force-recreate -d cotest.api
 
       - name: Deploy MAIN 🚀
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -145,4 +145,4 @@ jobs:
           script: |
             cd /opt/containers/staging.cowiki.de
             docker-compose pull staging.cowiki.api
-            docker-compose restart -t 60 staging.cowiki.api
+            docker-compose up --force-recreate -d staging.cowiki.api

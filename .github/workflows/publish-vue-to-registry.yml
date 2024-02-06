@@ -63,7 +63,7 @@ jobs:
           script: |
             cd /opt/containers/cotest
             docker-compose pull cotest.vue
-            docker-compose restart -t 60 cotest.vue
+            docker-compose up -d --force-recreate cotest.vue
 
       - name: Deploy MAIN 🚀
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -76,4 +76,4 @@ jobs:
           script: |
             cd /opt/containers/staging.cowiki.de
             docker-compose pull staging.cowiki.vue
-            docker-compose restart -t 60 staging.cowiki.vue
+            docker-compose up -d --force-recreate staging.cowiki.vue
