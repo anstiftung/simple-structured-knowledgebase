@@ -131,8 +131,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/containers/cotest
-            docker-compose pull cotest.api
-            docker-compose restart -t 60 cotest.api
+            docker-compose down cotest.api
+            docker-compose up --pull always --force-recreate -d cotest.api
 
       - name: Deploy MAIN 🚀
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -144,5 +144,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/containers/staging.cowiki.de
-            docker-compose pull staging.cowiki.api
-            docker-compose restart -t 60 staging.cowiki.api
+            docker-compose down staging.cowiki.api
+            docker-compose up --pull always --force-recreate -d staging.cowiki.api
