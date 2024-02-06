@@ -19,8 +19,9 @@ import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 
-import FloatingMenu from '@/components/fields/FloatingMenu.vue'
-import FixedMenu from '@/components/fields/FixedMenu.vue'
+import FloatingMenu from '@/components/editor/FloatingMenu.vue'
+import FixedMenu from '@/components/editor/FixedMenu.vue'
+import InfoBox from '@/components/editor/InfoBox.js'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -65,6 +66,7 @@ const editor = useEditor({
     ModelLink.configure({
       openOnClick: false,
     }),
+    InfoBox,
     Placeholder.configure({
       placeholder:
         'Inhalte einpflegen (Hinweise, dass Markdown erlaubt ist? ###, * etc.)',

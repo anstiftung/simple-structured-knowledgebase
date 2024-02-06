@@ -6,7 +6,7 @@ import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
-import Editor from '@/components/fields/Editor.vue'
+import Editor from '@/components/editor/Editor.vue'
 
 const toast = useToast()
 const router = useRouter()
