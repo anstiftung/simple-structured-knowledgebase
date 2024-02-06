@@ -21,7 +21,7 @@ import { useEditor, EditorContent } from '@tiptap/vue-3'
 
 import FloatingMenu from '@/components/editor/FloatingMenu.vue'
 import FixedMenu from '@/components/editor/FixedMenu.vue'
-import InfoBox from '@/components/InfoBox.js'
+import InfoBox from '@/components/editor/InfoBox.js'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
