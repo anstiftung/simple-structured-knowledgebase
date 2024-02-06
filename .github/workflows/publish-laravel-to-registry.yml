@@ -121,7 +121,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Deploy 🚀
+      - name: Deploy DEV 🚀
+        if: ${{ github.ref == 'refs/heads/dev' }}
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -132,3 +133,16 @@ jobs:
             cd /opt/containers/cotest
             docker-compose pull cotest.api
             docker-compose restart -t 60 cotest.api
+
+      - name: Deploy MAIN 🚀
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/containers/staging.cowiki.de
+            docker-compose pull staging.cowiki.api
+            docker-compose restart -t 60 staging.cowiki.api
