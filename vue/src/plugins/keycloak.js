@@ -1,7 +1,7 @@
 import Keycloak from 'keycloak-js'
 
 const initOptions = {
-  realm: 'verbund-offener-werkstaetten',
+  realm: import.meta.env.VITE_KEYCLOAK_REALM,
   clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
   url: import.meta.env.VITE_KEYCLOAK_BASE_URL,
   //   resource: 'cowiki', //this is optional, depending on your keycloak config
