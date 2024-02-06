@@ -3,8 +3,8 @@ name: CI push Vue App to registry.offene-werkstaetten.org
 on:
   push:
     branches:
-      - "main"
-      - "dev"
+      - 'main'
+      - 'dev'
 
 jobs:
   docker:
@@ -31,7 +31,7 @@ jobs:
         with:
           context: ./vue
           push: true
-          tags: registry.offene-werkstaetten.org/cowiki-vue:latest
+          tags: registry.offene-werkstaetten.org/cowiki-vue:${GITHUB_REF##*/}
 
       - name: Deploy 🚀
         uses: appleboy/ssh-action@v0.1.7

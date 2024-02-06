@@ -112,7 +112,7 @@ jobs:
         with:
           context: ./laravel
           push: true
-          tags: registry.offene-werkstaetten.org/cowiki-laravel:latest
+          tags: registry.offene-werkstaetten.org/cowiki-laravel:${GITHUB_REF##*/}
 
       - name: Deploy 🚀
         uses: appleboy/ssh-action@v0.1.7
