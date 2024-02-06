@@ -86,12 +86,11 @@ const modelResults = computed(() => {
 
 <template>
   <div class="relative overflow-visible bg-white rounded-md">
-    <form class="flex gap-2 px-4 py-2" v-on:submit.prevent="querySearch()">
-      <img
-        role="button"
-        src="/icons/search.svg"
-        @click.prevent="querySearch()"
-      />
+    <form
+      class="flex gap-2 px-4 py-2 items-center"
+      v-on:submit.prevent="querySearch()"
+    >
+      <icon name="search" role="button" @click.prevent="querySearch()" />
       <input
         class="w-full outline-none placeholder:text-gray-200"
         type="text"
