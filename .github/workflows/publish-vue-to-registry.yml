@@ -62,7 +62,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/containers/cotest
-            docker-compose up -d --force-recreate --pull always cotest.vue
+            docker-compose pull cotest.vue
+            docker-compose up -d --force-recreate cotest.vue
 
       - name: Deploy MAIN 🚀
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -74,4 +75,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/containers/staging.cowiki.de
-            docker-compose up -d --force-recreate --pull always staging.cowiki.vue
+            docker-compose pull staging.cowiki.vue
+            docker-compose up -d --force-recreate staging.cowiki.vue
