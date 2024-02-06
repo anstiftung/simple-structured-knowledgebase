@@ -50,6 +50,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/containers/cotest
-            docker-compose pull
-            docker-compose down
-            docker-compose up --force-recreate -d
+            docker-compose pull cotest.vue
+            docker-compose restart -t 60 cotest.vue

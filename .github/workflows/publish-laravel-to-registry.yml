@@ -130,6 +130,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/containers/cotest
-            docker-compose pull
-            docker-compose down
-            docker-compose up --force-recreate -d
+            docker-compose pull cotest.api
+            docker-compose restart -t 60 cotest.api
