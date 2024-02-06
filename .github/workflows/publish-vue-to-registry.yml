@@ -33,6 +33,17 @@ jobs:
           images: registry.offene-werkstaetten.org/cowiki-vue
 
       - name: Build 🚜
+        if: ${{ github.ref == 'refs/heads/dev' }}
+        uses: docker/build-push-action@v5
+        with:
+          context: ./vue
+          build-args: MODE=staging
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build 🚜
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v5
         with:
           context: ./vue
