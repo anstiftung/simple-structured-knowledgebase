@@ -1,21 +1,40 @@
-const Recipe = () => import( '@/views/Recipe.vue')
-const Recipes = () => import( '@/views/Recipes.vue')
+const Article = () => import('@/views/Article/Show.vue')
+const Articles = () => import('@/views/Article/List.vue')
+const ArticleEdit = () => import('@/views/Article/Edit.vue')
 
 export default [
   {
-    path: '/rezepte',
-    component: Recipes,
-    name: 'recipes',
+    path: '/beitraege',
+    component: Articles,
+    name: 'articles',
     meta: {
-      title: 'Rezepte',
+      title: 'Alle Beiträge',
     },
   },
   {
-    path: '/rezepte/:slug',
-    component: Recipe,
-    name: 'recipe',
+    path: '/beitrag/neu',
+    component: ArticleEdit,
+    name: 'articleCreate',
     meta: {
-      title: 'Rezept',
+      title: 'Neuer Beitrag',
+      protected: true,
+    },
+  },
+  {
+    path: '/beitrag/:slug/bearbeiten',
+    component: ArticleEdit,
+    name: 'articleEdit',
+    meta: {
+      title: 'Beitrag bearbeiten',
+      protected: true,
+    },
+  },
+  {
+    path: '/beitrag/:slug',
+    component: Article,
+    name: 'article',
+    meta: {
+      title: 'Beitrag',
     },
   },
 ]

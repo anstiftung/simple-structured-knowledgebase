@@ -58,7 +58,7 @@ class migrateAttachments extends Command
                 $attachment = AttachedFile::make([
                     'title' => $ingredient->title,
                     'filename' => $ingredient->filename,
-                    'description' => Str::limit($ingredient->content,390,'…'),
+                    'description' => Str::limit($ingredient->content, 390, '…'),
                     'mime_type' => '',
                     'filesize' => '0',
                     'preview_file' => '',
@@ -75,7 +75,7 @@ class migrateAttachments extends Command
                 $attachment->save();
 
             } else {
-                $this->line('Unable to find user for ingredient with id :'. $ingredient->id );
+                $this->line('Unable to find user for ingredient with id :'. $ingredient->id);
             }
         }
     }

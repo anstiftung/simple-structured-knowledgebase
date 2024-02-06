@@ -1,7 +1,7 @@
-const Landing  = () => import('@/views/Landing.vue')
-const NotAuthorized = () => import( '@/views/NotAuthorized.vue')
-const SearchResults = () => import( '@/views/SearchResults.vue')
-const Dashboard = () => import( '@/views/Dashboard.vue')
+const Landing = () => import('@/views/Landing.vue')
+const NotAuthorized = () => import('@/views/NotAuthorized.vue')
+const SearchResults = () => import('@/views/SearchResults.vue')
+const Dashboard = () => import('@/views/Dashboard.vue')
 
 export default [
   {
@@ -17,8 +17,8 @@ export default [
     component: NotAuthorized,
     name: 'not-authorized',
     meta: {
-        title: 'Zugriff verweigert'
-    }
+      title: 'Zugriff verweigert',
+    },
   },
   {
     path: '/suche/:query?',
@@ -33,8 +33,8 @@ export default [
     component: Dashboard,
     name: 'dashboard',
     meta: {
-        title: 'Dashboard',
-        protected: true,
-    }
+      title: 'Dashboard',
+      protected: true,
+    },
   },
 ]

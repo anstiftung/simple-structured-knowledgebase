@@ -1,12 +1,23 @@
 import axios from 'axios'
+import keycloakInstance from '@/plugins/keycloak.js'
 import { useToast } from 'vue-toastification'
 const API_URL = import.meta.env.VITE_API_ROOT + 'api/'
+
+const toast = useToast()
 
 const api = axios.create({
   baseURL: API_URL,
 })
 
-const toast = useToast()
+// adds interceptor to injext auth token in every api request
+api.interceptors.request.use(function (config) {
+  const token = keycloakInstance.token
+  if (token) {
+    config.headers.Authorization = 'Bearer ' + token
+  }
+
+  return config
+})
 
 export const makeApiRequest = config => {
   return api(config)

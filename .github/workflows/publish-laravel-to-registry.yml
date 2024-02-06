@@ -1,20 +1,93 @@
 name: CI push Laravel App to registry.offene-werkstaetten.org
 
 on:
-  workflow_run:
-    workflows: ["Testing Laravel with MySQL"]
+  push:
     branches:
-      - "main"
-      - "dev"
-    types:
-      - completed
+      - 'main'
+      - 'dev'
 
 jobs:
+  laravel-test:
+    name: Laravel Testing (PHP ${{ matrix.php-versions }})
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./laravel
+    env:
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      BROADCAST_DRIVER: log
+      KEYCLOAK_REALM_PUBLIC_KEY: 'MIIBI'
+      KEYCLOAK_ALLOWED_RESOURCES: account
+      KEYCLOAK_USER_PROVIDER_CREDENTIAL: email
+      KEYCLOAK_TOKEN_PRINCIPAL_ATTRIBUTE: email
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.2', '8.3']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Docs: https://github.com/shivammathur/setup-php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: xdebug
+
+      # Local MySQL service in GitHub hosted environments is disabled by default.
+      # If you are using it instead of service containers, make sure you start it.
+      - name: Start mysql service
+        run: sudo systemctl start mysql.service
+
+      - name: Create default Database
+        run:
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{
+          env.DB_USERNAME }} -p${{ env.DB_PASSWORD }}
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          # Use composer.json for key, if composer.lock is not committed.
+          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Prepare the application
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate
+      #  php artisan jwt:secret
+      - name: Clear Config
+        run: php artisan config:clear
+
+      - name: Run Migration
+        run: php artisan migrate -v
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+
+      - name: Test with phpunit
+        run: vendor/bin/phpunit --coverage-text
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
   docker:
+    name: Deployment via Docker-Image
+    needs: laravel-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository 🕹️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Nodejs Build Frontend 🚧
         run: |
@@ -22,26 +95,34 @@ jobs:
           yarn install --frozen-lockfile
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to registry.offene-werkstaetten.org Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: registry.offene-werkstaetten.org
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: registry.offene-werkstaetten.org/cowiki-laravel
+
       - name: Build 🚜
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./laravel
-          push: true
-          tags: registry.offene-werkstaetten.org/cowiki-laravel:latest
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Deploy 🚀
+      - name: Deploy DEV 🚀
+        if: ${{ github.ref == 'refs/heads/dev' }}
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -49,7 +130,19 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /opt/containers/cotest &&
-            docker-compose pull &&
-            docker-compose down &&
-            docker-compose up --force-recreate -d
+            cd /opt/containers/cotest
+            docker-compose pull cotest.api
+            docker-compose restart -t 60 cotest.api
+
+      - name: Deploy MAIN 🚀
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/containers/staging.cowiki.de
+            docker-compose pull staging.cowiki.api
+            docker-compose restart -t 60 staging.cowiki.api
