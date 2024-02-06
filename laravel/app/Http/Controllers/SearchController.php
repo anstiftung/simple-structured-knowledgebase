@@ -30,7 +30,9 @@ class SearchController extends Controller
 
         $result = [
             'data' => [],
-            'meta' => []
+            'meta' => [
+                'num_results' => 0,
+            ]
         ];
 
         foreach($types as $type) {
@@ -39,7 +41,23 @@ class SearchController extends Controller
                 $result['data'] = array_merge($result['data'], $this->$method()['data']);
                 $result['meta'] = array_merge($result['meta'], $this->$method()['meta']);
             }
-            // I think we could refactor meta -> RecourceCollectionClass add count
+        }
+
+        // ToDo: Refactor this. Maybe Move it to the Frontend?
+        if(array_key_exists('num_images', $result['meta'])) {
+            $result['meta']['num_results'] += $result['meta']['num_images'];
+        }
+        if(array_key_exists('num_collections', $result['meta'])) {
+            $result['meta']['num_results'] += $result['meta']['num_collections'];
+        }
+        if(array_key_exists('num_articles', $result['meta'])) {
+            $result['meta']['num_results'] += $result['meta']['num_articles'];
+        }
+        if(array_key_exists('num_attached_files', $result['meta'])) {
+            $result['meta']['num_results'] += $result['meta']['num_attached_files'];
+        }
+        if(array_key_exists('num_attached_urls', $result['meta'])) {
+            $result['meta']['num_results'] += $result['meta']['num_attached_urls'];
         }
 
         return response()->json($result);
@@ -61,8 +79,12 @@ class SearchController extends Controller
     }
     public function searchAttachments()
     {
-        $attachedUrls = AttachedUrl::where('title', 'like', '%' . $this->query . '%')->get();
-        $attachedFiles = AttachedFile::where('title', 'like', '%' . $this->query . '%')->get();
+        $attachedUrls = AttachedUrl::where('title', 'like', '%' . $this->query . '%')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        $attachedFiles = AttachedFile::where('title', 'like', '%' . $this->query . '%')
+            ->orderBy('created_at', 'DESC')
+            ->get();
         $numAttachedUrls = $attachedUrls->count();
         $numAttachedFiles = $attachedFiles->count();
 
@@ -80,7 +102,9 @@ class SearchController extends Controller
 
     public function searchCollections()
     {
-        $collections = Collection::where('title', 'like', '%' . $this->query . '%')->orderBy('created_at', 'DESC')->get();
+        $collections = Collection::where('title', 'like', '%' . $this->query . '%')
+            ->orderBy('created_at', 'DESC')
+            ->get();
         $numCollections = $collections->count();
 
         return [
@@ -90,7 +114,9 @@ class SearchController extends Controller
     }
     public function searchArticles()
     {
-        $articles = Article::where('title', 'like', '%' . $this->query . '%')->get();
+        $articles = Article::where('title', 'like', '%' . $this->query . '%')
+            ->orderBy('created_at', 'DESC')
+            ->get();
         $numArticles = $articles->count();
 
         return [
