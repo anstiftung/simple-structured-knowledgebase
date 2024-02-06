@@ -26,26 +26,20 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: registry.offene-werkstaetten.org/cowiki-vue
+
       - name: Build 🚜
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v4
         with:
           context: ./vue
           build-args: MODE=production
-          push: true
-          tags:
-            registry.offene-werkstaetten.org/cowiki-vue:${{ env.GITHUB_REF_NAME
-            }}
-
-      - name: Build 🚜
-        if: ${{ github.ref == 'refs/heads/dev' }}
-        uses: docker/build-push-action@v4
-        with:
-          context: ./vue
-          push: true
-          tags:
-            registry.offene-werkstaetten.org/cowiki-vue:${{ env.GITHUB_REF_NAME
-            }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Deploy 🚀
         uses: appleboy/ssh-action@v0.1.7
