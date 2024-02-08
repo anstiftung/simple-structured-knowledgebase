@@ -7,6 +7,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import Editor from '@/components/editor/Editor.vue'
+import StateSelect from '@/components/atoms/StateSelect.vue'
 
 const toast = useToast()
 const router = useRouter()
@@ -159,7 +160,10 @@ const discard = () => {
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100"
       >
-        <div class="text-sm">@todo: Edit creator and state of the article!</div>
+        <div class="text-sm">
+          <h4 class="mb-2 text-sm text-gray-300">Status</h4>
+          <state-select v-model="formData.article.state"></state-select>
+        </div>
         <div class="flex justify-end gap-4">
           <button
             class="secondary-button"
