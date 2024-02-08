@@ -5,16 +5,17 @@ namespace Database\Seeders;
 use App\Models\User;
 use Faker\Generator;
 use App\Models\Article;
+use App\Models\Comment;
 use App\Models\License;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Storage;
 use Database\Seeders\RolesPermissionsSeeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Process;
 
 class DatabaseSeeder extends Seeder
 {
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
         AttachedFile::truncate();
         AttachedUrl::truncate();
         Article::truncate();
+        Comment::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         $this->call([
@@ -91,7 +93,19 @@ class DatabaseSeeder extends Seeder
             $files = AttachedFile::get()->random($numAttachmentsToAttach / 2);
             $article->attached_urls()->attach($urls);
             $article->attached_files()->attach($files);
+
+            Comment::factory()->count(rand(0, 5))
+                ->state(new Sequence(
+                    fn(Sequence $sequence) => [
+                        'article_id' => $article->id,
+                        'created_by_id' => User::all()->random()->id,
+                        'updated_by_id' => User::all()->random()->id
+                    ],
+                ))
+                ->create();
         }
+
+
 
         foreach ($generatedFiles as $file) {
             Storage::disk('uploads')->deleteDirectory($file->id);

@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Article extends Model
 {
@@ -44,8 +43,13 @@ class Article extends Model
         return $this->morphedByMany(AttachedUrl::class, 'attachment', 'article_attachments');
     }
 
-    public function collections(): BelongsToMany
+    public function collections()
     {
         return $this->belongsToMany(Collection::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'ASC');
     }
 }
