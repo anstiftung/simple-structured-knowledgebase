@@ -13,7 +13,6 @@ import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import Editor from '@/components/editor/Editor.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
 
-
 const toast = useToast()
 
 const router = useRouter()
@@ -21,7 +20,6 @@ const route = useRoute()
 
 const userStore = useUserStore()
 const { hasPermission, getUser } = storeToRefs(userStore)
-
 
 let persistedArticle = ''
 const formData = reactive({
@@ -172,11 +170,16 @@ const discard = () => {
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100"
       >
         <div class="text-sm">
-            <template v-if="formData.article.created_by">
-                <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
-                <user-select v-if="hasPermission('edit article creator') && formData.article.id" v-model="formData.article.created_by"></user-select>
-                <p v-else>{{ formData.article.created_by.name }}</p>
-            </template>
+          <template v-if="formData.article.created_by">
+            <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
+            <user-select
+              v-if="
+                hasPermission('edit article creator') && formData.article.id
+              "
+              v-model="formData.article.created_by"
+            ></user-select>
+            <p v-else>{{ formData.article.created_by.name }}</p>
+          </template>
         </div>
         <div class="flex justify-end gap-4">
           <button
