@@ -1,5 +1,5 @@
 <template>
-  <svg fill="currentColor" height="1em" width="1em">
+  <svg fill="currentColor" height="1em" width="1em" class="inline-block">
     <use :href="fileLink" />
   </svg>
 </template>
