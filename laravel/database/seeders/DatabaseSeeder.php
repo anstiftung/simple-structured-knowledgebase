@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Faker\Generator;
+use App\Models\State;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\License;
@@ -53,6 +54,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RolesPermissionsSeeder::class,
+            StateSeeder::class
         ]);
 
         License::factory($this->numLicenses)->create();
@@ -83,7 +85,8 @@ class DatabaseSeeder extends Seeder
             ->state(new Sequence(
                 fn(Sequence $sequence) => [
                     'created_by_id' => User::all()->random()->id,
-                    'updated_by_id' => User::all()->random()->id
+                    'updated_by_id' => User::all()->random()->id,
+                    'state_id' => State::all()->random()->id
                 ],
             ))
             ->create();

@@ -33,6 +33,11 @@ class Article extends Model
         return 'slug';
     }
 
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+
     public function attached_files()
     {
         return $this->morphedByMany(AttachedFile::class, 'attachment', 'article_attachments');
