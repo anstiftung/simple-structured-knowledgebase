@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // resort collections
     Route::patch('/collections/featured/reorder', [CollectionListController::class, 'reorder']);
 
-    // create comments
+    // create/delete comments
     Route::post('/comment', [CommentController::class, 'store']);
+    Route::delete('/comment/{comment:id}', [CommentController::class, 'destroy']);
 });

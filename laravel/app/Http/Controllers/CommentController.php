@@ -62,6 +62,12 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $user = Auth::user();
+        if (!$user->can('delete comments')) {
+            return parent::abortUnauthorized();
+        }
+
+        $comment->delete();
+        return new CommentResource($comment);
     }
 }
