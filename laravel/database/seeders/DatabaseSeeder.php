@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
+use Database\Seeders\ArticleContentSeeder;
 use Database\Seeders\RolesPermissionsSeeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
@@ -124,6 +125,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CollectionSeeder::class,
+            ArticleContentSeeder::class,
         ]);
     }
 }
