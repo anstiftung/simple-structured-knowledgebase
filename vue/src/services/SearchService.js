@@ -1,24 +1,14 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class SearchService {
-  search(query) {
-    const config = {
-      method: 'get',
-      url: 'search',
-      params: {
-        query: query,
-      },
-    }
-    return makeApiRequest(config)
-  }
+  search(query, types = ['articles','collections','attachments']) {
 
-  searchAttachedFile(query) {
     const config = {
       method: 'get',
       url: 'search',
       params: {
         query: query,
-        images: true,
+        types: types
       },
     }
     return makeApiRequest(config)

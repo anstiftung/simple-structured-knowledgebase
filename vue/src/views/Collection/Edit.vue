@@ -222,7 +222,7 @@ const discard = () => {
             class="grow"
             @selected="selectModel"
             :navigate="false"
-            :returned-types="['articles']"
+            :types="['articles']"
           />
         </div>
       </div>

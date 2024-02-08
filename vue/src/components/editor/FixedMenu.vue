@@ -47,11 +47,8 @@ const toggleLinkSelection = type => {
     props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
     return
   }
-  const componentProps = {
-    modelType: type,
-  }
 
-  modal.open(ModelSelector, componentProps, selection => {
+  modal.open(ModelSelector, { modelType: type }, selection => {
     if (selection) {
       let attributes = {
         href: selection.url,
