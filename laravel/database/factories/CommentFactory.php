@@ -16,8 +16,13 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
+        $deletedAt = null;
+        if (fake()->boolean(20)) {
+            $deletedAt = fake()->dateTimeBetween('-5 months', 'now');
+        }
         return [
             'content' => fake()->sentence(50),
+            'deleted_at' => $deletedAt,
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];
