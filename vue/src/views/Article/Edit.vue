@@ -48,6 +48,7 @@ const init = () => {
       persistedArticle = JSON.stringify(formData.article)
     })
   } else {
+    // add the current created_by user to the empty formData.article: this allows showing it in the sidebar in an unsaved state
     formData.article.created_by = getUser
     persistedArticle = JSON.stringify(formData.article)
   }
