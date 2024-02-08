@@ -30,35 +30,23 @@ class SearchController extends Controller
 
         $result = [
             'data' => [],
-            'meta' => [
-                'num_results' => 0,
-            ]
+            'meta' => []
         ];
+
+        $numResults = 0;
 
         foreach($types as $type) {
             $method = 'search' . ucfirst($type);
             if(method_exists($this, $method)) {
-                $result['data'] = array_merge($result['data'], $this->$method()['data']);
-                $result['meta'] = array_merge($result['meta'], $this->$method()['meta']);
+                extract($this->$method()); // creates $data, $meta and $count
+                $result['data'] = array_merge($result['data'], $data);
+                $result['meta'] = array_merge($result['meta'], $meta);
+
+                $numResults+= $count;
             }
         }
 
-        // ToDo: Refactor this. Maybe Move it to the Frontend?
-        if(array_key_exists('num_images', $result['meta'])) {
-            $result['meta']['num_results'] += $result['meta']['num_images'];
-        }
-        if(array_key_exists('num_collections', $result['meta'])) {
-            $result['meta']['num_results'] += $result['meta']['num_collections'];
-        }
-        if(array_key_exists('num_articles', $result['meta'])) {
-            $result['meta']['num_results'] += $result['meta']['num_articles'];
-        }
-        if(array_key_exists('num_attached_files', $result['meta'])) {
-            $result['meta']['num_results'] += $result['meta']['num_attached_files'];
-        }
-        if(array_key_exists('num_attached_urls', $result['meta'])) {
-            $result['meta']['num_results'] += $result['meta']['num_attached_urls'];
-        }
+        $result['meta']['numResults'] =  $numResults;
 
         return response()->json($result);
     }
@@ -74,7 +62,8 @@ class SearchController extends Controller
 
         return [
             'data' => [ 'images' => ImageResource::collection($attachedImages) ],
-            'meta' => [ 'num_images' => $numAttachedImages ]
+            'meta' => [ 'num_images' => $numAttachedImages ],
+            'count' => $numAttachedImages
         ];
     }
     public function searchAttachments()
@@ -96,7 +85,9 @@ class SearchController extends Controller
             'meta' => [
                 'num_attached_urls' => $numAttachedUrls,
                 'num_attached_files' => $numAttachedFiles,
-            ]
+            ],
+            'count' => $numAttachedFiles + $numAttachedUrls
+
         ];
     }
 
@@ -109,7 +100,8 @@ class SearchController extends Controller
 
         return [
             'data' => [ 'collections' => CollectionResource::collection($collections) ],
-            'meta' => [ 'num_collections' => $numCollections ]
+            'meta' => [ 'num_collections' => $numCollections ],
+            'count' => $numCollections
         ];
     }
     public function searchArticles()
@@ -121,7 +113,8 @@ class SearchController extends Controller
 
         return [
             'data' => [ 'articles' => ArticleResource::collection($articles) ],
-            'meta' => [ 'num_articles' => $numArticles ]
+            'meta' => [ 'num_articles' => $numArticles ],
+            'count' => $numArticles
         ];
     }
 }
