@@ -15,4 +15,10 @@ abstract class Controller extends BaseController
     {
         return response()->json(['message' => 'Unauthorized'], 403);
     }
+
+    public function abortServerError($message = 'Server Error')
+    {
+        return response()->json(['message' => $message], 500);
+
+    }
 }

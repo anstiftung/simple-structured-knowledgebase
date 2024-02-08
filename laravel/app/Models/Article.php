@@ -20,7 +20,8 @@ class Article extends Model
         'title',
         'slug',
         'description',
-        'content'
+        'content',
+        'state_id'
     ];
 
     protected $casts = [

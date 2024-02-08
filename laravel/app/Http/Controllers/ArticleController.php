@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\State;
 use App\Models\Article;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -36,6 +37,11 @@ class ArticleController extends Controller
             return parent::abortUnauthorized();
         }
 
+        $draftState = State::where('key', 'draft')->first();
+        if (!$draftState) {
+            return parent::abortServerError('State not found');
+        }
+
         $request->validate([
              'title' => 'required|max:255',
              'description' => 'required|max:1000',
@@ -46,7 +52,8 @@ class ArticleController extends Controller
            'title' => $request->title,
            'slug' => Str::slug($request->title),
            'description' => $request->description,
-           'content' => $request->content
+           'content' => $request->content,
+           'state_id' => $draftState->id
         ]);
 
         return new ArticleResource($newArticle);
@@ -75,13 +82,15 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required|max:1000',
-            'content' => 'present|string|nullable'
+            'content' => 'present|string|nullable',
+            'state.id' => 'exists:states,id'
         ]);
 
         $article->update([
             'title' => $request->title,
             'description' => $request->description,
-            'content' => $request->content
+            'content' => $request->content,
+            'state_id' => $request->state['id']
         ]);
 
         $article->load(['attached_files', 'attached_urls']);
