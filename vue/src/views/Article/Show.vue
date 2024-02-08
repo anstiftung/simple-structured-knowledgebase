@@ -1,13 +1,24 @@
 <script setup>
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router'
+import { useToast } from 'vue-toastification'
+
+import { useUserStore } from '@/stores/user'
+
+
+import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
+
+import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import AttachmentCard from '@/components/AttachmentCard.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
-import { useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+
+const toast = useToast()
 
 const userStore = useUserStore()
+const { hasPermission } = storeToRefs(userStore)
 
 const route = useRoute()
 const slug = route.params.slug
@@ -21,6 +32,28 @@ const loadFromServer = () => {
     })
     .catch(error => {
       // ? do anything here?s
+    })
+}
+
+const deleteComment = (comment) => {
+    toast.clear()
+    const content = {
+        component: ConfirmationToast,
+        props: {
+            message: 'Kommentar wirklich entfernen?',
+        },
+        listeners: {
+            granted: () => {
+                    CommentService.deleteComment(comment).then((data) => {
+                    loadFromServer()
+                })
+            },
+        },
+    }
+    toast(content, {
+        timeout: false,
+        icon: false,
+        closeButton: false,
     })
 }
 
@@ -83,13 +116,16 @@ loadFromServer()
     </section>
 
     <section v-if="article" class="my-8 width-wrapper">
-      <h3 class="pb-2 border-b">
-        Kommentare ({{ article.comments ? article.comments.length : '0' }})
-      </h3>
+        <h3 class="pb-2 border-b ">
+            Kommentare ({{ article.comments ? article.comments.length : '0' }})
+        </h3>
       <div class="grid grid-cols-6">
         <div class="col-span-4 divide-y">
           <div class="py-8" v-for="comment in article.comments">
-            <h4>{{ comment.created_by.name }}</h4>
+            <div class="flex justify-between">
+                <h4>{{ comment.created_by.name }}</h4>
+                <a v-if="hasPermission('delete comments')" @click="deleteComment(comment)">[DELETE]</a>
+            </div>
             <p class="text-gray-200">
               {{ $filters.formatedDate(comment.created_at) }}
             </p>

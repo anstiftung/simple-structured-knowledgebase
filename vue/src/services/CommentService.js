@@ -12,6 +12,14 @@ class CommentService {
     }
     return makeApiRequest(config)
   }
+
+  deleteComment(comment) {
+    const config = {
+        method: 'delete',
+        url: `comment/${comment.id}`
+    }
+    return makeApiRequest(config)
+  }
 }
 
 export default new CommentService()
