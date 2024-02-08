@@ -161,8 +161,10 @@ const discard = () => {
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar"
       >
         <div class="text-sm">
-          <h4 class="mb-2 text-sm text-gray-300">Status</h4>
-          <state-select v-model="formData.article.state"></state-select>
+          <template v-if="formData.article.id">
+            <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>
+            <state-select v-model="formData.article.state"></state-select>
+          </template>
         </div>
         <div class="flex justify-end gap-4">
           <button
