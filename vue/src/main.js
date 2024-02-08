@@ -36,6 +36,6 @@ const renderApp = () => {
   app.mount('#app')
 }
 
-_keycloak.init({ checkLoginIframe: false }).then(() => {
+_keycloak.init({ checkLoginIframe: false, onLoad: 'check-sso' }).then(auth => {
   renderApp()
 })
