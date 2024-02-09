@@ -34,28 +34,12 @@ const props = defineProps({
   },
 })
 
-const ModelLink = Link.extend({
-  addAttributes() {
-    return {
-      'data-type': {
-        default: null,
-      },
-      href: {
-        default: null,
-      },
-      target: {
-        default: null,
-      },
-    }
-  },
-})
-
 const ItemLinkNode = Node.create({
   name: 'itemLink',
 
-  group: 'block',
-
-  content: 'inline*',
+  group: 'inline',
+  inline: true,
+  content: 'text*',
 
   addAttributes() {
     return {
@@ -75,6 +59,7 @@ const ItemLinkNode = Node.create({
   },
 
   parseHTML() {
+    console.log('Parse HTML for ItemLink')
     return [
       {
         tag: 'item-link',
@@ -107,9 +92,6 @@ const editor = useEditor({
     Strike,
     Image,
     Dropcursor,
-    ModelLink.configure({
-      openOnClick: false,
-    }),
     ItemLinkNode,
     InfoBox,
     Placeholder.configure({

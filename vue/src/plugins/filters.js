@@ -9,7 +9,7 @@ const filters = {
   },
   fileNameToFileType(fileName) {
     const parts = fileName.split('.')
-    return '.' + parts[parts.length - 1]
+    return parts[parts.length - 1]
   },
   bytesToHumandReadableSize(size) {
     const i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024))

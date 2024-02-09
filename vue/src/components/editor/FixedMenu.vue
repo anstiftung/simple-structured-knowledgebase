@@ -59,8 +59,25 @@ const toggleLinkSelection = type => {
       if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
         attributes['target'] = '_blank'
       }
-
-      props.editor.commands.setNode('itemLink', attributes)
+      const { view, state } = props.editor
+      const { from, to } = view.state.selection
+      let text = state.doc.textBetween(from, to, '')
+      if (!text) {
+        text = selection.title
+      }
+      const node = props.editor.schema.nodes.itemLink.create(attributes)
+      console.log(node)
+      props.editor.commands.insertContent({
+        type: 'itemLink',
+        attrs: attributes,
+        content: [
+          {
+            type: 'text',
+            text: text,
+          },
+        ],
+      })
+      //props.editor.commands.setNode('itemLink', attributes)
 
       /* props.editor
         .chain()

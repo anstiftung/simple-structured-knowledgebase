@@ -20,7 +20,8 @@ Route::controller(LicenseController::class)->group(function () {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles', 'index');
-    Route::get('/article/{article:slug}', 'show');
+    Route::get('/article/{articleSlugOrId}', 'show');
+
 });
 
 Route::controller(SearchController::class)->group(function () {
