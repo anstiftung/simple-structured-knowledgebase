@@ -20,7 +20,7 @@ import Dropcursor from '@tiptap/extension-dropcursor'
 import { useEditor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
 import { mergeAttributes, Node } from '@tiptap/core'
 
-import ItemLinkTipTap from '@/components/fields/ItemLinkTipTap.vue'
+import ItemLinkTipTap from '@/components/editor/ItemLinkTipTap.vue'
 
 import FloatingMenu from '@/components/editor/FloatingMenu.vue'
 import FixedMenu from '@/components/editor/FixedMenu.vue'
