@@ -1,17 +1,26 @@
 <script setup>
 import { reactive, computed } from 'vue'
-import ArticleService from '@/services/ArticleService'
+import { storeToRefs } from 'pinia'
 import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
+
+import { useUserStore } from '@/stores/user'
+import ArticleService from '@/services/ArticleService'
 import { required$, maxLength$ } from '@/plugins/validators.js'
+
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
+import UserSelect from '@/components/atoms/UserSelect.vue'
 
 const toast = useToast()
+
 const router = useRouter()
 const route = useRoute()
+
+const userStore = useUserStore()
+const { hasPermission, getUser } = storeToRefs(userStore)
 
 let persistedArticle = ''
 const formData = reactive({
@@ -40,6 +49,8 @@ const init = () => {
       persistedArticle = JSON.stringify(formData.article)
     })
   } else {
+    // add the current created_by user to the empty formData.article: this allows showing it in the sidebar in an unsaved state
+    formData.article.created_by = getUser
     persistedArticle = JSON.stringify(formData.article)
   }
 }
@@ -164,6 +175,16 @@ const discard = () => {
           <template v-if="formData.article.id">
             <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>
             <state-select v-model="formData.article.state"></state-select>
+          </template>
+          <template v-if="formData.article.created_by">
+            <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
+            <user-select
+              v-if="
+                hasPermission('edit article creator') && formData.article.id
+              "
+              v-model="formData.article.created_by"
+            ></user-select>
+            <p v-else>{{ formData.article.created_by.name }}</p>
           </template>
         </div>
         <div class="flex justify-end gap-4">

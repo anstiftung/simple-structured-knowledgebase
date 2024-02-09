@@ -46,7 +46,7 @@ class SearchController extends Controller
             }
         }
 
-        $result['meta']['numResults'] =  $numResults;
+        $result['meta']['num_results'] =  $numResults;
 
         return response()->json($result);
     }

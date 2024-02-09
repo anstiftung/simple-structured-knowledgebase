@@ -4,11 +4,12 @@ import { useDebounceFn, onClickOutside } from '@vueuse/core'
 
 import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import LoadingSpinner from './atoms/LoadingSpinner.vue'
 
 const props = defineProps({
   placeholder: String,
   initialQuery: String,
-  returnedTypes: {
+  types: {
     type: Array,
     default: ['articles', 'collections', 'attachments'],
   },
@@ -25,6 +26,7 @@ const searchResults = ref([])
 const searchMeta = ref([])
 
 const resultsVisible = ref(false)
+const loading = ref(false)
 const resultsOverlay = ref(null)
 
 const escapeKeyHandler = e => {
@@ -58,13 +60,12 @@ const onQueryInput = useDebounceFn(() => {
 }, 250)
 
 const querySearch = () => {
-  if (!searchQuery.value || searchQuery.value.length <= 3) {
-    return
-  }
-  SearchService.search(searchQuery.value).then(({ data, meta }) => {
+  loading.value = true
+  SearchService.search(searchQuery.value, props.types).then(({ data, meta }) => {
     searchResults.value = data
     searchMeta.value = meta
     resultsVisible.value = true
+    loading.value = false
   })
 }
 
@@ -114,10 +115,11 @@ const resultAttachemntsLimited = computed(() => {
     <div
       v-if="resultsVisible"
       ref="resultsOverlay"
-      class="min-h-[100px] max-h-[400px] overflow-y-scroll w-full absolute bg-white rounded drop-shadow-lg p-4"
+      class="min-h-[100px] max-h-[400px] overflow-y-scroll w-full absolute bg-white rounded drop-shadow-lg p-4 z-50"
     >
-      <div class="flex flex-col gap-2">
-        <template v-if="props.returnedTypes.includes('articles')">
+      <loading-spinner class="my-4" v-if="loading"></loading-spinner>
+      <div v-else class="flex flex-col gap-2">
+        <template v-if="props.types.includes('articles')">
           <p class="text-sm italic text-gray-300">Beiträge</p>
           <item-line
             v-for="article in resultArticlesLimited"
@@ -130,7 +132,7 @@ const resultAttachemntsLimited = computed(() => {
           </p>
         </template>
 
-        <template v-if="props.returnedTypes.includes('collections')">
+        <template v-if="props.types.includes('collections')">
           <p class="mt-4 text-sm italic text-gray-300">Sammlungen</p>
           <item-line
             v-for="collection in resultCollectionsLimited"
@@ -143,7 +145,7 @@ const resultAttachemntsLimited = computed(() => {
           </p>
         </template>
 
-        <template v-if="props.returnedTypes.includes('attachments')">
+        <template v-if="props.types.includes('attachments')">
           <p class="mt-4 text-sm italic text-gray-300">Anhänge</p>
           <item-line
             v-for="attachment in resultAttachemntsLimited"

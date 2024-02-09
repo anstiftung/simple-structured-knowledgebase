@@ -16,6 +16,12 @@ export const useUserStore = defineStore('user', {
         return state.permissions.includes(p)
       }
     },
+    getUser: state => {
+        return {
+            id: state.id,
+            name: state.name
+        }
+    }
   },
   actions: {
     /* ToDo: rename this function, it's not doing what it sound like */
