@@ -17,8 +17,6 @@ import { useUserStore } from './stores/user'
 const pinia = createPinia()
 const app = createApp(App)
 
-const _keycloak = keycloakInstance
-
 app.config.globalProperties.$filters = filters
 
 const toastSettings = {
@@ -27,19 +25,13 @@ const toastSettings = {
 
 app.component('Icon', Icon)
 
+app.provide('axios', app.config.globalProperties.axios)
+app.provide('keycloak', keycloakInstance)
+
 app.use(pinia)
 app.use(VueAxios, axios)
 app.use(Toast, toastSettings)
-app.provide('axios', app.config.globalProperties.axios)
-app.provide('keycloak', _keycloak)
-
-const renderApp = () => {
-  const userStore = useUserStore()
-  userStore.loadUserData()
-  app.use(router)
+app.use(router)
+keycloakInstance.init({ checkLoginIframe: false }).then(() => {
   app.mount('#app')
-}
-
-_keycloak.init({ checkLoginIframe: false, onLoad: 'check-sso' }).then(() => {
-  renderApp()
 })

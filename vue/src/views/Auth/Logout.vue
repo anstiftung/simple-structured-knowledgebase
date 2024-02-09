@@ -12,7 +12,7 @@ const BASE_ROUTE = import.meta.env.VITE_BASE_URL
 if ($keycloak.authenticated) {
   $keycloak.logout({ redirectUri: BASE_ROUTE + 'auth/logout' })
 } else {
-  userStore.logout()
+  userStore.deleteUserData()
   router.push({ name: 'landing', replace: true })
 }
 </script>
