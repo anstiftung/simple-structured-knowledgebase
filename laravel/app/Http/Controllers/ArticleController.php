@@ -57,7 +57,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->load(['attached_files', 'attached_urls']);
+        $article->load(['attached_files', 'attached_urls', 'collections', 'comments']);
+
         return new ArticleResource($article);
     }
 
@@ -74,7 +75,8 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required|max:1000',
-            'content' => 'present|string|nullable'
+            'content' => 'present|string|nullable',
+            'created_by.id' => 'exists:users,id'
         ]);
 
         $article->update([
@@ -82,6 +84,13 @@ class ArticleController extends Controller
             'description' => $request->description,
             'content' => $request->content
         ]);
+
+        // conditional update article creator
+        if ($user->can('edit article creator')) {
+            $article->update([
+                'created_by_id' => $request->created_by['id']
+            ]);
+        }
 
         $article->load(['attached_files', 'attached_urls']);
         return new ArticleResource($article);

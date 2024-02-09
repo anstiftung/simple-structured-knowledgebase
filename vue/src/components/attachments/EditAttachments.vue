@@ -5,7 +5,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 
-import LicenseSelect from '@/components/fields/LicenseSelect.vue'
+import LicenseSelect from '@/components/atoms/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
 
 const props = defineProps({

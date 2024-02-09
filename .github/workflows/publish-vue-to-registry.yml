@@ -3,37 +3,57 @@ name: CI push Vue App to registry.offene-werkstaetten.org
 on:
   push:
     branches:
-      - "main"
-      - "dev"
+      - 'main'
+      - 'dev'
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository 🕹️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to registry.offene-werkstaetten.org Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: registry.offene-werkstaetten.org
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: registry.offene-werkstaetten.org/cowiki-vue
+
       - name: Build 🚜
-        uses: docker/build-push-action@v4
+        if: ${{ github.ref == 'refs/heads/dev' }}
+        uses: docker/build-push-action@v5
         with:
           context: ./vue
-          push: true
-          tags: registry.offene-werkstaetten.org/cowiki-vue:latest
+          build-args: MODE=staging
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Deploy 🚀
+      - name: Build 🚜
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: docker/build-push-action@v5
+        with:
+          context: ./vue
+          build-args: MODE=production
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Deploy DEV 🚀
+        if: ${{ github.ref == 'refs/heads/dev' }}
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -42,6 +62,18 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /opt/containers/cotest
-            docker-compose pull
-            docker-compose down
-            docker-compose up --force-recreate -d
+            docker-compose pull cotest.vue
+            docker-compose up -d --force-recreate cotest.vue
+
+      - name: Deploy MAIN 🚀
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/containers/staging.cowiki.de
+            docker-compose pull staging.cowiki.vue
+            docker-compose up -d --force-recreate staging.cowiki.vue

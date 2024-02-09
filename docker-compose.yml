@@ -20,7 +20,7 @@ services:
     container_name: cowiki.vue
     command: yarn run dev
     ports:
-      - "8080:8080"
+     - "8080:8080"
     networks:
       - internal
     volumes:

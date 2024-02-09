@@ -1,6 +1,5 @@
 const Landing = () => import('@/views/Landing.vue')
 const NotAuthorized = () => import('@/views/NotAuthorized.vue')
-const SearchResults = () => import('@/views/SearchResults.vue')
 const Dashboard = () => import('@/views/Dashboard.vue')
 
 export default [
@@ -18,14 +17,6 @@ export default [
     name: 'not-authorized',
     meta: {
       title: 'Zugriff verweigert',
-    },
-  },
-  {
-    path: '/suche/:query?',
-    component: SearchResults,
-    name: 'search',
-    meta: {
-      title: 'Suche',
     },
   },
   {

@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useModalStore } from '@/stores/modal'
-import BaseIcon from '../icons/BaseIcon.vue'
 
 import ModelSelector from '@/components/atoms/ModelSelector.vue'
 
@@ -11,9 +10,9 @@ const props = defineProps({
   editor: Object,
 })
 
+/* dropdown with differenct node Styles */
 const selectedStyle = ref('p')
-
-const options = ref({
+const styleOptions = ref({
   p: { label: 'Absatz' },
   h2: { label: 'Ü2', level: 2 },
   h3: { label: 'Ü3', level: 3 },
@@ -24,24 +23,32 @@ const onStyleInput = () => {
   if (selectedStyle.value === 'p') {
     props.editor.chain().focus().clearNodes().run()
   } else {
-    const level = options.value[selectedStyle.value].level
+    const level = styleOptions.value[selectedStyle.value].level
     props.editor.chain().focus().setHeading({ level: level }).run()
   }
 }
 
-const mode = computed(() => {
-  return props.editor.isActive('heading', { level: 1 })
+/* dropdown with differenct Infoboxes */
+const selectedInfoBox = ref(null)
+const infoBoxOptions = ref({
+  warning: { label: 'Hinweis' },
+  danger: { label: 'Gefahrenhinweis' },
+  question: { label: 'Fragestellung' },
 })
 
+const onInfoBoxInput = () => {
+  props.editor.commands.setNode('infoBox', {
+    'data-type': selectedInfoBox.value,
+  })
+}
+/* allows toggling links to different model types */
 const toggleLinkSelection = type => {
   if (props.editor.isActive('link')) {
     props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
     return
   }
-  const componentProps = {
-    modelType: type,
-  }
-  modal.open(ModelSelector, componentProps, selection => {
+
+  modal.open(ModelSelector, { modelType: type }, selection => {
     if (selection) {
       let attributes = {
         href: selection.url,
@@ -65,19 +72,7 @@ const toggleLinkSelection = type => {
   })
 }
 
-const insertAttachmentAsImage = () => {
-  modal.open(ModelSelector, { modelType: 'images' }, selection => {
-    if (selection) {
-      let attributes = {
-        src: selection.url,
-        alt: selection.filename,
-        title: '(c) ' + selection.source,
-      }
-      props.editor.commands.setImage(attributes)
-    }
-  })
-}
-
+/* checks which of the above inserted links is currently active */
 const editorLinkActive = linkType => {
   if (props.editor.isActive('link') && props.editor.isFocused) {
     let type = props.editor.getAttributes('link')['data-type']
@@ -89,8 +84,24 @@ const editorLinkActive = linkType => {
   return false
 }
 
+/* allows inserting attachments as inline images */
+const insertAttachmentAsImage = () => {
+  modal.open(ModelSelector, { modelType: 'images' }, selection => {
+    if (selection) {
+      let attributes = {
+        src: selection.url,
+        alt: selection.title,
+        title: '(c) ' + selection.source,
+      }
+      props.editor.commands.setImage(attributes)
+    }
+  })
+}
+
+/* selectionUpdate watcher for currently active nodes */
 onMounted(() => {
   props.editor.on('selectionUpdate', ({ editor }) => {
+    // updates selectedStyle value
     if (editor.isActive('paragraph')) {
       selectedStyle.value = 'p'
     }
@@ -98,6 +109,16 @@ onMounted(() => {
       if (editor.isActive('heading', { level: index })) {
         selectedStyle.value = `h${index}`
       }
+    }
+    // updates selectedInfoBox value
+    if (!editor.isActive('infoBox')) {
+      selectedInfoBox.value = null
+    } else {
+      Object.keys(infoBoxOptions.value).forEach(key => {
+        if (editor.isActive('infoBox', { 'data-type': key })) {
+          selectedInfoBox.value = key
+        }
+      })
     }
   })
 })
@@ -110,7 +131,7 @@ onMounted(() => {
       @change="onStyleInput"
       v-model="selectedStyle"
     >
-      <option v-for="(value, key) in options" :value="key">
+      <option v-for="(value, key) in styleOptions" :value="key">
         {{ value.label }}
       </option>
     </select>
@@ -122,7 +143,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="unordered-list"></base-icon>
+      <icon name="unorderedlist"></icon>
     </button>
     <button
       @click="editor.chain().focus().toggleOrderedList().run()"
@@ -131,7 +152,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="ordered-list"></base-icon>
+      <icon name="orderedlist"></icon>
     </button>
 
     <button
@@ -159,7 +180,7 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="attachment"></base-icon>
+      <icon name="attachment"></icon>
     </button>
     <button
       @click="insertAttachmentAsImage()"
@@ -168,8 +189,18 @@ onMounted(() => {
         'secondary-button',
       ]"
     >
-      <base-icon name="image"></base-icon>
+      <icon name="image"></icon>
     </button>
+    <select
+      class="secondary-button"
+      @change="onInfoBoxInput"
+      v-model="selectedInfoBox"
+    >
+      <option disabled selected :value="null">InfoBox</option>
+      <option v-for="(value, key) in infoBoxOptions" :value="key">
+        {{ value.label }}
+      </option>
+    </select>
   </div>
 </template>
 

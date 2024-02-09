@@ -36,6 +36,12 @@
   .header-clip {
       clip-path: polygon(0px 0px, 0 80%, 100% 100%, 100% 0px);
   }
+  .max-h-full-without-header {
+    max-height: calc(100vh - theme('height.header'))
+  }
+  .sticky-sidebar {
+    @apply sticky top-header max-h-full-without-header;
+  }
 }
 
 .default-button {
@@ -87,12 +93,30 @@
 
 
 .prose {
+    h1, h2, h3, h4 {
+        @apply font-sans;
+    }
     ul, ol {
         @apply pl-0;
     }
     ul li p,
     ol li p {
         @apply inline;
+    }
+
+    ul {
+        @apply list-none;
+        li:before {
+            @apply content-[''] bg-yellow w-[15px] h-[15px] inline-block rounded-full mr-4;
+        }
+    }
+    ol {
+        @apply list-none;
+        counter-reset: list-number;
+        li:before {
+            @apply content-[counter(list-number)] bg-yellow w-[15px] h-[15px] text-xs text-center font-bold inline-block rounded-full mr-4;
+            counter-increment: list-number;
+        }
     }
     a {
         @apply relative inline-block font-bold no-underline;
@@ -113,5 +137,21 @@
     a[data-type="AttachedUrl"]:after,
     a[data-type="AttachedFile"]:after {
         @apply bg-green;
+    }
+
+    .info-box {
+        @apply max-w-[90%] mx-auto my-4 p-4 rounded-md bg-yellow text-black relative pl-12 whitespace-break-spaces break-words;
+    }
+    .info-box:before {
+        @apply content-[''] absolute left-3 top-5 size-5 bg-contain;
+    }
+    .info-box[data-type="warning"]:before {
+        background-image: url('/icons/warning.svg');
+    }
+    .info-box[data-type="question"]:before {
+        background-image: url('/icons/question.svg');
+    }
+    .info-box[data-type="danger"]:before {
+        background-image: url('/icons/danger.svg');
     }
 }

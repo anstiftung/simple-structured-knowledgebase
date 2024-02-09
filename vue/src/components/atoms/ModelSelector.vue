@@ -5,12 +5,14 @@ import { useDebounceFn } from '@vueuse/core'
 import AttachmentService from '@/services/AttachmentService'
 import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
 
 const props = defineProps({
   modelType: String,
 })
 const emit = defineEmits(['done'])
 
+const loading = ref(false)
 const searchQuery = ref('')
 const searchResults = ref([])
 const searchMeta = ref(null)
@@ -18,6 +20,7 @@ const searchInput = ref(null)
 
 onMounted(() => {
   searchInput.value.focus()
+  querySearch()
 })
 
 const onQueryInput = useDebounceFn(() => {
@@ -27,23 +30,12 @@ const onQueryInput = useDebounceFn(() => {
 }, 250)
 
 const querySearch = () => {
-  if (!searchQuery.value || searchQuery.value.length <= 3) {
-    return
-  }
-
-  if (props.modelType == 'images') {
-    SearchService.searchAttachedFile(searchQuery.value).then(
-      ({ data, meta }) => {
-        searchResults.value = data
-        searchMeta.value = meta
-      },
-    )
-  } else {
-    SearchService.search(searchQuery.value).then(({ data, meta }) => {
+  loading.value = true
+  SearchService.search(searchQuery.value, [props.modelType]).then(({ data, meta }) => {
       searchResults.value = data
       searchMeta.value = meta
-    })
-  }
+      loading.value = false
+  })
 }
 
 const selectModel = model => {
@@ -76,9 +68,9 @@ const modelResults = computed(() => {
       searchResults.value.attached_files,
     )
   } else {
-    console.error(
+    console.warn(
       'Unable to extract search results for modelType',
-      props.modelType,
+      props.modelType, searchResults.value
     )
   }
 })
@@ -86,12 +78,11 @@ const modelResults = computed(() => {
 
 <template>
   <div class="relative overflow-visible bg-white rounded-md">
-    <form class="flex gap-2 px-4 py-2" v-on:submit.prevent="querySearch()">
-      <img
-        role="button"
-        src="/icons/search.svg"
-        @click.prevent="querySearch()"
-      />
+    <form
+      class="flex items-center gap-2 px-4 py-2"
+      v-on:submit.prevent="querySearch()"
+    >
+      <icon name="search" role="button" @click.prevent="querySearch()" />
       <input
         class="w-full outline-none placeholder:text-gray-200"
         type="text"
@@ -102,15 +93,14 @@ const modelResults = computed(() => {
       />
     </form>
     <div class="min-h-[100px] max-h-[400px] overflow-y-scroll bg-white p-4">
-      <p
-        v-if="!searchMeta || searchMeta.num_results == 0"
-        class="mt-8 text-center text-gray-300"
-      >
-        Keine Ergebnisse
-      </p>
+      <loading-spinner v-if="loading"></loading-spinner>
       <div v-else class="flex flex-col gap-2">
         <p class="text-sm italic text-gray-300">{{ modelLabel }}</p>
+        <p v-if="!searchMeta || searchMeta.num_results == 0">
+          Keine Ergebnisse
+        </p>
         <item-line
+          v-else
           v-for="item in modelResults"
           :model="item"
           :showType="false"
