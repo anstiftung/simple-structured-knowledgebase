@@ -32,6 +32,8 @@ app.use(pinia)
 app.use(VueAxios, axios)
 app.use(Toast, toastSettings)
 app.use(router)
-keycloakInstance.init({ checkLoginIframe: false }).then(() => {
-  app.mount('#app')
-})
+keycloakInstance
+  .init({ checkLoginIframe: false, onLoad: 'check-sso' })
+  .then(() => {
+    app.mount('#app')
+  })
