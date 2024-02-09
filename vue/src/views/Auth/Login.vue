@@ -10,20 +10,15 @@ const router = useRouter()
 const BASE_ROUTE = import.meta.env.VITE_BASE_URL
 
 if ($keycloak.authenticated) {
-  console.log('logged in. set user store now!')
-  userStore.loadUserData($keycloak.token)
-  router.push({ name: 'dashboard', replace: true })
+  userStore.loadUserData($keycloak.token).then(() => {
+    router.push({ name: 'dashboard', replace: true })
+  })
+  // router.go(-2)
 } else {
-  console.log('log in with keycloak')
-  $keycloak
-    .login({ redirectUri: BASE_ROUTE + '/auth/login/' })
-    .then(auth => {
-      console.log(auth)
-    })
-    .catch(err => {
-      console.error(err)
-      next({ name: 'not-authorized' })
-    })
+  $keycloak.login({ redirectUri: BASE_ROUTE + '/auth/login/' }).catch(err => {
+    console.error(err)
+    next({ name: 'not-authorized' })
+  })
 }
 </script>
 <template>

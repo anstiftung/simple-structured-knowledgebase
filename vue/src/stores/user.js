@@ -19,11 +19,11 @@ export const useUserStore = defineStore('user', {
       return state.name != null && state.id != null && state.email != null
     },
     getUser: state => {
-        return {
-            id: state.id,
-            name: state.name
-        }
-    }
+      return {
+        id: state.id,
+        name: state.name,
+      }
+    },
   },
   actions: {
     async loadUserData(token) {
@@ -40,7 +40,7 @@ export const useUserStore = defineStore('user', {
           this.permissions = response.data.data.permissions
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
         })
     },
     deleteUserData() {

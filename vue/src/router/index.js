@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
   if (to.meta.protected) {
     if (!userStore.isAuthenticated) {
-      router.push({ name: 'landing', replace: true })
+      router.push({ name: 'not-authorized', replace: true })
     } else {
       next()
     }
