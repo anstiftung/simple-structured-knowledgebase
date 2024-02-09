@@ -18,7 +18,7 @@ class ArticleContentSeeder extends Seeder
         $articles = Article::all();
         foreach ($articles as $article) {
             $randomCollection = Collection::inRandomOrder()->limit(1)->first();
-            $randomArticle = Article::inRandomOrder()->limit(1)->first();
+            $randomArticle = Article::published()->inRandomOrder()->limit(1)->first();
             $randomAttachedURL = AttachedUrl::inRandomOrder()->limit(1)->first();
             $randomAttachedFile = AttachedFile::inRandomOrder()->limit(1)->first();
 

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -37,11 +36,5 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
-
-
-        Route::bind('any_article', function ($slug) {
-            return Article::includeUnpublished()->where('slug', $slug)->firstOrFail();
-        });
-
     }
 }

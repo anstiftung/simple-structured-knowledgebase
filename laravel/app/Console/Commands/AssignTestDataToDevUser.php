@@ -56,7 +56,7 @@ class AssignTestDataToDevUser extends Command
                 $url->save();
             }
 
-            $articles = Article::includeUnpublished()->get();
+            $articles = Article::all();
             foreach ($articles as $article) {
                 $article->created_by()->associate($user);
                 $article->updated_by()->associate($user);

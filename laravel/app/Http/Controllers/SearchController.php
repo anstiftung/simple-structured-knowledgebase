@@ -7,6 +7,7 @@ use App\Models\Collection;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\CollectionResource;
@@ -42,7 +43,7 @@ class SearchController extends Controller
                 $result['data'] = array_merge($result['data'], $data);
                 $result['meta'] = array_merge($result['meta'], $meta);
 
-                $numResults+= $count;
+                $numResults += $count;
             }
         }
 
@@ -106,9 +107,15 @@ class SearchController extends Controller
     }
     public function searchArticles()
     {
+        $user = Auth::user();
+
         $articles = Article::where('title', 'like', '%' . $this->query . '%')
             ->orderBy('created_at', 'DESC')
+            ->when(empty($user), function ($query) {
+                $query->published();
+            })
             ->get();
+
         $numArticles = $articles->count();
 
         return [
