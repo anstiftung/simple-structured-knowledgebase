@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
-import { inject } from 'vue'
+// import { inject } from 'vue'
+import keycloakInstance from '@/plugins/keycloak'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useUserStore = defineStore('user', {
@@ -18,13 +19,12 @@ export const useUserStore = defineStore('user', {
     },
   },
   actions: {
-    /* ToDo: rename this function, it's not doing what it sound like */
-    async initUser() {
-      const $keycloak = inject('keycloak')
+    async loadUserData() {
+      // const $keycloak = inject('keycloak')
       await axios
-        .get('api/dashboard', {
+        .get('api/user-credentials', {
           headers: {
-            Authorization: 'Bearer ' + $keycloak.token,
+            Authorization: 'Bearer ' + keycloakInstance.token,
           },
         })
         .then(response => {
