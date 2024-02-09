@@ -171,12 +171,12 @@ const discard = () => {
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar"
       >
-        <div class="text-sm">
-          <template v-if="formData.article.id">
+        <div class="flex flex-col gap-6 text-sm">
+          <div v-if="formData.article.id">
             <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>
             <state-select v-model="formData.article.state"></state-select>
-          </template>
-          <template v-if="formData.article.created_by">
+          </div>
+          <div v-if="formData.article.created_by">
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
             <user-select
               v-if="
@@ -185,7 +185,7 @@ const discard = () => {
               v-model="formData.article.created_by"
             ></user-select>
             <p v-else>{{ formData.article.created_by.name }}</p>
-          </template>
+          </div>
         </div>
         <div class="flex justify-end gap-4">
           <button
