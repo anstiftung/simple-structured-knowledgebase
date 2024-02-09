@@ -21,8 +21,13 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
+
+        $user = Auth::user();
+
         $articles = Article::when(!empty($request->creatorId), function ($query) use ($request) {
             $query->where('created_by_id', $request->creatorId);
+        })->when($user, function ($query) {
+            $query->includeUnpublished();
         })->orderBy('updated_at', 'DESC')->paginate();
 
         return ArticleResource::collection($articles);
@@ -66,6 +71,11 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        $user = Auth::user();
+        if (!$user && $article->state->key != 'publish') {
+            abort(404);
+        }
+
         $article->load(['attached_files', 'attached_urls', 'collections', 'comments']);
 
         return new ArticleResource($article);

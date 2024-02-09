@@ -7,6 +7,7 @@ use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Scopes\ArticlePublishedScope;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,6 +16,13 @@ class Article extends Model
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
     use HasUniqueSlugTrait;
+
+    protected static function boot()
+    {
+        parent::boot();
+        // apply global published scope
+        static::addGlobalScope(new ArticlePublishedScope());
+    }
 
     protected $fillable = [
         'title',
@@ -38,6 +46,12 @@ class Article extends Model
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
+    }
+
+    // local scope to access unpublished articles
+    public function scopeIncludeUnpublished($query)
+    {
+        return $query->withoutGlobalScope(ArticlePublishedScope::class);
     }
 
     public function attached_files()

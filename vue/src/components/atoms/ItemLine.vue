@@ -36,9 +36,12 @@ const props = defineProps({
       ></icon>
 
       <router-link v-if="navigate" :to="model.url">
-        {{ model.title }}
+        [{{ model.state.key }}] {{ model.title }}
       </router-link>
       <template v-else>{{ model.title }}</template>
+      <span class="inline-block ml-2 font-normal text-gray-200"
+        >erstellt {{ $filters.formatedDate(model.created_at) }}</span
+      >
     </span>
 
     <!-- collections -->
@@ -55,6 +58,9 @@ const props = defineProps({
         {{ model.title }}
       </router-link>
       <template v-else>{{ model.title }}</template>
+      <span class="inline-block ml-2 font-normal text-gray-200"
+        >erstellt {{ $filters.formatedDate(model.created_at) }}</span
+      >
     </span>
 
     <!-- images -->

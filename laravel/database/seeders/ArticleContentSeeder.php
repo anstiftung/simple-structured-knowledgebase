@@ -10,7 +10,6 @@ use Illuminate\Database\Seeder;
 
 class ArticleContentSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      */
