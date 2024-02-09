@@ -31,9 +31,14 @@ app.provide('keycloak', keycloakInstance)
 app.use(pinia)
 app.use(VueAxios, axios)
 app.use(Toast, toastSettings)
-app.use(router)
+
 keycloakInstance
   .init({ checkLoginIframe: false, onLoad: 'check-sso' })
   .then(() => {
+    const userStore = useUserStore()
+    if (!auth) userStore.deleteUserData()
+
+    // It's important add router AFTER eventually userStore is deleted!
+    app.use(router)
     app.mount('#app')
   })
