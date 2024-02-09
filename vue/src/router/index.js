@@ -17,6 +17,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = `Cowiki | ${to.meta.title}`
   const userStore = useUserStore()
+
+  if (to.hash.startsWith('#error=login_required')) {
+    to.hash = null
+    next(to)
+  }
+
   if (to.meta.protected) {
     if (!userStore.isAuthenticated) {
       router.push({ name: 'not-authorized', replace: true })
