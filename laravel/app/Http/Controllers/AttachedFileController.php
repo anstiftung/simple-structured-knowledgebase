@@ -89,21 +89,29 @@ class AttachedFileController extends Controller
      */
     public function show(AttachedFile $attachedFile)
     {
+        //@todo: this is currently unrestricted!
         return new AttachedFileResource($attachedFile);
+    }
 
-        /*         $path = storage_path('uploads/' . $attachedFile->id . '/' . $attachedFile->filename);
 
-                if (!File::exists($path)) {
-                    abort(404);
-                }
+    /**
+    * Serve the specified resource.
+    */
+    public function serve(AttachedFile $attachedFile)
+    {
+        $path = storage_path('uploads/' . $attachedFile->id . '/' . $attachedFile->filename);
 
-                $file = File::get($path);
-                $type = File::mimeType($path);
+        if (!File::exists($path)) {
+            abort(404);
+        }
 
-                $response = Response::make($file, 200);
-                $response->header("Content-Type", $type);
+        $file = File::get($path);
+        $type = File::mimeType($path);
 
-                return $response; */
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 
     /**
