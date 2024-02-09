@@ -1,16 +1,25 @@
 <script setup>
 import { reactive, computed } from 'vue'
-import ArticleService from '@/services/ArticleService'
+import { storeToRefs } from 'pinia'
 import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
+
+import { useUserStore } from '@/stores/user'
+import ArticleService from '@/services/ArticleService'
 import { required$, maxLength$ } from '@/plugins/validators.js'
+
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import Editor from '@/components/editor/Editor.vue'
+import UserSelect from '@/components/atoms/UserSelect.vue'
 
 const toast = useToast()
+
 const router = useRouter()
 const route = useRoute()
+
+const userStore = useUserStore()
+const { hasPermission, getUser } = storeToRefs(userStore)
 
 let persistedArticle = ''
 const formData = reactive({
@@ -39,6 +48,8 @@ const init = () => {
       persistedArticle = JSON.stringify(formData.article)
     })
   } else {
+    // add the current created_by user to the empty formData.article: this allows showing it in the sidebar in an unsaved state
+    formData.article.created_by = getUser
     persistedArticle = JSON.stringify(formData.article)
   }
 }
@@ -159,7 +170,18 @@ const discard = () => {
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar"
       >
-        <div class="text-sm">@todo: Edit creator and state of the article!</div>
+        <div class="text-sm">
+          <template v-if="formData.article.created_by">
+            <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
+            <user-select
+              v-if="
+                hasPermission('edit article creator') && formData.article.id
+              "
+              v-model="formData.article.created_by"
+            ></user-select>
+            <p v-else>{{ formData.article.created_by.name }}</p>
+          </template>
+        </div>
         <div class="flex justify-end gap-4">
           <button
             class="secondary-button"
