@@ -1,8 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import ArticleService from '@/services/ArticleService'
-import AttachmentCard from '@/components/AttachmentCard.vue'
-import ContentRenderer from './ContentRenderer.vue'
 
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
@@ -17,6 +14,7 @@ import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import AttachmentCard from '@/components/AttachmentCard.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import ContentRenderer from './ContentRenderer.vue'
 
 const toast = useToast()
 
