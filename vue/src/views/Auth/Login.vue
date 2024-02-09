@@ -10,14 +10,19 @@ const router = useRouter()
 const BASE_ROUTE = import.meta.env.VITE_BASE_URL
 
 if ($keycloak.authenticated) {
-  $keycloak.logout({ redirectUri: BASE_ROUTE + 'auth/logout' })
+  userStore.loadUserData($keycloak.token).then(() => {
+    router.push({ name: 'dashboard', replace: true })
+  })
+  // router.go(-2)
 } else {
-  userStore.deleteUserData()
-  router.push({ name: 'landing', replace: true })
+  $keycloak.login({ redirectUri: BASE_ROUTE + '/auth/login/' }).catch(err => {
+    console.error(err)
+    next({ name: 'not-authorized' })
+  })
 }
 </script>
 <template>
   <div class="width-wrapper">
-    <p>Erfolgreich abgemeldet!</p>
+    <p>Erfolgreich angemeldet!</p>
   </div>
 </template>
