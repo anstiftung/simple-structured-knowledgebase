@@ -34,7 +34,7 @@ app.use(Toast, toastSettings)
 
 keycloakInstance
   .init({ checkLoginIframe: false, onLoad: 'check-sso' })
-  .then(() => {
+  .then(auth => {
     const userStore = useUserStore()
     if (!auth) userStore.deleteUserData()
 
