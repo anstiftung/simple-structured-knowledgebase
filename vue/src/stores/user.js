@@ -18,6 +18,12 @@ export const useUserStore = defineStore('user', {
     isAuthenticated: state => {
       return state.name != null && state.id != null && state.email != null
     },
+    getUser: state => {
+        return {
+            id: state.id,
+            name: state.name
+        }
+    }
   },
   actions: {
     async loadUserData(token) {

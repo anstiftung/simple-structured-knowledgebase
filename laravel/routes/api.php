@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\UserCredentialsController;
-
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\AttachedUrlController;
 use App\Http\Controllers\AttachedFileController;
@@ -72,4 +72,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // create/delete comments
     Route::post('/comment', [CommentController::class, 'store']);
     Route::delete('/comment/{comment:id}', [CommentController::class, 'destroy']);
+
+    // list users
+    Route::get('/users', [UserController::class, 'index']);
 });
