@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.hash.startsWith('#error=login_required')) {
     to.hash = null
-    next(to)
+    return next(to)
   }
 
   if (to.meta.protected) {
