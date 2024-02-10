@@ -23,15 +23,11 @@ router.beforeEach((to, from, next) => {
     return next(to)
   }
 
-  if (to.meta.protected) {
-    if (!userStore.isAuthenticated) {
-      router.push({ name: 'not-authorized', replace: true })
-    } else {
-      next()
-    }
-  } else {
-    next()
+  if (to.meta.protected && !userStore.isAuthenticated) {
+    router.push({ name: 'not-authorized', replace: true })
   }
+
+  next()
 })
 
 export default router
