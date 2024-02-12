@@ -36,7 +36,7 @@ const props = defineProps({
       ></icon>
 
       <router-link v-if="navigate" :to="model.url">
-        [{{ model.state.key }}] {{ model.title }}
+        {{ model.title }}
       </router-link>
       <template v-else>{{ model.title }}</template>
       <span class="inline-block ml-2 font-normal text-gray-200"

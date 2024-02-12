@@ -17,10 +17,12 @@ use App\Http\Resources\AttachedFileResource;
 class SearchController extends Controller
 {
     protected $query = false;
+    protected $onlyPublished = true;
 
     public function __construct(Request $request)
     {
         $this->query = $request->query('query', false);
+        $this->onlyPublished = $request->boolean('onlyPublished');
     }
     /**
      * Run Search
@@ -111,7 +113,7 @@ class SearchController extends Controller
 
         $articles = Article::where('title', 'like', '%' . $this->query . '%')
             ->orderBy('created_at', 'DESC')
-            ->when(empty($user), function ($query) {
+            ->when(empty($user) || $this->onlyPublished, function ($query) {
                 $query->published();
             })
             ->get();
