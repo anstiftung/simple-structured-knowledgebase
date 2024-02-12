@@ -22,8 +22,8 @@ const formData = reactive({
 const rules = {
   attachmentList: {
     $each: helpers.forEach({
-      title: { required$, maxLength: maxLength$(30) },
-      description: { required$, maxLength: maxLength$(50) },
+      title: { required$, maxLength: maxLength$(100) },
+      description: { required$, maxLength: maxLength$(250) },
       source: { required$, maxLength: maxLength$(400) },
       license: { required$ },
     }),

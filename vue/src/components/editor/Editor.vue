@@ -17,7 +17,10 @@ import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+import { useEditor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
+import { mergeAttributes, Node } from '@tiptap/core'
+
+import ItemLinkTipTap from '@/components/editor/ItemLinkTipTap.vue'
 
 import FloatingMenu from '@/components/editor/FloatingMenu.vue'
 import FixedMenu from '@/components/editor/FixedMenu.vue'
@@ -31,10 +34,19 @@ const props = defineProps({
   },
 })
 
-const ModelLink = Link.extend({
+const ItemLinkNode = Node.create({
+  name: 'itemLink',
+
+  group: 'inline',
+  inline: true,
+  content: 'text*',
+
   addAttributes() {
     return {
       'data-type': {
+        default: null,
+      },
+      'data-id': {
         default: null,
       },
       href: {
@@ -44,6 +56,22 @@ const ModelLink = Link.extend({
         default: null,
       },
     }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'item-link',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['item-link', mergeAttributes(HTMLAttributes), 0]
+  },
+
+  addNodeView() {
+    return VueNodeViewRenderer(ItemLinkTipTap)
   },
 })
 
@@ -63,9 +91,7 @@ const editor = useEditor({
     Strike,
     Image,
     Dropcursor,
-    ModelLink.configure({
-      openOnClick: false,
-    }),
+    ItemLinkNode,
     InfoBox,
     Placeholder.configure({
       placeholder:

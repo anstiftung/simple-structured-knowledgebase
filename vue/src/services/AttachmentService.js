@@ -1,6 +1,13 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class AttachmentService {
+  getAttachedFile(id) {
+    const config = {
+      method: 'get',
+      url: `attached-file/${id}`,
+    }
+    return makeApiRequest(config)
+  }
   getAttachmentUrls(page = 1, creatorId = null, invalid = false) {
     const config = {
       method: 'get',

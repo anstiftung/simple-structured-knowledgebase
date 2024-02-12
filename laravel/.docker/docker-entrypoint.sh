@@ -57,6 +57,14 @@ elif [ "false" == "$XDEBUG" ] && [ -f /usr/local/etc/php/conf.d/docker-php-ext-x
   rm -rf /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 fi
 
+# Start supervisor
+service supervisor start
+supervisorctl reread
+supervisorctl update
+supervisorctl start "laravel-worker:*"
+
+# artisan commands
+
 art view:clear
 art route:clear
 art config:clear

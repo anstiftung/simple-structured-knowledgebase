@@ -89,7 +89,16 @@ class AttachedFileController extends Controller
      */
     public function show(AttachedFile $attachedFile)
     {
+        //@todo: this is currently unrestricted!
+        return new AttachedFileResource($attachedFile);
+    }
 
+
+    /**
+    * Serve the specified resource.
+    */
+    public function serve(AttachedFile $attachedFile)
+    {
         $path = storage_path('uploads/' . $attachedFile->id . '/' . $attachedFile->filename);
 
         if (!File::exists($path)) {
@@ -118,8 +127,8 @@ class AttachedFileController extends Controller
         $request->validate([
             'attached_files' => 'required|array|min:1',
             'attached_files.*.id' => 'required|exists:attached_files,id',
-            'attached_files.*.title' => 'required|max:30',
-            'attached_files.*.description' => 'required|max:50',
+            'attached_files.*.title' => 'required|max:100',
+            'attached_files.*.description' => 'required|max:250',
             'attached_files.*.source' => 'required|max:400',
             'attached_files.*.license.id' => 'required|exists:licenses,id',
         ]);

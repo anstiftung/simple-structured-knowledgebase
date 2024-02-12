@@ -17,7 +17,7 @@ class ImageResource extends BaseResource
             'type' => 'Image',
             'id' => $this->id,
             'title' => $this->title,
-            'url' => '/api/attached-file/' . $this->id,
+            'url' => '/api/attached-file/serve/' . $this->id,
             'filename' => $this->filename,
             'preview_file' => $this->filename,
             'source' => $this->source,
