@@ -91,7 +91,6 @@ const toggleLinkSelection = type => {
 
 /* checks which of the above inserted links is currently active */
 const editorLinkActive = linkType => {
-  console.log(props.editor.isActive('itemLink'), props.editor.isFocused)
   if (props.editor.isActive('itemLink') && props.editor.isFocused) {
     let type = props.editor.getAttributes('itemLink')['data-type']
     if (type == 'AttachedFile' || type == 'AttachedUrl') {
