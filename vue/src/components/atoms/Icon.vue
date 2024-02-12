@@ -13,7 +13,7 @@
  * Make Sure to replace all fill colors inside the svg if you want to make use of currentColor-CSS-Property
  */
 
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   name: {
