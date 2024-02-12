@@ -59,7 +59,6 @@ const ItemLinkNode = Node.create({
   },
 
   parseHTML() {
-    console.log('Parse HTML for ItemLink')
     return [
       {
         tag: 'item-link',

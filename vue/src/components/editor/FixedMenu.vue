@@ -43,11 +43,20 @@ const onInfoBoxInput = () => {
 }
 /* allows toggling links to different model types */
 const toggleLinkSelection = type => {
-  if (props.editor.isActive('link')) {
-    props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
+  // get current text selection
+  const { view, state } = props.editor
+  const { from, to } = view.state.selection
+  let text = state.doc.textBetween(from, to, '')
+
+  // remove itemLink
+  if (props.editor.isActive('itemLink')) {
+    let test = props.editor.getAttributes('itemLink')
+    props.editor.commands.deleteNode('itemLink')
+    props.editor.commands.insertContent(text)
     return
   }
 
+  // add itemLink
   modal.open(ModelSelector, { modelType: type }, selection => {
     if (selection) {
       let attributes = {
@@ -59,14 +68,13 @@ const toggleLinkSelection = type => {
       if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
         attributes['target'] = '_blank'
       }
-      const { view, state } = props.editor
-      const { from, to } = view.state.selection
-      let text = state.doc.textBetween(from, to, '')
+
+      // fallback for empty text selection: title of the model
       if (!text) {
         text = selection.title
       }
-      const node = props.editor.schema.nodes.itemLink.create(attributes)
-      console.log(node)
+
+      // insert itemLink with attributes and content
       props.editor.commands.insertContent({
         type: 'itemLink',
         attrs: attributes,
@@ -77,22 +85,15 @@ const toggleLinkSelection = type => {
           },
         ],
       })
-      //props.editor.commands.setNode('itemLink', attributes)
-
-      /* props.editor
-        .chain()
-        .focus()
-        .extendMarkRange('link')
-        .setLink(attributes)
-        .run() */
     }
   })
 }
 
 /* checks which of the above inserted links is currently active */
 const editorLinkActive = linkType => {
-  if (props.editor.isActive('link') && props.editor.isFocused) {
-    let type = props.editor.getAttributes('link')['data-type']
+  console.log(props.editor.isActive('itemLink'), props.editor.isFocused)
+  if (props.editor.isActive('itemLink') && props.editor.isFocused) {
+    let type = props.editor.getAttributes('itemLink')['data-type']
     if (type == 'AttachedFile' || type == 'AttachedUrl') {
       type = 'Attachment'
     }
