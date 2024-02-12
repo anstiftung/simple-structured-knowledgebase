@@ -37,6 +37,12 @@
             "[vue]": {
                 "editor.defaultFormatter": "esbenp.prettier-vscode",
                 "editor.formatOnSave": true
+            },
+
+            // CSS format
+            "[css]": {
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "editor.formatOnSave": true
             }
     }
 }
