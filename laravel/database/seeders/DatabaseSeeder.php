@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
 
     private $numLicenses = 4;
     private $numUsers = 10;
+    private $numEditors = 4;
     private $numAttachments = 10;
     private $numArticles = 50;
 
@@ -61,9 +62,15 @@ class DatabaseSeeder extends Seeder
 
         User::factory($this->numUsers)->create();
 
+        // create some editors
+        $editorUsers = User::all()->random($this->numEditors);
+        foreach ($editorUsers as $editorUser) {
+            $editorUser->assignRole('editor');
+        }
+
         $generatedFiles = AttachedFile::factory()->count($this->numAttachments)
             ->state(new Sequence(
-                fn (Sequence $sequence) => [
+                fn(Sequence $sequence) => [
                     'license_id' => License::all()->random()->id,
                     'created_by_id' => User::all()->random()->id,
                     'updated_by_id' => User::all()->random()->id
@@ -73,17 +80,18 @@ class DatabaseSeeder extends Seeder
 
         AttachedUrl::factory()->count($this->numAttachments)
             ->state(new Sequence(
-                fn (Sequence $sequence) => [
+                fn(Sequence $sequence) => [
                     'created_by_id' => User::all()->random()->id,
                     'updated_by_id' => User::all()->random()->id
                 ],
             ))
             ->create();
 
-
+        // disable observer (and mail notifications)
+        Article::unsetEventDispatcher();
         $articles = Article::factory()->count($this->numArticles)
             ->state(new Sequence(
-                fn (Sequence $sequence) => [
+                fn(Sequence $sequence) => [
                     'created_by_id' => User::all()->random()->id,
                     'updated_by_id' => User::all()->random()->id,
                     'state_id' => State::all()->random()->id
@@ -100,7 +108,7 @@ class DatabaseSeeder extends Seeder
 
             Comment::factory()->count(rand(0, 5))
                 ->state(new Sequence(
-                    fn (Sequence $sequence) => [
+                    fn(Sequence $sequence) => [
                         'article_id' => $article->id,
                         'created_by_id' => User::all()->random()->id,
                         'updated_by_id' => User::all()->random()->id
