@@ -30,7 +30,7 @@ class ArticleReview extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Artikel für Review freigegben',
+            subject: 'Artikel für Review freigegeben',
         );
     }
 
