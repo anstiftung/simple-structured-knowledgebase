@@ -27,7 +27,7 @@ loadFromServer()
 <template>
   <div>
     <section class="bg-gray-100">
-      <div class="relative width-wrapper">
+      <div class="relative width-wrapper z-10">
         <img src="/img/bg.jpg" />
         <div
           class="absolute w-full -translate-x-1/2 md:w-6/12 top-2/3 left-1/2"
