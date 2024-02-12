@@ -88,8 +88,16 @@ loadFromServer()
         </div> -->
       </div>
       <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
-        <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
-        <p>{{ article.created_by.name }}</p>
+        <div class="grid grid-cols-2 mt-8">
+          <div>
+            <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
+            <p>{{ article.created_by.name }}</p>
+          </div>
+          <div>
+            <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>
+            <p>{{ article.state.title }}</p>
+          </div>
+        </div>
         <div class="grid grid-cols-2 mt-8">
           <div>
             <h4 class="mb-2 text-sm text-gray-300">erstellt am</h4>
@@ -100,7 +108,10 @@ loadFromServer()
             <p>{{ $filters.formatedDate(article.updated_at) }}</p>
           </div>
         </div>
-        <h4 class="mt-8 mb-2 text-sm text-gray-300">
+        <h4
+          class="mt-8 mb-2 text-sm text-gray-300"
+          v-if="article.collections.length"
+        >
           andere Sammlungen mit diesem Beitrag
         </h4>
         <p>

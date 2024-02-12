@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ArticleController;
@@ -15,6 +16,10 @@ use App\Http\Controllers\CollectionListController;
 
 Route::controller(LicenseController::class)->group(function () {
     Route::get('/licenses', 'index');
+});
+
+Route::controller(StateController::class)->group(function () {
+    Route::get('/states', 'index');
 });
 
 Route::controller(ArticleController::class)->group(function () {
