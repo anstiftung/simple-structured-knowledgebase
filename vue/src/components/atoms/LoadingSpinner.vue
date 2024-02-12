@@ -1,8 +1,8 @@
 <template>
-    <!-- from: cssloaders.github.io -->
-    <div class="block w-full text-center">
-        <span class="loader"></span>
-    </div>
+  <!-- from: cssloaders.github.io -->
+  <div class="block w-full text-center">
+    <span class="loader"></span>
+  </div>
 </template>
 <style scoped>
 .loader {
@@ -31,12 +31,22 @@
 }
 
 @keyframes scaleUp {
-  0% { transform: translate(-50%, -50%) scale(0) }
-  60% , 100% { transform: translate(-50%, -50%)  scale(1)}
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  60%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 @keyframes pulse {
-  0% , 60% , 100%{ transform:  scale(1) }
-  80% { transform:  scale(1.2)}
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.2);
+  }
 }
-
 </style>
