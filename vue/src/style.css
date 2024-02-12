@@ -122,7 +122,7 @@
     }
   }
   a {
-    @apply relative inline-block font-bold no-underline;
+    @apply relative inline-block font-bold no-underline z-[1];
     &:after {
       @apply z-[-1] content-[''] block h-[3px] w-full rounded bottom-[3px] absolute right-0  bg-yellow transition-all;
     }
@@ -143,7 +143,7 @@
   }
 
   .info-box {
-    @apply max-w-[90%] mx-auto my-4 p-4 rounded-md bg-yellow text-black relative pl-12 whitespace-break-spaces break-words z-[-2];
+    @apply max-w-[90%] mx-auto my-4 p-4 rounded-md bg-yellow text-black relative pl-12 whitespace-break-spaces break-words;
   }
   .info-box:before {
     @apply content-[''] absolute left-3 top-5 size-5 bg-contain;
