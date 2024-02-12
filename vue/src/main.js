@@ -38,7 +38,9 @@ keycloakInstance
   .init({ checkLoginIframe: false, onLoad: 'check-sso' })
   .then(auth => {
     const userStore = useUserStore()
-    if (!auth) userStore.deleteUserData()
+    if (!auth) {
+      userStore.deleteUserData()
+    }
 
     // It's important add router AFTER eventually userStore is deleted!
     app.use(router)
