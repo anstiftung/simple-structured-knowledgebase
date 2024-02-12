@@ -86,8 +86,8 @@ class AttachedUrlController extends Controller
         $request->validate([
             'attached_urls' => 'required|array|min:1',
             'attached_urls.*.id' => 'required|exists:attached_urls,id',
-            'attached_urls.*.title' => 'required|max:30',
-            'attached_urls.*.description' => 'required|max:50',
+            'attached_urls.*.title' => 'required|max:100',
+            'attached_urls.*.description' => 'required|max:250',
         ]);
 
         $updatedAttachments = [];
