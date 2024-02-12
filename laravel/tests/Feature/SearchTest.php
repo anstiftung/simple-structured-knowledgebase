@@ -31,7 +31,7 @@ class SearchTest extends TestCase
 
         AttachedFile::factory()->count($this->num_attached_files)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'mime_type' => 'application/pdf',
                     'license_id' => License::all()->first(),
                     'created_by_id' => User::all()->first(),
@@ -42,7 +42,7 @@ class SearchTest extends TestCase
 
         AttachedFile::factory()->count($this->num_images)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'mime_type' => 'image/png',
                     'license_id' => License::all()->first(),
                     'created_by_id' => User::all()->first(),
@@ -53,7 +53,7 @@ class SearchTest extends TestCase
 
         AttachedUrl::factory()->count($this->num_attached_urls)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'created_by_id' => User::all()->first(),
                     'updated_by_id' => User::all()->first()
                 ],
@@ -62,7 +62,7 @@ class SearchTest extends TestCase
 
         Article::factory()->count($this->num_articles)
         ->state(new Sequence(
-            fn(Sequence $sequence) => [
+            fn (Sequence $sequence) => [
                 'created_by_id' => User::all()->first(),
                 'updated_by_id' => User::all()->first()
             ],
@@ -71,7 +71,7 @@ class SearchTest extends TestCase
 
         Collection::factory()->count($this->num_collections)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'created_by_id' => User::all()->first(),
                     'updated_by_id' => User::all()->first()
                 ],

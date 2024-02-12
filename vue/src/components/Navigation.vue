@@ -24,7 +24,7 @@ const $keycloak = inject('keycloak')
         </router-link>
       </h1>
       <div class="flex items-center gap-4 justify-self-end">
-        <template v-if="$keycloak.authenticated">
+        <template v-if="userStore.isAuthenticated">
           <router-link
             :to="{ name: 'dashboard' }"
             class="flex items-center gap-2 text-gray-300"
@@ -71,7 +71,7 @@ const $keycloak = inject('keycloak')
           </div>
         </template>
         <template v-else>
-          <router-link class="secondary-button" :to="{ name: 'dashboard' }"
+          <router-link class="secondary-button" :to="{ name: 'login' }"
             >Login</router-link
           >
           <a

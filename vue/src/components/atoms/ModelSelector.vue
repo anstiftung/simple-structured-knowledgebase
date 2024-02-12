@@ -31,11 +31,13 @@ const onQueryInput = useDebounceFn(() => {
 
 const querySearch = () => {
   loading.value = true
-  SearchService.search(searchQuery.value, [props.modelType]).then(({ data, meta }) => {
+  SearchService.search(searchQuery.value, [props.modelType]).then(
+    ({ data, meta }) => {
       searchResults.value = data
       searchMeta.value = meta
       loading.value = false
-  })
+    },
+  )
 }
 
 const selectModel = model => {
@@ -70,7 +72,8 @@ const modelResults = computed(() => {
   } else {
     console.warn(
       'Unable to extract search results for modelType',
-      props.modelType, searchResults.value
+      props.modelType,
+      searchResults.value,
     )
   }
 })

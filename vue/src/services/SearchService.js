@@ -1,14 +1,13 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class SearchService {
-  search(query, types = ['articles','collections','attachments']) {
-
+  search(query, types = ['articles', 'collections', 'attachments']) {
     const config = {
       method: 'get',
       url: 'search',
       params: {
         query: query,
-        types: types
+        types: types,
       },
     }
     return makeApiRequest(config)

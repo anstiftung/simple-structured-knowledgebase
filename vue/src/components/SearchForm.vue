@@ -61,12 +61,14 @@ const onQueryInput = useDebounceFn(() => {
 
 const querySearch = () => {
   loading.value = true
-  SearchService.search(searchQuery.value, props.types).then(({ data, meta }) => {
-    searchResults.value = data
-    searchMeta.value = meta
-    resultsVisible.value = true
-    loading.value = false
-  })
+  SearchService.search(searchQuery.value, props.types).then(
+    ({ data, meta }) => {
+      searchResults.value = data
+      searchMeta.value = meta
+      resultsVisible.value = true
+      loading.value = false
+    },
+  )
 }
 
 const resultArticlesLimited = computed(() => {

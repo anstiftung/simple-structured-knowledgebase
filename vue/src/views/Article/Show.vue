@@ -67,6 +67,7 @@ loadFromServer()
           <h3 class="mb-2 font-normal text-center opacity-70">Beitrag</h3>
           <h2 class="text-4xl text-center">{{ article.title }}</h2>
           <router-link
+            v-if="userStore.isAuthenticated"
             :to="{ name: 'articleEdit', params: { slug: article.slug } }"
             >[DEBUG] Bearbeiten</router-link
           >

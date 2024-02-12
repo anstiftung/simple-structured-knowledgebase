@@ -31,7 +31,7 @@ class CollectionSeeder extends Seeder
             $user->assignRole('editor');
             $collections = Collection::factory()->count($this->numCollections)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'created_by_id' => $user->id,
                     'updated_by_id' => $user->id
                 ],
