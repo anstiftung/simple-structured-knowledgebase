@@ -24,7 +24,8 @@ Route::controller(StateController::class)->group(function () {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles', 'index');
-    Route::get('/article/{article:slug}', 'show');
+    Route::get('/article/{articleSlugOrId}', 'show');
+
 });
 
 Route::controller(SearchController::class)->group(function () {
@@ -38,6 +39,7 @@ Route::controller(AttachedUrlController::class)->group(function () {
 Route::controller(AttachedFileController::class)->group(function () {
     Route::get('/attached-files', 'index');
     Route::get('/attached-file/{attachedFile:id}', 'show');
+    Route::get('/attached-file/serve/{attachedFile:id}', 'serve');
 });
 
 Route::controller(CollectionController::class)->group(function () {

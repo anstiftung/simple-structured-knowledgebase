@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -13,6 +14,7 @@ import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import AttachmentCard from '@/components/AttachmentCard.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
+import ContentRenderer from './ContentRenderer.vue'
 
 const toast = useToast()
 
@@ -24,14 +26,10 @@ const slug = route.params.slug
 const article = ref()
 
 const loadFromServer = () => {
-  ArticleService.getArticle(slug)
-    .then(data => {
-      article.value = data
-      document.title = `Cowiki | ${article.value.title}`
-    })
-    .catch(error => {
-      // ? do anything here?s
-    })
+  ArticleService.getArticle(slug).then(data => {
+    article.value = data
+    document.title = `Cowiki | ${article.value.title}`
+  })
 }
 
 const deleteComment = comment => {
@@ -79,7 +77,9 @@ loadFromServer()
     </section>
     <section v-if="article" class="grid grid-cols-6 my-8 width-wrapper">
       <div class="col-span-4 px-8 py-16">
-        <div class="prose" v-html="article.content"></div>
+        <div class="prose">
+          <content-renderer :content="article.content" />
+        </div>
         <!-- <h2>Anhänge</h2>
         <div class="grid grid-cols-3 gap-4">
           <attachment-card
