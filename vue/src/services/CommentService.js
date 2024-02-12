@@ -15,8 +15,8 @@ class CommentService {
 
   deleteComment(comment) {
     const config = {
-        method: 'delete',
-        url: `comment/${comment.id}`
+      method: 'delete',
+      url: `comment/${comment.id}`,
     }
     return makeApiRequest(config)
   }

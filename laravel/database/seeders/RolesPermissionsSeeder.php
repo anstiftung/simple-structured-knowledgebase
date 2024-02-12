@@ -18,7 +18,6 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'edit articles']);
         Permission::create(['name' => 'delete articles']);
         Permission::create(['name' => 'publish articles']);
-        Permission::create(['name' => 'unpublish articles']);
         Permission::create(['name' => 'edit article creator']);
         // collections
         Permission::create(['name' => 'add collections']);
@@ -48,14 +47,13 @@ class RolesPermissionsSeeder extends Seeder
 
         // this can be done as separate statements
         $role = Role::create(['name' => 'writer']);
-        $role->givePermissionTo(['edit articles', 'publish articles', 'add articles']);
+        $role->givePermissionTo(['edit articles', 'add articles']);
         $role->givePermissionTo(['create attached files','update attached files']);
         $role->givePermissionTo(['create attached urls','update attached urls']);
         $role->givePermissionTo(['create comments']);
 
         // or may be done by chaining
         $role = Role::create(['name' => 'editor']);
-        $role->givePermissionTo(['publish articles', 'unpublish articles']);
         $role->givePermissionTo(['edit articles', 'edit article creator', 'publish articles', 'add articles']);
         $role->givePermissionTo(['add collections','edit collections', 'delete collections','feature collections']);
         $role->givePermissionTo(['create attached files','update attached files', 'delete attached files']);

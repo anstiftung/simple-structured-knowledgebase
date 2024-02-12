@@ -42,7 +42,7 @@ class SearchController extends Controller
                 $result['data'] = array_merge($result['data'], $data);
                 $result['meta'] = array_merge($result['meta'], $meta);
 
-                $numResults+= $count;
+                $numResults += $count;
             }
         }
 

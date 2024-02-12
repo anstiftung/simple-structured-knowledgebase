@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LicenseController;
-
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserCredentialsController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\AttachedUrlController;
 use App\Http\Controllers\AttachedFileController;
@@ -16,6 +16,10 @@ use App\Http\Controllers\CollectionListController;
 
 Route::controller(LicenseController::class)->group(function () {
     Route::get('/licenses', 'index');
+});
+
+Route::controller(StateController::class)->group(function () {
+    Route::get('/states', 'index');
 });
 
 Route::controller(ArticleController::class)->group(function () {
@@ -52,7 +56,7 @@ Route::get('/', function () {
 
 // Add protected routes here
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/user-credentials', [UserCredentialsController::class, 'index']);
 
     // create and update attachments
     Route::post('/attached-url', [AttachedUrlController::class, 'store']);

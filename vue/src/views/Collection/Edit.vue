@@ -60,11 +60,11 @@ const selectModel = model => {
 }
 
 const removeArticle = article => {
-  formData.collection.articles = formData.collection.articles.filter(function (
-    a,
-  ) {
-    return a.id != article.id
-  })
+  formData.collection.articles = formData.collection.articles.filter(
+    function (a) {
+      return a.id != article.id
+    },
+  )
 }
 
 const sortCallback = event => {
