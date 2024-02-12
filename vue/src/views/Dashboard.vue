@@ -61,10 +61,6 @@ const showCreateAttachmentModal = () => {
   })
 }
 
-userStore.initUser().then(() => {
-  loadFromServer()
-})
-
 const editAttachment = attachment => {
   const props = { attachments: [attachment] }
   modal.open(EditAttachments, props, () => {
@@ -170,6 +166,7 @@ const invalidAttachmentsLimited = computed(() => {
     Math.min(10, invalidAttachments.value.length),
   )
 })
+
 const invalidAttachmentsTotal = computed(() => {
   if (invalidAttachedFiles.value.meta && invalidAttachedUrls.value.meta) {
     return (
@@ -180,6 +177,8 @@ const invalidAttachmentsTotal = computed(() => {
     return 0
   }
 })
+
+loadFromServer()
 </script>
 <template>
   <section class="bg-white">

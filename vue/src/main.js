@@ -12,11 +12,10 @@ import { createPinia } from 'pinia'
 import filters from '@/plugins/filters.js'
 import keycloakInstance from '@/plugins/keycloak.js'
 import router from './router/index.js'
+import { useUserStore } from './stores/user'
 
 const pinia = createPinia()
 const app = createApp(App)
-
-const _keycloak = keycloakInstance
 
 app.config.globalProperties.$filters = filters
 
@@ -26,16 +25,22 @@ const toastSettings = {
 
 app.component('Icon', Icon)
 
-const renderApp = () => {
-  app.use(pinia)
-  app.use(VueAxios, axios)
-  app.use(router)
-  app.use(Toast, toastSettings)
-  app.provide('axios', app.config.globalProperties.axios)
-  app.provide('keycloak', _keycloak)
-  app.mount('#app')
-}
+app.provide('axios', app.config.globalProperties.axios)
+app.provide('keycloak', keycloakInstance)
 
-_keycloak.init({ checkLoginIframe: false }).then(() => {
-  renderApp()
-})
+app.use(pinia)
+app.use(VueAxios, axios)
+app.use(Toast, toastSettings)
+
+keycloakInstance
+  .init({ checkLoginIframe: false, onLoad: 'check-sso' })
+  .then(auth => {
+    const userStore = useUserStore()
+    if (!auth) {
+      userStore.deleteUserData()
+    }
+
+    // It's important add router AFTER eventually userStore is deleted!
+    app.use(router)
+    app.mount('#app')
+  })

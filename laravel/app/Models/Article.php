@@ -20,7 +20,9 @@ class Article extends Model
         'title',
         'slug',
         'description',
-        'content'
+        'content',
+        'state_id',
+        'created_by_id'
     ];
 
     protected $casts = [
@@ -31,6 +33,11 @@ class Article extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id');
     }
 
     public function attached_files()

@@ -4,17 +4,20 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\State;
 use App\Models\Article;
 use App\Models\License;
 use App\Models\Collection;
-use App\Models\AttachedFile;
 use App\Models\AttachedUrl;
+use App\Models\AttachedFile;
+use Database\Seeders\StateSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class SearchTest extends TestCase
 {
     use RefreshDatabase;
+    protected $seeder = StateSeeder::class;
 
     private $num_collections = 3;
     private $num_articles = 4;
@@ -63,6 +66,7 @@ class SearchTest extends TestCase
         Article::factory()->count($this->num_articles)
         ->state(new Sequence(
             fn(Sequence $sequence) => [
+                'state_id' => State::all()->first(),
                 'created_by_id' => User::all()->first(),
                 'updated_by_id' => User::all()->first()
             ],

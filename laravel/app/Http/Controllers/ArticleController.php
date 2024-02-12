@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\State;
 use App\Models\Article;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Rules\ArticleStateValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ArticleResource;
 
@@ -36,6 +38,12 @@ class ArticleController extends Controller
             return parent::abortUnauthorized();
         }
 
+        // set draft state automatically on Article creation
+        $draftState = State::where('key', 'draft')->first();
+        if (!$draftState) {
+            return parent::abortServerError('State not found');
+        }
+
         $request->validate([
              'title' => 'required|max:255',
              'description' => 'required|max:1000',
@@ -46,7 +54,8 @@ class ArticleController extends Controller
            'title' => $request->title,
            'slug' => Str::slug($request->title),
            'description' => $request->description,
-           'content' => $request->content
+           'content' => $request->content,
+           'state_id' => $draftState->id
         ]);
 
         return new ArticleResource($newArticle);
@@ -75,14 +84,24 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required|max:1000',
-            'content' => 'present|string|nullable'
+            'content' => 'present|string|nullable',
+            'state.id' => ['exists:states,id', new ArticleStateValidator($article, $user)],
+            'created_by.id' => 'exists:users,id'
         ]);
 
         $article->update([
             'title' => $request->title,
             'description' => $request->description,
-            'content' => $request->content
+            'content' => $request->content,
+            'state_id' => $request->state['id']
         ]);
+
+        // conditional update article creator
+        if ($user->can('edit article creator')) {
+            $article->update([
+                'created_by_id' => $request->created_by['id']
+            ]);
+        }
 
         $article->load(['attached_files', 'attached_urls']);
         return new ArticleResource($article);
