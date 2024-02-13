@@ -98,6 +98,8 @@ class SearchController extends Controller
             ->get();
         $numCollections = $collections->count();
 
+        $collections->load(['articles']);
+
         return [
             'data' => [ 'collections' => CollectionResource::collection($collections) ],
             'meta' => [ 'num_collections' => $numCollections ],
