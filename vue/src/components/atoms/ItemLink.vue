@@ -21,7 +21,16 @@ const loadFromServer = () => {
   }
 
   if (props.dataType == 'Article') {
-    ArticleService.getArticle(props.dataId).then(data => {
+    // extract slug from href prop because the getArticle route uses slugs instead of id's
+    let slug = null
+    const urlParts = props.href.split('/')
+    if (urlParts && urlParts.length == 3) {
+      slug = urlParts[urlParts.length - 1]
+    } else {
+      console.error('Unable to parse slug from article url: ', props.href)
+      return
+    }
+    ArticleService.getArticle(slug).then(data => {
       article.value = data
     })
   }

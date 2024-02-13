@@ -24,7 +24,7 @@ Route::controller(StateController::class)->group(function () {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles', 'index');
-    Route::get('/article/{articleSlugOrId}', 'show');
+    Route::get('/article/{article:slug}', 'show');
 
 });
 
