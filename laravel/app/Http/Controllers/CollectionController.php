@@ -98,11 +98,12 @@ class CollectionController extends Controller
             ]);
         }
 
-        $articles = [];
-        foreach($request->articles ?? [] as $article) {
-            $articles[$article['id']] = ['order' => $article['order']];
+        if ($request->has('articles')) {
+            foreach($request->articles ?? [] as $article) {
+                $articles[$article['id']] = ['order' => $article['order']];
+            }
+            $collection->articles()->sync($articles);
         }
-        $collection->articles()->sync($articles);
 
         $collection->load(['articles']);
 
