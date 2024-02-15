@@ -1,9 +1,3 @@
-<template>
-  <svg fill="currentColor" height="1em" width="1em" class="inline-block">
-    <use :href="fileLink" />
-  </svg>
-</template>
-
 <script setup>
 /*
  * Simple and Easy external SVG icon component
@@ -11,6 +5,8 @@
  * match the filename and the id of the svg-element inside
  * load the file via <icon name="filename" />
  * Make Sure to replace all fill colors inside the svg if you want to make use of currentColor-CSS-Property
+ * The icon's default size is 15x15px; the provided svg file should have a viewBox of 15x15 as well
+ * the icon is scalable by the tailwind `size-x` class
  */
 
 import { computed } from 'vue'
@@ -26,3 +22,15 @@ const fileLink = computed(() => {
   return '/icons/' + props.name + '.svg#' + props.name
 })
 </script>
+
+<template>
+  <svg
+    fill="currentColor"
+    class="inline-block"
+    viewBox="0 0 15 15"
+    width="15px"
+    height="15px"
+  >
+    <use :href="fileLink" />
+  </svg>
+</template>
