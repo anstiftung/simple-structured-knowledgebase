@@ -86,7 +86,7 @@ loadFromServer()
         <div class="prose">
           <content-renderer :content="article.content" />
         </div>
-        <div class="mt-20 text-center">
+        <div class="mt-20 text-center" v-if="userStore.id">
           <h3 class="text-lg">
             Dir hat der Beitrag gefallen? Lass einen clap da.
           </h3>
