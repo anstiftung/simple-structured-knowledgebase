@@ -43,6 +43,14 @@ class ArticleService {
     }
     return makeApiRequest(config)
   }
+
+  clapArticle(slug) {
+    const config = {
+      method: 'patch',
+      url: `article/${slug}/clap`,
+    }
+    return makeApiRequest(config)
+  }
 }
 
 export default new ArticleService()
