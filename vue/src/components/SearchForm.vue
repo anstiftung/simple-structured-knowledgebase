@@ -110,7 +110,7 @@ const resultAttachemntsLimited = computed(() => {
       <icon
         name="search"
         role="button"
-        class="fill-gray-400"
+        class="text-black"
         @click.prevent="querySearch()"
       />
     </form>
