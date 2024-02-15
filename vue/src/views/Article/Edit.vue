@@ -9,10 +9,10 @@ import { useUserStore } from '@/stores/user'
 import ArticleService from '@/services/ArticleService'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
+import ToastService from '@/services/ToastService'
 
 const toast = useToast()
 
@@ -62,21 +62,10 @@ const isDirty = computed(() => {
 
 onBeforeRouteLeave((to, from, next) => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
-      },
-      listeners: {
-        granted: () => next(),
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
-    })
+    ToastService.confirm(
+      'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
+      next,
+    )
   } else {
     next()
   }
@@ -105,23 +94,12 @@ const persist = async () => {
 
 const discard = () => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen wirklich verwerfen?',
+    ToastService.confirm(
+      'Ungespeicherte Änderungen wirklich verwerfen?',
+      () => {
+        formData.article = JSON.parse(persistedArticle)
       },
-      listeners: {
-        granted: () => {
-          formData.article = JSON.parse(persistedArticle)
-        },
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
-    })
+    )
   }
 }
 </script>

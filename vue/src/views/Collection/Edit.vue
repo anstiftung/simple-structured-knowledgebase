@@ -1,12 +1,11 @@
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import CollectionService from '@/services/CollectionService'
-import SearchService from '@/services/SearchService'
+import ToastService from '@/services/ToastService'
 import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import draggable from 'vuedraggable'
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '../../components/atoms/ItemLine.vue'
@@ -60,11 +59,11 @@ const selectModel = model => {
 }
 
 const removeArticle = article => {
-  formData.collection.articles = formData.collection.articles.filter(
-    function (a) {
-      return a.id != article.id
-    },
-  )
+  formData.collection.articles = formData.collection.articles.filter(function (
+    a,
+  ) {
+    return a.id != article.id
+  })
 }
 
 const sortCallback = event => {
@@ -82,21 +81,10 @@ const isDirty = computed(() => {
 
 onBeforeRouteLeave((to, from, next) => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
-      },
-      listeners: {
-        granted: () => next(),
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
-    })
+    ToastService.confirm(
+      'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
+      next,
+    )
   } else {
     next()
   }
@@ -124,23 +112,12 @@ const persist = async () => {
 
 const discard = () => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen wirklich verwerfen?',
+    ToastService.confirm(
+      'Ungespeicherte Änderungen wirklich verwerfen?',
+      () => {
+        formData.collection = JSON.parse(persistedCollection)
       },
-      listeners: {
-        granted: () => {
-          formData.collection = JSON.parse(persistedCollection)
-        },
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
-    })
+    )
   }
 }
 </script>
