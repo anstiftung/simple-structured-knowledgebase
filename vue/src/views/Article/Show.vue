@@ -11,7 +11,6 @@ import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
 
 import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
-import AttachmentCard from '@/components/AttachmentCard.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from './ContentRenderer.vue'
@@ -80,15 +79,6 @@ loadFromServer()
         <div class="prose">
           <content-renderer :content="article.content" />
         </div>
-        <!-- <h2>Anhänge</h2>
-        <div class="grid grid-cols-3 gap-4">
-          <attachment-card
-            v-for="attachment in article.attached_urls.concat(
-              article.attached_files,
-            )"
-            :attachment="attachment"
-          />
-        </div> -->
       </div>
       <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
         <div class="grid grid-cols-2 mt-8">
