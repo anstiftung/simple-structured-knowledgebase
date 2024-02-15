@@ -99,6 +99,7 @@ class CollectionController extends Controller
         }
 
         if ($request->has('articles')) {
+            $articles = [];
             foreach($request->articles ?? [] as $article) {
                 $articles[$article['id']] = ['order' => $article['order']];
             }
