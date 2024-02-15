@@ -23,18 +23,19 @@ const $keycloak = inject('keycloak')
           <span class="font-bold">COWIKI</span>
         </router-link>
       </h1>
-      <div class="flex items-center gap-4 justify-self-end">
+      <div class="flex items-center gap-4 text-gray-300 justify-self-end">
         <template v-if="userStore.isAuthenticated">
           <router-link
             :to="{ name: 'dashboard' }"
-            class="flex items-center gap-2 text-gray-300"
+            class="flex items-center gap-2"
+            active-class="text-black fill-black"
           >
             <icon name="dashboard" />
             Dashboard
           </router-link>
           <div
             :class="[
-              'relative text-gray-300 min-w-[140px]',
+              'relative min-w-[140px]',
               [
                 userMenuVisible
                   ? 'user-menu-border-top'
@@ -46,7 +47,7 @@ const $keycloak = inject('keycloak')
               class="flex items-center gap-2 px-2 py-2 bg-white cursor-pointer"
               @click="userMenuVisible = !userMenuVisible"
             >
-              <icon name="user" class="text-gray-900" />
+              <icon name="user" />
               <span class="grow">{{ userStore.name }}</span>
               <icon name="arrow-down" v-if="userMenuVisible" />
               <icon name="arrow-up" v-else />
