@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -28,6 +27,13 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(600)->by($request->user()?->id ?: $request->ip());
         });
+
+        RateLimiter::for('claps', function (Request $request) {
+            return Limit::perDay(100)->by($request->user()?->id ?: $request->ip())->response(function (Request $request, array $headers) {
+                return response()->json(['message' => 'Genug claps für heute…'], 429, $headers);
+            });
+        });
+
 
         $this->routes(function () {
             Route::middleware('api')
