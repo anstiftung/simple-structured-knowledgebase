@@ -14,6 +14,7 @@ import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from './ContentRenderer.vue'
+import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
 const toast = useToast()
 
@@ -58,22 +59,25 @@ loadFromServer()
 
 <template>
   <div>
-    <section class="text-white bg-orange/50" v-if="article">
-      <div class="bg-orange header-clip">
-        <div class="py-12 width-wrapper">
-          <h3 class="mb-2 font-normal text-center opacity-70">Beitrag</h3>
-          <h2 class="text-4xl text-center">{{ article.title }}</h2>
-          <router-link
-            v-if="
-              userStore.id == article.created_by.id ||
-              userStore.hasPermission('update others articles')
-            "
-            :to="{ name: 'articleEdit', params: { slug: article.slug } }"
-            >[DEBUG] Bearbeiten</router-link
-          >
-        </div>
-      </div>
-    </section>
+    <model-header
+      colorClass="bg-orange"
+      secondaryColorClass="bg-orange/50"
+      v-if="article"
+    >
+      <template v-slot:description>Beitrag</template>
+      <template v-slot:content>
+        <h2 class="text-4xl text-center">{{ article.title }}</h2>
+        <router-link
+          v-if="
+            userStore.id == article.created_by.id ||
+            userStore.hasPermission('update others articles')
+          "
+          :to="{ name: 'articleEdit', params: { slug: article.slug } }"
+          >[DEBUG] Bearbeiten</router-link
+        >
+      </template>
+    </model-header>
+
     <section v-if="article" class="grid grid-cols-6 my-8 width-wrapper">
       <div class="col-span-4 px-8 py-16">
         <div class="prose">
