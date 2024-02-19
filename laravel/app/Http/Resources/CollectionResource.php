@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\AttachedArticleResource;
 
 class CollectionResource extends BaseResource
 {
