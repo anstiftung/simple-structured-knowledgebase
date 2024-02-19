@@ -32,16 +32,18 @@ class ArticleContentSeeder extends Seeder
                     für eine
                     <s>bessere</s>
                     Lesbarkeit und einem fluffigeren Auftreten.
-                    <a rel="noopener noreferrer nofollow" data-type="Article" href="/beitrag/$randomArticle->slug">Lorem ipsum dolor
-                    </a>sit amet,
-                    <a rel="noopener noreferrer nofollow" data-type="Collection" href="/sammlung/$randomCollection->slug">consetetur sadipscing
-                    </a>elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-                    <a target="_blank" rel="noopener noreferrer nofollow" data-type="AttachedFile" href="/api/attached-file/$randomAttachedFile->id">consetetur</a>
+                    <item-link data-type="Article" data-id="$randomArticle->id" href="/beitrag/$randomArticle->slug">Ein Link zu einem Beitrag</item-link>
+                    accusam et justo
+                    <item-link data-type="Collection" data-id="$randomCollection->id" href="/sammlung/$randomCollection->slug">Ein Link zu einer Sammlung</item-link>
+                    consetetur sadipscing
+                    elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
                     sadipscing elitr, sed diam nonumy
-                    <a target="_blank" rel="noopener noreferrer nofollow" data-type="AttachedUrl" href="$randomAttachedURL->url">eirmod tempor invidunt ut labore et dolore magna aliquyam erat,</a>
+                    <item-link data-type="AttachedUrl" data-id="$randomAttachedURL->id" href="$randomAttachedURL->url" target="_blank">Ein Link zu einem Anhang (URL)</item-link>
+                    sadipscing elitr, sed diam nonumy
+                    <item-link data-type="AttachedFile" data-id="$randomAttachedFile->id" href="/api/attached-file/serve/$randomAttachedFile->id" target="_blank">Ein Link zu einem Anhang (File)</item-link>
                     sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                 </p>
-                <img src="/api/attached-file/$randomAttachedFile->id" alt="Baylee Crooks" title="(c) Numquam saepe sunt voluptates.">
+                <img src="/api/attached-file/serve/$randomAttachedFile->id" alt="Baylee Crooks" title="(c) Numquam saepe sunt voluptates.">
                 <h3>Eine Überschrift (h3)</h3>
                 <ul>
                     <li>

@@ -23,15 +23,14 @@ class CollectionSeeder extends Seeder
         Collection::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-        $user = User::get()->random(1)->first();
+        $user = User::role('editor')->first();
 
         $collections = null;
 
         if($user) {
-            $user->assignRole('editor');
             $collections = Collection::factory()->count($this->numCollections)
             ->state(new Sequence(
-                fn (Sequence $sequence) => [
+                fn(Sequence $sequence) => [
                     'created_by_id' => $user->id,
                     'updated_by_id' => $user->id
                 ],

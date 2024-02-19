@@ -93,6 +93,10 @@ class ArticleController extends Controller
             return parent::abortUnauthorized();
         }
 
+        if($user->id !== $article->created_by_id && !$user->can('update others articles')) {
+            return parent::abortUnauthorized();
+        }
+
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required|max:1000',

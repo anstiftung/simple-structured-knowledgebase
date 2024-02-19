@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -13,12 +14,20 @@ class RolesPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('roles')->truncate();
+        DB::table('permissions')->truncate();
+        DB::table('role_has_permissions')->truncate();
+        DB::table('model_has_roles')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         // articles
         Permission::create(['name' => 'add articles']);
         Permission::create(['name' => 'edit articles']);
         Permission::create(['name' => 'delete articles']);
         Permission::create(['name' => 'publish articles']);
         Permission::create(['name' => 'edit article creator']);
+        Permission::create(['name' => 'update others articles']);
         // collections
         Permission::create(['name' => 'add collections']);
         Permission::create(['name' => 'edit collections']);
@@ -54,7 +63,7 @@ class RolesPermissionsSeeder extends Seeder
 
         // or may be done by chaining
         $role = Role::create(['name' => 'editor']);
-        $role->givePermissionTo(['edit articles', 'edit article creator', 'publish articles', 'add articles']);
+        $role->givePermissionTo(['edit articles', 'edit article creator', 'publish articles', 'add articles', 'update others articles']);
         $role->givePermissionTo(['add collections','edit collections', 'delete collections','feature collections']);
         $role->givePermissionTo(['create attached files','update attached files', 'delete attached files']);
         $role->givePermissionTo(['create attached urls','update attached urls', 'delete attached urls']);

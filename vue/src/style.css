@@ -33,9 +33,6 @@
   .width-small-wrapper {
     @apply w-9/12 max-w-screen-md mx-auto;
   }
-  .header-clip {
-    clip-path: polygon(0px 0px, 0 80%, 100% 100%, 100% 0px);
-  }
   .max-h-full-without-header {
     max-height: calc(100vh - theme('height.header'));
   }
@@ -122,7 +119,7 @@
     }
   }
   a {
-    @apply relative inline-block font-bold no-underline;
+    @apply relative inline-block font-bold no-underline z-[1];
     &:after {
       @apply z-[-1] content-[''] block h-[3px] w-full rounded bottom-[3px] absolute right-0  bg-yellow transition-all;
     }
