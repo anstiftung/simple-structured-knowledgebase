@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\AttachedUrlResource;
-use App\Http\Resources\AttachedFileResource;
 
 class AttachedArticleResource extends BaseResource
 {
@@ -21,6 +19,7 @@ class AttachedArticleResource extends BaseResource
             'title' => $this->title,
             'slug' => $this->slug,
             'url' => '/beitrag/' . $this->slug,
+            'approved' => $this->approved,
             'description' => $this->description,
             'content' => $this->content,
             'num_attachments' => $this->attached_urls->count() + $this->attached_files->count(),

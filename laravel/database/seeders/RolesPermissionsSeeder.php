@@ -51,6 +51,8 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'delete comments']);
         // users
         Permission::create(['name' => 'list users']);
+        // general
+        Permission::create(['name' => 'approve content']);
 
         // create roles and assign created permissions
 
@@ -71,6 +73,7 @@ class RolesPermissionsSeeder extends Seeder
         $role->givePermissionTo(['create others attached urls','update others attached urls', 'delete others attached urls']);
         $role->givePermissionTo(['create comments', 'delete comments']);
         $role->givePermissionTo(['list users']);
+        $role->givePermissionTo(['approve content']);
 
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());
