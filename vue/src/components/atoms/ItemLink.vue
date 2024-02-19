@@ -39,12 +39,17 @@ loadFromServer()
 </script>
 
 <template>
-  <a :data-type="props['dataType']" :href="props.href">
+  <a :data-type="props['dataType']" :href="props.href" :target="props.target">
     <slot></slot>
     <span class="inline-block ml-2 text-xs font-semibold text-gray-400">
       <template v-if="attachedFile"
         >{{ $filters.fileNameToFileType(attachedFile.filename) }},
         {{ $filters.bytesToHumandReadableSize(attachedFile.filesize) }}
+        <icon
+          v-if="attachedFile.approved"
+          name="approved"
+          class="mb-1 text-green size-3"
+        ></icon>
       </template>
       <template v-if="article">
         {{ article.comments.length }}
