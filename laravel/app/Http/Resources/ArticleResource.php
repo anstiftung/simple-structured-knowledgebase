@@ -26,6 +26,7 @@ class ArticleResource extends BaseResource
             'slug' => $this->slug,
             'state' => new StateResource($this->state),
             'approved' => $this->approved,
+            'claps' => $this->claps,
             'url' => '/beitrag/' . $this->slug,
             'description' => $this->description,
             'content' => $this->content,

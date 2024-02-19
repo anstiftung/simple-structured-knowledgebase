@@ -16,12 +16,15 @@ const props = defineProps({
           {{ article.description }}
         </p>
       </div>
-      <p class="flex justify-between text-sm text-white/70">
+      <p class="flex items-end justify-between text-sm text-white/70">
         <span>{{ $filters.formatedDate(article.created_at) }}</span>
         <span
-          >{{ article.num_attachments }}
-          {{ article.num_attachments == 1 ? 'Anhang' : 'Anhänge' }}</span
+          class="flex items-end gap-2"
+          v-if="article.claps && article.claps > 0"
         >
+          <icon name="clap" class="size-6"></icon>
+          <span>{{ article.claps }}</span>
+        </span>
       </p>
     </div>
   </router-link>
