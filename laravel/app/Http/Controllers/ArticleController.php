@@ -130,4 +130,11 @@ class ArticleController extends Controller
     {
         //
     }
+
+    public function clap(Article $article)
+    {
+        $article->increment('claps');
+
+        return new ArticleResource($article);
+    }
 }

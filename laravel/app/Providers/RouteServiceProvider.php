@@ -28,6 +28,13 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(600)->by($request->user()?->id ?: $request->ip());
         });
 
+        RateLimiter::for('claps', function (Request $request) {
+            return Limit::perDay(100)->by($request->user()?->id ?: $request->ip())->response(function (Request $request, array $headers) {
+                return response()->json(['message' => 'Genug claps für heute…'], 429, $headers);
+            });
+        });
+
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

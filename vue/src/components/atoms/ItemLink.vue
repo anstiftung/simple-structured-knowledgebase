@@ -48,7 +48,7 @@ loadFromServer()
       </template>
       <template v-if="article">
         {{ article.comments.length }}
-        <img class="inline-block m-0 size-6/12" src="/icons/comment.svg" />
+        <icon name="comment" class="text-gray-400 size-3"></icon>
       </template>
     </span>
   </a>

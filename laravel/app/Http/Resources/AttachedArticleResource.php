@@ -21,6 +21,7 @@ class AttachedArticleResource extends BaseResource
             'slug' => $this->slug,
             'state' => new StateResource($this->state),
             'url' => '/beitrag/' . $this->slug,
+            'claps' => $this->claps,
             'description' => $this->description,
             'content' => $this->content,
             'num_attachments' => $this->attached_urls->count() + $this->attached_files->count(),

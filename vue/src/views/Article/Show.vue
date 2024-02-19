@@ -38,6 +38,12 @@ const loadFromServer = () => {
     })
 }
 
+const clapArticle = () => {
+  ArticleService.clapArticle(slug).then(data => {
+    article.value.claps++
+  })
+}
+
 const deleteComment = comment => {
   toast.clear()
   const content = {
@@ -89,8 +95,33 @@ loadFromServer()
         <div class="prose">
           <content-renderer :content="article.content" />
         </div>
+        <div class="mt-20 text-center" v-if="userStore.id">
+          <h3 class="text-lg">
+            Dir hat der Beitrag gefallen? Lass einen clap da.
+          </h3>
+          <div
+            role="button"
+            class="inline-flex items-center p-3 mt-4 transition-all ease-in-out border-2 border-gray-300 rounded-full hover:border-blue group hover:scale-95"
+            @click="clapArticle"
+          >
+            <icon
+              name="clap"
+              class="text-gray-300 group-hover:text-blue size-6"
+            ></icon>
+          </div>
+        </div>
       </div>
       <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
+        <div class="grid grid-cols-2 mt-8">
+          <div class="flex items-center gap-2">
+            <icon name="clap" class="text-gray-300 size-6"></icon>
+            <span>{{ article.claps }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <icon name="comment" class="text-gray-300 size-6"></icon>
+            <span>{{ article.comments ? article.comments.length : '0' }}</span>
+          </div>
+        </div>
         <div class="grid grid-cols-2 mt-8">
           <div>
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
