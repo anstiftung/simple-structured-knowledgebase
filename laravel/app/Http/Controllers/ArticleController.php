@@ -107,6 +107,13 @@ class ArticleController extends Controller
             ]);
         }
 
+        // conditional update approved
+        if ($user->can('approve content')) {
+            $article->update([
+                'approved' => $request->approved
+            ]);
+        }
+
         $article->load(['attached_files', 'attached_urls']);
         return new ArticleResource($article);
     }
