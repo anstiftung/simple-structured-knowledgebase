@@ -187,6 +187,13 @@ const discard = () => {
             ></user-select>
             <p v-else>{{ formData.article.created_by.name }}</p>
           </div>
+          <div v-if="hasPermission('approve content') && formData.article.id">
+            <h4 class="mb-2 text-sm text-gray-300">Geprüft</h4>
+            <input type="checkbox" v-model="formData.article.approved" />
+            <span class="inline-block ml-4"
+              >Vom Legal Team geprüfter Artikel</span
+            >
+          </div>
         </div>
         <div class="flex justify-end gap-4">
           <button
