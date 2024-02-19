@@ -7,6 +7,7 @@ use App\Models\Collection;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\CollectionResource;
@@ -16,10 +17,12 @@ use App\Http\Resources\AttachedFileResource;
 class SearchController extends Controller
 {
     protected $query = false;
+    protected $onlyPublished = true;
 
     public function __construct(Request $request)
     {
         $this->query = $request->query('query', false);
+        $this->onlyPublished = $request->boolean('onlyPublished');
     }
     /**
      * Run Search
@@ -106,9 +109,15 @@ class SearchController extends Controller
     }
     public function searchArticles()
     {
+        $user = Auth::user();
+
         $articles = Article::where('title', 'like', '%' . $this->query . '%')
             ->orderBy('created_at', 'DESC')
+            ->when(empty($user) || $this->onlyPublished, function ($query) {
+                $query->published();
+            })
             ->get();
+
         $numArticles = $articles->count();
 
         return [

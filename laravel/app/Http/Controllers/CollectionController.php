@@ -15,13 +15,20 @@ class CollectionController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user();
+
         $collections = Collection::when($request->featured == true, function ($query) {
             return $query->featured()->orderBy('order', 'ASC');
         })->when(!empty($request->creatorId), function ($query) use ($request) {
             $query->where('created_by_id', $request->creatorId);
         })->orderBy('updated_at', 'DESC')->paginate();
 
-        $collections->load(['articles']);
+        // eager load the articles: scope to published ones, when not authenticated
+        $collections->load(['articles' => function ($query) use ($user) {
+            if (!$user) {
+                $query->published();
+            }
+        }]);
 
         return CollectionResource::collection($collections);
     }
@@ -66,7 +73,14 @@ class CollectionController extends Controller
      */
     public function show(Collection $collection)
     {
-        $collection->load(['articles']);
+        $user = Auth::user();
+        // eager load the articles: scope to published ones, when not authenticated
+        $collection->load(['articles' => function ($query) use ($user) {
+            if (!$user) {
+                $query->published();
+            }
+        }]);
+
         return new CollectionResource($collection);
     }
 
