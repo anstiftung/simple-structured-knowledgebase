@@ -54,6 +54,11 @@ loadFromServer()
       <template v-if="article">
         {{ article.comments.length }}
         <icon name="comment" class="text-gray-400 size-3"></icon>
+        <icon
+          v-if="article.approved"
+          name="approved"
+          class="mb-1 ml-1 text-green size-3"
+        ></icon>
       </template>
     </span>
   </a>
