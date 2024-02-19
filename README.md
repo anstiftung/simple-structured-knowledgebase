@@ -25,6 +25,12 @@ git clone git@github.com:Verbund-Offener-Werkstaetten/vow-cowiki.git
 cp laravel/.env.example laravel/.env
 ```
 
+Afterwards you have to add the correct database credentials to the `.env` file:
+* `DB_HOST=database`
+* `DB_DATABASE=cowiki`
+* `DB_USERNAME=cowiki`
+* `DB_PASSWORD=` is stored in the `docker-compose.yml` and can be copied
+
 4. Build the development containers using Docker Compose:
 
 ```
