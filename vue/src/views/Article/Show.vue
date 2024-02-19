@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 import { storeToRefs } from 'pinia'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { useUserStore } from '@/stores/user'
@@ -22,14 +22,20 @@ const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
 const route = useRoute()
+const router = useRouter()
+
 const slug = route.params.slug
 const article = ref()
 
 const loadFromServer = () => {
-  ArticleService.getArticle(slug).then(data => {
-    article.value = data
-    document.title = `Cowiki | ${article.value.title}`
-  })
+  ArticleService.getArticle(slug)
+    .then(data => {
+      article.value = data
+      document.title = `Cowiki | ${article.value.title}`
+    })
+    .catch(error => {
+      router.push({ name: 'not-found' })
+    })
 }
 
 const deleteComment = comment => {

@@ -4,8 +4,9 @@ import CollectionService from '@/services/CollectionService'
 import ArticleCard from '@/components/ArticleCard.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
 const route = useRoute()
 const slug = route.params.slug
 const collection = ref()
@@ -17,7 +18,7 @@ const loadFromServer = () => {
       document.title = `Cowiki | ${collection.value.title}`
     })
     .catch(error => {
-      // ? do anything here?s
+      router.push({ name: 'not-found' })
     })
 }
 
