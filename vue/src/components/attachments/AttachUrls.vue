@@ -1,10 +1,8 @@
 <script setup>
-import { reactive, watch, computed } from 'vue'
+import { reactive, watch, computed, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
 import { url$ } from '@/plugins/validators.js'
-
-import { useToast } from 'vue-toastification'
 
 import AttachmentListItem from './AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
@@ -13,7 +11,7 @@ const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
   article: Object,
 })
-const toast = useToast()
+const $toast = inject('$toast')
 
 const formData = reactive({
   urlList: [{ url: '' }],
@@ -66,7 +64,7 @@ const removeUrlFromList = url => {
 const persist = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    toast.error('Formular ungültig')
+    $toast.error('Formular ungültig')
     return
   }
   // persist data with the AttachmentService; removes empty url objects

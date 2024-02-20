@@ -3,7 +3,7 @@ import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 
-class ToastService {
+class ToastPlugin {
   confirm(message, callback) {
     toast.clear()
     const content = {
@@ -21,6 +21,15 @@ class ToastService {
       closeButton: false,
     })
   }
+  success(message) {
+    toast.success(message)
+  }
+  error(message) {
+    toast.error(message)
+  }
+  warning(message) {
+    toast.warning(message)
+  }
 }
 
-export default new ToastService()
+export default new ToastPlugin()

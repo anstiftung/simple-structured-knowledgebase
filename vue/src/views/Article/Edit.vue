@@ -1,7 +1,6 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, inject } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 
@@ -13,10 +12,9 @@ import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
 
-import ToastService from '@/services/ToastService'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
-const toast = useToast()
+const $toast = inject('$toast')
 
 const router = useRouter()
 const route = useRoute()
@@ -64,7 +62,7 @@ const isDirty = computed(() => {
 
 onBeforeRouteLeave((to, from, next) => {
   if (isDirty.value) {
-    ToastService.confirm(
+    $toast.confirm(
       'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
       next,
     )
@@ -76,14 +74,14 @@ onBeforeRouteLeave((to, from, next) => {
 const persist = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    toast.error('Formular ungültig')
+    $toast.error('Formular ungültig')
     return
   }
 
   const afterPersist = data => {
     formData.article = data
     persistedArticle = JSON.stringify(data)
-    toast.success('Beitrag erfolgreich gespeichert')
+    $toast.success('Beitrag erfolgreich gespeichert')
     router.push(data.url)
   }
 
@@ -96,12 +94,9 @@ const persist = async () => {
 
 const discard = () => {
   if (isDirty.value) {
-    ToastService.confirm(
-      'Ungespeicherte Änderungen wirklich verwerfen?',
-      () => {
-        formData.article = JSON.parse(persistedArticle)
-      },
-    )
+    $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
+      formData.article = JSON.parse(persistedArticle)
+    })
   }
 }
 </script>
