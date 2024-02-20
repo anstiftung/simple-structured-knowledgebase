@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LicenseResource;
 use App\Models\License;
 use Illuminate\Http\Request;
+use App\Http\Resources\LicenseResource;
+use App\Http\Controllers\BaseController;
 
-class LicenseController extends Controller
+class LicenseController extends BaseController
 {
     /**
      * Display a listing of the resource.

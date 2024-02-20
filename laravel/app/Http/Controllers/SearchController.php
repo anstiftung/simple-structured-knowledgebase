@@ -7,12 +7,13 @@ use App\Models\Collection;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\CollectionResource;
 use App\Http\Resources\AttachedUrlResource;
 use App\Http\Resources\AttachedFileResource;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
