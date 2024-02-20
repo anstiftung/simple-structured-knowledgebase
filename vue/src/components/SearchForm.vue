@@ -13,6 +13,10 @@ const props = defineProps({
     type: Array,
     default: ['articles', 'collections', 'attachments'],
   },
+  onlyPublished: {
+    type: Boolean,
+    default: true,
+  },
   navigate: {
     type: Boolean,
     default: true,
@@ -61,14 +65,16 @@ const onQueryInput = useDebounceFn(() => {
 
 const querySearch = () => {
   loading.value = true
-  SearchService.search(searchQuery.value, props.types).then(
-    ({ data, meta }) => {
-      searchResults.value = data
-      searchMeta.value = meta
-      resultsVisible.value = true
-      loading.value = false
-    },
-  )
+  SearchService.search(
+    searchQuery.value,
+    props.types,
+    props.onlyPublished,
+  ).then(({ data, meta }) => {
+    searchResults.value = data
+    searchMeta.value = meta
+    resultsVisible.value = true
+    loading.value = false
+  })
 }
 
 const resultArticlesLimited = computed(() => {

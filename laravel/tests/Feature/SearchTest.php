@@ -32,6 +32,8 @@ class SearchTest extends TestCase
         User::factory()->create();
         License::factory()->create();
 
+        $statePublished = State::where('key', 'publish')->first();
+
         AttachedFile::factory()->count($this->num_attached_files)
             ->state(new Sequence(
                 fn(Sequence $sequence) => [
@@ -66,7 +68,7 @@ class SearchTest extends TestCase
         Article::factory()->count($this->num_articles)
         ->state(new Sequence(
             fn(Sequence $sequence) => [
-                'state_id' => State::all()->first(),
+                'state_id' => $statePublished->id,
                 'created_by_id' => User::all()->first(),
                 'updated_by_id' => User::all()->first()
             ],

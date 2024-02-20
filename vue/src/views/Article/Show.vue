@@ -2,34 +2,38 @@
 import { ref } from 'vue'
 
 import { storeToRefs } from 'pinia'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { useUserStore } from '@/stores/user'
 
 import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
+import ToastService from '@/services/ToastService'
 
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
-import AttachmentCard from '@/components/AttachmentCard.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from './ContentRenderer.vue'
-
-const toast = useToast()
+import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
 const route = useRoute()
+const router = useRouter()
+
 const slug = route.params.slug
 const article = ref()
 
 const loadFromServer = () => {
-  ArticleService.getArticle(slug).then(data => {
-    article.value = data
-    document.title = `Cowiki | ${article.value.title}`
-  })
+  ArticleService.getArticle(slug)
+    .then(data => {
+      article.value = data
+      document.title = `Cowiki | ${article.value.title}`
+    })
+    .catch(error => {
+      router.push({ name: 'not-found' })
+    })
 }
 
 const clapArticle = () => {
@@ -39,24 +43,10 @@ const clapArticle = () => {
 }
 
 const deleteComment = comment => {
-  toast.clear()
-  const content = {
-    component: ConfirmationToast,
-    props: {
-      message: 'Kommentar wirklich entfernen?',
-    },
-    listeners: {
-      granted: () => {
-        CommentService.deleteComment(comment).then(data => {
-          loadFromServer()
-        })
-      },
-    },
-  }
-  toast(content, {
-    timeout: false,
-    icon: false,
-    closeButton: false,
+  ToastService.confirm('Kommentar wirklich entfernen?', () => {
+    CommentService.deleteComment(comment).then(data => {
+      loadFromServer()
+    })
   })
 }
 
@@ -65,22 +55,25 @@ loadFromServer()
 
 <template>
   <div>
-    <section class="text-white bg-orange/50" v-if="article">
-      <div class="bg-orange header-clip">
-        <div class="py-12 width-wrapper">
-          <h3 class="mb-2 font-normal text-center opacity-70">Beitrag</h3>
-          <h2 class="text-4xl text-center">{{ article.title }}</h2>
-          <router-link
-            v-if="
-              userStore.id == article.created_by.id ||
-              userStore.hasPermission('update others articles')
-            "
-            :to="{ name: 'articleEdit', params: { slug: article.slug } }"
-            >[DEBUG] Bearbeiten</router-link
-          >
-        </div>
-      </div>
-    </section>
+    <model-header
+      colorClass="bg-orange"
+      secondaryColorClass="bg-orange/50"
+      v-if="article"
+    >
+      <template v-slot:description>Beitrag</template>
+      <template v-slot:content>
+        <h2 class="text-4xl text-center">{{ article.title }}</h2>
+        <router-link
+          v-if="
+            userStore.id == article.created_by.id ||
+            userStore.hasPermission('update others articles')
+          "
+          :to="{ name: 'articleEdit', params: { slug: article.slug } }"
+          >[DEBUG] Bearbeiten</router-link
+        >
+      </template>
+    </model-header>
+
     <section v-if="article" class="grid grid-cols-6 my-8 width-wrapper">
       <div class="col-span-4 px-8 py-16">
         <div class="prose">
