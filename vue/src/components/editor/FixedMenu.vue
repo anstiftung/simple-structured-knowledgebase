@@ -142,9 +142,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="sticky z-20 flex gap-2 bg-white top-header" v-if="editor">
+  <div
+    class="sticky z-20 inline-flex overflow-hidden bg-white border divide-x rounded-md top-header"
+    v-if="editor"
+  >
     <select
-      class="secondary-button"
+      class="toolbarButton"
       @change="onStyleInput"
       v-model="selectedStyle"
     >
@@ -154,10 +157,48 @@ onMounted(() => {
     </select>
 
     <button
+      @click="editor.chain().focus().toggleBold().run()"
+      :class="[
+        ,
+        [editor.isActive('bold') ? 'bg-gray-100' : ''],
+        'toolbarButton',
+      ]"
+    >
+      <icon name="bold" />
+    </button>
+    <button
+      @click="editor.chain().focus().toggleItalic().run()"
+      :class="[
+        [editor.isActive('italic') ? 'bg-gray-100' : ''],
+        'toolbarButton',
+      ]"
+    >
+      <icon name="italic" />
+    </button>
+    <button
+      @click="editor.chain().focus().toggleUnderline().run()"
+      :class="[
+        [editor.isActive('underline') ? 'bg-gray-100' : ''],
+        'toolbarButton',
+      ]"
+    >
+      <icon name="underline" />
+    </button>
+    <button
+      @click="editor.chain().focus().toggleStrike().run()"
+      :class="[
+        [editor.isActive('strike') ? 'bg-gray-100' : ''],
+        'toolbarButton',
+      ]"
+    >
+      <icon name="strikethrough" />
+    </button>
+
+    <button
       @click="editor.chain().focus().toggleBulletList().run()"
       :class="[
-        [editor.isActive('bulletList') ? 'bg-gray-200' : ''],
-        'secondary-button',
+        [editor.isActive('bulletList') ? 'bg-gray-100' : ''],
+        'toolbarButton',
       ]"
     >
       <icon name="unorderedlist"></icon>
@@ -165,8 +206,8 @@ onMounted(() => {
     <button
       @click="editor.chain().focus().toggleOrderedList().run()"
       :class="[
-        [editor.isActive('orderedList') ? 'bg-gray-200' : ''],
-        'secondary-button',
+        [editor.isActive('orderedList') ? 'bg-gray-100' : ''],
+        'toolbarButton',
       ]"
     >
       <icon name="orderedlist"></icon>
@@ -174,8 +215,8 @@ onMounted(() => {
 
     <button
       :class="[
-        [editorLinkActive('Article') ? 'bg-gray-200' : ''],
-        'secondary-button',
+        [editorLinkActive('Article') ? 'bg-gray-100' : ''],
+        'toolbarButton',
       ]"
       @click="toggleLinkSelection('articles')"
     >
@@ -183,8 +224,8 @@ onMounted(() => {
     </button>
     <button
       :class="[
-        [editorLinkActive('Collection') ? 'bg-gray-200' : ''],
-        'secondary-button',
+        [editorLinkActive('Collection') ? 'bg-gray-100' : ''],
+        'toolbarButton',
       ]"
       @click="toggleLinkSelection('collections')"
     >
@@ -193,8 +234,8 @@ onMounted(() => {
     <button
       @click="toggleLinkSelection('attachments')"
       :class="[
-        [editorLinkActive('Attachment') ? 'bg-gray-200' : ''],
-        'secondary-button',
+        [editorLinkActive('Attachment') ? 'bg-gray-100' : ''],
+        'toolbarButton',
       ]"
     >
       <icon name="attachment"></icon>
@@ -202,14 +243,14 @@ onMounted(() => {
     <button
       @click="insertAttachmentAsImage()"
       :class="[
-        [editor.isActive('image') ? 'bg-gray-200' : ''],
-        'secondary-button',
+        [editor.isActive('image') ? 'bg-gray-100' : ''],
+        'toolbarButton',
       ]"
     >
       <icon name="image"></icon>
     </button>
     <select
-      class="secondary-button"
+      class="toolbarButton"
       @change="onInfoBoxInput"
       v-model="selectedInfoBox"
     >

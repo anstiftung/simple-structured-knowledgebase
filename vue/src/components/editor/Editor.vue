@@ -13,7 +13,6 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import BulletList from '@tiptap/extension-bullet-list'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
-import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
@@ -22,7 +21,6 @@ import { mergeAttributes, Node } from '@tiptap/core'
 
 import ItemLinkTipTap from '@/components/editor/ItemLinkTipTap.vue'
 
-import FloatingMenu from '@/components/editor/FloatingMenu.vue'
 import FixedMenu from '@/components/editor/FixedMenu.vue'
 import InfoBox from '@/components/editor/InfoBox.js'
 
@@ -120,10 +118,7 @@ watch(
 <template>
   <div class="flex flex-col h-full gap-4">
     <fixed-menu :editor="editor" v-if="editor" />
-
     <editor-content :editor="editor" class="prose grow" />
-
-    <floating-menu :editor="editor" />
   </div>
 </template>
 

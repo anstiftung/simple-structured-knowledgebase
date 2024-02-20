@@ -56,6 +56,13 @@
   }
 }
 
+.toolbarButton {
+  @apply px-3 py-2;
+}
+select.toolbarButton {
+  @apply bg-transparent;
+}
+
 .secondary-button {
   @apply text-gray-800 border border-gray-800;
   @apply px-5 py-[5px];
