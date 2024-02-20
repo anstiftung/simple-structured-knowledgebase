@@ -9,14 +9,12 @@ import { useUserStore } from '@/stores/user'
 
 import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
+import ToastService from '@/services/ToastService'
 
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from './ContentRenderer.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
-
-const toast = useToast()
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
@@ -45,24 +43,10 @@ const clapArticle = () => {
 }
 
 const deleteComment = comment => {
-  toast.clear()
-  const content = {
-    component: ConfirmationToast,
-    props: {
-      message: 'Kommentar wirklich entfernen?',
-    },
-    listeners: {
-      granted: () => {
-        CommentService.deleteComment(comment).then(data => {
-          loadFromServer()
-        })
-      },
-    },
-  }
-  toast(content, {
-    timeout: false,
-    icon: false,
-    closeButton: false,
+  ToastService.confirm('Kommentar wirklich entfernen?', () => {
+    CommentService.deleteComment(comment).then(data => {
+      loadFromServer()
+    })
   })
 }
 
