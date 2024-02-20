@@ -41,7 +41,7 @@ class CollectionSeeder extends Seeder
         if($collections) {
             foreach($collections as $collection) {
                 $numAttachedArticles = rand(1, $this->numAttachedArticlesMax);
-                $articles = Article::get()->random($numAttachedArticles);
+                $articles = Article::published()->get()->random($numAttachedArticles);
 
                 $i = 0;
                 $syncData = $articles->mapWithKeys(function ($item) use (&$i) {

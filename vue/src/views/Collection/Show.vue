@@ -2,9 +2,11 @@
 import { ref } from 'vue'
 import CollectionService from '@/services/CollectionService'
 import ArticleCard from '@/components/ArticleCard.vue'
+import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
 const route = useRoute()
 const slug = route.params.slug
 const collection = ref()
@@ -16,7 +18,7 @@ const loadFromServer = () => {
       document.title = `Cowiki | ${collection.value.title}`
     })
     .catch(error => {
-      // ? do anything here?s
+      router.push({ name: 'not-found' })
     })
 }
 
@@ -25,14 +27,16 @@ loadFromServer()
 
 <template>
   <div>
-    <section class="text-white bg-blue-400/50" v-if="collection">
-      <div class="bg-blue-400 header-clip">
-        <div class="py-12 width-wrapper">
-          <h3 class="mb-2 font-normal text-center opacity-70">Sammlung</h3>
-          <h2 class="text-4xl text-center">{{ collection.title }}</h2>
-        </div>
-      </div>
-    </section>
+    <model-header
+      colorClass="bg-blue-400"
+      secondaryColorClass="bg-blue-400/50"
+      v-if="collection"
+    >
+      <template v-slot:description>Sammlung</template>
+      <template v-slot:content>
+        <h2 class="text-4xl text-center">{{ collection.title }}</h2>
+      </template>
+    </model-header>
     <section v-if="collection?.articles" class="my-8 width-wrapper">
       <p class="my-12">{{ collection.description }}</p>
       <div class="flex items-center gap-4 my-8">

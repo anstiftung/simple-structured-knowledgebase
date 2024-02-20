@@ -9,6 +9,7 @@ import { required$, maxLength$ } from '@/plugins/validators.js'
 import draggable from 'vuedraggable'
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '../../components/atoms/ItemLine.vue'
+import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -123,17 +124,17 @@ const discard = () => {
 </script>
 
 <template>
-  <section class="bg-orange/50">
-    <div class="bg-blue-400 header-clip">
-      <div class="py-12 text-center text-white width-wrapper">
-        <h3 class="mb-2 font-normal text-center opacity-70">
-          Sammlung {{ formData.collection.id ? 'bearbeiten' : 'erstellen' }}
-        </h3>
+  <section>
+    <model-header colorClass="bg-blue-400" secondaryColorClass="bg-blue-400/50">
+      <template v-slot:description>
+        Sammlung {{ formData.collection.id ? 'bearbeiten' : 'erstellen' }}
+      </template>
+      <template v-slot:content>
         <input
-          class="w-full text-4xl text-center bg-transparent outline-none"
+          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
           v-model="formData.collection.title"
           autofocus
-          placeholder="Titel des neuen Eintrags"
+          placeholder="Titel der Sammlung"
           @update:modelValue="v$.collection.title.$touch"
         />
         <div
@@ -143,8 +144,8 @@ const discard = () => {
         >
           <div>! {{ error.$message }}</div>
         </div>
-      </div>
-    </div>
+      </template>
+    </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
         <textarea

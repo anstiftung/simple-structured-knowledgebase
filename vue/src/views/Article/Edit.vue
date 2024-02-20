@@ -12,7 +12,9 @@ import { required$, maxLength$ } from '@/plugins/validators.js'
 import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
+
 import ToastService from '@/services/ToastService'
+import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
 const toast = useToast()
 
@@ -105,17 +107,17 @@ const discard = () => {
 </script>
 
 <template>
-  <section class="bg-orange/50">
-    <div class="header-clip bg-orange">
-      <div class="py-12 text-center text-white width-wrapper">
-        <h3 class="mb-2 font-normal text-center opacity-70">
-          Beitrag {{ formData.article.id ? 'bearbeiten' : 'erstellen' }}
-        </h3>
+  <section>
+    <model-header colorClass="bg-orange" secondaryColorClass="bg-orange/50">
+      <template v-slot:description>
+        Beitrag {{ formData.article.id ? 'bearbeiten' : 'erstellen' }}
+      </template>
+      <template v-slot:content>
         <input
-          class="w-full text-4xl text-center bg-transparent outline-none"
+          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
           v-model="formData.article.title"
           autofocus
-          placeholder="Titel des neuen Eintrags"
+          placeholder="Titel des Beitrags"
           @update:modelValue="v$.article.title.$touch"
         />
         <div
@@ -125,8 +127,8 @@ const discard = () => {
         >
           <div>! {{ error.$message }}</div>
         </div>
-      </div>
-    </div>
+      </template>
+    </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
         <textarea
