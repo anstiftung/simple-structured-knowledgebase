@@ -133,7 +133,15 @@ class ArticleController extends Controller
 
     public function clap(Article $article)
     {
+        $user = Auth::user();
+
+        // only editors are allowed to clap their own articles
+        if($user->id == $article->created_by_id && !$user->can('clap others articles')) {
+            return parent::abortUnauthorized('Du darfst deine eigenen Artikel nicht beklatschen!');
+        }
+
         $article->increment('claps');
+        $article->load(['attached_files', 'attached_urls', 'collections', 'comments']);
 
         return new ArticleResource($article);
     }
