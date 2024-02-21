@@ -1,6 +1,5 @@
 <script setup>
-import { computed, ref, reactive } from 'vue'
-import { useToast } from 'vue-toastification'
+import { computed, ref, reactive, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
 import { required$, maxLength$ } from '@/plugins/validators.js'
@@ -13,7 +12,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['done'])
-const toast = useToast()
+const $toast = inject('$toast')
 
 // save to local reactive that allows modifying the list
 const formData = reactive({
@@ -144,7 +143,7 @@ const prev = () => {
 const save = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    toast.error('Formular ungültig')
+    $toast.error('Formular ungültig')
     return
   }
 
@@ -166,7 +165,7 @@ const save = async () => {
     promises.push(AttachmentService.updateAttachmentUrls(urlsToSave))
   }
   Promise.all(promises).then(values => {
-    toast.success(
+    $toast.success(
       `Erfolgreich ${formData.attachmentList.length} ${
         formData.attachmentList.length == 1 ? 'Anhang' : 'Anhänge'
       } gespeichert`,

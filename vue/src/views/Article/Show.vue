@@ -1,15 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
 
 import { useUserStore } from '@/stores/user'
 
 import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
-import ToastService from '@/services/ToastService'
 
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
@@ -24,6 +22,8 @@ const router = useRouter()
 
 const slug = route.params.slug
 const article = ref()
+
+const $toast = inject('$toast')
 
 const loadFromServer = () => {
   ArticleService.getArticle(slug)
@@ -43,7 +43,7 @@ const clapArticle = () => {
 }
 
 const deleteComment = comment => {
-  ToastService.confirm('Kommentar wirklich entfernen?', () => {
+  $toast.confirm('Kommentar wirklich entfernen?', () => {
     CommentService.deleteComment(comment).then(data => {
       loadFromServer()
     })

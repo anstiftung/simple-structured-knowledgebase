@@ -1,6 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useToast } from 'vue-toastification'
+import { ref, inject } from 'vue'
 
 import AttachmentTypeSelector from './AttachmentTypeSelector.vue'
 import AttachFiles from './AttachFiles.vue'
@@ -11,7 +10,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['done'])
 
-const toast = useToast()
+const $toast = inject('$toast')
 
 const filesDirty = ref(false)
 const urlsDirty = ref(false)
@@ -21,10 +20,10 @@ const attachmentMode = ref('file')
 const setMode = newMode => {
   attachmentMode.value = newMode
   if (newMode == 'file' && urlsDirty.value == true) {
-    toast.warning(`Achtung! Ungespeicherte URL's`)
+    $toast.warning(`Achtung! Ungespeicherte URL's`)
   }
   if (newMode == 'url' && filesDirty.value == true) {
-    toast.warning(`Achtung! Ungespeicherte Dateien`)
+    $toast.warning(`Achtung! Ungespeicherte Dateien`)
   }
 }
 
