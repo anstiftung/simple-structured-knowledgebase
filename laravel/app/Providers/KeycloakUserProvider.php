@@ -19,6 +19,10 @@ class KeycloakUserProvider extends EloquentUserProvider
             $user = User::create($credentials);
         }
 
+        if($user?->name !== $credentials['name']) {
+            $user->update($credentials);
+        }
+
         // If the user has the kc_editor_role_mapping coming from keycloak, it becomes editor
         if(in_array($searched_role, $token->realm_access->roles) && !$user->hasRole('editor')) {
             $user->assignRole('editor');
