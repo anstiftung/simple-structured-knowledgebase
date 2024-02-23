@@ -11,6 +11,7 @@ import { required$, maxLength$ } from '@/plugins/validators.js'
 import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
+import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
 
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
@@ -108,12 +109,13 @@ const discard = () => {
         Beitrag {{ formData.article.id ? 'bearbeiten' : 'erstellen' }}
       </template>
       <template v-slot:content>
-        <input
+        <input-with-counter
           class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
           v-model="formData.article.title"
           autofocus
           placeholder="Titel des Beitrags"
           @update:modelValue="v$.article.title.$touch"
+          maxlength="50"
         />
         <div
           class="text-sm text-red"
