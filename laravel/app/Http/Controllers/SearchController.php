@@ -58,9 +58,10 @@ class SearchController extends BaseController
     public function searchImages()
     {
         $attachedImages = AttachedFile::where('title', 'like', '%' . $this->query . '%')
-            ->whereIn('mime_type', ['image/png','image/jpg','image/jpeg'])
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->get()
+            ->where('isImage', true);
+
 
         $numAttachedImages = $attachedImages->count();
 

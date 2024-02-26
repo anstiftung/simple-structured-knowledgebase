@@ -28,6 +28,8 @@ class AttachedFile extends Model
         'updated_at' => 'datetime',
     ];
 
+    protected $appends = ['isImage'];
+
     public function license()
     {
         return $this->belongsTo(License::class, 'license_id');
@@ -46,6 +48,11 @@ class AttachedFile extends Model
     public function scopeInvalid($query)
     {
         return $query->whereNull('title')->orWhereNull('description')->orWhereNull('source')->orWhereNull('license_id');
+    }
+
+    public function getIsImageAttribute($query)
+    {
+        return in_array($this->mime_type, ['image/png','image/jpg','image/jpeg']);
     }
 
     public static function boot()

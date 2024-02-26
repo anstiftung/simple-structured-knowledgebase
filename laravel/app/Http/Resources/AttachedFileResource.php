@@ -21,6 +21,7 @@ class AttachedFileResource extends BaseResource
             'description' => $this->description,
             'filename' => $this->filename,
             'mime_type' => $this->mime_type,
+            'is_image' => $this->isImage,
             'filesize' => $this->filesize,
             'preview_file' => $this->filename,
             'source' => $this->source,
