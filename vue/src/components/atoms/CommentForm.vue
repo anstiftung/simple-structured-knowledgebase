@@ -1,12 +1,12 @@
 <script setup>
-import { reactive } from 'vue'
-import { useToast } from 'vue-toastification'
+import { reactive, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 
 import CommentService from '@/services/CommentService'
 
-const toast = useToast()
+const $toast = inject('$toast')
+
 const emit = defineEmits(['save'])
 const props = defineProps({
   article: {
@@ -30,12 +30,12 @@ const v$ = useVuelidate(rules, formData)
 const createComment = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret || !props.article) {
-    toast.error('Formular ungültig')
+    $toast.error('Formular ungültig')
     return
   }
   formData.comment.article_id = props.article.id
   CommentService.createComment(formData.comment).then(data => {
-    toast.success('Kommentar erfolgreich gespeichert')
+    $toast.success('Kommentar erfolgreich gespeichert')
     formData.comment.content = ''
     v$.value.$reset()
     emit('save')

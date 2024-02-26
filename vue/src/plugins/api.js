@@ -1,9 +1,9 @@
 import axios from 'axios'
+import { inject } from 'vue'
 import keycloakInstance from '@/plugins/keycloak.js'
-import { useToast } from 'vue-toastification'
 const API_URL = import.meta.env.VITE_API_ROOT + 'api/'
 
-const toast = useToast()
+const $toast = inject('$toast')
 
 const api = axios.create({
   baseURL: API_URL,
@@ -31,7 +31,7 @@ export const makeApiRequest = config => {
         //
         return response.data.data
       } else {
-        toast.error('data property does not exist in the response body')
+        $toast.error('data property does not exist in the response body')
         throw new Error('data property does not exist in the response body')
       }
     })
@@ -42,13 +42,13 @@ export const makeApiRequest = config => {
           errorString = `Server error: ${error.response.data.message}`
         }
         console.error(errorString)
-        toast.error(errorString)
+        $toast.error(errorString)
       } else if (error.request) {
         console.error(`Request error ${error.request}`)
-        toast.error(`Request error ${error.request}`)
+        $toast.error(`Request error ${error.request}`)
       } else {
         console.error(`Error: ${error.message}`)
-        toast.error(`Error: ${error.message}`)
+        $toast.error(`Error: ${error.message}`)
       }
       throw error
     })

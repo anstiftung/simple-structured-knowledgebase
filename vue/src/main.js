@@ -6,6 +6,7 @@ import Toast, { POSITION } from 'vue-toastification'
 import App from './App.vue'
 import Icon from '@/components/atoms/Icon.vue'
 import ItemLink from '@/components/atoms/ItemLink.vue'
+import ToastPlugin from '@/plugins/toast.js'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import { createApp } from 'vue'
@@ -23,6 +24,8 @@ app.config.globalProperties.$filters = filters
 const toastSettings = {
   position: POSITION.TOP_CENTER,
 }
+app.use(Toast, toastSettings)
+app.provide('$toast', ToastPlugin)
 
 app.component('ItemLink', ItemLink)
 app.component('Icon', Icon)
@@ -32,7 +35,6 @@ app.provide('keycloak', keycloakInstance)
 
 app.use(pinia)
 app.use(VueAxios, axios)
-app.use(Toast, toastSettings)
 
 keycloakInstance
   .init({ checkLoginIframe: false, onLoad: 'check-sso' })

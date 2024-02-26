@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CommentResource;
+use App\Http\Controllers\BaseController;
 
-class CommentController extends Controller
+class CommentController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -23,8 +22,7 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        if (!$user->can('create comments')) {
+        if (!$this->user->can('create comments')) {
             return parent::abortUnauthorized();
         }
 
@@ -62,8 +60,7 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        $user = Auth::user();
-        if (!$user->can('delete comments')) {
+        if (!$this->user->can('delete comments')) {
             return parent::abortUnauthorized();
         }
 
