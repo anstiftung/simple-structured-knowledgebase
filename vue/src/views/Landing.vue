@@ -42,7 +42,7 @@ loadFromServer()
         </div>
       </div>
     </section>
-    <section class="mb-24 text-center width-wrapper">
+    <section class="mb-24 text-center width-wrapper" v-if="collections.length">
       <router-link :to="{ name: 'collections' }" class="default-button">
         Übersicht aller Sammlungen
       </router-link>
