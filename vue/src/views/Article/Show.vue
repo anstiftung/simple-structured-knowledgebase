@@ -38,7 +38,7 @@ const loadFromServer = () => {
 
 const clapArticle = () => {
   ArticleService.clapArticle(slug).then(data => {
-    article.value.claps++
+    article.value.claps = data.claps
   })
 }
 

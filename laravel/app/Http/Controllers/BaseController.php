@@ -20,9 +20,9 @@ abstract class BaseController extends Controller
         $this->user = Auth::user();
     }
 
-    public function abortUnauthorized()
+    public function abortUnauthorized($message = 'Unauthorized')
     {
-        return response()->json(['message' => 'Unauthorized'], 403);
+        return response()->json(['message' => $message], 403);
     }
 
     public function abortServerError($message = 'Server Error')
