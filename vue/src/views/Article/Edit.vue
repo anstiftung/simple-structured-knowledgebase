@@ -116,6 +116,7 @@ const discard = () => {
           placeholder="Titel des Beitrags"
           @update:modelValue="v$.article.title.$touch"
           maxlength="50"
+          position="bottom"
         />
         <div
           class="text-sm text-red"

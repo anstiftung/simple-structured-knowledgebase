@@ -1,8 +1,15 @@
 <script setup>
 import { computed } from 'vue'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps({
-  modelValue: String,
+  modelValue: {
+    type: String,
+    default: '',
+  },
   maxlength: Number,
   position: {
     type: String,
@@ -24,18 +31,23 @@ const remainingChars = computed(() => {
 })
 </script>
 <template>
-  <div class="relative">
+  <div
+    class="relative"
+    :class="{ 'flex items-center': props.position == 'right' }"
+  >
     <input
       type="text"
       v-bind="$attrs"
       :value="modelValue"
       @input="updateValue"
+      :class="{ 'pr-24': props.position == 'right' }"
     />
     <p
-      class="text-sm"
+      class="text-sm text-gray-200 pr-4"
+      v-if="props.modelValue"
       :class="{
-        'absolute right-0': props.position == right,
-        'text-center mt-1': props.position == bottom,
+        'absolute right-0': props.position == 'right',
+        'text-center mt-1': props.position == 'bottom',
       }"
     >
       {{ props.modelValue.length }} / {{ props.maxlength }}
