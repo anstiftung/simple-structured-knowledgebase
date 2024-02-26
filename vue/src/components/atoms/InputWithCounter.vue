@@ -43,10 +43,10 @@ const remainingChars = computed(() => {
       :class="{ 'pr-24': props.position == 'right' }"
     />
     <p
-      class="text-sm text-gray-200 pr-4"
+      class="text-sm"
       v-if="props.modelValue"
       :class="{
-        'absolute right-0': props.position == 'right',
+        'absolute right-0 text-gray-200 pr-4': props.position == 'right',
         'text-center mt-1': props.position == 'bottom',
       }"
     >
