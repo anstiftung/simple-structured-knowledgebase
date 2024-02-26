@@ -28,7 +28,7 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'publish articles']);
         Permission::create(['name' => 'edit article creator']);
         Permission::create(['name' => 'update others articles']);
-        Permission::create(['name' => 'clap others articles']);
+        Permission::create(['name' => 'clap own articles']);
         // collections
         Permission::create(['name' => 'add collections']);
         Permission::create(['name' => 'edit collections']);
