@@ -8,13 +8,20 @@ class ArticleService {
     }
     return makeApiRequest(config)
   }
-  getArticles(page = 1, creatorId = null) {
+  getArticles(
+    page = 1,
+    creatorId = null,
+    withoutCollection = false,
+    withoutPagination = false,
+  ) {
     const config = {
       method: 'get',
       url: 'articles',
       params: {
         page: page,
         creatorId: creatorId,
+        withoutCollection: withoutCollection,
+        withoutPagination: withoutPagination,
       },
     }
     return makeApiRequest(config)
