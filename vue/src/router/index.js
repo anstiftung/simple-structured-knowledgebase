@@ -18,7 +18,10 @@ router.beforeEach((to, from, next) => {
   document.title = `Cowiki | ${to.meta.title}`
   const userStore = useUserStore()
 
-  if (to.hash.startsWith('#error=login_required')) {
+  if (
+    to.hash.startsWith('#error=login_required') ||
+    to.hash.startsWith('#state=')
+  ) {
     to.hash = null
     return next(to)
   }

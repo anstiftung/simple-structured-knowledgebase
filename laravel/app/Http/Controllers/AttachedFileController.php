@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Resources\AttachedFileResource;
 use Illuminate\Validation\Rules\File as FileValidator;
 
-class AttachedFileController extends Controller
+class AttachedFileController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -41,8 +40,7 @@ class AttachedFileController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        if (!$user->can('create attached files')) {
+        if (!$this->user->can('create attached files')) {
             return parent::abortUnauthorized();
         }
 
@@ -87,9 +85,17 @@ class AttachedFileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AttachedFile $attachedFile)
+    public function show(AttachedFile $attachedFile, Request $request)
     {
-        //@todo: this is currently unrestricted!
+
+        if ($request->boolean('withArticles')) {
+            // load only published articles for unauthenticated users
+            $attachedFile->load(['articles' => function ($query) {
+                if (!$this->user) {
+                    $query->published();
+                }
+            }]);
+        }
         return new AttachedFileResource($attachedFile);
     }
 
@@ -109,7 +115,8 @@ class AttachedFileController extends Controller
         $type = File::mimeType($path);
 
         $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
+        $response->header("Content-Type", $type)
+        ->header('Content-disposition', 'attachment; filename="'.$attachedFile->filename.'"');
 
         return $response;
     }
@@ -119,8 +126,7 @@ class AttachedFileController extends Controller
      */
     public function update(Request $request, AttachedFile $attachedFile)
     {
-        $user = Auth::user();
-        if (!$user->can('update attached files')) {
+        if (!$this->user->can('update attached files')) {
             return parent::abortUnauthorized();
         }
 

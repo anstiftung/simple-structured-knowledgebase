@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\CollectionResource;
 
-class CollectionListController extends Controller
+class CollectionListController extends BaseController
 {
     /**
      * Update a List of Resources (needed for resorting)
      */
     public function reorder(Request $request)
     {
-        $user = Auth::user();
-        if (!$user->can('feature collections')) {
+        if (!$this->user->can('feature collections')) {
             return parent::abortUnauthorized();
         }
 

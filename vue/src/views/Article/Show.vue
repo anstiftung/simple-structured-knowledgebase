@@ -1,22 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
 
 import { useUserStore } from '@/stores/user'
 
 import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
 
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from './ContentRenderer.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
-
-const toast = useToast()
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
@@ -26,6 +22,8 @@ const router = useRouter()
 
 const slug = route.params.slug
 const article = ref()
+
+const $toast = inject('$toast')
 
 const loadFromServer = () => {
   ArticleService.getArticle(slug)
@@ -38,25 +36,17 @@ const loadFromServer = () => {
     })
 }
 
+const clapArticle = () => {
+  ArticleService.clapArticle(slug).then(data => {
+    article.value.claps = data.claps
+  })
+}
+
 const deleteComment = comment => {
-  toast.clear()
-  const content = {
-    component: ConfirmationToast,
-    props: {
-      message: 'Kommentar wirklich entfernen?',
-    },
-    listeners: {
-      granted: () => {
-        CommentService.deleteComment(comment).then(data => {
-          loadFromServer()
-        })
-      },
-    },
-  }
-  toast(content, {
-    timeout: false,
-    icon: false,
-    closeButton: false,
+  $toast.confirm('Kommentar wirklich entfernen?', () => {
+    CommentService.deleteComment(comment).then(data => {
+      loadFromServer()
+    })
   })
 }
 
@@ -89,8 +79,35 @@ loadFromServer()
         <div class="prose">
           <content-renderer :content="article.content" />
         </div>
+        <div class="mt-20 text-center" v-if="userStore.id">
+          <h3 class="text-lg">
+            Dir hat der Beitrag gefallen? Lass einen clap da.
+          </h3>
+          <div
+            role="button"
+            class="inline-flex items-center p-3 mt-4 transition-all ease-in-out border-2 border-gray-300 rounded-full hover:border-blue group hover:scale-95"
+            @click="clapArticle"
+          >
+            <icon
+              name="clap"
+              class="text-gray-300 group-hover:text-blue size-6"
+            ></icon>
+          </div>
+        </div>
       </div>
-      <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
+      <div
+        class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar min-h-full-without-header"
+      >
+        <div class="grid grid-cols-2 mt-8">
+          <div class="flex items-center gap-2">
+            <icon name="clap" class="text-gray-300 size-6"></icon>
+            <span>{{ article.claps }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <icon name="comment" class="text-gray-300 size-6"></icon>
+            <span>{{ article.comments ? article.comments.length : '0' }}</span>
+          </div>
+        </div>
         <div class="grid grid-cols-2 mt-8">
           <div>
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>

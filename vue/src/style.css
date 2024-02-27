@@ -36,8 +36,11 @@
   .max-h-full-without-header {
     max-height: calc(100vh - theme('height.header'));
   }
+  .min-h-full-without-header {
+    min-height: calc(100vh - theme('height.header'));
+  }
   .sticky-sidebar {
-    @apply sticky top-header max-h-full-without-header;
+    @apply sticky top-header;
   }
 }
 

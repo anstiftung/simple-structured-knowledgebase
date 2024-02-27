@@ -1,19 +1,19 @@
 <script setup>
-import { computed, ref, reactive } from 'vue'
-import { useToast } from 'vue-toastification'
+import { computed, ref, reactive, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 
 import LicenseSelect from '@/components/atoms/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
+import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
 
 const props = defineProps({
   attachments: Array,
 })
 
 const emit = defineEmits(['done'])
-const toast = useToast()
+const $toast = inject('$toast')
 
 // save to local reactive that allows modifying the list
 const formData = reactive({
@@ -39,11 +39,13 @@ const editConfigUrls = {
       attribute: 'title',
       type: 'text',
       label: 'Titel',
+      maxlength: 100,
     },
     {
       attribute: 'description',
       type: 'text',
       label: 'Beschreibung',
+      maxlength: 250,
     },
   ],
   labels: [
@@ -62,21 +64,24 @@ const editConfigFiles = {
       attribute: 'title',
       type: 'text',
       label: 'Titel',
+      maxlength: 100,
     },
     {
       attribute: 'description',
       type: 'text',
       label: 'Beschreibung',
+      maxlength: 250,
     },
     {
       attribute: 'source',
       type: 'text',
       label: 'Quelle',
+      maxlength: 400,
     },
     {
       attribute: 'license',
       type: 'license',
-      label: 'Lizens',
+      label: 'Lizenz',
     },
   ],
   labels: [
@@ -144,7 +149,7 @@ const prev = () => {
 const save = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    toast.error('Formular ungültig')
+    $toast.error('Formular ungültig')
     return
   }
 
@@ -166,7 +171,7 @@ const save = async () => {
     promises.push(AttachmentService.updateAttachmentUrls(urlsToSave))
   }
   Promise.all(promises).then(values => {
-    toast.success(
+    $toast.success(
       `Erfolgreich ${formData.attachmentList.length} ${
         formData.attachmentList.length == 1 ? 'Anhang' : 'Anhänge'
       } gespeichert`,
@@ -199,8 +204,18 @@ const save = async () => {
             <license-select v-model="currentAttachment[field.attribute]" />
           </template>
           <template v-else>
+            <input-with-counter
+              v-if="field.maxlength"
+              class="w-full px-4 py-3 text-gray-800 rounded-md"
+              :placeholder="field.label"
+              :type="field.type"
+              :maxlength="field.maxlength"
+              v-model="currentAttachment[field.attribute]"
+              position="right"
+            />
             <input
-              class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
+              v-else
+              class="w-full px-4 py-3 text-gray-800 rounded-md"
               :placeholder="field.label"
               :type="field.type"
               v-model="currentAttachment[field.attribute]"

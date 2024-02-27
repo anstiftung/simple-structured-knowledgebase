@@ -7,20 +7,21 @@ use App\Models\Collection;
 use App\Models\AttachedUrl;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\ArticleResource;
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\CollectionResource;
 use App\Http\Resources\AttachedUrlResource;
 use App\Http\Resources\AttachedFileResource;
 
-class SearchController extends Controller
+class SearchController extends BaseController
 {
     protected $query = false;
     protected $onlyPublished = true;
 
     public function __construct(Request $request)
     {
+        parent::__construct($request);
         $this->query = $request->query('query', false);
         $this->onlyPublished = $request->boolean('onlyPublished');
     }
@@ -57,9 +58,10 @@ class SearchController extends Controller
     public function searchImages()
     {
         $attachedImages = AttachedFile::where('title', 'like', '%' . $this->query . '%')
-            ->whereIn('mime_type', ['image/png','image/jpg','image/jpeg'])
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->get()
+            ->where('isImage', true);
+
 
         $numAttachedImages = $attachedImages->count();
 
@@ -109,11 +111,9 @@ class SearchController extends Controller
     }
     public function searchArticles()
     {
-        $user = Auth::user();
-
         $articles = Article::where('title', 'like', '%' . $this->query . '%')
             ->orderBy('created_at', 'DESC')
-            ->when(empty($user) || $this->onlyPublished, function ($query) {
+            ->when(empty($this->user) || $this->onlyPublished, function ($query) {
                 $query->published();
             })
             ->get();

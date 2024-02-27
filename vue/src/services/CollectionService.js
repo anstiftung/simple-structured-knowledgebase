@@ -1,3 +1,4 @@
+import ArticleService from '@/services/ArticleService'
 import { makeApiRequest } from '@/plugins/api'
 
 class CollectionService {
@@ -8,6 +9,26 @@ class CollectionService {
     }
     return makeApiRequest(config)
   }
+
+  getCatchAllCollection() {
+    const collection = {
+      title: 'Beiträge ohne Sammlung',
+      description: '[TODO] alle Beiträge ohne eine Sammlung…',
+      url: '/sammlung/catchAll',
+    }
+
+    return new Promise((resolve, reject) => {
+      ArticleService.getArticles(1, null, true, true)
+        .then(data => {
+          collection.articles = data
+          resolve(collection)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
   getCollections(page = 1, parameters = {}) {
     const config = {
       method: 'get',

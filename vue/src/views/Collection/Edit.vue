@@ -1,15 +1,15 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, inject } from 'vue'
 import CollectionService from '@/services/CollectionService'
-import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import draggable from 'vuedraggable'
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '../../components/atoms/ItemLine.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
+import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
+import TextareaWithCounter from '@/components/atoms/TextareaWithCounter.vue'
 
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -18,7 +18,7 @@ import { storeToRefs } from 'pinia'
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
-const toast = useToast()
+const $toast = inject('$toast')
 const router = useRouter()
 const route = useRoute()
 
@@ -82,21 +82,10 @@ const isDirty = computed(() => {
 
 onBeforeRouteLeave((to, from, next) => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
-      },
-      listeners: {
-        granted: () => next(),
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
-    })
+    $toast.confirm(
+      'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
+      next,
+    )
   } else {
     next()
   }
@@ -105,14 +94,14 @@ onBeforeRouteLeave((to, from, next) => {
 const persist = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    toast.error('Formular ungültig')
+    $toast.error('Formular ungültig')
     return
   }
 
   const afterPersist = data => {
     formData.collection = data
     persistedCollection = JSON.stringify(data)
-    toast.success('Sammlung erfolgreich gespeichert')
+    $toast.success('Sammlung erfolgreich gespeichert')
     router.push(data.url)
   }
   if (formData.collection.id) {
@@ -124,22 +113,8 @@ const persist = async () => {
 
 const discard = () => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen wirklich verwerfen?',
-      },
-      listeners: {
-        granted: () => {
-          formData.collection = JSON.parse(persistedCollection)
-        },
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
+    $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
+      formData.collection = JSON.parse(persistedCollection)
     })
   }
 }
@@ -152,12 +127,14 @@ const discard = () => {
         Sammlung {{ formData.collection.id ? 'bearbeiten' : 'erstellen' }}
       </template>
       <template v-slot:content>
-        <input
+        <input-with-counter
           class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
           v-model="formData.collection.title"
           autofocus
           placeholder="Titel der Sammlung"
           @update:modelValue="v$.collection.title.$touch"
+          position="bottom"
+          :maxlength="v$.collection.title.maxLength.$params.max"
         />
         <div
           class="text-sm text-red"
@@ -170,11 +147,13 @@ const discard = () => {
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea
+        <textarea-with-counter
           class="w-full mb-4 text-xl bg-transparent outline-none"
           v-model="formData.collection.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.collection.description.$touch"
+          :maxlength="v$.collection.description.maxLength.$params.max"
+          position="right"
         />
         <div
           class="mb-4 text-sm text-red"
@@ -227,7 +206,7 @@ const discard = () => {
         </div>
       </div>
       <div
-        class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar"
+        class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar max-h-full-without-header"
       >
         <div class="text-sm">
           @todo: Edit creator and state of the collection!
