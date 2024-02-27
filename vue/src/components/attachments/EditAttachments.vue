@@ -39,11 +39,13 @@ const editConfigUrls = {
       attribute: 'title',
       type: 'text',
       label: 'Titel',
+      maxlength: 100,
     },
     {
       attribute: 'description',
       type: 'text',
       label: 'Beschreibung',
+      maxlength: 250,
     },
   ],
   labels: [
