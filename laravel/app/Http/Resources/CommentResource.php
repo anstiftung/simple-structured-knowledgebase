@@ -16,7 +16,6 @@ class CommentResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'Comment',
-            'id' => $this->id,
             'content' => $this->content
         ];
     }

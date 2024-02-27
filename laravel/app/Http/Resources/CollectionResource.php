@@ -16,7 +16,6 @@ class CollectionResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'Collection',
-            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'url' => '/sammlung/' . $this->slug,

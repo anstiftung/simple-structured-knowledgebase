@@ -17,7 +17,6 @@ class AttachedFileResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'AttachedFile',
-            'id' => $this->id,
             'title' => $this->title,
             'serve_url' => '/api/attached-file/serve/' . $this->id,
             'url' => '/anhang/'.$this->id,

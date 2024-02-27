@@ -16,7 +16,6 @@ class AttachedArticleResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'Article',
-            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'state' => new StateResource($this->state),
