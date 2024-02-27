@@ -87,8 +87,14 @@ class AttachedFileController extends BaseController
      */
     public function show(AttachedFile $attachedFile, Request $request)
     {
+
         if ($request->boolean('withArticles')) {
-            $attachedFile->load('articles');
+            // load only published articles for unauthenticated users
+            $attachedFile->load(['articles' => function ($query) {
+                if (!$this->user) {
+                    $query->published();
+                }
+            }]);
         }
         return new AttachedFileResource($attachedFile);
     }
