@@ -17,7 +17,7 @@ class ArticleController extends BaseController
      * Avaible params:
      * – page
      * – creatorId -> filter by creator
-     * - withOutCollection -> returns only articles without any collection
+     * - withoutCollection -> returns only articles without any collection
      * - withoutPagination -> disables pagination
      */
     public function index(Request $request)
