@@ -85,9 +85,11 @@ class AttachedFileController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(AttachedFile $attachedFile)
+    public function show(AttachedFile $attachedFile, Request $request)
     {
-        //@todo: this is currently unrestricted!
+        if ($request->boolean('withArticles')) {
+            $attachedFile->load('articles');
+        }
         return new AttachedFileResource($attachedFile);
     }
 
