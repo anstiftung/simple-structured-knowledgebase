@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -29,6 +28,17 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(600)->by($request->user()?->id ?: $request->ip());
         });
 
+        RateLimiter::for('claps', function (Request $request) {
+            // it is safe to assume that the parameter `article` is present because the RateLimitter is only used on the article.clap route
+            $slug = $request->route()->parameter('article');
+            // it is safe to assume $request->user()->id is present because the clap route is protected anyway
+            $cacheKey = $request->user()->id . $slug;
+
+            return Limit::perDay(100)->by($cacheKey)->response(function (Request $request, array $headers) {
+                return response()->json(['message' => 'Genug claps für heute…'], 429, $headers);
+            });
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
@@ -37,11 +47,5 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
-
-
-        Route::bind('articleSlugOrId', function ($value) {
-            return Article::where('id', $value)->orWhere('slug', $value)->first();
-        });
-
     }
 }

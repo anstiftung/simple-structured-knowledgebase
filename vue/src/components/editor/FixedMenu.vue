@@ -106,7 +106,7 @@ const insertAttachmentAsImage = () => {
   modal.open(ModelSelector, { modelType: 'images' }, selection => {
     if (selection) {
       let attributes = {
-        src: selection.url,
+        src: selection.serve_url,
         alt: selection.title,
         title: '(c) ' + selection.source,
       }

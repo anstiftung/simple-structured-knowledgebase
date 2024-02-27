@@ -5,23 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\CollectionResource;
 
-class CollectionController extends Controller
+class CollectionController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+
         $collections = Collection::when($request->featured == true, function ($query) {
             return $query->featured()->orderBy('order', 'ASC');
         })->when(!empty($request->creatorId), function ($query) use ($request) {
             $query->where('created_by_id', $request->creatorId);
         })->orderBy('updated_at', 'DESC')->paginate();
 
-        $collections->load(['articles']);
+        // eager load the articles: scope to published ones, when not authenticated
+        $collections->load(['articles' => function ($query) {
+            if (!$this->user) {
+                $query->published();
+            }
+        }]);
 
         return CollectionResource::collection($collections);
     }
@@ -31,8 +37,7 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        if (!$user->can('add collections')) {
+        if (!$this->user->can('add collections')) {
             return parent::abortUnauthorized();
         }
 
@@ -66,7 +71,13 @@ class CollectionController extends Controller
      */
     public function show(Collection $collection)
     {
-        $collection->load(['articles']);
+        // eager load the articles: scope to published ones, when not authenticated
+        $collection->load(['articles' => function ($query) {
+            if (!$this->user) {
+                $query->published();
+            }
+        }]);
+
         return new CollectionResource($collection);
     }
 
@@ -75,8 +86,7 @@ class CollectionController extends Controller
      */
     public function update(Collection $collection, Request $request)
     {
-        $user = Auth::user();
-        if (!$user->can('edit collections')) {
+        if (!$this->user->can('edit collections')) {
             return parent::abortUnauthorized();
         }
 
@@ -92,13 +102,14 @@ class CollectionController extends Controller
             'description' => $request->description,
         ]);
 
-        if ($user->can('feature collections')) {
+        if ($this->user->can('feature collections')) {
             $collection->update([
                 'featured' => $request->featured
             ]);
         }
 
         if ($request->has('articles')) {
+            $articles = [];
             foreach($request->articles ?? [] as $article) {
                 $articles[$article['id']] = ['order' => $article['order']];
             }

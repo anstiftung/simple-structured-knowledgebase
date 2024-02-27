@@ -40,6 +40,13 @@ class Article extends Model
         return $this->belongsTo(State::class, 'state_id');
     }
 
+    public function scopePublished($query)
+    {
+        return $query->whereHas('state', function ($query) {
+            $query->where('key', 'publish');
+        });
+    }
+
     public function attached_files()
     {
         return $this->morphedByMany(AttachedFile::class, 'attachment', 'article_attachments');

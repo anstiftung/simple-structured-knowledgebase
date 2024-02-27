@@ -18,10 +18,11 @@ class ArticleTest extends TestCase
     public function test_index_all_articles(): void
     {
         $countArticles = 10;
+        $statePublished = State::where('key', 'publish')->first();
         Article::factory($countArticles)
         ->state(new Sequence(
             fn(Sequence $sequence) => [
-                'state_id' => State::all()->first(),
+                'state_id' => $statePublished->id,
             ]
         ))
         ->create();

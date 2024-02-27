@@ -24,7 +24,7 @@ Route::controller(StateController::class)->group(function () {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles', 'index');
-    Route::get('/article/{articleSlugOrId}', 'show');
+    Route::get('/article/{article:slug}', 'show');
 
 });
 
@@ -68,6 +68,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     // create and update articles
     Route::post('/article', [ArticleController::class, 'store']);
     Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
+
+    Route::middleware(['throttle:claps'])->group(function () {
+        Route::patch('/article/{article:slug}/clap', [ArticleController::class, 'clap']);
+    });
 
     // create and update collections
     Route::post('/collection', [CollectionController::class, 'store']);

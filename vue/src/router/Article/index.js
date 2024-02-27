@@ -1,16 +1,7 @@
 const Article = () => import('@/views/Article/Show.vue')
-const Articles = () => import('@/views/Article/List.vue')
 const ArticleEdit = () => import('@/views/Article/Edit.vue')
 
 export default [
-  {
-    path: '/beitraege',
-    component: Articles,
-    name: 'articles',
-    meta: {
-      title: 'Alle Beiträge',
-    },
-  },
   {
     path: '/beitrag/neu',
     component: ArticleEdit,

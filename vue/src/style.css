@@ -33,14 +33,14 @@
   .width-small-wrapper {
     @apply w-9/12 max-w-screen-md mx-auto;
   }
-  .header-clip {
-    clip-path: polygon(0px 0px, 0 80%, 100% 100%, 100% 0px);
-  }
   .max-h-full-without-header {
     max-height: calc(100vh - theme('height.header'));
   }
+  .min-h-full-without-header {
+    min-height: calc(100vh - theme('height.header'));
+  }
   .sticky-sidebar {
-    @apply sticky top-header max-h-full-without-header;
+    @apply sticky top-header;
   }
 }
 

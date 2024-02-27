@@ -32,7 +32,7 @@ loadFromServer()
     class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
     v-model="localModel"
   >
-    <option :value="null" disabled>Keine Lizens ausgewählt</option>
+    <option :value="null" disabled>Keine Lizenz ausgewählt</option>
     <option v-for="license in licenses" :value="license">
       {{ license.title }}
     </option>

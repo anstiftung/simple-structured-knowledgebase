@@ -24,6 +24,7 @@ class ArticleFactory extends Factory
             'slug' => Str::slug($title),
             'description' => fake()->sentence(20),
             'content' => $content,
+            'claps' => fake()->numberBetween(0, 10),
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
         ];

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class CollectionSeeder extends Seeder
 {
-    private $numCollections = 10;
+    private $numCollections = 60;
     private $numAttachedArticlesMax = 15;
 
     /**
@@ -30,7 +30,7 @@ class CollectionSeeder extends Seeder
         if($user) {
             $collections = Collection::factory()->count($this->numCollections)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'created_by_id' => $user->id,
                     'updated_by_id' => $user->id
                 ],
@@ -41,7 +41,7 @@ class CollectionSeeder extends Seeder
         if($collections) {
             foreach($collections as $collection) {
                 $numAttachedArticles = rand(1, $this->numAttachedArticlesMax);
-                $articles = Article::get()->random($numAttachedArticles);
+                $articles = Article::published()->get()->random($numAttachedArticles);
 
                 $i = 0;
                 $syncData = $articles->mapWithKeys(function ($item) use (&$i) {

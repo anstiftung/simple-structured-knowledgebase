@@ -1,6 +1,7 @@
 const Landing = () => import('@/views/Landing.vue')
 const NotAuthorized = () => import('@/views/NotAuthorized.vue')
 const Dashboard = () => import('@/views/Dashboard.vue')
+const NotFound = () => import('@/views/NotFound.vue')
 
 export default [
   {
@@ -26,6 +27,14 @@ export default [
     meta: {
       title: 'Dashboard',
       protected: true,
+    },
+  },
+  {
+    path: '/not-found',
+    component: NotFound,
+    name: 'not-found',
+    meta: {
+      title: 'Fehler',
     },
   },
 ]
