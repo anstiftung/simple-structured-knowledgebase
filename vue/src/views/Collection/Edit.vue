@@ -134,7 +134,7 @@ const discard = () => {
           placeholder="Titel der Sammlung"
           @update:modelValue="v$.collection.title.$touch"
           position="bottom"
-          maxlength="255"
+          :maxlength="v$.collection.title.maxLength.$params.max"
         />
         <div
           class="text-sm text-red"
@@ -152,7 +152,7 @@ const discard = () => {
           v-model="formData.collection.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.collection.description.$touch"
-          maxlength="1000"
+          :maxlength="v$.collection.description.maxLength.$params.max"
           position="right"
         />
         <div

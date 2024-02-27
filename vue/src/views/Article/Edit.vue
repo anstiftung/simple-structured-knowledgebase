@@ -116,7 +116,7 @@ const discard = () => {
           autofocus
           placeholder="Titel des Beitrags"
           @update:modelValue="v$.article.title.$touch"
-          maxlength="50"
+          :maxlength="v$.article.title.maxLength.$params.max"
           position="bottom"
         />
         <div
@@ -135,7 +135,7 @@ const discard = () => {
           v-model="formData.article.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.article.description.$touch"
-          maxlength="1000"
+          :maxlength="v$.article.description.maxLength.$params.max"
         />
         <div
           class="text-sm text-red"
