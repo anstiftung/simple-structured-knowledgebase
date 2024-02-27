@@ -2,6 +2,7 @@
 import { reactive, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
+import TextareaWithCounter from './TextareaWithCounter.vue'
 
 import CommentService from '@/services/CommentService'
 
@@ -47,11 +48,12 @@ const createComment = async () => {
   <div class="py-8">
     <h3 class="mb-6">Schreibe einen Kommentar</h3>
     <form v-on:submit.prevent="createComment">
-      <textarea
+      <textarea-with-counter
         v-model="formData.comment.content"
         @update:modelValue="v$.comment.content.$touch"
         class="w-full p-2 border-2 h-[200px] rounded-md outline-none focus:border-blue"
-      ></textarea>
+        maxlength="1000"
+      />
       <div
         class="text-sm text-red"
         v-for="error of v$.comment.content.$errors"

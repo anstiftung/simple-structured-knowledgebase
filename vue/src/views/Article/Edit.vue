@@ -11,6 +11,8 @@ import { required$, maxLength$ } from '@/plugins/validators.js'
 import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
+import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
+import TextareaWithCounter from '@/components/atoms/TextareaWithCounter.vue'
 
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
@@ -108,12 +110,14 @@ const discard = () => {
         Beitrag {{ formData.article.id ? 'bearbeiten' : 'erstellen' }}
       </template>
       <template v-slot:content>
-        <input
+        <input-with-counter
           class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
           v-model="formData.article.title"
           autofocus
           placeholder="Titel des Beitrags"
           @update:modelValue="v$.article.title.$touch"
+          :maxlength="v$.article.title.maxLength.$params.max"
+          position="bottom"
         />
         <div
           class="text-sm text-red"
@@ -126,11 +130,12 @@ const discard = () => {
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea
+        <textarea-with-counter
           class="w-full text-xl bg-transparent outline-none"
           v-model="formData.article.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.article.description.$touch"
+          :maxlength="v$.article.description.maxLength.$params.max"
         />
         <div
           class="text-sm text-red"

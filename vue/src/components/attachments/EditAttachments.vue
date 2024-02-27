@@ -6,6 +6,7 @@ import { required$, maxLength$ } from '@/plugins/validators.js'
 
 import LicenseSelect from '@/components/atoms/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
+import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
 
 const props = defineProps({
   attachments: Array,
@@ -38,11 +39,13 @@ const editConfigUrls = {
       attribute: 'title',
       type: 'text',
       label: 'Titel',
+      maxlength: 100,
     },
     {
       attribute: 'description',
       type: 'text',
       label: 'Beschreibung',
+      maxlength: 250,
     },
   ],
   labels: [
@@ -61,16 +64,19 @@ const editConfigFiles = {
       attribute: 'title',
       type: 'text',
       label: 'Titel',
+      maxlength: 100,
     },
     {
       attribute: 'description',
       type: 'text',
       label: 'Beschreibung',
+      maxlength: 250,
     },
     {
       attribute: 'source',
       type: 'text',
       label: 'Quelle',
+      maxlength: 400,
     },
     {
       attribute: 'license',
@@ -198,8 +204,18 @@ const save = async () => {
             <license-select v-model="currentAttachment[field.attribute]" />
           </template>
           <template v-else>
+            <input-with-counter
+              v-if="field.maxlength"
+              class="w-full px-4 py-3 text-gray-800 rounded-md"
+              :placeholder="field.label"
+              :type="field.type"
+              :maxlength="field.maxlength"
+              v-model="currentAttachment[field.attribute]"
+              position="right"
+            />
             <input
-              class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
+              v-else
+              class="w-full px-4 py-3 text-gray-800 rounded-md"
               :placeholder="field.label"
               :type="field.type"
               v-model="currentAttachment[field.attribute]"
