@@ -127,10 +127,8 @@ class ArticleController extends BaseController
 
     public function clap(Article $article)
     {
-        $user = Auth::user();
-
         // only editors are allowed to clap their own articles
-        if($user->id == $article->created_by_id && !$user->can('clap own articles')) {
+        if($this->user->id == $article->created_by_id && !$this->user->can('clap own articles')) {
             return parent::abortUnauthorized('Du darfst deine eigenen Artikel nicht beklatschen!');
         }
 
