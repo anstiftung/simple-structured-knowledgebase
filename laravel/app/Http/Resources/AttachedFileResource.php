@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\ArticleResource;
+use App\Http\Resources\LicenseResource;
 
 class AttachedFileResource extends BaseResource
 {

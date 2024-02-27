@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\LicenseResource;
 
 class ImageResource extends BaseResource
 {
