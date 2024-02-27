@@ -28,7 +28,7 @@ class AttachedUrl extends Model
 
     public function articles()
     {
-        return $this->morphToMany(Article::class, 'article_attachments');
+        return $this->morphToMany(Article::class, 'attachment', 'article_attachments');
     }
 
     public function scopeValid($query)

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\LicenseResource;
 
 class ImageResource extends BaseResource
 {
@@ -17,7 +18,8 @@ class ImageResource extends BaseResource
             'type' => 'Image',
             'id' => $this->id,
             'title' => $this->title,
-            'url' => '/api/attached-file/serve/' . $this->id,
+            'serve_url' => '/api/attached-file/serve/' . $this->id,
+            'url' => '/anhang/'.$this->id,
             'filename' => $this->filename,
             'preview_file' => $this->filename,
             'source' => $this->source,

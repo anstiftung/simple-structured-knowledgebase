@@ -85,9 +85,17 @@ class AttachedFileController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(AttachedFile $attachedFile)
+    public function show(AttachedFile $attachedFile, Request $request)
     {
-        //@todo: this is currently unrestricted!
+
+        if ($request->boolean('withArticles')) {
+            // load only published articles for unauthenticated users
+            $attachedFile->load(['articles' => function ($query) {
+                if (!$this->user) {
+                    $query->published();
+                }
+            }]);
+        }
         return new AttachedFileResource($attachedFile);
     }
 
@@ -107,7 +115,8 @@ class AttachedFileController extends BaseController
         $type = File::mimeType($path);
 
         $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
+        $response->header("Content-Type", $type)
+        ->header('Content-disposition', 'attachment; filename="'.$attachedFile->filename.'"');
 
         return $response;
     }
