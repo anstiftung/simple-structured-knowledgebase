@@ -1,13 +1,14 @@
 <script setup>
-import SearchForm from '@/components/SearchForm.vue'
-import ArticleCard from '@/components/ArticleCard.vue'
-import ExplainSection from '@/components/atoms/ExplainSection.vue'
+import { computed, ref } from 'vue'
 
-import { ref } from 'vue'
+import SearchForm from '@/components/SearchForm.vue'
+import ExplainSection from '@/components/atoms/ExplainSection.vue'
+import CollectionSection from '@/components/atoms/CollectionSection.vue'
 
 import CollectionService from '@/services/CollectionService'
 
 const collections = ref([])
+const catchAllCollection = ref(null)
 
 const loadFromServer = () => {
   CollectionService.getCollections(1, { featured: true }).then(
@@ -15,10 +16,10 @@ const loadFromServer = () => {
       collections.value = data
     },
   )
-}
 
-const limitedArticles = collection => {
-  return collection.articles.slice(0, Math.min(3, collection.articles.length))
+  CollectionService.getCatchAllCollection().then(data => {
+    catchAllCollection.value = data
+  })
 }
 
 loadFromServer()
@@ -27,7 +28,7 @@ loadFromServer()
 <template>
   <div>
     <section class="bg-gray-100">
-      <div class="relative width-wrapper z-10">
+      <div class="relative z-10 width-wrapper">
         <img src="/img/bg.jpg" />
         <div
           class="absolute w-full -translate-x-1/2 md:w-6/12 top-2/3 left-1/2"
@@ -41,58 +42,27 @@ loadFromServer()
     </section>
     <section class="bg-white">
       <div class="py-12 width-wrapper">
+        <div class="divide-y divide-y-2 divide-blue-400">
+          <template v-for="collection in collections" v-if="collections">
+            <collection-section :collection="collection"></collection-section>
+          </template>
+        </div>
         <div
-          v-for="collection in collections"
-          v-if="collections"
-          class="py-12 border-b-2 border-b-blue-400"
+          v-if="catchAllCollection && catchAllCollection.articles.length > 0"
         >
-          <h3 class="mb-4 text-xl text-blue-600">{{ collection.title }}</h3>
-          <div class="relative grid grid-cols-3 gap-12">
-            <div class="flex flex-col col-span-1 gap-6 mt-4">
-              <p class="text-blue-600 line-clamp-5">
-                {{ collection.description }}
-              </p>
-              <p class="text-sm text-blue-600">
-                <span class="font-bold text-orange"
-                  >{{ collection.articles.length }}
-                  {{
-                    collection.articles.length == 1 ? 'Beitrag' : 'Beiträge'
-                  }}</span
-                >
-                <span> in dieser Sammlung</span>
-              </p>
-              <router-link
-                :to="collection.url"
-                class="self-start default-button"
-                >Sammlung öffnen</router-link
-              >
-            </div>
-            <div class="grid grid-cols-3 col-span-2 gap-12">
-              <article-card
-                v-for="article in limitedArticles(collection)"
-                :article="article"
-              ></article-card>
-            </div>
-            <div
-              class="absolute -right-[50px] top-1/2"
-              v-if="collection.articles.length > 3"
-            >
-              <router-link :to="collection.url">
-                <img class="max-w-8" src="/icons/recipesStacked.svg" />
-              </router-link>
-            </div>
-          </div>
+          <collection-section
+            :collection="catchAllCollection"
+          ></collection-section>
         </div>
       </div>
+    </section>
+    <section class="mb-24 text-center width-wrapper" v-if="collections.length">
+      <router-link :to="{ name: 'collections' }" class="default-button">
+        Übersicht aller Sammlungen
+      </router-link>
     </section>
     <section class="width-wrapper">
       <explain-section />
     </section>
-    <router-link :to="{ name: 'articles' }"
-      >[DEBUG] Alle Beiträge [/DEBUG]</router-link
-    >
-    <router-link :to="{ name: 'collections' }"
-      >[DEBUG] Alle Sammlungen [/DEBUG]</router-link
-    >
   </div>
 </template>

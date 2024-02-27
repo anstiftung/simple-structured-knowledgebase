@@ -17,16 +17,23 @@ class ArticleController extends BaseController
      * Avaible params:
      * – page
      * – creatorId -> filter by creator
+     * - withoutCollection -> returns only articles without any collection
+     * - withoutPagination -> disables pagination
      */
     public function index(Request $request)
     {
-        $articles = Article::when(!empty($request->creatorId), function ($query) use ($request) {
+        $query = Article::when(!empty($request->creatorId), function ($query) use ($request) {
             $query->where('created_by_id', $request->creatorId);
         })
         ->when(empty($this->user), function ($query) {
             $query->published();
         })
-        ->orderBy('updated_at', 'DESC')->paginate();
+        ->when($request->boolean('withoutCollection'), function ($query) {
+            $query->whereDoesntHave('collections');
+        })
+        ->orderBy('updated_at', 'DESC');
+
+        $articles = $request->boolean('withoutPagination') ? $query->get() : $query->paginate();
 
         return ArticleResource::collection($articles);
     }
