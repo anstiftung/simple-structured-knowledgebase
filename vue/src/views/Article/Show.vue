@@ -95,7 +95,9 @@ loadFromServer()
           </div>
         </div>
       </div>
-      <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
+      <div
+        class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar min-h-full-without-header"
+      >
         <div class="grid grid-cols-2 mt-8">
           <div class="flex items-center gap-2">
             <icon name="clap" class="text-gray-300 size-6"></icon>
