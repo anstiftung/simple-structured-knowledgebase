@@ -12,6 +12,7 @@ import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
 import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
+import TextareaWithCounter from '@/components/atoms/TextareaWithCounter.vue'
 
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
@@ -129,11 +130,12 @@ const discard = () => {
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea
+        <textarea-with-counter
           class="w-full text-xl bg-transparent outline-none"
           v-model="formData.article.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.article.description.$touch"
+          maxlength="1000"
         />
         <div
           class="text-sm text-red"

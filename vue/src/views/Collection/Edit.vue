@@ -8,6 +8,8 @@ import draggable from 'vuedraggable'
 import SearchForm from '@/components/SearchForm.vue'
 import ItemLine from '../../components/atoms/ItemLine.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
+import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
+import TextareaWithCounter from '@/components/atoms/TextareaWithCounter.vue'
 
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -125,12 +127,14 @@ const discard = () => {
         Sammlung {{ formData.collection.id ? 'bearbeiten' : 'erstellen' }}
       </template>
       <template v-slot:content>
-        <input
+        <input-with-counter
           class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
           v-model="formData.collection.title"
           autofocus
           placeholder="Titel der Sammlung"
           @update:modelValue="v$.collection.title.$touch"
+          position="bottom"
+          maxlength="255"
         />
         <div
           class="text-sm text-red"
@@ -143,11 +147,13 @@ const discard = () => {
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea
+        <textarea-with-counter
           class="w-full mb-4 text-xl bg-transparent outline-none"
           v-model="formData.collection.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.collection.description.$touch"
+          maxlength="1000"
+          position="right"
         />
         <div
           class="mb-4 text-sm text-red"
