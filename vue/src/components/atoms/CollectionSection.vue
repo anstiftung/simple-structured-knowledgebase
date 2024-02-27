@@ -11,7 +11,7 @@ const limitedArticles = collection => {
 </script>
 
 <template>
-  <section class="py-12 border-b-2 border-b-blue-400">
+  <section class="py-12">
     <h3 class="mb-4 text-xl text-blue-600">{{ collection.title }}</h3>
     <div class="relative grid grid-cols-3 gap-12">
       <div class="flex flex-col col-span-1 gap-6 mt-4">

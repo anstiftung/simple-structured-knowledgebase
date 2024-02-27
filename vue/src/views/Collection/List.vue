@@ -37,8 +37,10 @@ loadFromServer()
         {{ collectionsMeta.total ? collectionsMeta.total : 'Keine' }}
         {{ collectionsMeta.total == 1 ? 'Sammlung' : 'Sammlungen' }}
       </separator>
-      <div v-for="collection in collections">
-        <collection-section :collection="collection"></collection-section>
+      <div class="divide-y divide-y-2 divide-blue-400">
+        <template v-for="collection in collections">
+          <collection-section :collection="collection"></collection-section>
+        </template>
       </div>
       <div
         class="flex justify-center my-8"

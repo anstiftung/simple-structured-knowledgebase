@@ -42,8 +42,10 @@ loadFromServer()
     </section>
     <section class="bg-white">
       <div class="py-12 width-wrapper">
-        <div v-for="collection in collections" v-if="collections">
-          <collection-section :collection="collection"></collection-section>
+        <div class="divide-y divide-y-2 divide-blue-400">
+          <template v-for="collection in collections" v-if="collections">
+            <collection-section :collection="collection"></collection-section>
+          </template>
         </div>
         <div
           v-if="catchAllCollection && catchAllCollection.articles.length > 0"
