@@ -66,7 +66,7 @@ loadFromServer()
             <p>{{ $filters.formatedDate(attachedFile.created_at) }}</p>
           </div>
           <div>
-            <h4 class="mb-2 text-sm text-gray-300">Lizens</h4>
+            <h4 class="mb-2 text-sm text-gray-300">Lizenz</h4>
             <p>{{ attachedFile.license.title }}</p>
           </div>
           <div>

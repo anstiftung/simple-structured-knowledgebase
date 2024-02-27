@@ -75,7 +75,7 @@ const editConfigFiles = {
     {
       attribute: 'license',
       type: 'license',
-      label: 'Lizens',
+      label: 'Lizenz',
     },
   ],
   labels: [
