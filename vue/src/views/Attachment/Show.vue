@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import AttachmentService from '@/services/AttachmentService'
 import ArticleCard from '@/components/ArticleCard.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
+import Separator from '@/components/layouts/Separator.vue'
 
 import { useRoute, useRouter } from 'vue-router'
 
@@ -12,7 +13,7 @@ const id = route.params.id
 const attachedFile = ref(null)
 
 const loadFromServer = () => {
-  AttachmentService.getAttachedFile(id)
+  AttachmentService.getAttachedFile(id, true)
     .then(data => {
       attachedFile.value = data
       document.title = `Cowiki | ${attachedFile.value.title}`
@@ -91,6 +92,21 @@ loadFromServer()
             >Download</a
           >
         </div>
+      </div>
+    </section>
+    <section class="my-28 width-wrapper" v-if="attachedFile">
+      <separator>Enthalten in folgenden Beiträgen</separator>
+      <div
+        class="grid grid-cols-4 gap-4"
+        v-if="attachedFile.articles && attachedFile.articles.length"
+      >
+        <article-card
+          v-for="article in attachedFile.articles"
+          :article="article"
+        />
+      </div>
+      <div v-else class="text-sm text-center">
+        Der Anhang wird von keinem Beitrag verwendet.
       </div>
     </section>
   </div>
