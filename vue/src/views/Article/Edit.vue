@@ -144,7 +144,7 @@ const discard = () => {
         </div>
       </div>
       <div
-        class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar"
+        class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar max-h-full-without-header"
       >
         <div class="flex flex-col gap-6 text-sm">
           <div v-if="formData.article.id">
