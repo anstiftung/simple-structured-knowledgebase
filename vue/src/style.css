@@ -59,13 +59,6 @@
   }
 }
 
-.toolbarButton {
-  @apply px-3 py-2;
-}
-select.toolbarButton {
-  @apply bg-transparent;
-}
-
 .secondary-button {
   @apply text-gray-800 border border-gray-800;
   @apply px-5 py-[5px];
@@ -156,12 +149,12 @@ select.toolbarButton {
     @apply content-[''] absolute left-3 top-5 size-5 bg-contain;
   }
   .info-box[data-type='warning']:before {
-    background-image: url('/icons/warning.svg');
+    background-image: url('/img/warning.svg');
   }
   .info-box[data-type='question']:before {
-    background-image: url('/icons/question.svg');
+    background-image: url('/img/question.svg');
   }
   .info-box[data-type='danger']:before {
-    background-image: url('/icons/danger.svg');
+    background-image: url('/img/danger.svg');
   }
 }
