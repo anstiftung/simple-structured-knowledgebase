@@ -13,7 +13,14 @@ const slug = route.params.slug
 const collection = ref()
 
 const loadFromServer = () => {
-  CollectionService.getCollection(slug)
+  let loadFunction = null
+  if (slug == 'catchAll') {
+    loadFunction = CollectionService.getCatchAllCollection()
+  } else {
+    loadFunction = CollectionService.getCollection(slug)
+  }
+
+  loadFunction
     .then(data => {
       collection.value = data
       document.title = `Cowiki | ${collection.value.title}`
@@ -52,6 +59,7 @@ loadFromServer()
       </div>
       <router-link
         class="block mt-8"
+        v-if="collection.slug"
         :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
         >[DEBUG] Bearbeiten</router-link
       >

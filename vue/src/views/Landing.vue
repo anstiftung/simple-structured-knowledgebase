@@ -1,13 +1,14 @@
 <script setup>
+import { computed, ref } from 'vue'
+
 import SearchForm from '@/components/SearchForm.vue'
 import ExplainSection from '@/components/atoms/ExplainSection.vue'
 import CollectionSection from '@/components/atoms/CollectionSection.vue'
 
-import { ref } from 'vue'
-
 import CollectionService from '@/services/CollectionService'
 
 const collections = ref([])
+const catchAllCollection = ref(null)
 
 const loadFromServer = () => {
   CollectionService.getCollections(1, { featured: true }).then(
@@ -15,6 +16,10 @@ const loadFromServer = () => {
       collections.value = data
     },
   )
+
+  CollectionService.getCatchAllCollection().then(data => {
+    catchAllCollection.value = data
+  })
 }
 
 loadFromServer()
@@ -39,6 +44,13 @@ loadFromServer()
       <div class="py-12 width-wrapper">
         <div v-for="collection in collections" v-if="collections">
           <collection-section :collection="collection"></collection-section>
+        </div>
+        <div
+          v-if="catchAllCollection && catchAllCollection.articles.length > 0"
+        >
+          <collection-section
+            :collection="catchAllCollection"
+          ></collection-section>
         </div>
       </div>
     </section>
