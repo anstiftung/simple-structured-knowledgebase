@@ -67,8 +67,6 @@ class ArticleController extends BaseController
            'state_id' => $draftState->id
         ]);
 
-        $this->syncAttachmentsFromContent($newArticle);
-
         return new ArticleResource($newArticle);
     }
 
@@ -122,8 +120,6 @@ class ArticleController extends BaseController
             ]);
         }
 
-        $this->syncAttachmentsFromContent($article);
-
         $article->load(['attached_files', 'attached_urls']);
 
         return new ArticleResource($article);
@@ -147,34 +143,5 @@ class ArticleController extends BaseController
         $article->increment('claps');
 
         return new ArticleResource($article);
-    }
-
-    private function syncAttachmentsFromContent(Article &$article)
-    {
-        $urls = [];
-        $files = [];
-
-        $matches = [];
-        $regex = '/<item-link[^>]*>(.*?)<\/item-link>/s';
-
-        preg_match_all($regex, $article->content, $matches, PREG_SET_ORDER);
-
-        foreach ($matches as $match) {
-            $attributes = [];
-            preg_match_all('/(\w+)="([^"]*)"/', $match[0], $attrMatches, PREG_SET_ORDER);
-            foreach ($attrMatches as $attrMatch) {
-                $attributes[$attrMatch[1]] = $attrMatch[2];
-            }
-
-            if ($attributes['type'] === 'AttachedUrl') {
-                $urls[] = $attributes['id'];
-            }
-            if ($attributes['type'] === 'AttachedFile') {
-                $files[] = $attributes['id'];
-            }
-        }
-
-        $article->attached_urls()->sync($urls);
-        $article->attached_files()->sync($files);
     }
 }
