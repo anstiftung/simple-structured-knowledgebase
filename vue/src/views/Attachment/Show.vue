@@ -57,6 +57,10 @@ loadFromServer()
       </div>
       <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
         <div class="flex flex-col gap-8">
+          <div v-if="attachedFile.approved">
+            <icon name="approved" class="mr-2 text-green size-6"></icon>
+            geprüfter Inhalt
+          </div>
           <div>
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
             <p>{{ attachedFile.created_by.name }}</p>
