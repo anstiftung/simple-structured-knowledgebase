@@ -52,7 +52,7 @@ const createComment = async () => {
         v-model="formData.comment.content"
         @update:modelValue="v$.comment.content.$touch"
         class="w-full p-2 border-2 h-[200px] rounded-md outline-none focus:border-blue"
-        maxlength="1000"
+        :maxlength="v$.comment.content.maxLength.$params.max"
       />
       <div
         class="text-sm text-red"
