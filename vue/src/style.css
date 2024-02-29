@@ -146,6 +146,6 @@
     @apply max-w-[90%] mx-auto my-4 p-4 rounded-md bg-yellow text-black relative pl-12 whitespace-break-spaces break-words;
   }
   .info-box svg {
-    @apply relative inline-block size-4;
+    @apply absolute inline-block left-4 top-5 size-5;
   }
 }
