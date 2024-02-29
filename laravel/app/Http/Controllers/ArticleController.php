@@ -121,7 +121,7 @@ class ArticleController extends BaseController
         }
 
         // conditional update approved
-        if ($user->can('approve content')) {
+        if ($this->user->can('approve content')) {
             $article->update([
                 'approved' => $request->approved
             ]);
