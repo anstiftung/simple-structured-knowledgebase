@@ -121,6 +121,7 @@ class ArticleController extends BaseController
         }
 
         $article->load(['attached_files', 'attached_urls']);
+
         return new ArticleResource($article);
     }
 
