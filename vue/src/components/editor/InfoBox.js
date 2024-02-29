@@ -45,7 +45,6 @@ export default Node.create({
       const dom = document.createElement('div')
 
       dom.classList.add('info-box')
-      dom.classList.add('text-black')
       dom.dataset.type = node.attrs['data-type']
 
       const iconSVG = document.createElementNS(
@@ -53,11 +52,9 @@ export default Node.create({
         'svg',
       )
 
-      // iconSVG.setAttribute('fill', 'currentColor')
       iconSVG.setAttribute('viewBox', '0 0 15 15')
       iconSVG.setAttribute('width', '15px')
       iconSVG.setAttribute('height', '15px')
-      iconSVG.classList.add('fill-black')
 
       const useElement = document.createElementNS(
         'http://www.w3.org/2000/svg',
