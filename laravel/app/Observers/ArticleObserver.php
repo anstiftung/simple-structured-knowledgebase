@@ -20,9 +20,6 @@ class ArticleObserver
      */
     public function updated(Article $article)
     {
-        $dirtyAttributes = $article->getDirty();
-        $originalAttributes = $article->getOriginal();
-
         if ($article->wasChanged('state_id')) {
             $newState = State::findOrFail($article->state_id);
             // maybe helpfull in the future: $oldState = State::findOrFail($article->getOriginal('state_id'));
@@ -37,5 +34,46 @@ class ArticleObserver
                 }
             }
         }
+    }
+
+
+    /**
+     * Listen to the Article saved event. Get's called on update and create
+     *
+     * @param  Article $article
+     * @return void
+     */
+    public function saved(Article $article)
+    {
+        $this->syncAttachmentsFromContent($article);
+    }
+
+    private function syncAttachmentsFromContent(Article &$article)
+    {
+        $urls = [];
+        $files = [];
+
+        $matches = [];
+        $regex = '/<item-link[^>]*>(.*?)<\/item-link>/s';
+
+        preg_match_all($regex, $article->content, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $attributes = [];
+            preg_match_all('/(\w+)="([^"]*)"/', $match[0], $attrMatches, PREG_SET_ORDER);
+            foreach ($attrMatches as $attrMatch) {
+                $attributes[$attrMatch[1]] = $attrMatch[2];
+            }
+
+            if ($attributes['type'] === 'AttachedUrl') {
+                $urls[] = $attributes['id'];
+            }
+            if ($attributes['type'] === 'AttachedFile') {
+                $files[] = $attributes['id'];
+            }
+        }
+
+        $article->attached_urls()->sync($urls);
+        $article->attached_files()->sync($files);
     }
 }

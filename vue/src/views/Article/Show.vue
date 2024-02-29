@@ -1,5 +1,5 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, computed } from 'vue'
 
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
@@ -13,6 +13,7 @@ import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from './ContentRenderer.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
+import AttachmentCard from '@/components/AttachmentCard.vue'
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
@@ -49,6 +50,14 @@ const deleteComment = comment => {
     })
   })
 }
+
+const unifiedAttachments = computed(() => {
+  let attachments = article.value.attached_files.concat(
+    article.value.attached_urls,
+  )
+  attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+  return attachments
+})
 
 loadFromServer()
 </script>
@@ -146,6 +155,18 @@ loadFromServer()
       </div>
     </section>
 
+    <section
+      v-if="article && unifiedAttachments.length > 0"
+      class="my-8 width-wrapper"
+    >
+      <h3 class="pb-2 border-b">Alle verwendeten Anhänge dieses Beitrags</h3>
+      <div class="grid grid-cols-3 gap-8 py-8 auto-rows-[1fr]">
+        <attachment-card
+          v-for="attachment in unifiedAttachments"
+          :attachment="attachment"
+        ></attachment-card>
+      </div>
+    </section>
     <section v-if="article" class="my-8 width-wrapper">
       <h3 class="pb-2 border-b">
         Kommentare ({{ article.comments ? article.comments.length : '0' }})
