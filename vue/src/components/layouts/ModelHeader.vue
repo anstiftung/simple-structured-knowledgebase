@@ -20,6 +20,6 @@ const props = defineProps({
 
 <style scoped>
 .header-clip {
-  clip-path: polygon(0px 0px, 0 80%, 100% 100%, 100% 0px);
+  clip-path: polygon(0px 0px, 0 100%, 100% 80%, 100% 0px);
 }
 </style>

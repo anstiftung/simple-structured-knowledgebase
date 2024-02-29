@@ -30,6 +30,8 @@ class AttachedFile extends Model
         'approved' => 'boolean'
     ];
 
+    protected $appends = ['isImage'];
+
     public function license()
     {
         return $this->belongsTo(License::class, 'license_id');
@@ -37,7 +39,7 @@ class AttachedFile extends Model
 
     public function articles()
     {
-        return $this->morphToMany(Article::class, 'article_attachments');
+        return $this->morphToMany(Article::class, 'attachment', 'article_attachments');
     }
 
     public function scopeValid($query)
@@ -48,6 +50,11 @@ class AttachedFile extends Model
     public function scopeInvalid($query)
     {
         return $query->whereNull('title')->orWhereNull('description')->orWhereNull('source')->orWhereNull('license_id');
+    }
+
+    public function getIsImageAttribute($query)
+    {
+        return in_array($this->mime_type, ['image/png','image/jpg','image/jpeg']);
     }
 
     public static function boot()

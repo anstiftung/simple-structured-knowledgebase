@@ -1,7 +1,6 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, inject } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useToast } from 'vue-toastification'
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 
@@ -9,13 +8,15 @@ import { useUserStore } from '@/stores/user'
 import ArticleService from '@/services/ArticleService'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/atoms/StateSelect.vue'
 import UserSelect from '@/components/atoms/UserSelect.vue'
+import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
+import TextareaWithCounter from '@/components/atoms/TextareaWithCounter.vue'
+
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
-const toast = useToast()
+const $toast = inject('$toast')
 
 const router = useRouter()
 const route = useRoute()
@@ -63,21 +64,10 @@ const isDirty = computed(() => {
 
 onBeforeRouteLeave((to, from, next) => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
-      },
-      listeners: {
-        granted: () => next(),
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
-    })
+    $toast.confirm(
+      'Ungespeicherte Änderungen! Diese Seite wirklich verlassen?',
+      next,
+    )
   } else {
     next()
   }
@@ -86,14 +76,14 @@ onBeforeRouteLeave((to, from, next) => {
 const persist = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    toast.error('Formular ungültig')
+    $toast.error('Formular ungültig')
     return
   }
 
   const afterPersist = data => {
     formData.article = data
     persistedArticle = JSON.stringify(data)
-    toast.success('Beitrag erfolgreich gespeichert')
+    $toast.success('Beitrag erfolgreich gespeichert')
     router.push(data.url)
   }
 
@@ -106,22 +96,8 @@ const persist = async () => {
 
 const discard = () => {
   if (isDirty.value) {
-    toast.clear()
-    const content = {
-      component: ConfirmationToast,
-      props: {
-        message: 'Ungespeicherte Änderungen wirklich verwerfen?',
-      },
-      listeners: {
-        granted: () => {
-          formData.article = JSON.parse(persistedArticle)
-        },
-      },
-    }
-    toast(content, {
-      timeout: false,
-      icon: false,
-      closeButton: false,
+    $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
+      formData.article = JSON.parse(persistedArticle)
     })
   }
 }
@@ -134,12 +110,14 @@ const discard = () => {
         Beitrag {{ formData.article.id ? 'bearbeiten' : 'erstellen' }}
       </template>
       <template v-slot:content>
-        <input
+        <input-with-counter
           class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
           v-model="formData.article.title"
           autofocus
           placeholder="Titel des Beitrags"
           @update:modelValue="v$.article.title.$touch"
+          :maxlength="v$.article.title.maxLength.$params.max"
+          position="bottom"
         />
         <div
           class="text-sm text-red"
@@ -152,11 +130,12 @@ const discard = () => {
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
       <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea
+        <textarea-with-counter
           class="w-full text-xl bg-transparent outline-none"
           v-model="formData.article.description"
           placeholder="Kurzbeschreibung"
           @update:modelValue="v$.article.description.$touch"
+          :maxlength="v$.article.description.maxLength.$params.max"
         />
         <div
           class="text-sm text-red"
@@ -170,7 +149,7 @@ const discard = () => {
         </div>
       </div>
       <div
-        class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar"
+        class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar max-h-full-without-header"
       >
         <div class="flex flex-col gap-6 text-sm">
           <div v-if="formData.article.id">

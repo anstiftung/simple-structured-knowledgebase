@@ -190,6 +190,7 @@ loadFromServer()
         class="grow"
         @queryChanged="searchQueryUpdated"
         :initialQuery="initialQuery"
+        :onlyPublished="false"
       />
       <div v-if="userStore.id" class="flex gap-4">
         <button

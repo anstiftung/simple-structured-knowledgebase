@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\AttachedArticleResource;
 
 class CollectionResource extends BaseResource
 {
@@ -16,7 +16,6 @@ class CollectionResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'Collection',
-            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'url' => '/sammlung/' . $this->slug,

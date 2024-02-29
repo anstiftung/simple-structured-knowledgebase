@@ -1,5 +1,6 @@
-import AuthRoutes from './Auth/index'
 import ArticleRoutes from './Article/index'
+import AttachmentRoutes from './Attachment/index'
+import AuthRoutes from './Auth/index'
 import CollectionRoutes from './Collection/index'
 import PageRoutes from './Pages/index'
 
@@ -8,4 +9,5 @@ export default [
   ...PageRoutes,
   ...ArticleRoutes,
   ...CollectionRoutes,
+  ...AttachmentRoutes,
 ]

@@ -1,64 +1,63 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject, computed } from 'vue'
 
 import { storeToRefs } from 'pinia'
-import { useRoute } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { useRoute, useRouter } from 'vue-router'
 
 import { useUserStore } from '@/stores/user'
 
 import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
 
-import ConfirmationToast from '@/components/atoms/ConfirmationToast.vue'
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from './ContentRenderer.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
-
-const toast = useToast()
+import AttachmentCard from '@/components/AttachmentCard.vue'
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
 const route = useRoute()
+const router = useRouter()
+
 const slug = route.params.slug
 const article = ref()
 
+const $toast = inject('$toast')
+
 const loadFromServer = () => {
-  ArticleService.getArticle(slug).then(data => {
-    article.value = data
-    document.title = `Cowiki | ${article.value.title}`
-  })
+  ArticleService.getArticle(slug)
+    .then(data => {
+      article.value = data
+      document.title = `Cowiki | ${article.value.title}`
+    })
+    .catch(error => {
+      router.push({ name: 'not-found' })
+    })
 }
 
 const clapArticle = () => {
   ArticleService.clapArticle(slug).then(data => {
-    article.value.claps++
+    article.value.claps = data.claps
   })
 }
 
 const deleteComment = comment => {
-  toast.clear()
-  const content = {
-    component: ConfirmationToast,
-    props: {
-      message: 'Kommentar wirklich entfernen?',
-    },
-    listeners: {
-      granted: () => {
-        CommentService.deleteComment(comment).then(data => {
-          loadFromServer()
-        })
-      },
-    },
-  }
-  toast(content, {
-    timeout: false,
-    icon: false,
-    closeButton: false,
+  $toast.confirm('Kommentar wirklich entfernen?', () => {
+    CommentService.deleteComment(comment).then(data => {
+      loadFromServer()
+    })
   })
 }
+
+const unifiedAttachments = computed(() => {
+  let attachments = article.value.attached_files.concat(
+    article.value.attached_urls,
+  )
+  attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+  return attachments
+})
 
 loadFromServer()
 </script>
@@ -105,7 +104,9 @@ loadFromServer()
           </div>
         </div>
       </div>
-      <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
+      <div
+        class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar min-h-full-without-header"
+      >
         <div class="grid grid-cols-2 mt-8">
           <div class="flex items-center gap-2">
             <icon name="clap" class="text-gray-300 size-6"></icon>
@@ -154,6 +155,18 @@ loadFromServer()
       </div>
     </section>
 
+    <section
+      v-if="article && unifiedAttachments.length > 0"
+      class="my-8 width-wrapper"
+    >
+      <h3 class="pb-2 border-b">Alle verwendeten Anhänge dieses Beitrags</h3>
+      <div class="grid grid-cols-3 gap-8 py-8 auto-rows-[1fr]">
+        <attachment-card
+          v-for="attachment in unifiedAttachments"
+          :attachment="attachment"
+        ></attachment-card>
+      </div>
+    </section>
     <section v-if="article" class="my-8 width-wrapper">
       <h3 class="pb-2 border-b">
         Kommentare ({{ article.comments ? article.comments.length : '0' }})

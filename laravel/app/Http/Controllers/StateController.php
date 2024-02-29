@@ -6,8 +6,9 @@ use App\Models\State;
 use App\Models\License;
 use Illuminate\Http\Request;
 use App\Http\Resources\StateResource;
+use App\Http\Controllers\BaseController;
 
-class StateController extends Controller
+class StateController extends BaseController
 {
     /**
      * Display a listing of the resource.

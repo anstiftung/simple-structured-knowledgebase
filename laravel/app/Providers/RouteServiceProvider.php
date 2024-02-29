@@ -29,11 +29,15 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('claps', function (Request $request) {
-            return Limit::perDay(100)->by($request->user()?->id ?: $request->ip())->response(function (Request $request, array $headers) {
+            // it is safe to assume that the parameter `article` is present because the RateLimitter is only used on the article.clap route
+            $slug = $request->route()->parameter('article');
+            // it is safe to assume $request->user()->id is present because the clap route is protected anyway
+            $cacheKey = $request->user()->id . $slug;
+
+            return Limit::perDay(100)->by($cacheKey)->response(function (Request $request, array $headers) {
                 return response()->json(['message' => 'Genug claps für heute…'], 429, $headers);
             });
         });
-
 
         $this->routes(function () {
             Route::middleware('api')

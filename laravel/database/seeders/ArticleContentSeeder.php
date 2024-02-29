@@ -18,7 +18,7 @@ class ArticleContentSeeder extends Seeder
         $articles = Article::all();
         foreach ($articles as $article) {
             $randomCollection = Collection::inRandomOrder()->limit(1)->first();
-            $randomArticle = Article::inRandomOrder()->limit(1)->first();
+            $randomArticle = Article::published()->inRandomOrder()->limit(1)->first();
             $randomAttachedURL = AttachedUrl::inRandomOrder()->limit(1)->first();
             $randomAttachedFile = AttachedFile::inRandomOrder()->limit(1)->first();
 
@@ -40,7 +40,7 @@ class ArticleContentSeeder extends Seeder
                     sadipscing elitr, sed diam nonumy
                     <item-link data-type="AttachedUrl" data-id="$randomAttachedURL->id" href="$randomAttachedURL->url" target="_blank">Ein Link zu einem Anhang (URL)</item-link>
                     sadipscing elitr, sed diam nonumy
-                    <item-link data-type="AttachedFile" data-id="$randomAttachedFile->id" href="/api/attached-file/serve/$randomAttachedFile->id" target="_blank">Ein Link zu einem Anhang (File)</item-link>
+                    <item-link data-type="AttachedFile" data-id="$randomAttachedFile->id" href="/anhang/$randomAttachedFile->id" target="_blank">Ein Link zu einem Anhang (File)</item-link>
                     sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                 </p>
                 <img src="/api/attached-file/serve/$randomAttachedFile->id" alt="Baylee Crooks" title="(c) Numquam saepe sunt voluptates.">

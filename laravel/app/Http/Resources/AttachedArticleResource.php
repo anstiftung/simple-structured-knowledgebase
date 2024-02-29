@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\StateResource;
 
 class AttachedArticleResource extends BaseResource
 {
@@ -15,9 +16,9 @@ class AttachedArticleResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'Article',
-            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
+            'state' => new StateResource($this->state),
             'url' => '/beitrag/' . $this->slug,
             'approved' => $this->approved,
             'claps' => $this->claps,

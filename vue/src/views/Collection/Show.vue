@@ -3,21 +3,30 @@ import { ref } from 'vue'
 import CollectionService from '@/services/CollectionService'
 import ArticleCard from '@/components/ArticleCard.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
+import Separator from '@/components/layouts/Separator.vue'
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
 const route = useRoute()
 const slug = route.params.slug
 const collection = ref()
 
 const loadFromServer = () => {
-  CollectionService.getCollection(slug)
+  let loadFunction = null
+  if (slug == 'catchAll') {
+    loadFunction = CollectionService.getCatchAllCollection()
+  } else {
+    loadFunction = CollectionService.getCollection(slug)
+  }
+
+  loadFunction
     .then(data => {
       collection.value = data
       document.title = `Cowiki | ${collection.value.title}`
     })
     .catch(error => {
-      // ? do anything here?s
+      router.push({ name: 'not-found' })
     })
 }
 
@@ -38,16 +47,10 @@ loadFromServer()
     </model-header>
     <section v-if="collection?.articles" class="my-8 width-wrapper">
       <p class="my-12">{{ collection.description }}</p>
-      <div class="flex items-center gap-4 my-8">
-        <div class="border-b border-blue-600 border-dotted grow" />
-        <h4 class="text-xl text-blue-600">
-          {{
-            collection.articles.length ? collection.articles.length : 'Keine'
-          }}
-          {{ collection.articles.length == 1 ? 'Beitrag' : 'Beiträge' }}
-        </h4>
-        <div class="border-b border-blue-600 border-dotted grow" />
-      </div>
+      <separator>
+        {{ collection.articles.length ? collection.articles.length : 'Keine' }}
+        {{ collection.articles.length == 1 ? 'Beitrag' : 'Beiträge' }}
+      </separator>
       <div class="grid grid-cols-4 gap-4">
         <article-card
           v-for="article in collection.articles"
@@ -56,6 +59,7 @@ loadFromServer()
       </div>
       <router-link
         class="block mt-8"
+        v-if="collection.slug"
         :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
         >[DEBUG] Bearbeiten</router-link
       >
