@@ -10,7 +10,7 @@ export default Node.create({
   addAttributes() {
     return {
       class: {
-        default: 'info-box',
+        default: 'info-box text-black',
       },
       'data-type': {
         default: 'warning', // ['warning', 'question', 'danger']
@@ -45,6 +45,7 @@ export default Node.create({
       const dom = document.createElement('div')
 
       dom.classList.add('info-box')
+      dom.classList.add('text-black')
       dom.dataset.type = node.attrs['data-type']
 
       const iconSVG = document.createElementNS(
@@ -52,12 +53,16 @@ export default Node.create({
         'svg',
       )
 
-      iconSVG.setAttribute('fill', 'currentColor')
+      // iconSVG.setAttribute('fill', 'currentColor')
       iconSVG.setAttribute('viewBox', '0 0 15 15')
       iconSVG.setAttribute('width', '15px')
       iconSVG.setAttribute('height', '15px')
+      iconSVG.classList.add('fill-black')
 
-      const useElement = document.createElementNS(null, 'use')
+      const useElement = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'use',
+      )
       useElement.setAttribute('href', `/icons/danger.svg#danger`)
 
       iconSVG.append(useElement)
