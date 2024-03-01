@@ -121,6 +121,14 @@
       counter-increment: list-number;
     }
   }
+
+  img.float-left {
+    @apply my-2 mr-4;
+  }
+  img.float-right {
+    @apply my-2 ml-4;
+  }
+
   a {
     @apply relative inline-block font-bold no-underline z-[1];
     &:after {
