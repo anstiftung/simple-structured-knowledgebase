@@ -25,6 +25,21 @@ const modal = useModalStore()
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
+const attachments = computed(() => {
+  let attachments = []
+
+  if (searchResults.value.attached_files) {
+    attachments.push(...searchResults.value.attached_files)
+  }
+
+  if (searchResults.value.attached_urls) {
+    attachments.push(...searchResults.value.attached_urls)
+  }
+
+  attachments = attachments.sort((a, b) => a.title < b.title)
+  return attachments
+})
+
 const onQueryInput = useDebounceFn(() => {
   searchResults.value = []
   searchQueryUpdated(searchQuery)
@@ -137,8 +152,8 @@ loadFromServer()
           Keine Ergebnisse
         </p>
 
-        <table v-else>
-          <thead class="font-semibold border-y">
+        <table class="w-full" v-else>
+          <thead class="border-y w-full text-gray-400">
             <tr>
               <td>Titel</td>
               <td>Datum</td>
@@ -146,7 +161,7 @@ loadFromServer()
           </thead>
           <tbody>
             <tr v-for="collection in searchResults.collections">
-              <td>{{ collection.title }}</td>
+              <td class="text-blue-400">{{ collection.title }}</td>
               <td>{{ collection.created_at }}</td>
             </tr>
           </tbody>
@@ -193,21 +208,23 @@ loadFromServer()
       <template v-if="activeModels.includes('attachments')">
         <p class="pt-3 pb-2 pl-2 text-sm italic text-gray-300">Anhänge</p>
 
-        <p class="text-sm" v-if="searchResults.attachments?.length == 0">
-          Keine Ergebnisse
-        </p>
+        <p class="text-sm" v-if="attachments?.length == 0">Keine Ergebnisse</p>
 
-        <table v-else>
-          <thead class="font-semibold border-y w-full">
+        <table class="w-full" v-else>
+          <thead class="border-y w-full text-gray-400">
             <tr>
-              <td>Titel</td>
-              <td>Datum</td>
+              <td class="px-2 py-3">Titel</td>
+              <td class="px-2 py-3">Datum</td>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="attachment in searchResults.attachments">
-              <td>{{ attachment.title }}</td>
-              <td>{{ attachment.created_at }}</td>
+            <tr v-for="attachment in attachments">
+              <td class="px-2 py-3 text-green font-semibold">
+                {{ attachment.title }}
+              </td>
+              <td class="px-2 py-3">
+                {{ $filters.formatedDate(attachment.created_at) }}
+              </td>
             </tr>
           </tbody>
         </table>
