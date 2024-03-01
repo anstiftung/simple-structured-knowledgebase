@@ -1,182 +1,77 @@
 <script setup>
 import { ref, computed, onBeforeMount } from 'vue'
+import { useDebounceFn, onClickOutside } from '@vueuse/core'
+
 import { storeToRefs } from 'pinia'
 import { useRouter, useRoute } from 'vue-router'
 
 import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
 
-import ArticleService from '@/services/ArticleService'
-import CollectionService from '@/services/CollectionService'
-import AttachmentService from '@/services/AttachmentService'
-
-import AddAttachments from '@/components/attachments/AddAttachments.vue'
-import EditAttachments from '@/components/attachments/EditAttachments.vue'
-
-import SearchForm from '@/components/SearchForm.vue'
-import ItemLine from '@/components/atoms/ItemLine.vue'
-import ModelSelector from '@/components/atoms/ModelSelector.vue'
+import SearchService from '@/services/SearchService'
+import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
 
 const router = useRouter()
 const route = useRoute()
 
-const activeModel = ref('article')
+const activeModels = ref(['articles'])
 
-const recentCollections = ref([])
-const recentArticles = ref([])
-const recentAttachedUrls = ref([])
-const recentAttachedFiles = ref([])
-
-const invalidAttachedFiles = ref({ data: [], meta: null })
-const invalidAttachedUrls = ref({ data: [], meta: null })
-
-const featuredCollections = ref([])
-
-const initialQuery = ref('')
+const searchResults = ref([])
+const searchQuery = ref([])
+const loading = ref(false)
 
 const modal = useModalStore()
 // If you need UserPermissions, you'll need the next three lines
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
 
+const onQueryInput = useDebounceFn(() => {
+  searchResults.value = []
+  searchQueryUpdated(searchQuery)
+  querySearch()
+}, 250)
+
+const querySearch = () => {
+  loading.value = true
+  SearchService.search(searchQuery.value, activeModels.value, false).then(
+    ({ data, meta }) => {
+      searchResults.value = data
+      // searchMeta.value = meta
+      // resultsVisible.value = true
+      loading.value = false
+    },
+  )
+}
+
 const searchQueryUpdated = searchQuery => {
-  router.replace({ query: { q: searchQuery } })
+  router.replace({
+    query: {
+      q: encodeURI(searchQuery.value),
+      m: activeModels.value,
+    },
+  })
+  console.info('Search query updated…')
 }
 
 onBeforeMount(() => {
-  // if present load url query
   if (route.query.q) {
-    initialQuery.value = route.query.q
+    searchQuery.value = route.query.q
   }
-})
 
-const showCreateAttachmentModal = () => {
-  modal.open(AddAttachments, {}, savedAttachments => {
-    if (savedAttachments && savedAttachments.length) {
-      const props = { attachments: savedAttachments }
-      modal.open(EditAttachments, props, () => {
-        loadFromServer()
-      })
-    }
-  })
-}
-
-const editAttachment = attachment => {
-  const props = { attachments: [attachment] }
-  modal.open(EditAttachments, props, () => {
-    loadFromServer()
-  })
-}
-
-const sortCallback = event => {
-  // make order-property consistent with sorting
-  let i = 0
-  featuredCollections.value.map(element => {
-    element.order = i
-    i++
-  })
-
-  CollectionService.reorderFeaturedCollections(featuredCollections.value).then(
-    data => (featuredCollections.value = data),
-  )
-}
-
-const markCollectionFeatured = () => {
-  modal.open(ModelSelector, { modelType: 'collections' }, collection => {
-    if (collection && !collection.featured) {
-      collection.featured = true
-      CollectionService.updateCollection(collection).then(() => {
-        loadFromServer()
-      })
-    }
-  })
-}
-
-const markCollectionUnFeatured = collection => {
-  collection.featured = false
-  CollectionService.updateCollection(collection).then(() => {
-    loadFromServer()
-  })
-}
-
-const loadFromServer = () => {
-  ArticleService.getArticles(1, userStore.id).then(({ data, meta }) => {
-    recentArticles.value = data.slice(0, Math.min(5, data.length))
-  })
-
-  AttachmentService.getAttachmentUrls(1, userStore.id).then(
-    ({ data, meta }) => {
-      recentAttachedUrls.value = data.slice(0, Math.min(5, data.length))
-    },
-  )
-
-  AttachmentService.getAttachmentFiles(1, userStore.id).then(
-    ({ data, meta }) => {
-      recentAttachedFiles.value = data.slice(0, Math.min(5, data.length))
-    },
-  )
-
-  AttachmentService.getAttachmentFiles(1, userStore.id, true).then(
-    ({ data, meta }) => {
-      invalidAttachedFiles.value.data = data
-      invalidAttachedFiles.value.meta = meta
-    },
-  )
-
-  AttachmentService.getAttachmentUrls(1, userStore.id, true).then(
-    ({ data, meta }) => {
-      invalidAttachedUrls.value.data = data
-      invalidAttachedUrls.value.meta = meta
-    },
-  )
-
-  CollectionService.getCollections(1, {
-    creatorId: userStore.id,
-  }).then(({ data, meta }) => {
-    recentCollections.value = data.slice(0, Math.min(5, data.length))
-  })
-
-  CollectionService.getCollections(1, { featured: true }).then(
-    ({ data, meta }) => {
-      featuredCollections.value = data
-    },
-  )
-}
-
-const activities = computed(() => {
-  let activities = recentArticles.value
-    .concat(recentAttachedFiles.value)
-    .concat(recentAttachedUrls.value)
-    .concat(recentCollections.value)
-  activities = activities.sort((a, b) => a.created_at < b.created_at)
-  return activities
-})
-
-const invalidAttachments = computed(() => {
-  let attachments = invalidAttachedFiles.value.data.concat(
-    invalidAttachedUrls.value.data,
-  )
-  attachments = attachments.sort((a, b) => a.created_at < b.created_at)
-  return attachments
-})
-
-const invalidAttachmentsLimited = computed(() => {
-  return invalidAttachments.value.slice(
-    0,
-    Math.min(10, invalidAttachments.value.length),
-  )
-})
-
-const invalidAttachmentsTotal = computed(() => {
-  if (invalidAttachedFiles.value.meta && invalidAttachedUrls.value.meta) {
-    return (
-      invalidAttachedFiles.value.meta.total +
-      invalidAttachedUrls.value.meta.total
-    )
-  } else {
-    return 0
+  if (route.query.m) {
+    activeModels.value = route.query.m
   }
+
+  querySearch()
 })
+
+const switchModel = model => {
+  activeModels.value = []
+  activeModels.value.push(model)
+  onQueryInput()
+}
+
+const loadFromServer = () => {}
 
 loadFromServer()
 </script>
@@ -185,47 +80,138 @@ loadFromServer()
     <div
       class="flex items-baseline justify-between py-12 gap-x-12 width-wrapper"
     >
-      <search-form
-        placeholder="Suche in Beiträgen, Anhängen und Sammlungen"
-        class="grow"
-        @queryChanged="searchQueryUpdated"
-        :initialQuery="initialQuery"
-        :onlyPublished="false"
-      />
+      <div class="grow">
+        <form
+          class="flex items-center gap-2 px-4 py-2 bg-white rounded-md"
+          v-on:submit.prevent="querySearch()"
+        >
+          <input
+            class="w-full outline-none placeholder:text-gray-200"
+            type="text"
+            placeholder="Suchen…"
+            v-model="searchQuery"
+            @input="onQueryInput"
+            @focus="showResultsFromFocus"
+          />
+          <icon
+            name="search"
+            role="button"
+            class="text-black"
+            @click.prevent="querySearch()"
+          />
+        </form>
+      </div>
       <div v-if="userStore.id" class="flex gap-4">
         <button
           class="secondary-button"
-          :class="{ active: activeModel == 'attachment' }"
-          @click.prevent="showCreateAttachmentModal"
+          :class="{ active: activeModels.includes('attachments') }"
+          @click.prevent="switchModel('attachments')"
         >
           Anhänge
         </button>
-        <router-link
-          :to="{ name: 'articleCreate' }"
+        <button
           class="secondary-button"
-          :class="{ active: activeModel == 'article' }"
-          >Beiträge</router-link
+          :class="{ active: activeModels.includes('articles') }"
+          @click.prevent="switchModel('articles')"
         >
-        <router-link
-          v-if="hasPermission('add collections')"
-          :to="{ name: 'collectionCreate' }"
+          Beiträge
+        </button>
+        <button
           class="secondary-button"
-          :class="{ active: activeModel == 'collection' }"
-          >Sammlungen</router-link
+          :class="{ active: activeModels.includes('collections') }"
+          @click.prevent="switchModel('collections')"
         >
+          Sammlungen
+        </button>
       </div>
     </div>
     <div class="width-wrapper">
-      <div class="pt-3 pb-2 pl-2 font-semibold border-y">
+      <div class="pt-3 pb-2 pl-2 font-semibold">
         <h3 class="text-black">Suchergebnisse</h3>
       </div>
-      <div class="py-4 pl-2" v-if="activities">
-        <item-line
-          :model="activity"
-          class="mb-2"
-          v-for="activity in activities"
-        />
-      </div>
+
+      <template v-if="activeModels.includes('collections')">
+        <p class="pt-3 pb-2 pl-2 text-sm italic text-gray-300">Sammlungen</p>
+
+        <p class="text-sm" v-if="searchResults.collections.length == 0">
+          Keine Ergebnisse
+        </p>
+
+        <table v-else>
+          <thead class="font-semibold border-y">
+            <tr>
+              <td>Titel</td>
+              <td>Datum</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="collection in searchResults.collections">
+              <td>{{ collection.title }}</td>
+              <td>{{ collection.created_at }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+
+      <template v-if="activeModels.includes('articles')">
+        <p class="pt-3 pb-2 pl-2 text-sm italic text-gray-300">Beiträge</p>
+
+        <p class="text-sm" v-if="searchResults.articles?.length == 0">
+          Keine Ergebnisse
+        </p>
+
+        <table class="w-full mb-4" v-else>
+          <thead class="border-y w-full text-gray-400">
+            <tr>
+              <td class="px-2 py-3">Titel</td>
+              <td class="px-2 py-3">Ersteller:in</td>
+              <td class="px-2 py-3">Veröffentlicht</td>
+              <td class="px-2 py-3">geändert</td>
+              <td class="px-2 py-3">Claps</td>
+              <td class="px-2 py-3">Kommentare</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="article in searchResults.articles">
+              <td class="px-2 py-1 text-orange font-semibold">
+                {{ article.title }}
+              </td>
+              <td class="px-2 py-3">{{ article.created_by.name }}</td>
+              <td class="px-2 py-3">
+                {{ $filters.formatedDate(article.created_at) }}
+              </td>
+              <td class="px-2 py-3">
+                {{ $filters.formatedDate(article.updated_at) }}
+              </td>
+              <td class="px-2 py-3">{{ article.claps }}</td>
+              <td class="px-2 py-3">{{ article.num_comments }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+
+      <template v-if="activeModels.includes('attachments')">
+        <p class="pt-3 pb-2 pl-2 text-sm italic text-gray-300">Anhänge</p>
+
+        <p class="text-sm" v-if="searchResults.attachments?.length == 0">
+          Keine Ergebnisse
+        </p>
+
+        <table v-else>
+          <thead class="font-semibold border-y w-full">
+            <tr>
+              <td>Titel</td>
+              <td>Datum</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="attachment in searchResults.attachments">
+              <td>{{ attachment.title }}</td>
+              <td>{{ attachment.created_at }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
     </div>
   </section>
 </template>

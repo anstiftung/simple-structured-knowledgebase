@@ -18,19 +18,21 @@ class SearchController extends BaseController
 {
     protected $query = false;
     protected $onlyPublished = true;
+    protected $created_by = false;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
         $this->query = $request->query('query', false);
         $this->onlyPublished = $request->boolean('onlyPublished');
+        $this->created_by = $request->query('created_by', false);
     }
     /**
      * Run Search
      */
     public function search(Request $request)
     {
-        $types = $request->query('types', ['articles','collections','attachments','images']);
+        $types = (array) $request->query('types', ['articles','collections','attachments','images']);
 
         $result = [
             'data' => [],
@@ -58,6 +60,9 @@ class SearchController extends BaseController
     public function searchImages()
     {
         $attachedImages = AttachedFile::where('title', 'like', '%' . $this->query . '%')
+            ->when($this->created_by, function ($query) {
+                $query->where('created_by', $this->created_by);
+            })
             ->orderBy('created_at', 'DESC')
             ->get()
             ->where('isImage', true);
@@ -74,9 +79,15 @@ class SearchController extends BaseController
     public function searchAttachments()
     {
         $attachedUrls = AttachedUrl::where('title', 'like', '%' . $this->query . '%')
+            ->when($this->created_by, function ($query) {
+                $query->where('created_by', $this->created_by);
+            })
             ->orderBy('created_at', 'DESC')
             ->get();
         $attachedFiles = AttachedFile::where('title', 'like', '%' . $this->query . '%')
+            ->when($this->created_by, function ($query) {
+                $query->where('created_by', $this->created_by);
+            })
             ->orderBy('created_at', 'DESC')
             ->get();
         $numAttachedUrls = $attachedUrls->count();
@@ -99,6 +110,9 @@ class SearchController extends BaseController
     public function searchCollections()
     {
         $collections = Collection::where('title', 'like', '%' . $this->query . '%')
+            ->when($this->created_by, function ($query) {
+                $query->where('created_by', $this->created_by);
+            })
             ->orderBy('created_at', 'DESC')
             ->get();
         $numCollections = $collections->count();
@@ -112,6 +126,9 @@ class SearchController extends BaseController
     public function searchArticles()
     {
         $articles = Article::where('title', 'like', '%' . $this->query . '%')
+            ->when($this->created_by, function ($query) {
+                $query->where('created_by', $this->created_by);
+            })
             ->orderBy('created_at', 'DESC')
             ->when(empty($this->user) || $this->onlyPublished, function ($query) {
                 $query->published();
