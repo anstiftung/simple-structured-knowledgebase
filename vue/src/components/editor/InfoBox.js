@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
 export default Node.create({
   name: 'infoBox',
@@ -28,7 +28,7 @@ export default Node.create({
     ]
   },
 
-  renderHTML({ HTMLAttributes, node }) {
+  renderHTML({ node }) {
     const [dom, contentElement] = getMainDom(node)
     return dom
   },
