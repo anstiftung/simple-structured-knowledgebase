@@ -73,6 +73,10 @@
   &:disabled {
     @apply bg-gray-200;
   }
+
+  &.active {
+    @apply bg-gray-800 text-white;
+  }
 }
 
 .secondary-button.dense {

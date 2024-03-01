@@ -6,8 +6,6 @@ import { useRouter, useRoute } from 'vue-router'
 import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
 
-import draggable from 'vuedraggable'
-
 import ArticleService from '@/services/ArticleService'
 import CollectionService from '@/services/CollectionService'
 import AttachmentService from '@/services/AttachmentService'
@@ -21,6 +19,8 @@ import ModelSelector from '@/components/atoms/ModelSelector.vue'
 
 const router = useRouter()
 const route = useRoute()
+
+const activeModel = ref('article')
 
 const recentCollections = ref([])
 const recentArticles = ref([])
@@ -195,17 +195,22 @@ loadFromServer()
       <div v-if="userStore.id" class="flex gap-4">
         <button
           class="secondary-button"
+          :class="{ active: activeModel == 'attachment' }"
           @click.prevent="showCreateAttachmentModal"
         >
           Anhänge
         </button>
-        <router-link :to="{ name: 'articleCreate' }" class="secondary-button"
+        <router-link
+          :to="{ name: 'articleCreate' }"
+          class="secondary-button"
+          :class="{ active: activeModel == 'article' }"
           >Beiträge</router-link
         >
         <router-link
           v-if="hasPermission('add collections')"
           :to="{ name: 'collectionCreate' }"
           class="secondary-button"
+          :class="{ active: activeModel == 'collection' }"
           >Sammlungen</router-link
         >
       </div>
