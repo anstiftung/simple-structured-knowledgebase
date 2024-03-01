@@ -109,7 +109,7 @@ RUN chmod 0644 /etc/cron.d/laravel-scheduler
 # Supervisor
 #--------------------------------------------------------------------------
 #
-ADD ./.docker/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+ADD ./.docker/laravel-mailworker.conf /etc/supervisor/conf.d/laravel-mailworker.conf
 
 #
 #--------------------------------------------------------------------------
