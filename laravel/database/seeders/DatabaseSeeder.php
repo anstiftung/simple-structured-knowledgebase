@@ -120,13 +120,15 @@ class DatabaseSeeder extends Seeder
 
             $fullPath = storage_path('uploads/' . $file->id);
             $fakedImagePath = $this->faker->image($fullPath, 640, 480, null, true);
-            // update generated file
-            $file->filename = basename($fakedImagePath);
-            $file->filesize = filesize($fakedImagePath);
-            $file->mime_type = mime_content_type($fakedImagePath);
-            $file->save();
+            if ($fakedImagePath) {
+                // update generated file
+                $file->filename = basename($fakedImagePath);
+                $file->filesize = filesize($fakedImagePath);
+                $file->mime_type = mime_content_type($fakedImagePath);
+                $file->save();
 
-            Process::run('chown -R www-data:www-data ' . $fullPath)->throw();
+                Process::run('chown -R www-data:www-data ' . $fullPath)->throw();
+            }
         }
 
         $this->call([

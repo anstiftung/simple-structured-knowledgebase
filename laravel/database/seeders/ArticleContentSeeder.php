@@ -78,9 +78,24 @@ class ArticleContentSeeder extends Seeder
                     </li>
                 </ol>
                 <h3>Und Infoboxen</h3>
-                <div class="info-box" data-type="warning">Hinweis</div>
-                <div class="info-box" data-type="danger">Gefahr</div>
-                <div class="info-box" data-type="question">Fragestellung: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                <div class="info-box" data-type="warning">
+                    <svg viewBox="0 0 15 15" width="15px" height="15px"><use href="/icons/warning.svg#warning"></use></svg>
+                    <div class="content">
+                        Hinweis
+                    </div>
+                </div>
+                <div class="info-box" data-type="danger">
+                    <svg viewBox="0 0 15 15" width="15px" height="15px"><use href="/icons/danger.svg#danger"></use></svg>
+                    <div class="content">
+                        Gefahr
+                    </div>
+                </div>
+                <div class="info-box" data-type="question">
+                    <svg viewBox="0 0 15 15" width="15px" height="15px"><use href="/icons/question.svg#question"></use></svg>
+                    <div class="content">
+                        Fragestellung: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </div>
+                </div>
 
             EOD;
 

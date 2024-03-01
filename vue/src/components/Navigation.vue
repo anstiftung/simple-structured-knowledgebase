@@ -49,8 +49,8 @@ const $keycloak = inject('keycloak')
             >
               <icon name="user" />
               <span class="grow">{{ userStore.name }}</span>
-              <icon name="arrow-down" v-if="userMenuVisible" />
-              <icon name="arrow-up" v-else />
+              <icon name="arrow-up" v-if="userMenuVisible" />
+              <icon name="arrow-down" v-else />
             </div>
             <div
               class="absolute left-[-1px] w-full user-menu-border-bottom min-w-[140px] bg-white"

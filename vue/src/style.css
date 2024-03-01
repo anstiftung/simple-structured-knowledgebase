@@ -145,16 +145,7 @@
   .info-box {
     @apply max-w-[90%] mx-auto my-4 p-4 rounded-md bg-yellow text-black relative pl-12 whitespace-break-spaces break-words;
   }
-  .info-box:before {
-    @apply content-[''] absolute left-3 top-5 size-5 bg-contain;
-  }
-  .info-box[data-type='warning']:before {
-    background-image: url('/icons/warning.svg');
-  }
-  .info-box[data-type='question']:before {
-    background-image: url('/icons/question.svg');
-  }
-  .info-box[data-type='danger']:before {
-    background-image: url('/icons/danger.svg');
+  .info-box svg {
+    @apply absolute inline-block left-4 top-5 size-5;
   }
 }
