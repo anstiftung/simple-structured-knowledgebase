@@ -2,6 +2,7 @@ const Landing = () => import('@/views/Landing.vue')
 const NotAuthorized = () => import('@/views/NotAuthorized.vue')
 const Dashboard = () => import('@/views/Dashboard.vue')
 const NotFound = () => import('@/views/NotFound.vue')
+const Search = () => import('@/views/Search/List.vue')
 
 export default [
   {
@@ -26,6 +27,15 @@ export default [
     name: 'dashboard',
     meta: {
       title: 'Dashboard',
+      protected: true,
+    },
+  },
+  {
+    path: '/search',
+    component: Search,
+    name: 'search',
+    meta: {
+      title: 'Suche',
       protected: true,
     },
   },
