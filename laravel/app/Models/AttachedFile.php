@@ -20,12 +20,14 @@ class AttachedFile extends Model
         'mime_type',
         'preview_file',
         'source',
-        'license_id'
+        'license_id',
+        'approved'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'approved' => 'boolean'
     ];
 
     protected $appends = ['isImage'];

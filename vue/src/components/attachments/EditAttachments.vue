@@ -3,6 +3,9 @@ import { computed, ref, reactive, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
 import { required$, maxLength$ } from '@/plugins/validators.js'
+import { storeToRefs } from 'pinia'
+
+import { useUserStore } from '@/stores/user'
 
 import LicenseSelect from '@/components/atoms/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
@@ -11,6 +14,10 @@ import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
 const props = defineProps({
   attachments: Array,
 })
+
+const userStore = useUserStore()
+
+const { hasPermission } = storeToRefs(userStore)
 
 const emit = defineEmits(['done'])
 const $toast = inject('$toast')
@@ -222,10 +229,20 @@ const save = async () => {
             />
           </template>
         </template>
+        <div
+          v-if="hasPermission('approve content')"
+          class="flex items-center gap-2 my-4"
+        >
+          <input
+            type="checkbox"
+            class="size-5"
+            v-model="currentAttachment.approved"
+            id="approved"
+          />
+          <label for="approved">Vom Legal Team geprüfter Artikel</label>
+        </div>
       </div>
-      <div
-        class="grid w-full grid-cols-2 gap-2 text-sm text-gray-400 md:w-auto"
-      >
+      <div class="grid w-full grid-cols-2 gap-2 text-sm text-white md:w-auto">
         <template v-for="field in getEditConfig(currentAttachment, 'labels')">
           <span>{{ field.label }}:</span>
           <span v-if="field.type == 'date'">

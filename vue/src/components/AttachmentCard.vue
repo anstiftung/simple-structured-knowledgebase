@@ -15,14 +15,15 @@ const props = defineProps({
           {{ attachment.filename }}
         </template>
       </h4>
-      <p class="text-sm text-right text-gray-100">
-        <template v-if="attachment.type == 'AttachedFile'">
+      <p class="flex justify-between text-sm text-gray-100">
+        <span v-if="attachment.type == 'AttachedFile'">
           {{ $filters.fileNameToFileType(attachment.filename) }} |
           {{ $filters.bytesToHumandReadableSize(attachment.filesize) }}
-        </template>
-        <template v-else>
+        </span>
+        <span v-else>
           {{ attachment.url }}
-        </template>
+        </span>
+        <icon v-if="attachment.approved" name="approved"></icon>
       </p>
     </div>
   </a>

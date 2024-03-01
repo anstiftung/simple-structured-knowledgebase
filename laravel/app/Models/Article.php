@@ -22,12 +22,14 @@ class Article extends Model
         'description',
         'content',
         'state_id',
+        'approved',
         'created_by_id'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'approved' => 'boolean'
     ];
 
     public function getRouteKeyName()

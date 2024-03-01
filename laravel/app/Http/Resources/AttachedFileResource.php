@@ -28,6 +28,7 @@ class AttachedFileResource extends BaseResource
             'preview_file' => $this->filename,
             'source' => $this->source,
             'license' => new LicenseResource($this->license),
+            'approved' => $this->approved,
             'articles' => ArticleResource::collection($this->whenLoaded('articles'))
         ];
     }
