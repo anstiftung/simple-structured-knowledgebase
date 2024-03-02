@@ -11,6 +11,10 @@ import { useUserStore } from '@/stores/user'
 import SearchService from '@/services/SearchService'
 import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
 
+import CollectionTable from '@/components/atoms/CollectionTable.vue'
+import AttachmentTable from '@/components/atoms/AttachmentTable.vue'
+import ArticleTable from '@/components/atoms/ArticleTable.vue'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -65,7 +69,6 @@ const searchQueryUpdated = searchQuery => {
       m: activeModels.value,
     },
   })
-  console.info('Search query updated…')
 }
 
 onBeforeMount(() => {
@@ -144,90 +147,27 @@ loadFromServer()
       <div class="pt-3 pb-2 pl-2 font-semibold">
         <h3 class="text-black">Suchergebnisse</h3>
       </div>
-
-      <template v-if="activeModels.includes('collections')">
-        <p class="pt-3 pb-2 pl-2 text-sm italic text-gray-300">Sammlungen</p>
-
-        <p class="text-sm" v-if="searchResults.collections.length == 0">
-          Keine Ergebnisse
-        </p>
-
-        <table class="w-full" v-else>
-          <thead class="border-y w-full text-gray-400">
-            <tr>
-              <td>Titel</td>
-              <td>Datum</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="collection in searchResults.collections">
-              <td class="text-blue-400">{{ collection.title }}</td>
-              <td>{{ collection.created_at }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <template v-if="loading">
+        <loading-spinner />
       </template>
+      <template v-else>
+        <template v-if="activeModels.includes('collections')">
+          <collection-table
+            v-model="searchResults.collections"
+            v-if="searchResults.collections"
+          />
+        </template>
 
-      <template v-if="activeModels.includes('articles')">
-        <p class="pt-3 pb-2 pl-2 text-sm italic text-gray-300">Beiträge</p>
+        <template v-if="activeModels.includes('articles')">
+          <article-table
+            v-model="searchResults.articles"
+            v-if="searchResults.articles"
+          />
+        </template>
 
-        <p class="text-sm" v-if="searchResults.articles?.length == 0">
-          Keine Ergebnisse
-        </p>
-
-        <table class="w-full mb-4" v-else>
-          <thead class="border-y w-full text-gray-400">
-            <tr>
-              <td class="px-2 py-3">Titel</td>
-              <td class="px-2 py-3">Ersteller:in</td>
-              <td class="px-2 py-3">Veröffentlicht</td>
-              <td class="px-2 py-3">geändert</td>
-              <td class="px-2 py-3">Claps</td>
-              <td class="px-2 py-3">Kommentare</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="article in searchResults.articles">
-              <td class="px-2 py-1 text-orange font-semibold">
-                {{ article.title }}
-              </td>
-              <td class="px-2 py-3">{{ article.created_by.name }}</td>
-              <td class="px-2 py-3">
-                {{ $filters.formatedDate(article.created_at) }}
-              </td>
-              <td class="px-2 py-3">
-                {{ $filters.formatedDate(article.updated_at) }}
-              </td>
-              <td class="px-2 py-3">{{ article.claps }}</td>
-              <td class="px-2 py-3">{{ article.num_comments }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </template>
-
-      <template v-if="activeModels.includes('attachments')">
-        <p class="pt-3 pb-2 pl-2 text-sm italic text-gray-300">Anhänge</p>
-
-        <p class="text-sm" v-if="attachments?.length == 0">Keine Ergebnisse</p>
-
-        <table class="w-full" v-else>
-          <thead class="border-y w-full text-gray-400">
-            <tr>
-              <td class="px-2 py-3">Titel</td>
-              <td class="px-2 py-3">Datum</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="attachment in attachments">
-              <td class="px-2 py-3 text-green font-semibold">
-                {{ attachment.title }}
-              </td>
-              <td class="px-2 py-3">
-                {{ $filters.formatedDate(attachment.created_at) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <template v-if="activeModels.includes('attachments')">
+          <attachment-table v-model="attachments" v-if="attachments" />
+        </template>
       </template>
     </div>
   </section>
