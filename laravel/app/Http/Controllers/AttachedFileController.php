@@ -166,6 +166,11 @@ class AttachedFileController extends BaseController
      */
     public function destroy(AttachedFile $attachedFile)
     {
-        //
+        if (!$this->user->can('delete attached files')) {
+            return parent::abortUnauthorized();
+        }
+
+        $attachedFile->delete();
+        return new AttachedFileResource($attachedFile);
     }
 }
