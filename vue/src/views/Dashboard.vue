@@ -193,6 +193,9 @@ loadFromServer()
         :onlyPublished="false"
       />
       <div v-if="userStore.id" class="flex gap-4">
+        <router-link class="secondary-button" :to="{ name: 'search' }">
+          Alle Inhalte
+        </router-link>
         <button
           class="default-button"
           @click.prevent="showCreateAttachmentModal"

@@ -17,17 +17,17 @@ import ArticleTable from '@/components/atoms/ArticleTable.vue'
 
 const router = useRouter()
 const route = useRoute()
-
-const activeModels = ref(['articles'])
-
-const searchResults = ref([])
-const searchQuery = ref([])
-const loading = ref(false)
-
 const modal = useModalStore()
 // If you need UserPermissions, you'll need the next three lines
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
+
+const activeModels = ref(['articles'])
+const creatorId = ref(userStore.id)
+
+const searchResults = ref([])
+const searchQuery = ref([])
+const loading = ref(false)
 
 const attachments = computed(() => {
   let attachments = []
@@ -52,21 +52,25 @@ const onQueryInput = useDebounceFn(() => {
 
 const querySearch = () => {
   loading.value = true
-  SearchService.search(searchQuery.value, activeModels.value, false).then(
-    ({ data, meta }) => {
-      searchResults.value = data
-      // searchMeta.value = meta
-      // resultsVisible.value = true
-      loading.value = false
-    },
-  )
+  SearchService.search(
+    searchQuery.value,
+    activeModels.value,
+    false,
+    creatorId.value,
+  ).then(({ data, meta }) => {
+    searchResults.value = data
+    // searchMeta.value = meta
+    // resultsVisible.value = true
+    loading.value = false
+  })
 }
 
 const searchQueryUpdated = searchQuery => {
   router.replace({
     query: {
-      q: encodeURI(searchQuery.value),
+      q: searchQuery.value ? encodeURI(searchQuery.value) : '',
       m: activeModels.value,
+      o: creatorId.value,
     },
   })
 }
@@ -96,7 +100,7 @@ loadFromServer()
 <template>
   <section class="bg-white">
     <div
-      class="flex items-baseline justify-between py-12 gap-x-12 width-wrapper"
+      class="flex items-baseline justify-between pt-12 gap-x-12 width-wrapper"
     >
       <div class="grow">
         <form
@@ -142,6 +146,19 @@ loadFromServer()
           Sammlungen
         </button>
       </div>
+    </div>
+    <div class="flex justify-end width-wrapper pb-12">
+      <label class="py-2">
+        <input
+          type="checkbox"
+          name="is_own_content"
+          v-model="creatorId"
+          :true-value="userStore.id"
+          :false-value="null"
+          @click="onQueryInput"
+        />
+        nur meine Einträge anzeigen
+      </label>
     </div>
     <div class="width-wrapper">
       <div class="pt-3 pb-2 pl-2 font-semibold">
