@@ -68,13 +68,14 @@ const toggleLinkSelection = type => {
   const { view, state } = props.editor
   const { from, to } = view.state.selection
   let text = state.doc.textBetween(from, to, '')
-
-  // remove itemLink
+  console.log('toggleLinkSelection:', text, props.editor)
+  /* // remove itemLink
   if (props.editor.isActive('itemLink')) {
     props.editor.commands.deleteNode('itemLink')
     props.editor.commands.insertContent(text)
+    console.log('delete Node and insert selection')
     return
-  }
+  } */
 
   // add itemLink
   modal.open(ModelSelector, { modelType: type }, selection => {
@@ -93,7 +94,7 @@ const toggleLinkSelection = type => {
       if (!text) {
         text = selection.title
       }
-
+      console.log('Insert itemLink with text: ', text)
       // insert itemLink with attributes and content
       props.editor.commands.insertContent({
         type: 'itemLink',
