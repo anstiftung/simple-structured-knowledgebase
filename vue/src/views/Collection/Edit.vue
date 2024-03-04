@@ -189,7 +189,13 @@ const discard = () => {
                   :dragable="hasPermission('edit collections')"
                   :show-type="false"
                 />
-                <div @click="removeArticle(element)">[REMOVE]</div>
+                <a
+                  @click="removeArticle(element)"
+                  title="Von Startseite entfernen"
+                  class="cursor-pointer"
+                >
+                  <icon name="trash" class="text-gray-400 size-5" />
+                </a>
               </div>
             </template>
           </draggable>
