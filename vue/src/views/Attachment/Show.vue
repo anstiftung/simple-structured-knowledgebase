@@ -59,7 +59,7 @@ loadFromServer()
         <div class="flex flex-col gap-8">
           <div v-if="attachedFile.approved">
             <icon name="approved" class="mr-2 text-green size-6"></icon>
-            geprüfter Inhalt
+            geprüfter Anhang
           </div>
           <div>
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
