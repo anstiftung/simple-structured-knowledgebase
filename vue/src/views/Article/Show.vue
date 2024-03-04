@@ -77,8 +77,11 @@ loadFromServer()
             userStore.id == article.created_by.id ||
             userStore.hasPermission('update others articles')
           "
+          class="block pt-2 opacity-70"
           :to="{ name: 'articleEdit', params: { slug: article.slug } }"
-          >[DEBUG] Bearbeiten</router-link
+          ><icon name="edit" /><span class="inline-block ml-1 underline"
+            >Bearbeiten</span
+          ></router-link
         >
       </template>
     </model-header>
