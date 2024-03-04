@@ -119,7 +119,7 @@ const discard = () => {
       </template>
       <template v-slot:content>
         <input-with-counter
-          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
+          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-white/70"
           v-model="formData.article.title"
           autofocus
           placeholder="Titel des Beitrags"
