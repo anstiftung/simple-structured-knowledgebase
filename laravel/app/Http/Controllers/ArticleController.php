@@ -137,7 +137,12 @@ class ArticleController extends BaseController
      */
     public function destroy(Article $article)
     {
-        //
+        if (!$this->user->can('delete articles')) {
+            return parent::abortUnauthorized();
+        }
+
+        $article->delete();
+        return new ArticleResource($article);
     }
 
     public function clap(Article $article)

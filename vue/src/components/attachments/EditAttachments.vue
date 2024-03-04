@@ -230,7 +230,10 @@ const save = async () => {
           </template>
         </template>
         <div
-          v-if="hasPermission('approve content')"
+          v-if="
+            hasPermission('approve content') &&
+            currentAttachment.type == 'AttachedFile'
+          "
           class="flex items-center gap-2 my-4"
         >
           <input
@@ -239,7 +242,7 @@ const save = async () => {
             v-model="currentAttachment.approved"
             id="approved"
           />
-          <label for="approved">Vom Legal Team geprüfter Artikel</label>
+          <label for="approved">Vom Legal Team geprüfter Anhang</label>
         </div>
       </div>
       <div class="grid w-full grid-cols-2 gap-2 text-sm text-white md:w-auto">
