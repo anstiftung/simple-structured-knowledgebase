@@ -94,6 +94,14 @@ const persist = async () => {
   }
 }
 
+const deleteArticle = () => {
+  $toast.confirm('Artikel wirklich löschen?', () => {
+    ArticleService.deleteArticle(formData.article).then(data => {
+      router.push({ name: 'dashboard' })
+    })
+  })
+}
+
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
@@ -174,17 +182,31 @@ const discard = () => {
             >
           </div>
         </div>
-        <div class="flex justify-end gap-4">
-          <button
-            class="secondary-button"
-            v-show="formData.article.id"
-            @click="discard"
+        <div class="justify-end">
+          <div
+            class="mb-4 cursor-pointer"
+            v-if="hasPermission('delete articles')"
+            @click="deleteArticle"
           >
-            Verwerfen
-          </button>
-          <button class="default-button" :disabled="!isDirty" @click="persist">
-            Speichern
-          </button>
+            <icon name="trash" class="text-black" />
+            <span class="inline-block ml-2 underline">Löschen</span>
+          </div>
+          <div class="flex gap-4">
+            <button
+              class="secondary-button"
+              v-show="formData.article.id"
+              @click="discard"
+            >
+              Verwerfen
+            </button>
+            <button
+              class="default-button"
+              :disabled="!isDirty"
+              @click="persist"
+            >
+              Speichern
+            </button>
+          </div>
         </div>
       </div>
     </div>
