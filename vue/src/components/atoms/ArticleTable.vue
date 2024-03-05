@@ -36,6 +36,6 @@ defineProps({
         </tr>
       </tbody>
     </table>
-    <p class="text-sm" v-else>Keine Ergebnisse…</p>
+    <p class="text-s pl-2 mb-12" v-else>Keine Ergebnisse…</p>
   </section>
 </template>
