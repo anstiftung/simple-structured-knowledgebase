@@ -100,6 +100,14 @@ class AttachmentService {
     attachments = attachments.sort((a, b) => a.created_at < b.created_at)
     return attachments
   }
+
+  deleteAttachedFile(attachedFile) {
+    const config = {
+      method: 'delete',
+      url: `attached-file/${attachedFile.id}`,
+    }
+    return makeApiRequest(config)
+  }
 }
 
 export default new AttachmentService()

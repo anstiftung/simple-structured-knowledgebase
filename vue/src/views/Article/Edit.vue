@@ -94,6 +94,14 @@ const persist = async () => {
   }
 }
 
+const deleteArticle = () => {
+  $toast.confirm('Artikel wirklich löschen?', () => {
+    ArticleService.deleteArticle(formData.article).then(data => {
+      router.push({ name: 'dashboard' })
+    })
+  })
+}
+
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
@@ -111,7 +119,7 @@ const discard = () => {
       </template>
       <template v-slot:content>
         <input-with-counter
-          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
+          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-white/70"
           v-model="formData.article.title"
           autofocus
           placeholder="Titel des Beitrags"
@@ -166,18 +174,39 @@ const discard = () => {
             ></user-select>
             <p v-else>{{ formData.article.created_by.name }}</p>
           </div>
+          <div v-if="hasPermission('approve content') && formData.article.id">
+            <h4 class="mb-2 text-sm text-gray-300">Geprüft</h4>
+            <input type="checkbox" v-model="formData.article.approved" />
+            <span class="inline-block ml-4"
+              >Vom Legal Team geprüfter Artikel</span
+            >
+          </div>
         </div>
-        <div class="flex justify-end gap-4">
-          <button
-            class="secondary-button"
-            v-show="formData.article.id"
-            @click="discard"
+        <div class="justify-end">
+          <div
+            class="mb-4 cursor-pointer"
+            v-if="hasPermission('delete articles')"
+            @click="deleteArticle"
           >
-            Verwerfen
-          </button>
-          <button class="default-button" :disabled="!isDirty" @click="persist">
-            Speichern
-          </button>
+            <icon name="trash" class="text-black" />
+            <span class="inline-block ml-2 underline">Löschen</span>
+          </div>
+          <div class="flex gap-4">
+            <button
+              class="secondary-button"
+              v-show="formData.article.id"
+              @click="discard"
+            >
+              Verwerfen
+            </button>
+            <button
+              class="default-button"
+              :disabled="!isDirty"
+              @click="persist"
+            >
+              Speichern
+            </button>
+          </div>
         </div>
       </div>
     </div>

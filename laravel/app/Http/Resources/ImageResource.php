@@ -16,7 +16,6 @@ class ImageResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'Image',
-            'id' => $this->id,
             'title' => $this->title,
             'serve_url' => '/api/attached-file/serve/' . $this->id,
             'url' => '/anhang/'.$this->id,

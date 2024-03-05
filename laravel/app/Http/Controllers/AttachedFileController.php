@@ -146,8 +146,14 @@ class AttachedFileController extends BaseController
                 'title' => $attachedFile['title'],
                 'description' => $attachedFile['description'],
                 'source' => $attachedFile['source'],
-                'license_id' => $attachedFile['license']['id']
+                'license_id' => $attachedFile['license']['id'],
             ]);
+
+            if ($this->user->can('approve content')) {
+                AttachedFile::find($attachedFile['id'])->update([
+                    'approved' => $attachedFile['approved'] ?? false
+                ]);
+            }
 
             $updatedAttachments[] = $updated;
         });
@@ -160,6 +166,11 @@ class AttachedFileController extends BaseController
      */
     public function destroy(AttachedFile $attachedFile)
     {
-        //
+        if (!$this->user->can('delete attached files')) {
+            return parent::abortUnauthorized();
+        }
+
+        $attachedFile->delete();
+        return new AttachedFileResource($attachedFile);
     }
 }

@@ -43,6 +43,14 @@ loadFromServer()
       <template v-slot:description>Sammlung</template>
       <template v-slot:content>
         <h2 class="text-4xl text-center">{{ collection.title }}</h2>
+        <router-link
+          class="block pt-2 opacity-70"
+          v-if="collection.slug"
+          :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
+          ><icon name="edit" /><span class="inline-block ml-1 underline"
+            >Bearbeiten</span
+          ></router-link
+        >
       </template>
     </model-header>
     <section v-if="collection?.articles" class="my-8 width-wrapper">
@@ -57,12 +65,6 @@ loadFromServer()
           :article="article"
         />
       </div>
-      <router-link
-        class="block mt-8"
-        v-if="collection.slug"
-        :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
-        >[DEBUG] Bearbeiten</router-link
-      >
     </section>
   </div>
 </template>

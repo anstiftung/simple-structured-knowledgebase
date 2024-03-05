@@ -16,13 +16,13 @@ class CollectionResource extends BaseResource
     {
         return parent::toArray($request) + [
             'type' => 'Collection',
-            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'url' => '/sammlung/' . $this->slug,
             'description' => $this->description,
             'order' => $this->order,
             'featured' => $this->featured,
+            'num_articles' => $this->articles->count(),
             'articles' => AttachedArticleResource::collection($this->whenLoaded('articles')),
         ];
     }

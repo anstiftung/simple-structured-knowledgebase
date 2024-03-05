@@ -120,7 +120,15 @@ class ArticleController extends BaseController
             ]);
         }
 
+        // conditional update approved
+        if ($this->user->can('approve content')) {
+            $article->update([
+                'approved' => $request->approved
+            ]);
+        }
+
         $article->load(['attached_files', 'attached_urls']);
+
         return new ArticleResource($article);
     }
 
@@ -129,7 +137,12 @@ class ArticleController extends BaseController
      */
     public function destroy(Article $article)
     {
-        //
+        if (!$this->user->can('delete articles')) {
+            return parent::abortUnauthorized();
+        }
+
+        $article->delete();
+        return new ArticleResource($article);
     }
 
     public function clap(Article $article)

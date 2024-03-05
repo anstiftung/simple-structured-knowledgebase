@@ -9,12 +9,14 @@ use App\Traits\HasUniqueSlugTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
     use HasUniqueSlugTrait;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -22,12 +24,14 @@ class Article extends Model
         'description',
         'content',
         'state_id',
+        'approved',
         'created_by_id'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'approved' => 'boolean'
     ];
 
     public function getRouteKeyName()

@@ -128,7 +128,7 @@ const discard = () => {
       </template>
       <template v-slot:content>
         <input-with-counter
-          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-black"
+          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-white/70"
           v-model="formData.collection.title"
           autofocus
           placeholder="Titel der Sammlung"
@@ -189,7 +189,13 @@ const discard = () => {
                   :dragable="hasPermission('edit collections')"
                   :show-type="false"
                 />
-                <div @click="removeArticle(element)">[REMOVE]</div>
+                <a
+                  @click="removeArticle(element)"
+                  title="Von Startseite entfernen"
+                  class="cursor-pointer"
+                >
+                  <icon name="trash" class="text-gray-400 size-5" />
+                </a>
               </div>
             </template>
           </draggable>

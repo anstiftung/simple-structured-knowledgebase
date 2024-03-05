@@ -20,12 +20,15 @@ const props = defineProps({
       </div>
       <p class="flex items-end justify-between text-sm text-white/70">
         <span>{{ $filters.formatedDate(article.created_at) }}</span>
-        <span
-          class="flex items-end gap-2"
-          v-if="article.claps && article.claps > 0"
-        >
-          <icon name="clap" class="size-6"></icon>
-          <span>{{ article.claps }}</span>
+        <span class="flex gap-4">
+          <span
+            class="flex items-end gap-2"
+            v-if="article.claps && article.claps > 0"
+          >
+            <icon name="clap" class="size-5"></icon>
+            <span>{{ article.claps }}</span>
+          </span>
+          <icon v-if="article.approved" name="approved" class="size-5"></icon>
         </span>
       </p>
     </div>

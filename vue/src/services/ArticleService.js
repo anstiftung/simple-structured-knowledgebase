@@ -58,6 +58,14 @@ class ArticleService {
     }
     return makeApiRequest(config)
   }
+
+  deleteArticle(article) {
+    const config = {
+      method: 'delete',
+      url: `article/${article.id}`,
+    }
+    return makeApiRequest(config)
+  }
 }
 
 export default new ArticleService()

@@ -1,11 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/stores/user'
+
 import AttachmentService from '@/services/AttachmentService'
 import ArticleCard from '@/components/ArticleCard.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import Separator from '@/components/layouts/Separator.vue'
 
-import { useRoute, useRouter } from 'vue-router'
+const userStore = useUserStore()
+const { hasPermission } = storeToRefs(userStore)
+const $toast = inject('$toast')
 
 const router = useRouter()
 const route = useRoute()
@@ -21,6 +27,14 @@ const loadFromServer = () => {
     .catch(error => {
       router.push({ name: 'not-found' })
     })
+}
+
+const deleteAttachedFile = () => {
+  $toast.confirm('Anhang wirklich löschen?', () => {
+    AttachmentService.deleteAttachedFile(attachedFile.value).then(data => {
+      router.push({ name: 'dashboard' })
+    })
+  })
 }
 
 loadFromServer()
@@ -57,6 +71,10 @@ loadFromServer()
       </div>
       <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
         <div class="flex flex-col gap-8">
+          <div v-if="attachedFile.approved">
+            <icon name="approved" class="mr-2 text-green size-6"></icon>
+            geprüfter Anhang
+          </div>
           <div>
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
             <p>{{ attachedFile.created_by.name }}</p>
@@ -91,6 +109,14 @@ loadFromServer()
             class="text-center default-button"
             >Download</a
           >
+          <div
+            class="cursor-pointer"
+            v-if="hasPermission('delete attached files')"
+            @click="deleteAttachedFile"
+          >
+            <icon name="trash" class="text-black" />
+            <span class="inline-block ml-2 underline">Löschen</span>
+          </div>
         </div>
       </div>
     </section>

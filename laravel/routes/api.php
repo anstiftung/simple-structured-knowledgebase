@@ -64,11 +64,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/attached-file', [AttachedFileController::class, 'store']);
     Route::patch('/attached-file', [AttachedFileController::class, 'update']);
+    Route::delete('/attached-file/{attachedFile:id}', [AttachedFileController::class, 'destroy']);
 
     // create and update articles
     Route::post('/article', [ArticleController::class, 'store']);
     Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
-
+    Route::delete('/article/{article:id}', [ArticleController::class, 'destroy']);
     Route::middleware(['throttle:claps'])->group(function () {
         Route::patch('/article/{article:slug}/clap', [ArticleController::class, 'clap']);
     });

@@ -61,7 +61,7 @@ fi
 service supervisor start
 supervisorctl reread
 supervisorctl update
-supervisorctl start "laravel-worker:*"
+supervisorctl start "laravel-mailworker:*"
 
 # artisan commands
 

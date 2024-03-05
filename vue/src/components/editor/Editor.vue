@@ -13,18 +13,17 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import BulletList from '@tiptap/extension-bullet-list'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
-import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
-import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import { useEditor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
 import { mergeAttributes, Node } from '@tiptap/core'
 
+import ImageMenu from '@/components/editor/ImageMenu.vue'
 import ItemLinkTipTap from '@/components/editor/ItemLinkTipTap.vue'
 
-import FloatingMenu from '@/components/editor/FloatingMenu.vue'
 import FixedMenu from '@/components/editor/FixedMenu.vue'
 import InfoBox from '@/components/editor/InfoBox.js'
+import CustomImage from '@/components/editor/CustomImage.js'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -89,7 +88,7 @@ const editor = useEditor({
     ListItem,
     Italic,
     Strike,
-    Image,
+    CustomImage,
     Dropcursor,
     ItemLinkNode,
     InfoBox,
@@ -120,10 +119,8 @@ watch(
 <template>
   <div class="flex flex-col h-full gap-4">
     <fixed-menu :editor="editor" v-if="editor" />
-
     <editor-content :editor="editor" class="prose grow" />
-
-    <floating-menu :editor="editor" />
+    <image-menu :editor="editor" />
   </div>
 </template>
 

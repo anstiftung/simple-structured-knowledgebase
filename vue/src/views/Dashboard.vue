@@ -193,6 +193,9 @@ loadFromServer()
         :onlyPublished="false"
       />
       <div v-if="userStore.id" class="flex gap-4">
+        <router-link class="secondary-button" :to="{ name: 'search' }">
+          Alle Inhalte
+        </router-link>
         <button
           class="default-button"
           @click.prevent="showCreateAttachmentModal"
@@ -295,12 +298,14 @@ loadFromServer()
                     class="mb-2"
                     :dragable="hasPermission('feature collections')"
                   />
-                  <div
+                  <a
                     v-if="hasPermission('feature collections')"
                     @click="markCollectionUnFeatured(element)"
+                    title="Von Startseite entfernen"
+                    class="cursor-pointer"
                   >
-                    [DELETE]
-                  </div>
+                    <icon name="trash" class="text-gray-400 size-5" />
+                  </a>
                 </div>
               </template>
             </draggable>

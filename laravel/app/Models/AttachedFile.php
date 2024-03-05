@@ -6,11 +6,13 @@ use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AttachedFile extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -20,12 +22,14 @@ class AttachedFile extends Model
         'mime_type',
         'preview_file',
         'source',
-        'license_id'
+        'license_id',
+        'approved'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'approved' => 'boolean'
     ];
 
     protected $appends = ['isImage'];

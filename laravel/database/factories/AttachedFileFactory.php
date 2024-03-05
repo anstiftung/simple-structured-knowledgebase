@@ -25,6 +25,7 @@ class AttachedFileFactory extends Factory
             'title' => $isFilled ? $title : null,
             'description' => $isFilled ? fake()->sentence(3) : null,
             'filename' => Str::slug($title) . '.png',
+            'approved' => fake()->boolean(70),
             'mime_type' => fake()->mimeType(),
             'filesize' => fake()->numberBetween(10000, 1000000),
             'preview_file' => Str::slug($title) . '_preview.png',
