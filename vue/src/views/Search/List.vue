@@ -112,23 +112,21 @@ const switchModel = model => {
           />
         </form>
       </div>
-      <div v-if="userStore.id" class="flex gap-4">
+      <div v-if="userStore.id" class="flex gap-0 secondary-choice-list">
         <button
-          class="secondary-button"
           :class="{ active: activeModels.includes('attachments') }"
           @click.prevent="switchModel('attachments')"
         >
           Anhänge
         </button>
         <button
-          class="secondary-button"
           :class="{ active: activeModels.includes('articles') }"
           @click.prevent="switchModel('articles')"
         >
           Beiträge
         </button>
         <button
-          class="secondary-button"
+          class="rounded-tr-md rounded-br-md"
           :class="{ active: activeModels.includes('collections') }"
           @click.prevent="switchModel('collections')"
         >

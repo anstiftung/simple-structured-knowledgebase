@@ -79,6 +79,33 @@
   }
 }
 
+.secondary-choice-list > button {
+  @apply text-gray-800 border border-gray-800;
+  @apply px-5 py-[5px];
+  @apply text-sm;
+  @apply duration-150;
+
+  &:hover {
+    @apply bg-gray-200;
+  }
+
+  &:disabled {
+    @apply bg-gray-200;
+  }
+
+  &.active {
+    @apply bg-gray-800 text-white;
+  }
+
+  &:first-child {
+    @apply rounded-tl-md rounded-bl-md;
+  }
+
+  &:last-child {
+    @apply rounded-tr-md rounded-br-md;
+  }
+}
+
 .secondary-button.dense {
   @apply px-3 py-[7px];
   @apply rounded-[7px];
