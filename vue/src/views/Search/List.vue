@@ -1,11 +1,9 @@
 <script setup>
 import { ref, computed, onBeforeMount } from 'vue'
-import { useDebounceFn, onClickOutside } from '@vueuse/core'
+import { useDebounceFn } from '@vueuse/core'
 
-import { storeToRefs } from 'pinia'
 import { useRouter, useRoute } from 'vue-router'
 
-import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
 
 import SearchService from '@/services/SearchService'
@@ -18,13 +16,12 @@ import ArticleTable from '@/components/atoms/ArticleTable.vue'
 
 const router = useRouter()
 const route = useRoute()
-const modal = useModalStore()
+
 // If you need UserPermissions, you'll need the next three lines
 const userStore = useUserStore()
-const { hasPermission } = storeToRefs(userStore)
 
 const activeModels = ref(['articles'])
-const creatorId = ref(userStore.id)
+const creatorId = ref(null)
 
 const searchResults = ref([])
 const searchQuery = ref([])
@@ -32,8 +29,8 @@ const loading = ref(false)
 
 const attachments = computed(() => {
   return AttachmentService.combineAttachments(
-    searchResults.value.attached_urls,
-    searchResults.value.attached_files,
+    searchResults.value.attached_urls ?? [],
+    searchResults.value.attached_files ?? [],
   )
 })
 
@@ -75,6 +72,10 @@ onBeforeMount(() => {
 
   if (route.query.m) {
     activeModels.value = route.query.m
+  }
+
+  if (route.query.o) {
+    creatorId.value = route.query.o
   }
 
   querySearch()
@@ -133,7 +134,7 @@ const switchModel = model => {
         </button>
       </div>
     </div>
-    <div class="flex justify-end width-wrapper pb-12">
+    <div class="flex justify-end pb-12 width-wrapper">
       <label class="py-2">
         <input
           type="checkbox"
