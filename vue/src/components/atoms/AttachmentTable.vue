@@ -21,7 +21,14 @@ defineProps({
       <tbody>
         <tr v-for="attachment in modelValue">
           <td class="px-2 py-3 text-green font-semibold">
-            {{ attachment.title }}
+            <template v-if="attachment.type == 'AttachedUrl'">
+              <a :href="attachment.url" target="_blank">
+                {{ attachment.title }}
+              </a>
+            </template>
+            <router-link :to="attachment.url" class="cursor-pointer" v-else>
+              {{ attachment.title }}
+            </router-link>
           </td>
           <td class="px-2 py-3">
             {{ $filters.formatedDate(attachment.created_at) }}

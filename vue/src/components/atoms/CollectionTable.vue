@@ -19,7 +19,9 @@ defineProps({
       <tbody>
         <tr v-for="collection in modelValue">
           <td class="px-2 py-3 text-blue-400 font-semibold">
-            {{ collection.title }}
+            <router-link :to="collection.url" class="cursor-pointer">
+              {{ collection.title }}
+            </router-link>
           </td>
           <td class="px-2 py-3">
             {{ $filters.formatedDate(collection.created_at) }}

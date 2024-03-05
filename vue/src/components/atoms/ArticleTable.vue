@@ -22,7 +22,9 @@ defineProps({
       <tbody>
         <tr v-for="article in modelValue">
           <td class="px-2 py-1 text-orange font-semibold">
-            {{ article.title }}
+            <router-link :to="article.url" class="cursor-pointer">
+              {{ article.title }}
+            </router-link>
           </td>
           <td class="px-2 py-3">{{ article.created_by.name }}</td>
           <td class="px-2 py-3">
