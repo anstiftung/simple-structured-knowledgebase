@@ -73,6 +73,32 @@
   &:disabled {
     @apply bg-gray-200;
   }
+
+  &.active {
+    @apply text-white bg-gray-800;
+  }
+}
+
+.secondary-choice-list {
+  @apply overflow-hidden border border-gray-800 divide-x divide-gray-800 rounded-md;
+}
+.secondary-choice-list > button {
+  @apply text-gray-800;
+  @apply px-5 py-[5px];
+  @apply text-sm;
+  @apply duration-150;
+
+  &:hover {
+    @apply bg-gray-200;
+  }
+
+  &:disabled {
+    @apply bg-gray-200;
+  }
+
+  &.active {
+    @apply text-white bg-gray-800;
+  }
 }
 
 .secondary-button.dense {

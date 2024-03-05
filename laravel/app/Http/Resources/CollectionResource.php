@@ -22,6 +22,7 @@ class CollectionResource extends BaseResource
             'description' => $this->description,
             'order' => $this->order,
             'featured' => $this->featured,
+            'num_articles' => $this->articles->count(),
             'articles' => AttachedArticleResource::collection($this->whenLoaded('articles')),
         ];
     }
