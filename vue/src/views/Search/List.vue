@@ -126,7 +126,6 @@ const switchModel = model => {
           Beiträge
         </button>
         <button
-          class="rounded-tr-md rounded-br-md"
           :class="{ active: activeModels.includes('collections') }"
           @click.prevent="switchModel('collections')"
         >

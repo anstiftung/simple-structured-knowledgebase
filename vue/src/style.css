@@ -75,12 +75,15 @@
   }
 
   &.active {
-    @apply bg-gray-800 text-white;
+    @apply text-white bg-gray-800;
   }
 }
 
+.secondary-choice-list {
+  @apply overflow-hidden border border-gray-800 divide-x divide-gray-800 rounded-md;
+}
 .secondary-choice-list > button {
-  @apply text-gray-800 border border-gray-800;
+  @apply text-gray-800;
   @apply px-5 py-[5px];
   @apply text-sm;
   @apply duration-150;
@@ -94,15 +97,7 @@
   }
 
   &.active {
-    @apply bg-gray-800 text-white;
-  }
-
-  &:first-child {
-    @apply rounded-tl-md rounded-bl-md;
-  }
-
-  &:last-child {
-    @apply rounded-tr-md rounded-br-md;
+    @apply text-white bg-gray-800;
   }
 }
 
