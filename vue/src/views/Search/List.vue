@@ -9,6 +9,7 @@ import { useModalStore } from '@/stores/modal'
 import { useUserStore } from '@/stores/user'
 
 import SearchService from '@/services/SearchService'
+import AttachmentService from '@/services/AttachmentService'
 import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
 
 import CollectionTable from '@/components/atoms/CollectionTable.vue'
@@ -30,18 +31,10 @@ const searchQuery = ref([])
 const loading = ref(false)
 
 const attachments = computed(() => {
-  let attachments = []
-
-  if (searchResults.value.attached_files) {
-    attachments.push(...searchResults.value.attached_files)
-  }
-
-  if (searchResults.value.attached_urls) {
-    attachments.push(...searchResults.value.attached_urls)
-  }
-
-  attachments = attachments.sort((a, b) => a.title < b.title)
-  return attachments
+  return AttachmentService.combineAttachments(
+    searchResults.value.attached_urls,
+    searchResults.value.attached_files,
+  )
 })
 
 const onQueryInput = useDebounceFn(() => {
@@ -92,10 +85,6 @@ const switchModel = model => {
   activeModels.value.push(model)
   onQueryInput()
 }
-
-const loadFromServer = () => {}
-
-loadFromServer()
 </script>
 <template>
   <section class="bg-white">
