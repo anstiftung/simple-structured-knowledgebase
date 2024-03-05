@@ -60,7 +60,7 @@ class SearchController extends BaseController
     public function searchImages()
     {
         $attachedImages = AttachedFile::where('title', 'like', '%' . $this->query . '%')
-            ->when($this->created_by, function ($query) {
+            ->when($this->created_by_id, function ($query) {
                 $query->where('created_by_id', $this->created_by_id);
             })
             ->orderBy('created_at', 'DESC')
