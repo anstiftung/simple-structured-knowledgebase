@@ -9,7 +9,7 @@ defineProps({
 <template>
   <section>
     <table class="w-full" v-if="modelValue.length > 0">
-      <thead class="border-y w-full text-gray-400">
+      <thead class="border-y w-full text-gray-400 sticky bg-white top-header">
         <tr>
           <td class="px-2 py-3">Titel</td>
           <td class="px-2 py-3">Datum</td>
