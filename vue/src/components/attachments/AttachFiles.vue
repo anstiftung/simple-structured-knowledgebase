@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import AttachmentListItem from './AttachmentListItem.vue'
+import AttachmentListItem from '@/components/attachments/AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
 const emit = defineEmits(['persisted', 'update:dirty'])

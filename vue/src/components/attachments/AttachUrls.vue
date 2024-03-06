@@ -4,7 +4,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers } from '@vuelidate/validators'
 import { url$ } from '@/plugins/validators.js'
 
-import AttachmentListItem from './AttachmentListItem.vue'
+import AttachmentListItem from '@/components/attachments/AttachmentListItem.vue'
 import AttachmentService from '@/services/AttachmentService'
 
 const emit = defineEmits(['persisted', 'update:dirty'])

@@ -11,7 +11,7 @@ import ArticleService from '@/services/ArticleService'
 
 import CommentForm from '@/components/atoms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
-import ContentRenderer from './ContentRenderer.vue'
+import ContentRenderer from '@/views/Article/ContentRenderer.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import AttachmentCard from '@/components/AttachmentCard.vue'
 

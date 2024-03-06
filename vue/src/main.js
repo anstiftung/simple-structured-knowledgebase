@@ -3,7 +3,7 @@ import 'vue-toastification/dist/index.css'
 
 import Toast, { POSITION } from 'vue-toastification'
 
-import App from './App.vue'
+import App from '@/App.vue'
 import Icon from '@/components/atoms/Icon.vue'
 import ItemLink from '@/components/atoms/ItemLink.vue'
 import ToastPlugin from '@/plugins/toast.js'
@@ -13,8 +13,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import filters from '@/plugins/filters.js'
 import keycloakInstance from '@/plugins/keycloak.js'
-import router from './router/index.js'
-import { useUserStore } from './stores/user'
+import router from '@/router/index.js'
+import { useUserStore } from '@/stores/user'
 
 const pinia = createPinia()
 const app = createApp(App)
