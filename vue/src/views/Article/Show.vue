@@ -75,7 +75,7 @@ loadFromServer()
         <router-link
           v-if="
             userStore.id == article.created_by.id ||
-            userStore.hasPermission('update others articles')
+            hasPermission('update others articles')
           "
           class="block pt-2 opacity-70"
           :to="{ name: 'articleEdit', params: { slug: article.slug } }"
