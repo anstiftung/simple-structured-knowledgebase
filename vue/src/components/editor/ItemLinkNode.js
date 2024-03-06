@@ -40,19 +40,15 @@ export default Node.create({
 
   addNodeView() {
     return ({ node }) => {
-      console.log('nodeview', node)
-      //return VueNodeViewRenderer(ItemLinkTipTap)
       const dom = document.createElement('a')
       dom.dataset.type = node.attrs['data-type']
       dom.dataset.id = node.attrs['data-id']
-
-      const contentElement = document.createElement('span')
-      contentElement.innerText = node.textContent
-      dom.append(contentElement)
+      dom.setAttribute('href', node.attrs['href'])
+      dom.setAttribute('target', node.attrs['target'])
 
       return {
         dom,
-        contentDOM: contentElement,
+        contentDOM: dom,
       }
     }
   },
