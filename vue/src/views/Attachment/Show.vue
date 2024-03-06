@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
 
 import AttachmentService from '@/services/AttachmentService'
-import ArticleCard from '@/components/ArticleCard.vue'
+import ArticleCard from '@/components/atoms/ArticleCard.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import Separator from '@/components/layouts/Separator.vue'
 

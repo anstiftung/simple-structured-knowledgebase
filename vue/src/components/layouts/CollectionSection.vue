@@ -1,5 +1,5 @@
 <script setup>
-import ArticleCard from '@/components/ArticleCard.vue'
+import ArticleCard from '@/components/atoms/ArticleCard.vue'
 
 const props = defineProps({
   collection: Object,

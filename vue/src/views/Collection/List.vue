@@ -5,7 +5,7 @@ import CollectionService from '@/services/CollectionService'
 
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import Separator from '@/components/layouts/Separator.vue'
-import CollectionSection from '@/components/atoms/CollectionSection.vue'
+import CollectionSection from '@/components/layouts/CollectionSection.vue'
 import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
 
 const collections = ref([])
@@ -37,7 +37,7 @@ loadFromServer()
         {{ collectionsMeta.total ? collectionsMeta.total : 'Keine' }}
         {{ collectionsMeta.total == 1 ? 'Sammlung' : 'Sammlungen' }}
       </separator>
-      <div class="divide-y divide-y-2 divide-blue-400">
+      <div class="divide-y-2 divide-y divide-blue-400">
         <template v-for="collection in collections">
           <collection-section :collection="collection"></collection-section>
         </template>

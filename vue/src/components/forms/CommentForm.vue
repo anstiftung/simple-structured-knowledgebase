@@ -2,7 +2,7 @@
 import { reactive, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
-import TextareaWithCounter from '@/components/atoms/TextareaWithCounter.vue'
+import TextareaWithCounter from '@/components/forms/TextareaWithCounter.vue'
 
 import CommentService from '@/services/CommentService'
 

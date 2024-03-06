@@ -5,7 +5,7 @@ import Toast, { POSITION } from 'vue-toastification'
 
 import App from '@/App.vue'
 import Icon from '@/components/atoms/Icon.vue'
-import ItemLink from '@/components/atoms/ItemLink.vue'
+import ItemLink from '@/components/editor/ItemLink.vue'
 import ToastPlugin from '@/plugins/toast.js'
 import VueAxios from 'vue-axios'
 import axios from 'axios'

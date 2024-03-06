@@ -7,9 +7,9 @@ import { storeToRefs } from 'pinia'
 
 import { useUserStore } from '@/stores/user'
 
-import LicenseSelect from '@/components/atoms/LicenseSelect.vue'
+import LicenseSelect from '@/components/forms/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
-import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
+import InputWithCounter from '@/components/forms/InputWithCounter.vue'
 
 const props = defineProps({
   attachments: Array,

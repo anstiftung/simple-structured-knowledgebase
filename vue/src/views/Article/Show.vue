@@ -9,11 +9,11 @@ import { useUserStore } from '@/stores/user'
 import CommentService from '@/services/CommentService'
 import ArticleService from '@/services/ArticleService'
 
-import CommentForm from '@/components/atoms/CommentForm.vue'
+import CommentForm from '@/components/forms/CommentForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from '@/views/Article/ContentRenderer.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
-import AttachmentCard from '@/components/AttachmentCard.vue'
+import AttachmentCard from '@/components/atoms/AttachmentCard.vue'
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
