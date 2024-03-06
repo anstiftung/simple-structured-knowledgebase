@@ -18,7 +18,7 @@ class UserController extends BaseController
             return parent::abortUnauthorized();
         }
 
-        $users = User::all();
+        $users = User::orderBy('name', 'asc')->all();
         return UserResource::collection($users);
     }
 
