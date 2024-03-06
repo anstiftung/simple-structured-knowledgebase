@@ -1,9 +1,9 @@
 <script setup>
 import { ref, inject } from 'vue'
 
-import AttachmentTypeSelector from './AttachmentTypeSelector.vue'
-import AttachFiles from './AttachFiles.vue'
-import AttachUrls from './AttachUrls.vue'
+import AttachmentTypeSelector from '@/components/attachments/AttachmentTypeSelector.vue'
+import AttachFiles from '@/components/attachments/AttachFiles.vue'
+import AttachUrls from '@/components/attachments/AttachUrls.vue'
 
 const props = defineProps({
   article: Object,

@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useModalStore } from '@/stores/modal'
 
-import ModelSelector from '@/components/atoms/ModelSelector.vue'
+import ModelSelector from '@/components/forms/ModelSelector.vue'
 import {
   Listbox,
   ListboxButton,

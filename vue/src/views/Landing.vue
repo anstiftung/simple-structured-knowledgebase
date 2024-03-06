@@ -1,9 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
 
-import SearchForm from '@/components/SearchForm.vue'
-import ExplainSection from '@/components/atoms/ExplainSection.vue'
-import CollectionSection from '@/components/atoms/CollectionSection.vue'
+import SearchForm from '@/components/forms/SearchForm.vue'
+import ExplainSection from '@/components/layouts/ExplainSection.vue'
+import CollectionSection from '@/components/layouts/CollectionSection.vue'
 
 import CollectionService from '@/services/CollectionService'
 
@@ -42,7 +42,7 @@ loadFromServer()
     </section>
     <section class="bg-white">
       <div class="py-12 width-wrapper">
-        <div class="divide-y divide-y-2 divide-blue-400">
+        <div class="divide-y-2 divide-y divide-blue-400">
           <template v-for="collection in collections" v-if="collections">
             <collection-section :collection="collection"></collection-section>
           </template>

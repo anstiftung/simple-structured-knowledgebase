@@ -1,7 +1,7 @@
 <script setup>
-import Navigation from '@/components/Navigation.vue'
-import Foot from '@/components/Foot.vue'
-import MainModal from '@/components/MainModal.vue'
+import Navigation from '@/components/layouts/Navigation.vue'
+import Foot from '@/components/layouts/Foot.vue'
+import MainModal from '@/components/layouts/MainModal.vue'
 </script>
 
 <template>
