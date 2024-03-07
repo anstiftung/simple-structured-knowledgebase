@@ -14,6 +14,7 @@ import ItemLine from '@/components/atoms/ItemLine.vue'
 import ContentRenderer from '@/components/atoms/ContentRenderer.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import AttachmentCard from '@/components/atoms/AttachmentCard.vue'
+import ClapButton from '@/components/atoms/ClapButton.vue'
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
@@ -95,16 +96,7 @@ loadFromServer()
           <h3 class="text-lg">
             Dir hat der Beitrag gefallen? Lass einen clap da.
           </h3>
-          <div
-            role="button"
-            class="inline-flex items-center p-3 mt-4 transition-all ease-in-out border-2 border-gray-300 rounded-full hover:border-blue group hover:scale-95"
-            @click="clapArticle"
-          >
-            <icon
-              name="clap"
-              class="text-gray-300 group-hover:text-blue size-6"
-            ></icon>
-          </div>
+          <clap-button :article="article"></clap-button>
         </div>
       </div>
       <div
