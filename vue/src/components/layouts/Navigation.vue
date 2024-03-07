@@ -64,7 +64,7 @@ const userStore = useUserStore()
                 Einstellungen
               </button>
               <router-link
-                :to="{ name: 'logout', query: { redirect: route.fullPath } }"
+                :to="{ name: 'logout' }"
                 class="flex items-center gap-2 px-2 py-2"
               >
                 <img src="/icons/logout.svg" />
@@ -74,7 +74,6 @@ const userStore = useUserStore()
           </div>
         </template>
         <template v-else>
-          {{ route.name }}
           <router-link
             class="secondary-button"
             :to="{ name: 'login', query: { redirect: route.fullPath } }"
