@@ -45,10 +45,6 @@ const linkOptions = ref([
   { key: 'attachments', label: 'Anhang' },
 ])
 
-const onLinkInput = () => {
-  toggleLinkSelection(selectedLink.value.key)
-}
-
 /* dropdown with differenct Infoboxes */
 const selectedInfoBox = ref(null)
 const infoBoxOptions = ref([
@@ -63,18 +59,11 @@ const onInfoBoxInput = () => {
   })
 }
 /* allows toggling links to different model types */
-const toggleLinkSelection = type => {
+const insertItemLink = type => {
   // get current text selection
   const { view, state } = props.editor
   const { from, to } = view.state.selection
   let text = state.doc.textBetween(from, to, '')
-
-  // remove itemLink
-  if (props.editor.isActive('itemLink')) {
-    props.editor.commands.deleteNode('itemLink')
-    props.editor.commands.insertContent(text)
-    return
-  }
 
   // add itemLink
   modal.open(ModelSelector, { modelType: type }, selection => {
@@ -231,7 +220,10 @@ onMounted(() => {
     </button>
 
     <div class="relative">
-      <Listbox v-model="selectedLink" @update:model-value="onLinkInput">
+      <Listbox
+        v-model="selectedLink"
+        @update:model-value="insertItemLink(selectedLink.key)"
+      >
         <ListboxButton class="listbox-button" v-slot="{ open }"
           ><icon class="text-gray-400 size-4" name="attachment"></icon>
           <icon v-if="open" name="arrow-up"></icon>

@@ -15,62 +15,20 @@ import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
 import Placeholder from '@tiptap/extension-placeholder'
 import Dropcursor from '@tiptap/extension-dropcursor'
-import { useEditor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
-import { mergeAttributes, Node } from '@tiptap/core'
+import { useEditor, EditorContent } from '@tiptap/vue-3'
 
 import ImageMenu from '@/components/editor/ImageMenu.vue'
-import ItemLinkTipTap from '@/components/editor/ItemLinkTipTap.vue'
 
 import FixedMenu from '@/components/editor/FixedMenu.vue'
 import InfoBox from '@/components/editor/InfoBox.js'
 import CustomImage from '@/components/editor/CustomImage.js'
+import ItemLinkNode from '@/components/editor/ItemLinkNode.js'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
   modelValue: {
     type: String,
     default: '',
-  },
-})
-
-const ItemLinkNode = Node.create({
-  name: 'itemLink',
-
-  group: 'inline',
-  inline: true,
-  content: 'text*',
-
-  addAttributes() {
-    return {
-      'data-type': {
-        default: null,
-      },
-      'data-id': {
-        default: null,
-      },
-      href: {
-        default: null,
-      },
-      target: {
-        default: null,
-      },
-    }
-  },
-
-  parseHTML() {
-    return [
-      {
-        tag: 'item-link',
-      },
-    ]
-  },
-
-  renderHTML({ HTMLAttributes }) {
-    return ['item-link', mergeAttributes(HTMLAttributes), 0]
-  },
-
-  addNodeView() {
-    return VueNodeViewRenderer(ItemLinkTipTap)
   },
 })
 
