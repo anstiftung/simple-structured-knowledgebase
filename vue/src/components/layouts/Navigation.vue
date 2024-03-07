@@ -1,7 +1,10 @@
 <script setup>
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const userMenuVisible = ref(false)
 const userMenuOverlay = ref(null)
@@ -9,7 +12,6 @@ const userMenuOverlay = ref(null)
 onClickOutside(userMenuOverlay, () => (userMenuVisible.value = false))
 
 const userStore = useUserStore()
-const $keycloak = inject('keycloak')
 </script>
 
 <template>
@@ -62,7 +64,7 @@ const $keycloak = inject('keycloak')
                 Einstellungen
               </button>
               <router-link
-                :to="{ name: 'logout' }"
+                :to="{ name: 'logout', query: { redirect: route.fullPath } }"
                 class="flex items-center gap-2 px-2 py-2"
               >
                 <img src="/icons/logout.svg" />
@@ -72,7 +74,10 @@ const $keycloak = inject('keycloak')
           </div>
         </template>
         <template v-else>
-          <router-link class="secondary-button" :to="{ name: 'login' }"
+          {{ route.name }}
+          <router-link
+            class="secondary-button"
+            :to="{ name: 'login', query: { redirect: route.fullPath } }"
             >Login</router-link
           >
           <a

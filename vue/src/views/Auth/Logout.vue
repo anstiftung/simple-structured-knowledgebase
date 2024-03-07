@@ -1,19 +1,18 @@
 <script setup>
 import { inject } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const $keycloak = inject('keycloak')
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
 
 const BASE_ROUTE = import.meta.env.VITE_BASE_URL
 
 if ($keycloak.authenticated) {
-  $keycloak.logout({ redirectUri: BASE_ROUTE + 'auth/logout' })
-} else {
-  userStore.deleteUserData()
-  router.push({ name: 'landing', replace: true })
+  const redirectURL = route.query.redirect ?? '/landing'
+  $keycloak.logout({ redirectUri: BASE_ROUTE + redirectURL })
 }
 </script>
 <template>

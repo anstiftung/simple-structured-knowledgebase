@@ -40,7 +40,11 @@ keycloakInstance
   .init({ checkLoginIframe: false, onLoad: 'check-sso' })
   .then(auth => {
     const userStore = useUserStore()
-    if (!auth) {
+    // if the application is authenticated load the userData
+    if (auth) {
+      userStore.loadUserData(keycloakInstance.token)
+    } else {
+      // delete userData when unauthenticated
       userStore.deleteUserData()
     }
 
