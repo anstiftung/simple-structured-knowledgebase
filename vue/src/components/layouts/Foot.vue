@@ -69,27 +69,7 @@ const links = ref([
         </div>
         <div class="col-span-3 md:col-span-1">
           <p>
-            Eine Initiative von:<br /><br />
-            <!-- <b>VERBUND OFFENER WERKSTÄTTEN</b><br />
-            <a href="http://www.offene-werkstaetten.org" target="_blank"
-              >www.offene-werkstaetten.org</a
-            > -->
-          </p>
-          <a
-            class="max-w-[250px] block"
-            href="http://www.offene-werkstaetten.org"
-            target="_blank"
-          >
-            <img
-              class="mt-4"
-              src="/img/vow_logo.svg"
-              alt="Logo des Verbund offener Werkstätten"
-            />
-          </a>
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <p>
-            Gefördert durch:<br /><br />
+            Ein Projekt der Anstiftung:<br /><br />
             <!-- <b>anstiftung</b><br />
             <a href="https://anstiftung.de/" target="_blank"
               >www.anstiftung.de</a
@@ -104,6 +84,26 @@ const links = ref([
               class="mt-4"
               src="/img/anstiftung_logo.svg"
               alt="Logo der anstiftung"
+            />
+          </a>
+        </div>
+        <div class="col-span-3 md:col-span-1">
+          <p>
+            In Kooperation mit:<br /><br />
+            <!-- <b>VERBUND OFFENER WERKSTÄTTEN</b><br />
+            <a href="http://www.offene-werkstaetten.org" target="_blank"
+              >www.offene-werkstaetten.org</a
+            > -->
+          </p>
+          <a
+            class="max-w-[250px] block"
+            href="http://www.offene-werkstaetten.org"
+            target="_blank"
+          >
+            <img
+              class="mt-4"
+              src="/img/vow_logo.svg"
+              alt="Logo des Verbund offener Werkstätten"
             />
           </a>
         </div>
