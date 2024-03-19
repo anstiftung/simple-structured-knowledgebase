@@ -9,10 +9,10 @@ import ArticleService from '@/services/ArticleService'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 
 import Editor from '@/components/editor/Editor.vue'
-import StateSelect from '@/components/atoms/StateSelect.vue'
-import UserSelect from '@/components/atoms/UserSelect.vue'
-import InputWithCounter from '@/components/atoms/InputWithCounter.vue'
-import TextareaWithCounter from '@/components/atoms/TextareaWithCounter.vue'
+import StateSelect from '@/components/forms/StateSelect.vue'
+import UserSelect from '@/components/forms/UserSelect.vue'
+import InputWithCounter from '@/components/forms/InputWithCounter.vue'
+import TextareaWithCounter from '@/components/forms/TextareaWithCounter.vue'
 
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 

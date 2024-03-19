@@ -1,12 +1,16 @@
 <script setup>
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/stores/user'
+
 import CollectionService from '@/services/CollectionService'
-import ArticleCard from '@/components/ArticleCard.vue'
+import ArticleCard from '@/components/atoms/ArticleCard.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import Separator from '@/components/layouts/Separator.vue'
 
-import { useRoute, useRouter } from 'vue-router'
-
+const userStore = useUserStore()
+const { hasPermission } = storeToRefs(userStore)
 const router = useRouter()
 const route = useRoute()
 const slug = route.params.slug
@@ -45,7 +49,7 @@ loadFromServer()
         <h2 class="text-4xl text-center">{{ collection.title }}</h2>
         <router-link
           class="block pt-2 opacity-70"
-          v-if="collection.slug"
+          v-if="collection.slug && hasPermission('edit collections')"
           :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
           ><icon name="edit" /><span class="inline-block ml-1 underline"
             >Bearbeiten</span

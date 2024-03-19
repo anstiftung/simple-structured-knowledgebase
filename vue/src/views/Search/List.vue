@@ -10,9 +10,9 @@ import SearchService from '@/services/SearchService'
 import AttachmentService from '@/services/AttachmentService'
 import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
 
-import CollectionTable from '@/components/atoms/CollectionTable.vue'
-import AttachmentTable from '@/components/atoms/AttachmentTable.vue'
-import ArticleTable from '@/components/atoms/ArticleTable.vue'
+import CollectionTable from '@/components/tables/CollectionTable.vue'
+import AttachmentTable from '@/components/tables/AttachmentTable.vue'
+import ArticleTable from '@/components/tables/ArticleTable.vue'
 
 const router = useRouter()
 const route = useRoute()

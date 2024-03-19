@@ -4,7 +4,7 @@ import { useDebounceFn, onClickOutside } from '@vueuse/core'
 
 import SearchService from '@/services/SearchService'
 import ItemLine from '@/components/atoms/ItemLine.vue'
-import LoadingSpinner from './atoms/LoadingSpinner.vue'
+import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
 
 const props = defineProps({
   placeholder: String,
