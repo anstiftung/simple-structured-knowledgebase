@@ -114,46 +114,69 @@ const discard = () => {
 <template>
   <section>
     <model-header colorClass="bg-orange" secondaryColorClass="bg-orange/50">
-      <template v-slot:description>
-        Beitrag {{ formData.article.id ? 'bearbeiten' : 'erstellen' }}
-      </template>
+      <template v-slot:description>Beitrag</template>
       <template v-slot:content>
-        <input-with-counter
-          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-white/70"
-          v-model="formData.article.title"
-          autofocus
-          placeholder="Titel des Beitrags"
-          @update:modelValue="v$.article.title.$touch"
-          :maxlength="v$.article.title.maxLength.$params.max"
-          position="bottom"
-        />
-        <div
-          class="text-sm text-red"
-          v-for="error of v$.article.title.$errors"
-          :key="error.$uid"
-        >
-          <div>! {{ error.$message }}</div>
-        </div>
+        <h2 class="text-4xl text-center">
+          <span v-if="formData.article.title">
+            {{ formData.article.title }}
+          </span>
+          <span class="opacity-70" v-else> Beitrag erstellen </span>
+        </h2>
       </template>
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
-      <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea-with-counter
-          class="w-full text-xl bg-transparent outline-none"
-          v-model="formData.article.description"
-          placeholder="Kurzbeschreibung"
-          @update:modelValue="v$.article.description.$touch"
-          :maxlength="v$.article.description.maxLength.$params.max"
-        />
-        <div
-          class="text-sm text-red"
-          v-for="error of v$.article.description.$errors"
-          :key="error.$uid"
-        >
-          <div>! {{ error.$message }}</div>
+      <div class="flex flex-col col-span-4 gap-4 px-8 py-16 bg-white">
+        <div>
+          <label class="inline-block mb-1 text-sm text-gray-300" for="title"
+            >Titel</label
+          >
+          <input-with-counter
+            class="w-full px-2 py-4 border rounded-md outline-none"
+            v-model="formData.article.title"
+            autofocus
+            id="title"
+            placeholder="Titel des Beitrags"
+            @update:modelValue="v$.article.title.$touch"
+            :maxlength="v$.article.title.maxLength.$params.max"
+          />
+          <div
+            class="text-sm text-red"
+            v-for="error of v$.article.title.$errors"
+            :key="error.$uid"
+          >
+            <div>! {{ error.$message }}</div>
+          </div>
         </div>
-        <div class="mt-8 grow">
-          <editor v-model="formData.article.content" />
+        <div>
+          <label
+            class="inline-block mb-1 text-sm text-gray-300"
+            for="description"
+            >Beschreibung</label
+          >
+          <textarea-with-counter
+            class="w-full px-2 py-4 bg-transparent border rounded-md"
+            v-model="formData.article.description"
+            id="description"
+            placeholder="Kurzbeschreibung"
+            @update:modelValue="v$.article.description.$touch"
+            :maxlength="v$.article.description.maxLength.$params.max"
+            position="right"
+          />
+          <div
+            class="text-sm text-red"
+            v-for="error of v$.article.description.$errors"
+            :key="error.$uid"
+          >
+            <div>! {{ error.$message }}</div>
+          </div>
+        </div>
+        <div>
+          <label class="inline-block mb-1 text-sm text-gray-300"
+            >Inhaltstext</label
+          >
+          <div class="px-2 -pt-[1px] pb-4 border rounded-md grow">
+            <editor v-model="formData.article.content" />
+          </div>
         </div>
       </div>
       <div

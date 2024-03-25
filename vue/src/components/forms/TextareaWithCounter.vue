@@ -26,7 +26,7 @@ const updateValue = event => {
 </script>
 <template>
   <div
-    class="relative mb-4"
+    class="relative"
     :class="{ 'flex items-center': props.position == 'right' }"
   >
     <textarea
