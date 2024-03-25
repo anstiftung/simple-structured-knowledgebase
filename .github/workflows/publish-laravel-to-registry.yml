@@ -1,4 +1,4 @@
-name: CI push Laravel App to registry.offene-werkstaetten.org
+name: CI push Laravel App to registry.kolle.dev
 
 on:
   push:
@@ -100,10 +100,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to registry.offene-werkstaetten.org Hub
+      - name: Login to registry.kolle.dev Hub
         uses: docker/login-action@v3
         with:
-          registry: registry.offene-werkstaetten.org
+          registry: registry.kolle.dev
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
@@ -111,7 +111,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: registry.offene-werkstaetten.org/cowiki-laravel
+          images: registry.kolle.dev/cowiki-laravel
 
       - name: Build 🚜
         uses: docker/build-push-action@v5
@@ -138,11 +138,11 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.PORT }}
+          host: ${{ secrets.SSH_HOST_LIVE }}
+          username: ${{ secrets.SSH_USER_LIVE }}
+          key: ${{ secrets.SSH_KEY_LIVE }}
+          port: ${{ secrets.SSH_PORT_LIVE }}
           script: |
-            cd /opt/containers/staging.cowiki.de
+            cd /srv/cowiki
             docker-compose pull staging.cowiki.api
             docker-compose up --force-recreate -d staging.cowiki.api

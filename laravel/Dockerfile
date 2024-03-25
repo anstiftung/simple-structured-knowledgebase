@@ -1,4 +1,4 @@
-FROM registry.offene-werkstaetten.org/laravel-base:latest
+FROM registry.kolle.dev/laravel-base:latest
 
 #####################################
 # Laravel Schedule Cron Job:

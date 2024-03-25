@@ -1,7 +1,10 @@
 <script setup>
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useUserStore } from '@/stores/user'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const userMenuVisible = ref(false)
 const userMenuOverlay = ref(null)
@@ -9,7 +12,6 @@ const userMenuOverlay = ref(null)
 onClickOutside(userMenuOverlay, () => (userMenuVisible.value = false))
 
 const userStore = useUserStore()
-const $keycloak = inject('keycloak')
 </script>
 
 <template>
@@ -72,7 +74,9 @@ const $keycloak = inject('keycloak')
           </div>
         </template>
         <template v-else>
-          <router-link class="secondary-button" :to="{ name: 'login' }"
+          <router-link
+            class="secondary-button"
+            :to="{ name: 'login', query: { redirect: route.fullPath } }"
             >Login</router-link
           >
           <a
