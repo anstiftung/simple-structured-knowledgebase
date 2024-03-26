@@ -9,7 +9,7 @@ import { useUserStore } from '@/stores/user'
 
 import LicenseSelect from '@/components/forms/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
-import InputWithCounter from '@/components/forms/InputWithCounter.vue'
+import InputWrapper from '@/components/forms/InputWrapper.vue'
 
 const props = defineProps({
   attachments: Array,
@@ -195,39 +195,35 @@ const save = async () => {
         currentAttachment[getEditConfig(currentAttachment, 'titleAttribute')]
       }}
     </h4>
-    <div class="flex flex-col items-start gap-4 my-6 md:flex-row">
+    <div class="flex flex-col items-start gap-8 my-6 md:flex-row">
       <div class="flex flex-col w-full gap-4 grow">
         <template v-for="field in getEditConfig(currentAttachment, 'inputs')">
-          <div
-            class="text-sm text-red"
-            v-for="error of v$.attachmentList.$each.$response.$errors[
-              visibleIndex
-            ][field.attribute]"
-            :key="error.$uid"
+          <input-wrapper
+            v-model="currentAttachment[field.attribute]"
+            :label="field.label"
+            :errors="
+              v$.attachmentList.$each.$response.$errors[visibleIndex][
+                field.attribute
+              ]
+            "
+            :maxlength="field.maxlength"
+            helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
           >
-            <div>! {{ error.$message }}</div>
-          </div>
-          <template v-if="field.type == 'license'">
-            <license-select v-model="currentAttachment[field.attribute]" />
-          </template>
-          <template v-else>
-            <input-with-counter
-              v-if="field.maxlength"
-              class="w-full px-4 py-3 text-gray-800 rounded-md"
-              :placeholder="field.label"
-              :type="field.type"
-              :maxlength="field.maxlength"
-              v-model="currentAttachment[field.attribute]"
-              position="right"
-            />
-            <input
-              v-else
-              class="w-full px-4 py-3 text-gray-800 rounded-md"
-              :placeholder="field.label"
-              :type="field.type"
-              v-model="currentAttachment[field.attribute]"
-            />
-          </template>
+            <template #default="{ inputId, modelValue, updateValue }">
+              <template v-if="field.type == 'license'">
+                <license-select v-model="currentAttachment[field.attribute]" />
+              </template>
+              <template v-else>
+                <input
+                  type="text"
+                  :id="inputId"
+                  class=""
+                  :value="modelValue"
+                  @input="updateValue"
+                />
+              </template>
+            </template>
+          </input-wrapper>
         </template>
         <div
           v-if="

@@ -2,7 +2,7 @@
 import { reactive, inject } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required$, maxLength$ } from '@/plugins/validators.js'
-import TextareaWithCounter from '@/components/forms/TextareaWithCounter.vue'
+import InputWrapper from '@/components/forms/InputWrapper.vue'
 
 import CommentService from '@/services/CommentService'
 
@@ -47,20 +47,25 @@ const createComment = async () => {
 <template>
   <div class="py-8">
     <h3 class="mb-6">Schreibe einen Kommentar</h3>
-    <form v-on:submit.prevent="createComment">
-      <textarea-with-counter
+    <form v-on:submit.prevent="createComment" v-if="formData.comment">
+      <input-wrapper
         v-model="formData.comment.content"
-        @update:modelValue="v$.comment.content.$touch"
-        class="w-full p-2 border-2 h-[200px] rounded-md outline-none focus:border-blue"
         :maxlength="v$.comment.content.maxLength.$params.max"
-      />
-      <div
-        class="text-sm text-red"
-        v-for="error of v$.comment.content.$errors"
-        :key="error.$uid"
+        :errors="v$.comment.content.$errors"
+        label="Kommentarinhalt"
+        helpText="LOrem"
       >
-        <div>! {{ error.$message }}</div>
-      </div>
+        <template #default="{ inputId, modelValue, updateValue }">
+          <textarea
+            placeholder="Kommentarinhalt"
+            class="min-h-[200px]"
+            :id="inputId"
+            :value="modelValue"
+            @input="updateValue"
+          ></textarea>
+        </template>
+      </input-wrapper>
+
       <button type="submit" class="mt-6 default-button">
         Kommentar absenden
       </button>
