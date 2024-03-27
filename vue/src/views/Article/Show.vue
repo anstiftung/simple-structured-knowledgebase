@@ -178,8 +178,9 @@ loadFromServer()
               <a
                 v-if="hasPermission('delete comments')"
                 @click="deleteComment(comment)"
-                >[DELETE]</a
-              >
+                title="Kommentar Löschen"
+                ><icon name="trash" class="size-5"></icon
+              ></a>
             </div>
             <p class="text-gray-200">
               {{ $filters.formatedDate(comment.created_at) }}

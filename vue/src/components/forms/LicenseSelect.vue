@@ -29,7 +29,7 @@ loadFromServer()
 
 <template>
   <select
-    class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
+    class="w-full max-w-xl px-4 py-3 text-gray-800 bg-white rounded-md"
     v-model="localModel"
   >
     <option :value="null" disabled>Keine Lizenz ausgewählt</option>

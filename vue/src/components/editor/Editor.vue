@@ -75,7 +75,7 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col h-full gap-4">
+  <div class="relative flex flex-col h-full gap-4">
     <fixed-menu :editor="editor" v-if="editor" />
     <editor-content :editor="editor" class="prose grow" />
     <image-menu :editor="editor" />

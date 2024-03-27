@@ -8,8 +8,7 @@ import draggable from 'vuedraggable'
 import SearchForm from '@/components/forms/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
-import InputWithCounter from '@/components/forms/InputWithCounter.vue'
-import TextareaWithCounter from '@/components/forms/TextareaWithCounter.vue'
+import InputWrapper from '@/components/forms/InputWrapper.vue'
 
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -127,43 +126,54 @@ const discard = () => {
         Sammlung {{ formData.collection.id ? 'bearbeiten' : 'erstellen' }}
       </template>
       <template v-slot:content>
-        <input-with-counter
-          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-white/70"
-          v-model="formData.collection.title"
-          autofocus
-          placeholder="Titel der Sammlung"
-          @update:modelValue="v$.collection.title.$touch"
-          position="bottom"
-          :maxlength="v$.collection.title.maxLength.$params.max"
-        />
-        <div
-          class="text-sm text-red"
-          v-for="error of v$.collection.title.$errors"
-          :key="error.$uid"
-        >
-          <div>! {{ error.$message }}</div>
-        </div>
+        <h2 class="text-4xl text-center">
+          <span v-if="formData.collection.title">
+            {{ formData.collection.title }}
+          </span>
+          <span class="opacity-70" v-else>Sammlung erstellen</span>
+        </h2>
       </template>
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
-      <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea-with-counter
-          class="w-full mb-4 text-xl bg-transparent outline-none"
-          v-model="formData.collection.description"
-          placeholder="Kurzbeschreibung"
-          @update:modelValue="v$.collection.description.$touch"
-          :maxlength="v$.collection.description.maxLength.$params.max"
-          position="right"
-        />
-        <div
-          class="mb-4 text-sm text-red"
-          v-for="error of v$.collection.description.$errors"
-          :key="error.$uid"
+      <div class="flex flex-col col-span-4 gap-6 px-8 py-16 bg-white">
+        <input-wrapper
+          v-model="formData.collection.title"
+          @update:modelValue="v$.collection.title.$touch"
+          :maxlength="v$.collection.title.maxLength.$params.max"
+          :errors="v$.collection.title.$errors"
+          label="Titel"
+          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
         >
-          <div>! {{ error.$message }}</div>
-        </div>
+          <template #default="{ inputId, modelValue, updateValue }">
+            <input
+              type="text"
+              autofocus
+              placeholder="Titel des Beitrags"
+              :id="inputId"
+              :value="modelValue"
+              @input="updateValue"
+            />
+          </template>
+        </input-wrapper>
+        <input-wrapper
+          v-model="formData.collection.description"
+          :maxlength="v$.collection.description.maxLength.$params.max"
+          :errors="v$.collection.description.$errors"
+          label="Beschreibung"
+          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
+        >
+          <template #default="{ inputId, modelValue, updateValue }">
+            <textarea
+              placeholder="Kurzbeschreibung"
+              :id="inputId"
+              :value="modelValue"
+              @input="updateValue"
+            >
+            </textarea>
+          </template>
+        </input-wrapper>
+
         <div
-          class="mb-4"
           v-if="
             formData.collection.articles &&
             formData.collection.articles.length > 0

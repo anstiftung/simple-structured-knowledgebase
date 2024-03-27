@@ -17,6 +17,7 @@ export default {
       colors: {
         dark: '#010044',
         blue: {
+          100: '#cce5ff',
           200: '#5879b1',
           DEFAULT: '#103f8f',
           400: '#007FFF',
@@ -24,7 +25,10 @@ export default {
         },
         orange: '#ff7f5f',
         yellow: '#FFE24B',
-        red: 'red',
+        red: {
+          200: '#ffe5df',
+          DEFAULT: '#ff0000',
+        },
         green: '#07b87e',
         gray: {
           100: '#f4f4f4',
