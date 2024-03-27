@@ -72,23 +72,31 @@ const editConfigFiles = {
       type: 'text',
       label: 'Titel',
       maxlength: 100,
+      helpText:
+        'Trage eine klare Bezeichnung für die Datei ein. Dieser Begriff erscheint auch in der Suche.',
     },
     {
       attribute: 'description',
       type: 'text',
       label: 'Beschreibung',
       maxlength: 250,
+      helpText:
+        'Schreibe eine kurze inhaltliche Erklärung zur hochgeladenen Datei.',
     },
     {
       attribute: 'source',
       type: 'text',
       label: 'Quelle',
       maxlength: 400,
+      helpText:
+        'Woher stammt die Datei, z.B. "eigenes Werk", Link zu Website, Vor-Nachname, o.ä…',
     },
     {
       attribute: 'license',
       type: 'license',
       label: 'Lizenz',
+      helpText:
+        'Wähle eine Lizenz aus, um die Nutzungsbedingungen für die Datei festzulegen. Voreingestellt ist CC-zero ( https://creativecommons.org/publicdomain/zero/1.0/deed.de ), d.h. das Werk ist in die Gemeinfreiheit - auch genannt Public Domain - entlassen, indem weltweit auf alle urheberrechtlichen und verwandten Schutzrechte verzichtet wird, soweit das gesetzlich möglich ist.',
     },
   ],
   labels: [
@@ -207,7 +215,7 @@ const save = async () => {
               ]
             "
             :maxlength="field.maxlength"
-            helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
+            :helpText="field.helpText"
           >
             <template #default="{ inputId, modelValue, updateValue }">
               <template v-if="field.type == 'license'">
