@@ -9,7 +9,7 @@ import { useUserStore } from '@/stores/user'
 
 import LicenseSelect from '@/components/forms/LicenseSelect.vue'
 import AttachmentService from '@/services/AttachmentService'
-import InputWithCounter from '@/components/forms/InputWithCounter.vue'
+import InputWrapper from '@/components/forms/InputWrapper.vue'
 
 const props = defineProps({
   attachments: Array,
@@ -72,23 +72,31 @@ const editConfigFiles = {
       type: 'text',
       label: 'Titel',
       maxlength: 100,
+      helpText:
+        'Trage eine klare Bezeichnung für die Datei ein. Dieser Begriff erscheint auch in der Suche.',
     },
     {
       attribute: 'description',
       type: 'text',
       label: 'Beschreibung',
       maxlength: 250,
+      helpText:
+        'Schreibe eine kurze inhaltliche Erklärung zur hochgeladenen Datei.',
     },
     {
       attribute: 'source',
       type: 'text',
       label: 'Quelle',
       maxlength: 400,
+      helpText:
+        'Woher stammt die Datei, z.B. "eigenes Werk", Link zu Website, Vor-Nachname, o.ä…',
     },
     {
       attribute: 'license',
       type: 'license',
       label: 'Lizenz',
+      helpText:
+        'Wähle eine Lizenz aus, um die Nutzungsbedingungen für die Datei festzulegen. Voreingestellt ist CC-zero ( https://creativecommons.org/publicdomain/zero/1.0/deed.de ), d.h. das Werk ist in die Gemeinfreiheit - auch genannt Public Domain - entlassen, indem weltweit auf alle urheberrechtlichen und verwandten Schutzrechte verzichtet wird, soweit das gesetzlich möglich ist.',
     },
   ],
   labels: [
@@ -195,39 +203,35 @@ const save = async () => {
         currentAttachment[getEditConfig(currentAttachment, 'titleAttribute')]
       }}
     </h4>
-    <div class="flex flex-col items-start gap-4 my-6 md:flex-row">
+    <div class="flex flex-col items-start gap-8 my-6 md:flex-row">
       <div class="flex flex-col w-full gap-4 grow">
         <template v-for="field in getEditConfig(currentAttachment, 'inputs')">
-          <div
-            class="text-sm text-red"
-            v-for="error of v$.attachmentList.$each.$response.$errors[
-              visibleIndex
-            ][field.attribute]"
-            :key="error.$uid"
+          <input-wrapper
+            v-model="currentAttachment[field.attribute]"
+            :label="field.label"
+            :errors="
+              v$.attachmentList.$each.$response.$errors[visibleIndex][
+                field.attribute
+              ]
+            "
+            :maxlength="field.maxlength"
+            :helpText="field.helpText"
           >
-            <div>! {{ error.$message }}</div>
-          </div>
-          <template v-if="field.type == 'license'">
-            <license-select v-model="currentAttachment[field.attribute]" />
-          </template>
-          <template v-else>
-            <input-with-counter
-              v-if="field.maxlength"
-              class="w-full px-4 py-3 text-gray-800 rounded-md"
-              :placeholder="field.label"
-              :type="field.type"
-              :maxlength="field.maxlength"
-              v-model="currentAttachment[field.attribute]"
-              position="right"
-            />
-            <input
-              v-else
-              class="w-full px-4 py-3 text-gray-800 rounded-md"
-              :placeholder="field.label"
-              :type="field.type"
-              v-model="currentAttachment[field.attribute]"
-            />
-          </template>
+            <template #default="{ inputId, modelValue, updateValue }">
+              <template v-if="field.type == 'license'">
+                <license-select v-model="currentAttachment[field.attribute]" />
+              </template>
+              <template v-else>
+                <input
+                  type="text"
+                  :id="inputId"
+                  class=""
+                  :value="modelValue"
+                  @input="updateValue"
+                />
+              </template>
+            </template>
+          </input-wrapper>
         </template>
         <div
           v-if="

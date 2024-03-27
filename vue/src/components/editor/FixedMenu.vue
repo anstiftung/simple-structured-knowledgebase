@@ -140,141 +140,143 @@ onMounted(() => {
 
 <template>
   <div
-    class="relative sticky z-20 inline-flex text-sm bg-white border divide-x rounded-md w-fit top-header"
+    class="relative sticky z-20 text-sm text-center bg-white top-header"
     v-if="editor"
   >
-    <div class="relative">
-      <Listbox v-model="selectedStyle" @update:model-value="onStyleInput">
-        <ListboxButton class="listbox-button" v-slot="{ open, value }"
-          >{{ value.label }}
-          <icon v-if="open" name="arrow-up"></icon>
-          <icon v-else name="arrow-down"></icon>
-        </ListboxButton>
-        <ListboxOptions class="listbox-options">
-          <ListboxOption
-            v-for="option in styleOptions"
-            :key="option.key"
-            :value="option"
-            class="listbox-option"
-          >
-            {{ option.label }}
-          </ListboxOption>
-        </ListboxOptions>
-      </Listbox>
-    </div>
-    <button
-      @click="editor.chain().focus().toggleBold().run()"
-      :class="[
-        ,
-        [editor.isActive('bold') ? 'text-black' : ' text-gray-400'],
-        'toolbarButton',
-      ]"
-    >
-      <icon name="bold" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleItalic().run()"
-      :class="[
-        [editor.isActive('italic') ? 'text-black' : ' text-gray-400'],
-        'toolbarButton',
-      ]"
-    >
-      <icon name="italic" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleUnderline().run()"
-      :class="[
-        [editor.isActive('underline') ? 'text-black' : ' text-gray-400'],
-        'toolbarButton',
-      ]"
-    >
-      <icon name="underline" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleStrike().run()"
-      :class="[
-        [editor.isActive('strike') ? 'text-black' : ' text-gray-400'],
-        'toolbarButton',
-      ]"
-    >
-      <icon name="strikethrough" />
-    </button>
-
-    <button
-      @click="editor.chain().focus().toggleBulletList().run()"
-      :class="[
-        [editor.isActive('bulletList') ? 'text-black' : ' text-gray-400'],
-        'toolbarButton',
-      ]"
-    >
-      <icon name="unorderedlist"></icon>
-    </button>
-    <button
-      @click="editor.chain().focus().toggleOrderedList().run()"
-      :class="[
-        [editor.isActive('orderedList') ? 'text-black' : ' text-gray-400'],
-        'toolbarButton',
-      ]"
-    >
-      <icon name="orderedlist"></icon>
-    </button>
-
-    <div class="relative">
-      <Listbox
-        v-model="selectedLink"
-        @update:model-value="insertItemLink(selectedLink.key)"
+    <div class="inline-flex border-b border-l border-r divide-x rounded-b-md">
+      <div class="relative">
+        <Listbox v-model="selectedStyle" @update:model-value="onStyleInput">
+          <ListboxButton class="listbox-button" v-slot="{ open, value }"
+            >{{ value.label }}
+            <icon v-if="open" name="arrow-up"></icon>
+            <icon v-else name="arrow-down"></icon>
+          </ListboxButton>
+          <ListboxOptions class="listbox-options">
+            <ListboxOption
+              v-for="option in styleOptions"
+              :key="option.key"
+              :value="option"
+              class="listbox-option"
+            >
+              {{ option.label }}
+            </ListboxOption>
+          </ListboxOptions>
+        </Listbox>
+      </div>
+      <button
+        @click="editor.chain().focus().toggleBold().run()"
+        :class="[
+          ,
+          [editor.isActive('bold') ? 'text-black' : ' text-gray-400'],
+          'toolbarButton',
+        ]"
       >
-        <ListboxButton class="listbox-button" v-slot="{ open }"
-          ><icon class="text-gray-400 size-4" name="attachment"></icon>
-          <icon v-if="open" name="arrow-up"></icon>
-          <icon v-else name="arrow-down"></icon>
-        </ListboxButton>
-        <ListboxOptions class="listbox-options">
-          <ListboxOption
-            v-for="option in linkOptions"
-            :key="option.key"
-            :value="option"
-            class="listbox-option"
-          >
-            {{ option.label }}
-          </ListboxOption>
-        </ListboxOptions>
-      </Listbox>
-    </div>
-    <button
-      @click="insertAttachmentAsImage()"
-      :class="[
-        [editor.isActive('image') ? 'text-black' : ' text-gray-400'],
-        'toolbarButton',
-      ]"
-    >
-      <icon name="image"></icon>
-    </button>
+        <icon name="bold" />
+      </button>
+      <button
+        @click="editor.chain().focus().toggleItalic().run()"
+        :class="[
+          [editor.isActive('italic') ? 'text-black' : ' text-gray-400'],
+          'toolbarButton',
+        ]"
+      >
+        <icon name="italic" />
+      </button>
+      <button
+        @click="editor.chain().focus().toggleUnderline().run()"
+        :class="[
+          [editor.isActive('underline') ? 'text-black' : ' text-gray-400'],
+          'toolbarButton',
+        ]"
+      >
+        <icon name="underline" />
+      </button>
+      <button
+        @click="editor.chain().focus().toggleStrike().run()"
+        :class="[
+          [editor.isActive('strike') ? 'text-black' : ' text-gray-400'],
+          'toolbarButton',
+        ]"
+      >
+        <icon name="strikethrough" />
+      </button>
 
-    <div class="relative">
-      <Listbox v-model="selectedInfoBox" @update:model-value="onInfoBoxInput">
-        <ListboxButton class="listbox-button" v-slot="{ open }"
-          ><icon
-            :class="[
-              [selectedInfoBox ? 'text-black' : ' text-gray-400'],
-              'size-4',
-            ]"
-            :name="selectedInfoBox ? selectedInfoBox.key : 'warning'"
-          ></icon>
-          <icon v-if="open" name="arrow-up"></icon>
-          <icon v-else name="arrow-down"></icon>
-        </ListboxButton>
-        <ListboxOptions class="listbox-options">
-          <ListboxOption
-            v-for="option in infoBoxOptions"
-            :key="option.key"
-            :value="option"
-            class="listbox-option"
-          >
-            <icon :name="option.key"></icon> {{ option.label }}
-          </ListboxOption>
-        </ListboxOptions>
-      </Listbox>
+      <button
+        @click="editor.chain().focus().toggleBulletList().run()"
+        :class="[
+          [editor.isActive('bulletList') ? 'text-black' : ' text-gray-400'],
+          'toolbarButton',
+        ]"
+      >
+        <icon name="unorderedlist"></icon>
+      </button>
+      <button
+        @click="editor.chain().focus().toggleOrderedList().run()"
+        :class="[
+          [editor.isActive('orderedList') ? 'text-black' : ' text-gray-400'],
+          'toolbarButton',
+        ]"
+      >
+        <icon name="orderedlist"></icon>
+      </button>
+
+      <div class="relative">
+        <Listbox
+          v-model="selectedLink"
+          @update:model-value="insertItemLink(selectedLink.key)"
+        >
+          <ListboxButton class="listbox-button" v-slot="{ open }"
+            ><icon class="text-gray-400 size-4" name="attachment"></icon>
+            <icon v-if="open" name="arrow-up"></icon>
+            <icon v-else name="arrow-down"></icon>
+          </ListboxButton>
+          <ListboxOptions class="listbox-options">
+            <ListboxOption
+              v-for="option in linkOptions"
+              :key="option.key"
+              :value="option"
+              class="listbox-option"
+            >
+              {{ option.label }}
+            </ListboxOption>
+          </ListboxOptions>
+        </Listbox>
+      </div>
+      <button
+        @click="insertAttachmentAsImage()"
+        :class="[
+          [editor.isActive('image') ? 'text-black' : ' text-gray-400'],
+          'toolbarButton',
+        ]"
+      >
+        <icon name="image"></icon>
+      </button>
+
+      <div class="relative">
+        <Listbox v-model="selectedInfoBox" @update:model-value="onInfoBoxInput">
+          <ListboxButton class="listbox-button" v-slot="{ open }"
+            ><icon
+              :class="[
+                [selectedInfoBox ? 'text-black' : ' text-gray-400'],
+                'size-4',
+              ]"
+              :name="selectedInfoBox ? selectedInfoBox.key : 'warning'"
+            ></icon>
+            <icon v-if="open" name="arrow-up"></icon>
+            <icon v-else name="arrow-down"></icon>
+          </ListboxButton>
+          <ListboxOptions class="listbox-options">
+            <ListboxOption
+              v-for="option in infoBoxOptions"
+              :key="option.key"
+              :value="option"
+              class="listbox-option"
+            >
+              <icon :name="option.key"></icon> {{ option.label }}
+            </ListboxOption>
+          </ListboxOptions>
+        </Listbox>
+      </div>
     </div>
   </div>
 </template>

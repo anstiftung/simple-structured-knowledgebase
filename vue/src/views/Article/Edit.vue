@@ -11,8 +11,7 @@ import { required$, maxLength$ } from '@/plugins/validators.js'
 import Editor from '@/components/editor/Editor.vue'
 import StateSelect from '@/components/forms/StateSelect.vue'
 import UserSelect from '@/components/forms/UserSelect.vue'
-import InputWithCounter from '@/components/forms/InputWithCounter.vue'
-import TextareaWithCounter from '@/components/forms/TextareaWithCounter.vue'
+import InputWrapper from '@/components/forms/InputWrapper.vue'
 
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 
@@ -114,47 +113,69 @@ const discard = () => {
 <template>
   <section>
     <model-header colorClass="bg-orange" secondaryColorClass="bg-orange/50">
-      <template v-slot:description>
-        Beitrag {{ formData.article.id ? 'bearbeiten' : 'erstellen' }}
-      </template>
+      <template v-slot:description>Beitrag</template>
       <template v-slot:content>
-        <input-with-counter
-          class="w-full text-4xl text-center bg-transparent outline-none placeholder:text-white/70"
-          v-model="formData.article.title"
-          autofocus
-          placeholder="Titel des Beitrags"
-          @update:modelValue="v$.article.title.$touch"
-          :maxlength="v$.article.title.maxLength.$params.max"
-          position="bottom"
-        />
-        <div
-          class="text-sm text-red"
-          v-for="error of v$.article.title.$errors"
-          :key="error.$uid"
-        >
-          <div>! {{ error.$message }}</div>
-        </div>
+        <h2 class="text-4xl text-center">
+          <span v-if="formData.article.title">
+            {{ formData.article.title }}
+          </span>
+          <span class="opacity-70" v-else>Beitrag erstellen</span>
+        </h2>
       </template>
     </model-header>
     <div class="grid grid-cols-6 width-wrapper min-h-[70vh]">
-      <div class="flex flex-col col-span-4 px-8 py-16 bg-white">
-        <textarea-with-counter
-          class="w-full text-xl bg-transparent outline-none"
-          v-model="formData.article.description"
-          placeholder="Kurzbeschreibung"
-          @update:modelValue="v$.article.description.$touch"
-          :maxlength="v$.article.description.maxLength.$params.max"
-        />
-        <div
-          class="text-sm text-red"
-          v-for="error of v$.article.description.$errors"
-          :key="error.$uid"
+      <div class="flex flex-col col-span-4 gap-6 px-8 py-16 bg-white">
+        <input-wrapper
+          v-model="formData.article.title"
+          @update:modelValue="v$.article.title.$touch"
+          :maxlength="v$.article.title.maxLength.$params.max"
+          :errors="v$.article.title.$errors"
+          label="Titel"
+          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
         >
-          <div>! {{ error.$message }}</div>
-        </div>
-        <div class="mt-8 grow">
-          <editor v-model="formData.article.content" />
-        </div>
+          <template #default="{ inputId, modelValue, updateValue }">
+            <input
+              type="text"
+              autofocus
+              placeholder="Titel des Beitrags"
+              :id="inputId"
+              :value="modelValue"
+              @input="updateValue"
+            />
+          </template>
+        </input-wrapper>
+        <input-wrapper
+          v-model="formData.article.description"
+          :maxlength="v$.article.description.maxLength.$params.max"
+          :errors="v$.article.description.$errors"
+          label="Beschreibung"
+          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
+        >
+          <template #default="{ inputId, modelValue, updateValue }">
+            <textarea
+              placeholder="Kurzbeschreibung"
+              :id="inputId"
+              :value="modelValue"
+              @input="updateValue"
+            >
+            </textarea>
+          </template>
+        </input-wrapper>
+
+        <input-wrapper
+          v-model="formData.article.content"
+          label="Beitragstext"
+          helpText="Lorem"
+          class="grow"
+        >
+          <template #default="{ inputId, modelValue, updateValue }">
+            <editor
+              :id="inputId"
+              v-model="formData.article.content"
+              class="-mt-4"
+            />
+          </template>
+        </input-wrapper>
       </div>
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar max-h-full-without-header"
