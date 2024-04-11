@@ -185,13 +185,13 @@ const save = async () => {
   if (urlsToSave.length > 0) {
     promises.push(AttachmentService.updateAttachmentUrls(urlsToSave))
   }
-  Promise.all(promises).then(values => {
+  Promise.all(promises).then(result => {
     $toast.success(
       `Erfolgreich ${formData.attachmentList.length} ${
         formData.attachmentList.length == 1 ? 'Anhang' : 'Anhänge'
       } gespeichert`,
     )
-    emit('done')
+    emit('done', result[0])
   })
 }
 </script>
