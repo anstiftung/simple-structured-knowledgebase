@@ -1,6 +1,9 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useModalStore } from '@/stores/modal'
+
+import AddAttachments from '@/components/attachments/AddAttachments.vue'
+import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
 import ModelSelector from '@/components/forms/ModelSelector.vue'
 import {
@@ -37,14 +40,6 @@ const onStyleInput = () => {
   }
 }
 
-/* dropdown with different link options */
-const selectedLink = ref(null)
-const linkOptions = ref([
-  { key: 'collections', label: 'Sammlung' },
-  { key: 'articles', label: 'Beitrag' },
-  { key: 'attachments', label: 'Anhang' },
-])
-
 /* dropdown with differenct Infoboxes */
 const selectedInfoBox = ref(null)
 const infoBoxOptions = ref([
@@ -58,57 +53,109 @@ const onInfoBoxInput = () => {
     'data-type': selectedInfoBox.value.key,
   })
 }
-/* allows toggling links to different model types */
-const insertItemLink = type => {
-  // get current text selection
-  const { view, state } = props.editor
-  const { from, to } = view.state.selection
-  let text = state.doc.textBetween(from, to, '')
 
-  // add itemLink
-  modal.open(ModelSelector, { modelType: type }, selection => {
-    if (selection) {
-      let attributes = {
-        href: selection.url,
-        'data-type': selection.type,
-        'data-id': selection.id,
-      }
-      // lets open links to attachments in a new tab
-      if (selection.type == 'AttachedUrl' || selection.type == 'AttachedFile') {
-        attributes['target'] = '_blank'
-      }
+/* allows selecting an item for inserting it as a link */
+const selectItemForInsert = type => {
+  modal.open(ModelSelector, { modelType: type }, item => {
+    if (item) {
+      insertItemAsLink(item)
+    }
+  })
+}
 
-      // fallback for empty text selection: title of the model
-      if (!text) {
-        text = selection.title
-      }
+/* allows selecting an attachments of type image for inserting it as an image */
+const selectImageForInsert = () => {
+  modal.open(ModelSelector, { modelType: 'images' }, item => {
+    if (item) {
+      insertAttachmentsAsImages([item])
+    }
+  })
+}
 
-      // insert itemLink with attributes and content
-      props.editor.commands.insertContent({
-        type: 'itemLink',
-        attrs: attributes,
-        content: [
-          {
-            type: 'text',
-            text: text,
-          },
-        ],
+/* creates an attachment an inserts is a link */
+const createAttachmentForInsert = () => {
+  modal.open(AddAttachments, {}, savedAttachments => {
+    if (savedAttachments && savedAttachments.length) {
+      const modalProps = { attachments: savedAttachments }
+      modal.open(EditAttachments, modalProps, savedAttachments => {
+        savedAttachments.forEach(item => {
+          insertItemAsLink(item)
+        })
       })
     }
   })
 }
 
-/* allows inserting attachments as inline images */
-const insertAttachmentAsImage = () => {
-  modal.open(ModelSelector, { modelType: 'images' }, selection => {
-    if (selection) {
-      let attributes = {
-        src: selection.serve_url,
-        alt: selection.title,
-        title: '(c) ' + selection.source,
-      }
-      props.editor.commands.setImage(attributes)
+/* creates an attachment of type image and inserts it as an image */
+const createImageForInsert = () => {
+  modal.open(AddAttachments, { imageMode: true }, savedAttachments => {
+    if (savedAttachments && savedAttachments.length) {
+      const modalProps = { attachments: savedAttachments }
+      modal.open(EditAttachments, modalProps, savedAttachments => {
+        insertAttachmentsAsImages(savedAttachments)
+      })
     }
+  })
+}
+
+const insertAttachmentsAsImages = items => {
+  if (!items) {
+    return
+  }
+  let contentToInsert = []
+  items.forEach(item => {
+    // only insert files of type image as <img tag – otherwise fall back to link
+    if (item.is_image) {
+      contentToInsert.push({
+        type: 'image',
+        attrs: {
+          src: item.serve_url,
+          alt: item.title,
+          title: '(c) ' + item.source,
+        },
+      })
+    } else {
+      insertItemAsLink(item)
+    }
+  })
+  props.editor.chain().focus().insertContent(contentToInsert).run()
+}
+
+/* inserts an item (article|collection|attachment) as link */
+const insertItemAsLink = item => {
+  if (!item) {
+    return
+  }
+  // get current text selection
+  const { view, state } = props.editor
+  const { from, to } = view.state.selection
+  let text = state.doc.textBetween(from, to, '')
+
+  let attributes = {
+    href: item.url,
+    'data-type': item.type,
+    'data-id': item.id,
+  }
+  // lets open links to attachments in a new tab
+  if (item.type == 'AttachedUrl' || item.type == 'AttachedFile') {
+    attributes['target'] = '_blank'
+  }
+
+  // fallback for empty text selection: title of the model
+  if (!text) {
+    text = item.title
+  }
+
+  // insert itemLink with attributes and content
+  props.editor.commands.insertContent({
+    type: 'itemLink',
+    attrs: attributes,
+    content: [
+      {
+        type: 'text',
+        text: text,
+      },
+    ],
   })
 }
 
@@ -221,10 +268,7 @@ onMounted(() => {
       </button>
 
       <div class="relative">
-        <Listbox
-          v-model="selectedLink"
-          @update:model-value="insertItemLink(selectedLink.key)"
-        >
+        <Listbox>
           <ListboxButton class="listbox-button" v-slot="{ open }"
             ><icon class="text-gray-400 size-4" name="attachment"></icon>
             <icon v-if="open" name="arrow-up"></icon>
@@ -232,25 +276,50 @@ onMounted(() => {
           </ListboxButton>
           <ListboxOptions class="listbox-options">
             <ListboxOption
-              v-for="option in linkOptions"
-              :key="option.key"
-              :value="option"
               class="listbox-option"
+              @click="selectItemForInsert('collections')"
+              >Sammlung verlinken</ListboxOption
             >
-              {{ option.label }}
-            </ListboxOption>
+            <ListboxOption
+              class="listbox-option"
+              @click="selectItemForInsert('articles')"
+              >Beitrag verlinken</ListboxOption
+            >
+            <ListboxOption
+              class="listbox-option"
+              @click="selectItemForInsert('attachments')"
+              >Anhang verlinken</ListboxOption
+            >
+            <ListboxOption
+              class="listbox-option"
+              @click="createAttachmentForInsert()"
+              >Anhang erstellen</ListboxOption
+            >
           </ListboxOptions>
         </Listbox>
       </div>
-      <button
-        @click="insertAttachmentAsImage()"
-        :class="[
-          [editor.isActive('image') ? 'text-black' : ' text-gray-400'],
-          'toolbarButton',
-        ]"
-      >
-        <icon name="image"></icon>
-      </button>
+
+      <div class="relative">
+        <Listbox>
+          <ListboxButton class="listbox-button" v-slot="{ open }"
+            ><icon class="text-gray-400 size-4" name="image"></icon>
+            <icon v-if="open" name="arrow-up"></icon>
+            <icon v-else name="arrow-down"></icon>
+          </ListboxButton>
+          <ListboxOptions class="listbox-options">
+            <ListboxOption
+              class="listbox-option"
+              @click="selectImageForInsert()"
+              >Bild einfügen</ListboxOption
+            >
+            <ListboxOption
+              class="listbox-option"
+              @click="createImageForInsert()"
+              >Bild hochladen</ListboxOption
+            >
+          </ListboxOptions>
+        </Listbox>
+      </div>
 
       <div class="relative">
         <Listbox v-model="selectedInfoBox" @update:model-value="onInfoBoxInput">
@@ -292,6 +361,6 @@ onMounted(() => {
   @apply absolute overflow-auto text-gray-300 bg-white divide-y shadow-lg rounded-b-md;
 }
 .listbox-option {
-  @apply list-none cursor-pointer whitespace-nowrap toolbarButton hover:text-black;
+  @apply list-none cursor-pointer whitespace-nowrap toolbarButton hover:text-black text-left;
 }
 </style>
