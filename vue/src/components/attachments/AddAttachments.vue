@@ -36,6 +36,18 @@ const persistedUrls = urlList => {
   urlsDirty.value = false
   emit('done', urlList)
 }
+
+const shouldCloseModal = done => {
+  if (urlsDirty.value || filesDirty.value) {
+    $toast.confirm('Ungespeicherte Änderungen! Vorgang wirklich beenden?', done)
+  } else {
+    done()
+  }
+}
+
+defineExpose({
+  shouldCloseModal,
+})
 </script>
 
 <template>

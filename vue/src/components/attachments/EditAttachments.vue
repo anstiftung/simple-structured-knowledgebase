@@ -22,6 +22,16 @@ const { hasPermission } = storeToRefs(userStore)
 const emit = defineEmits(['done'])
 const $toast = inject('$toast')
 
+const shouldCloseModal = done => {
+  $toast.confirm(
+    'Der Anhang kann mit unzureichenden Metadten nicht verwendet werden. Vorgang wirklich beenden? ',
+    done,
+  )
+}
+
+defineExpose({
+  shouldCloseModal,
+})
 // save to local reactive that allows modifying the list
 const formData = reactive({
   attachmentList: [...props.attachments],
