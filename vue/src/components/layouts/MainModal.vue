@@ -7,21 +7,35 @@ import { onClickOutside } from '@vueuse/core'
 const modal = useModalStore()
 const { isOpen, view, props } = storeToRefs(modal)
 const mainModal = ref(null)
+const mainModalComponent = ref(null)
 
 document.addEventListener('keyup', function (evt) {
   if (evt.key === 'Escape' && isOpen.value) {
-    modal.close()
+    shouldClose()
   }
 })
 
 onClickOutside(mainModal, () => {
   if (isOpen.value) {
-    modal.close()
+    shouldClose
   }
 })
 
 const modalComponentDone = data => {
   modal.close(data)
+}
+
+const shouldClose = () => {
+  // if the mainModal component exposes a shouldCloseFunction we call it before closing to prevent data loss
+  if (
+    typeof mainModalComponent.value.$.exposed.shouldCloseModal === 'function'
+  ) {
+    mainModalComponent.value.$.exposed.shouldCloseModal(() => {
+      modal.close()
+    })
+  } else {
+    modal.close()
+  }
 }
 </script>
 
@@ -35,11 +49,12 @@ const modalComponentDone = data => {
         <component
           :is="view"
           v-bind="props"
+          ref="mainModalComponent"
           @done="modalComponentDone"
         ></component>
 
         <div class="absolute right-0 text-3xl text-white -top-12">
-          <button class="" title="Schließen" @click="modal.close()">✕</button>
+          <button class="" title="Schließen" @click="shouldClose()">✕</button>
         </div>
       </div>
     </div>
