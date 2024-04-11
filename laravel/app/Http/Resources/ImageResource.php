@@ -20,6 +20,7 @@ class ImageResource extends BaseResource
             'serve_url' => '/api/attached-file/serve/' . $this->id,
             'url' => '/anhang/'.$this->id,
             'filename' => $this->filename,
+            'is_image' => true,
             'preview_file' => $this->filename,
             'source' => $this->source,
             'license' => new LicenseResource($this->license),
