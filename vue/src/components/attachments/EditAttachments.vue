@@ -174,7 +174,9 @@ const prev = () => {
 const save = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    $toast.error('Formular ungültig')
+    $toast.error(
+      'Formular ungültig: Bitte stelle sicher, dass alle erstellten Anhänge vollständige Metadaten besitzen.',
+    )
     return
   }
 
