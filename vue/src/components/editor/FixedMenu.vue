@@ -157,6 +157,7 @@ const insertItemAsLink = item => {
       },
     ],
   })
+  props.editor.commands.insertContent({ type: 'text', text: ' ' })
 }
 
 /* selectionUpdate watcher for currently active nodes */
