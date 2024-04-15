@@ -22,6 +22,16 @@ const { hasPermission } = storeToRefs(userStore)
 const emit = defineEmits(['done'])
 const $toast = inject('$toast')
 
+const shouldCloseModal = done => {
+  $toast.confirm(
+    'Der Anhang kann mit unzureichenden Metadten nicht verwendet werden. Vorgang wirklich beenden? ',
+    done,
+  )
+}
+
+defineExpose({
+  shouldCloseModal,
+})
 // save to local reactive that allows modifying the list
 const formData = reactive({
   attachmentList: [...props.attachments],
@@ -164,7 +174,9 @@ const prev = () => {
 const save = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    $toast.error('Formular ungültig')
+    $toast.error(
+      'Formular ungültig: Bitte stelle sicher, dass alle erstellten Anhänge vollständige Metadaten besitzen.',
+    )
     return
   }
 
@@ -185,13 +197,13 @@ const save = async () => {
   if (urlsToSave.length > 0) {
     promises.push(AttachmentService.updateAttachmentUrls(urlsToSave))
   }
-  Promise.all(promises).then(values => {
+  Promise.all(promises).then(result => {
     $toast.success(
       `Erfolgreich ${formData.attachmentList.length} ${
         formData.attachmentList.length == 1 ? 'Anhang' : 'Anhänge'
       } gespeichert`,
     )
-    emit('done')
+    emit('done', result[0])
   })
 }
 </script>

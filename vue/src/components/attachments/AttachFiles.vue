@@ -6,6 +6,7 @@ import AttachmentService from '@/services/AttachmentService'
 const emit = defineEmits(['persisted', 'update:dirty'])
 const props = defineProps({
   article: Object,
+  onlyImages: Boolean,
 })
 const isDragging = ref(false)
 const uploadProgress = ref(0)
@@ -109,10 +110,16 @@ const persist = () => {
         <p class="text-gray-400">
           <template v-if="isDragging">Elemente zum Hochladen ablegen</template>
           <template v-else>
-            Ein kleiner Hilfetext, dass hier Dateien ('png', 'jpg', 'jpeg',
-            'svg', 'mp4', 'zip', 'tar.gz', 'pdf', 'doc', 'xls', 'csv', 'pdf',
-            'ai', 'indd', 'odt', 'ods', 'odp' – maximal 10MB) reingedroppt
-            werden können.
+            <template v-if="onlyImages">
+              Ein kleiner Hilfetext, dass hier nur Bilddateien ('png', 'jpg',
+              'jpeg', – maximal 10MB) reingedroppt werden können.
+            </template>
+            <template v-else>
+              Ein kleiner Hilfetext, dass hier Dateien ('png', 'jpg', 'jpeg',
+              'svg', 'mp4', 'zip', 'tar.gz', 'pdf', 'doc', 'xls', 'csv', 'pdf',
+              'ai', 'indd', 'odt', 'ods', 'odp' – maximal 10MB) reingedroppt
+              werden können.
+            </template>
           </template>
         </p>
         <label
@@ -125,6 +132,7 @@ const persist = () => {
             id="upload-file"
             multiple
             hidden
+            :accept="onlyImages ? 'image/*' : '*'"
             @change="chooseFile"
           />
         </label>

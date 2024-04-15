@@ -7,6 +7,10 @@ import AttachUrls from '@/components/attachments/AttachUrls.vue'
 
 const props = defineProps({
   article: Object,
+  imageMode: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emit = defineEmits(['done'])
 
@@ -36,6 +40,18 @@ const persistedUrls = urlList => {
   urlsDirty.value = false
   emit('done', urlList)
 }
+
+const shouldCloseModal = done => {
+  if (urlsDirty.value || filesDirty.value) {
+    $toast.confirm('Ungespeicherte Änderungen! Vorgang wirklich beenden?', done)
+  } else {
+    done()
+  }
+}
+
+defineExpose({
+  shouldCloseModal,
+})
 </script>
 
 <template>
@@ -51,13 +67,18 @@ const persistedUrls = urlList => {
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr
           </p>
         </div>
-        <attachment-type-selector @mode="setMode" :mode="attachmentMode" />
+        <attachment-type-selector
+          v-if="!imageMode"
+          @mode="setMode"
+          :mode="attachmentMode"
+        />
       </div>
       <attach-files
         v-show="attachmentMode == 'file'"
         @persisted="persistedFiles"
         :article="article"
         v-model:dirty="filesDirty"
+        :onlyImages="imageMode"
       ></attach-files>
       <attach-urls
         v-show="attachmentMode == 'url'"
