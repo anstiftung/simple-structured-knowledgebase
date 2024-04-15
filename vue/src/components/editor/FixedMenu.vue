@@ -146,18 +146,20 @@ const insertItemAsLink = item => {
     text = item.title
   }
 
-  // insert itemLink with attributes and content
-  props.editor.commands.insertContent({
-    type: 'itemLink',
-    attrs: attributes,
-    content: [
-      {
-        type: 'text',
-        text: text,
-      },
-    ],
-  })
-  props.editor.commands.insertContent({ type: 'text', text: ' ' })
+  // insert itemLink with attributes and content, add space after itemLink.
+  props.editor.commands.insertContent([
+    {
+      type: 'itemLink',
+      attrs: attributes,
+      content: [
+        {
+          type: 'text',
+          text: text,
+        },
+      ],
+    },
+    { type: 'text', text: ' ' },
+  ])
 }
 
 /* selectionUpdate watcher for currently active nodes */
