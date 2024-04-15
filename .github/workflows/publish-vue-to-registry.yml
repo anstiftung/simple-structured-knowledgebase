@@ -75,5 +75,5 @@ jobs:
           port: ${{ secrets.SSH_PORT_LIVE }}
           script: |
             cd /srv/cowiki
-            docker-compose pull staging.cowiki.vue
-            docker-compose up -d --force-recreate staging.cowiki.vue
+            docker compose pull vue
+            docker compose up -d --force-recreate vue
