@@ -228,6 +228,7 @@ const save = async () => {
             "
             :maxlength="field.maxlength"
             :helpText="field.helpText"
+            class="text-white"
           >
             <template #default="{ inputId, modelValue, updateValue }">
               <template v-if="field.type == 'license'">
