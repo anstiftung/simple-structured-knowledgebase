@@ -27,10 +27,8 @@ const modalComponentDone = data => {
 
 const shouldClose = () => {
   // if the mainModal component exposes a shouldCloseFunction we call it before closing to prevent data loss
-  if (
-    typeof mainModalComponent.value.$.exposed.shouldCloseModal === 'function'
-  ) {
-    mainModalComponent.value.$.exposed.shouldCloseModal(() => {
+  if (typeof mainModalComponent.value?.shouldCloseModal === 'function') {
+    mainModalComponent.value?.shouldCloseModal(() => {
       modal.close()
     })
   } else {
