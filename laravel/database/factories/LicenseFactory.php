@@ -19,6 +19,7 @@ class LicenseFactory extends Factory
         return [
             'title' => fake()->name(),
             'description' => fake()->sentence(2),
+            'order' => fake()->random_int(0, 5),
             'active' => true
         ];
     }
