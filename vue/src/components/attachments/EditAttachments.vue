@@ -106,7 +106,7 @@ const editConfigFiles = {
       type: 'license',
       label: 'Lizenz',
       helpText:
-        'Wähle eine Lizenz aus, um die Nutzungsbedingungen für die Datei festzulegen. Voreingestellt ist CC-zero ( https://creativecommons.org/publicdomain/zero/1.0/deed.de ), d.h. das Werk ist in die Gemeinfreiheit - auch genannt Public Domain - entlassen, indem weltweit auf alle urheberrechtlichen und verwandten Schutzrechte verzichtet wird, soweit das gesetzlich möglich ist.',
+        'Wähle eine Lizenz aus, um die Nutzungsbedingungen für die Datei festzulegen. Voreingestellt ist CC-zero, d.h. das Werk ist in die Gemeinfreiheit entlassen, indem weltweit auf alle urheberrechtlichen und verwandten Schutzrechte verzichtet wird, soweit das gesetzlich möglich ist.',
     },
   ],
   labels: [
@@ -245,6 +245,17 @@ const save = async () => {
               </template>
             </template>
           </input-wrapper>
+          <template v-if="field.type == 'license'">
+            <p class="text-sm text-right">
+              Was? Lizenzen? Hier gibts eine
+              <a
+                href="https://creativecommons.org/share-your-work/cclicenses/"
+                target="_blank"
+                class="font-bold"
+                >Entscheidungshilfe (engl.)</a
+              >
+            </p>
+          </template>
         </template>
         <div
           v-if="
