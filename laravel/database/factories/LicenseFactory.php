@@ -19,6 +19,7 @@ class LicenseFactory extends Factory
         return [
             'title' => fake()->name(),
             'description' => fake()->sentence(2),
+            'order' => fake()->unique()->numberBetween(0, 15),
             'active' => true
         ];
     }
