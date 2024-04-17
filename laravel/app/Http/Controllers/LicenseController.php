@@ -14,7 +14,7 @@ class LicenseController extends BaseController
      */
     public function index()
     {
-        $licenses = License::all();
+        $licenses = License::orderBy('order', 'asc')->where('active', true)->get();
         return LicenseResource::collection($licenses);
     }
 

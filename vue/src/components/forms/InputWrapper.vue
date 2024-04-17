@@ -30,11 +30,9 @@ const updateValue = event => {
 }
 </script>
 <template>
-  <div v-bind="$attrs" class="flex flex-col">
+  <div v-bind="$attrs" class="flex flex-col text-gray-300">
     <div class="flex justify-between text-sm">
-      <label class="inline-block mb-1 text-gray-300" :for="inputId">{{
-        props.label
-      }}</label>
+      <label class="inline-block mb-1" :for="inputId">{{ props.label }}</label>
       <div
         class="flex items-center gap-2 px-2 mb-1 bg-white bg-red-200 rounded-md"
         v-if="props.errors && props.errors.length"

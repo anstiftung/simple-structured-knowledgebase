@@ -144,5 +144,5 @@ jobs:
           port: ${{ secrets.SSH_PORT_LIVE }}
           script: |
             cd /srv/cowiki
-            docker-compose pull staging.cowiki.api
-            docker-compose up --force-recreate -d staging.cowiki.api
+            docker compose pull api
+            docker compose up --force-recreate -d api
