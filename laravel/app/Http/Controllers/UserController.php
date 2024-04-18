@@ -12,13 +12,19 @@ class UserController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!$this->user->can('list users')) {
             return parent::abortUnauthorized();
         }
 
-        $users = User::orderBy('name', 'asc')->get();
+        $users = User::orderBy('name', 'asc')
+        ->when($request->boolean('onlyEditors'), function ($query) {
+            $query->whereHas('role', function ($query) {
+                $query->where('name', 'editor');
+            });
+        })
+        ->get();
         return UserResource::collection($users);
     }
 
