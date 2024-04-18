@@ -108,7 +108,8 @@ class CollectionController extends BaseController
              'description' => 'required|max:1000',
              'published' => ['boolean', new CollectionStateValidator($collection)],
              'articles.*.id' => 'exists:articles,id',
-             'articles.*.order' => 'integer'
+             'articles.*.order' => 'integer',
+             'created_by.id' => 'exists:users,id'
          ]);
 
         $collection->update([
@@ -120,6 +121,13 @@ class CollectionController extends BaseController
         if ($this->user->can('feature collections')) {
             $collection->update([
                 'featured' => $request->featured
+            ]);
+        }
+
+        // conditional update article creator
+        if ($this->user->can('edit collection creator')) {
+            $collection->update([
+                'created_by_id' => $request->created_by['id']
             ]);
         }
 

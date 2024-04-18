@@ -18,7 +18,8 @@ class Collection extends Model
         'slug',
         'description',
         'featured',
-        'published'
+        'published',
+        'created_by_id'
     ];
 
     protected $casts = [

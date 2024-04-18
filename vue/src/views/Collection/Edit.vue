@@ -9,6 +9,7 @@ import SearchForm from '@/components/forms/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import InputWrapper from '@/components/forms/InputWrapper.vue'
+import UserSelect from '@/components/forms/UserSelect.vue'
 
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -255,6 +256,17 @@ const discard = () => {
               ]"
               >Sammlung auf Startseite anzeigen</label
             >
+          </div>
+          <div v-if="formData.collection.created_by">
+            <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
+            <user-select
+              v-if="
+                hasPermission('edit collection creator') &&
+                formData.collection.id
+              "
+              v-model="formData.collection.created_by"
+            ></user-select>
+            <p v-else>{{ formData.collection.created_by.name }}</p>
           </div>
         </div>
         <div class="flex justify-end gap-4">
