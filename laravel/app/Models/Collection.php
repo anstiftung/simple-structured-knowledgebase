@@ -17,17 +17,25 @@ class Collection extends Model
         'title',
         'slug',
         'description',
-        'featured'
+        'featured',
+        'published'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'featured' => 'boolean',
+        'published' => 'boolean'
     ];
 
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published', true);
     }
 
     public function articles()
