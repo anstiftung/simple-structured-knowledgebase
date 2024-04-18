@@ -26,6 +26,7 @@ const formData = reactive({
   collection: {
     title: '',
     description: '',
+    published: false,
     articles: [],
   },
 })
@@ -224,8 +225,37 @@ const discard = () => {
       <div
         class="flex flex-col justify-between col-span-2 px-8 py-16 bg-gray-100 sticky-sidebar max-h-full-without-header"
       >
-        <div class="text-sm">
-          @todo: Edit creator and state of the collection!
+        <div class="flex flex-col gap-6 text-sm">
+          <div>
+            <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>
+            <select
+              v-model="formData.collection.published"
+              class="w-full max-w-xl px-4 py-3 text-gray-800 rounded-md"
+            >
+              <option :value="false">Nicht Veröffentlicht</option>
+              <option :value="true">Veröffentlicht</option>
+            </select>
+          </div>
+          <div v-if="formData.collection.id">
+            <h4 class="mb-2 text-sm text-gray-300">Startseite</h4>
+            <input
+              :disabled="
+                !hasPermission('feature collections') ||
+                !formData.collection.published
+              "
+              type="checkbox"
+              id="featured"
+              v-model="formData.collection.featured"
+            />
+            <label
+              for="featured"
+              :class="[
+                'inline-block ml-4',
+                [formData.collection.published ? '' : 'text-gray-400'],
+              ]"
+              >Sammlung auf Startseite anzeigen</label
+            >
+          </div>
         </div>
         <div class="flex justify-end gap-4">
           <button
