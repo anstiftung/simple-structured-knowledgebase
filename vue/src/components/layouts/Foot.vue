@@ -6,25 +6,29 @@ const scrollTop = () => {
 }
 
 const links = ref([
-  {
-    title: 'Sitemap',
-    link: '/sitemap',
-  },
+  //   {
+  //     title: 'Sitemap',
+  //     link: '/sitemap',
+  //   },
   {
     title: 'Impressum & Datenschutz',
     link: 'https://www.offene-werkstaetten.org/de/seite/impressum-datenschutz',
   },
-  {
-    title: 'Mein Cowiki',
-    link: '/dashboard',
-  },
-  {
-    title: 'Einstellungen',
-    link: '/dashboard',
-  },
+  //   {
+  //     title: 'Mein Cowiki',
+  //     link: '/dashboard',
+  //   },
+  //   {
+  //     title: 'Einstellungen',
+  //     link: '/dashboard',
+  //   },
   {
     title: 'Spenden',
-    link: 'wohin.de',
+    link: 'https://www.offene-werkstaetten.org/de/seite/unsere-ziele#spenden',
+  },
+  {
+    title: 'Github',
+    link: 'https://github.com/Verbund-Offener-Werkstaetten/vow-cowiki',
   },
 ])
 </script>
