@@ -20,9 +20,7 @@ class UserController extends BaseController
 
         $users = User::orderBy('name', 'asc')
         ->when($request->boolean('onlyEditors'), function ($query) {
-            $query->whereHas('role', function ($query) {
-                $query->where('name', 'editor');
-            });
+            $query->role('editor');
         })
         ->get();
         return UserResource::collection($users);

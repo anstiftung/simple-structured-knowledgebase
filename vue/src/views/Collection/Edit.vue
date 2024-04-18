@@ -260,6 +260,7 @@ const discard = () => {
           <div v-if="formData.collection.created_by">
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
             <user-select
+              :onlyShowEditors="true"
               v-if="
                 hasPermission('edit collection creator') &&
                 formData.collection.id
