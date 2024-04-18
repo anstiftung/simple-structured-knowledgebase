@@ -80,7 +80,11 @@ class ArticleController extends BaseController
             abort(404);
         }
 
-        $article->load(['attached_files', 'attached_urls', 'collections', 'comments']);
+        $article->load(['comments', 'attached_files', 'attached_urls', 'collections' => function ($query) {
+            if (!$this->user) {
+                $query->published();
+            }
+        }]);
 
         return new ArticleResource($article);
     }
