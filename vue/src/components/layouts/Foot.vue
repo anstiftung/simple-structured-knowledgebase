@@ -7,24 +7,16 @@ const scrollTop = () => {
 
 const links = ref([
   {
-    title: 'Sitemap',
-    link: '/sitemap',
-  },
-  {
     title: 'Impressum & Datenschutz',
     link: 'https://www.offene-werkstaetten.org/de/seite/impressum-datenschutz',
   },
   {
-    title: 'Mein Cowiki',
-    link: '/dashboard',
-  },
-  {
-    title: 'Einstellungen',
-    link: '/dashboard',
-  },
-  {
     title: 'Spenden',
-    link: 'wohin.de',
+    link: 'https://www.offene-werkstaetten.org/de/seite/unsere-ziele#spenden',
+  },
+  {
+    title: 'Github',
+    link: 'https://github.com/Verbund-Offener-Werkstaetten/vow-cowiki',
   },
 ])
 </script>
@@ -68,13 +60,7 @@ const links = ref([
           </p>
         </div>
         <div class="col-span-3 md:col-span-1">
-          <p>
-            Ein Projekt der<br /><br />
-            <!-- <b>anstiftung</b><br />
-            <a href="https://anstiftung.de/" target="_blank"
-              >www.anstiftung.de</a
-            > -->
-          </p>
+          <p>Ein Projekt der<br /><br /></p>
           <a
             class="max-w-[250px] block"
             href="https://anstiftung.de/"
@@ -84,13 +70,7 @@ const links = ref([
           </a>
         </div>
         <div class="col-span-3 md:col-span-1">
-          <p>
-            In Kooperation mit<br /><br />
-            <!-- <b>VERBUND OFFENER WERKSTÄTTEN</b><br />
-            <a href="http://www.offene-werkstaetten.org" target="_blank"
-              >www.offene-werkstaetten.org</a
-            > -->
-          </p>
+          <p>In Kooperation mit<br /><br /></p>
           <a
             class="max-w-[250px] block"
             href="http://www.offene-werkstaetten.org"
