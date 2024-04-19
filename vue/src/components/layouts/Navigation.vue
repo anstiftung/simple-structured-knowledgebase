@@ -59,10 +59,10 @@ const userStore = useUserStore()
               v-show="userMenuVisible"
               ref="userMenuOverlay"
             >
-              <button class="flex items-center gap-2 px-2 py-2">
+              <!-- <button class="flex items-center gap-2 px-2 py-2">
                 <img src="/icons/settings.svg" />
                 Einstellungen
-              </button>
+              </button> -->
               <router-link
                 :to="{ name: 'logout' }"
                 class="flex items-center gap-2 px-2 py-2"
