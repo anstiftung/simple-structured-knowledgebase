@@ -197,9 +197,13 @@ const discard = () => {
           </div>
           <div v-if="hasPermission('approve content') && formData.article.id">
             <h4 class="mb-2 text-sm text-gray-300">Geprüft</h4>
-            <input type="checkbox" v-model="formData.article.approved" />
-            <span class="inline-block ml-4"
-              >Vom Legal Team geprüfter Artikel</span
+            <input
+              type="checkbox"
+              v-model="formData.article.approved"
+              id="approved"
+            />
+            <label class="inline-block ml-4" for="approved"
+              >Vom Legal Team geprüfter Artikel</label
             >
           </div>
         </div>

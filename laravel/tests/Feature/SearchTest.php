@@ -36,7 +36,7 @@ class SearchTest extends TestCase
 
         AttachedFile::factory()->count($this->num_attached_files)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'mime_type' => 'application/pdf',
                     'license_id' => License::all()->first(),
                     'created_by_id' => User::all()->first(),
@@ -47,7 +47,7 @@ class SearchTest extends TestCase
 
         AttachedFile::factory()->count($this->num_images)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'mime_type' => 'image/png',
                     'license_id' => License::all()->first(),
                     'created_by_id' => User::all()->first(),
@@ -58,7 +58,7 @@ class SearchTest extends TestCase
 
         AttachedUrl::factory()->count($this->num_attached_urls)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'created_by_id' => User::all()->first(),
                     'updated_by_id' => User::all()->first()
                 ],
@@ -67,7 +67,7 @@ class SearchTest extends TestCase
 
         Article::factory()->count($this->num_articles)
         ->state(new Sequence(
-            fn(Sequence $sequence) => [
+            fn (Sequence $sequence) => [
                 'state_id' => $statePublished->id,
                 'created_by_id' => User::all()->first(),
                 'updated_by_id' => User::all()->first()
@@ -77,7 +77,7 @@ class SearchTest extends TestCase
 
         Collection::factory()->count($this->num_collections)
             ->state(new Sequence(
-                fn(Sequence $sequence) => [
+                fn (Sequence $sequence) => [
                     'created_by_id' => User::all()->first(),
                     'updated_by_id' => User::all()->first()
                 ],
@@ -94,7 +94,7 @@ class SearchTest extends TestCase
         $content = json_decode($response->getContent());
 
         $this->assertTrue($content->meta->num_articles == Article::all()->count(), 'Wrong number of articles returned');
-        $this->assertTrue($content->meta->num_collections == Collection::all()->count(), 'Wrong number of collections returned');
+        $this->assertTrue($content->meta->num_collections == Collection::where('published', true)->count(), 'Wrong number of collections returned');
         $this->assertTrue($content->meta->num_attached_urls == AttachedUrl::valid()->get()->count(), 'Wrong number of attached_urls returned');
         $this->assertTrue($content->meta->num_attached_files == AttachedFile::valid()->get()->count(), 'Wrong number of attached_files returned');
         $this->assertTrue($content->meta->num_images == AttachedFile::whereIn('mime_type', ['image/png','image/jpg','image/jpeg'])->valid()->get()->count(), 'Wrong number of images returned');

@@ -14,7 +14,7 @@ class CollectionListController extends BaseController
      */
     public function reorder(Request $request)
     {
-        if (!$this->user->can('feature collections')) {
+        if (!$this->authUser->can('feature collections')) {
             return parent::abortUnauthorized();
         }
 
