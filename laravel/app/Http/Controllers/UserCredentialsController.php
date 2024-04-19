@@ -9,6 +9,6 @@ class UserCredentialsController extends BaseController
 {
     public function index()
     {
-        return new UserCredentialsResource($this->user);
+        return new UserCredentialsResource($this->authUser);
     }
 }

@@ -8,6 +8,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  onlyShowEditors: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 // borrowed from https://dev.to/blindkai/objects-and-v-model-in-vue3-1l9h
@@ -19,7 +23,7 @@ const localModel = computed({
 const users = ref([])
 
 const loadFromServer = () => {
-  UserService.getUsers().then(data => {
+  UserService.getUsers(props.onlyShowEditors).then(data => {
     users.value = data
   })
 }

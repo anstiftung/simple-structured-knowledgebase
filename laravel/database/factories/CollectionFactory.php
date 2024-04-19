@@ -18,12 +18,14 @@ class CollectionFactory extends Factory
     public function definition(): array
     {
         $title = fake()->name();
+        $isPublished = fake()->boolean(40);
 
         return [
             'title' => $title,
             'slug' => Str::slug($title),
             'description' => fake()->sentence(50),
-            'featured' => fake()->boolean(40),
+            'published' => $isPublished,
+            'featured' => $isPublished ? fake()->boolean(40) : false,
             'order' => null,
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
