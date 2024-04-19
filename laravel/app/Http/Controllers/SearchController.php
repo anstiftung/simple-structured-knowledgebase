@@ -114,7 +114,7 @@ class SearchController extends BaseController
                 $query->where('created_by_id', $this->created_by_id);
             })
             ->orderBy('created_at', 'DESC')
-            ->when(empty($this->user) || $this->onlyPublished, function ($query) {
+            ->when(empty($this->authUser) || $this->onlyPublished, function ($query) {
                 $query->published();
             })
             ->get();
@@ -133,7 +133,7 @@ class SearchController extends BaseController
                 $query->where('created_by_id', $this->created_by_id);
             })
             ->orderBy('created_at', 'DESC')
-            ->when(empty($this->user) || $this->onlyPublished, function ($query) {
+            ->when(empty($this->authUser) || $this->onlyPublished, function ($query) {
                 $query->published();
             })
             ->get();

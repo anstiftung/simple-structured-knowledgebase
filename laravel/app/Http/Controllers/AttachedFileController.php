@@ -40,7 +40,7 @@ class AttachedFileController extends BaseController
      */
     public function store(Request $request)
     {
-        if (!$this->user->can('create attached files')) {
+        if (!$this->authUser->can('create attached files')) {
             return parent::abortUnauthorized();
         }
 
@@ -91,7 +91,7 @@ class AttachedFileController extends BaseController
         if ($request->boolean('withArticles')) {
             // load only published articles for unauthenticated users
             $attachedFile->load(['articles' => function ($query) {
-                if (!$this->user) {
+                if (!$this->authUser) {
                     $query->published();
                 }
             }]);
@@ -126,7 +126,7 @@ class AttachedFileController extends BaseController
      */
     public function update(Request $request, AttachedFile $attachedFile)
     {
-        if (!$this->user->can('update attached files')) {
+        if (!$this->authUser->can('update attached files')) {
             return parent::abortUnauthorized();
         }
 
@@ -149,7 +149,7 @@ class AttachedFileController extends BaseController
                 'license_id' => $attachedFile['license']['id'],
             ]);
 
-            if ($this->user->can('approve content')) {
+            if ($this->authUser->can('approve content')) {
                 AttachedFile::find($attachedFile['id'])->update([
                     'approved' => $attachedFile['approved'] ?? false
                 ]);
@@ -166,7 +166,7 @@ class AttachedFileController extends BaseController
      */
     public function destroy(AttachedFile $attachedFile)
     {
-        if (!$this->user->can('delete attached files')) {
+        if (!$this->authUser->can('delete attached files')) {
             return parent::abortUnauthorized();
         }
 

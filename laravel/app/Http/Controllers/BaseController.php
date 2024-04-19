@@ -13,11 +13,11 @@ abstract class BaseController extends Controller
     use AuthorizesRequests;
     use ValidatesRequests;
 
-    protected $user = null;
+    protected $authUser = null;
 
     public function __construct(Request $request)
     {
-        $this->user = Auth::user();
+        $this->authUser = Auth::user();
     }
 
     public function abortUnauthorized($message = 'Unauthorized')

@@ -36,7 +36,7 @@ class AttachedUrlController extends BaseController
      */
     public function store(Request $request)
     {
-        if (!$this->user->can('create attached urls')) {
+        if (!$this->authUser->can('create attached urls')) {
             return parent::abortUnauthorized();
         }
 
@@ -76,7 +76,7 @@ class AttachedUrlController extends BaseController
      */
     public function update(Request $request, AttachedUrl $attachedUrl)
     {
-        if (!$this->user->can('update attached urls')) {
+        if (!$this->authUser->can('update attached urls')) {
             return parent::abortUnauthorized();
         }
 

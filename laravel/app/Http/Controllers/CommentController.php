@@ -22,7 +22,7 @@ class CommentController extends BaseController
      */
     public function store(Request $request)
     {
-        if (!$this->user->can('create comments')) {
+        if (!$this->authUser->can('create comments')) {
             return parent::abortUnauthorized();
         }
 
@@ -60,7 +60,7 @@ class CommentController extends BaseController
      */
     public function destroy(Comment $comment)
     {
-        if (!$this->user->can('delete comments')) {
+        if (!$this->authUser->can('delete comments')) {
             return parent::abortUnauthorized();
         }
 

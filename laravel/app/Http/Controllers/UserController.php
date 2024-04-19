@@ -14,7 +14,7 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        if (!$this->user->can('list users')) {
+        if (!$this->authUser->can('list users')) {
             return parent::abortUnauthorized();
         }
 
