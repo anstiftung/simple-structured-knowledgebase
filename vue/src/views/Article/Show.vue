@@ -72,7 +72,9 @@ loadFromServer()
     >
       <template v-slot:description>Beitrag</template>
       <template v-slot:content>
-        <h2 class="text-4xl text-center">{{ article.title }}</h2>
+        <h2 class="text-4xl text-center break-words hyphens-auto" lang="de">
+          {{ article.title }}
+        </h2>
         <router-link
           v-if="
             userStore.id == article.created_by.id ||
