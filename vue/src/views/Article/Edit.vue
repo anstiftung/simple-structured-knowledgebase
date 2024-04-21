@@ -131,7 +131,7 @@ const discard = () => {
           :maxlength="v$.article.title.maxLength.$params.max"
           :errors="v$.article.title.$errors"
           label="Titel"
-          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
+          helpText="Der Titel sollte prägnant sein. Er wird bei der Suche nach Artikeln verwendet."
         >
           <template #default="{ inputId, modelValue, updateValue }">
             <input
@@ -149,7 +149,7 @@ const discard = () => {
           :maxlength="v$.article.description.maxLength.$params.max"
           :errors="v$.article.description.$errors"
           label="Beschreibung"
-          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
+          helpText="Die Kurzbeschreibung wird in der Artikelvorschau angezeigt. Sie sollte möglichst kurz den Inhalt des Artikels beschreiben."
         >
           <template #default="{ inputId, modelValue, updateValue }">
             <textarea
@@ -165,7 +165,7 @@ const discard = () => {
         <input-wrapper
           v-model="formData.article.content"
           label="Beitragstext"
-          helpText="Lorem"
+          helpText="Hier kannst du den gesamten Inhalt deines Artikels eintragen. Es ist möglich Bilder, sowie Links zu anderen Inhaltstypen einzufügen. Beachte: Um Links zu externen Webseiten zu erstellen, musst du diese zuerst als Anhang zur Bibliothek hinzufügen."
           class="grow"
         >
           <template #default="{ inputId, modelValue, updateValue }">

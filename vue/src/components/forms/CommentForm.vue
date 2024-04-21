@@ -53,7 +53,7 @@ const createComment = async () => {
         :maxlength="v$.comment.content.maxLength.$params.max"
         :errors="v$.comment.content.$errors"
         label="Kommentarinhalt"
-        helpText="LOrem"
+        helpText="Hier kannst du deinen Kommentar einfügen. Bitte sei möglichst höflich und beachte die Grundlagen des wohlwollenden Miteinanders."
       >
         <template #default="{ inputId, modelValue, updateValue }">
           <textarea
