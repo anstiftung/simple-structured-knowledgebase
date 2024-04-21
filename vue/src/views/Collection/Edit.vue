@@ -144,7 +144,7 @@ const discard = () => {
           :maxlength="v$.collection.title.maxLength.$params.max"
           :errors="v$.collection.title.$errors"
           label="Titel"
-          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
+          helpText="Der Titel sollte prägnant sein. Er wird bei der Suche nach Sammlungen verwendet."
         >
           <template #default="{ inputId, modelValue, updateValue }">
             <input
@@ -162,7 +162,7 @@ const discard = () => {
           :maxlength="v$.collection.description.maxLength.$params.max"
           :errors="v$.collection.description.$errors"
           label="Beschreibung"
-          helpText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut. "
+          helpText="Die Beschreibung gibt eine grobe Information welches Themengebiet innerhalb der Sammlung abgedeckt wird."
         >
           <template #default="{ inputId, modelValue, updateValue }">
             <textarea
