@@ -273,7 +273,7 @@ const discard = () => {
             <p v-else>{{ formData.collection.created_by.name }}</p>
           </div>
         </div>
-        <div class="flex justify-end gap-4">
+        <div class="flex justify-between gap-4">
           <button
             class="secondary-button"
             v-show="formData.collection.id"
