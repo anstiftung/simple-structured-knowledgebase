@@ -104,8 +104,10 @@ const deleteArticle = () => {
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
-      formData.article = JSON.parse(persistedArticle)
+      router.push(formData.article.url)
     })
+  } else {
+    router.push(formData.article.url)
   }
 }
 </script>
@@ -216,7 +218,7 @@ const discard = () => {
             <icon name="trash" class="text-black" />
             <span class="inline-block ml-2 underline">Löschen</span>
           </div>
-          <div class="flex gap-4">
+          <div class="flex justify-between gap-4">
             <button
               class="secondary-button"
               v-show="formData.article.id"

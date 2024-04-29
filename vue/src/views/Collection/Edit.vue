@@ -115,8 +115,10 @@ const persist = async () => {
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
-      formData.collection = JSON.parse(persistedCollection)
+      router.push(formData.collection.url)
     })
+  } else {
+    router.push(formData.collection.url)
   }
 }
 </script>
@@ -270,7 +272,7 @@ const discard = () => {
             <p v-else>{{ formData.collection.created_by.name }}</p>
           </div>
         </div>
-        <div class="flex justify-end gap-4">
+        <div class="flex justify-between gap-4">
           <button
             class="secondary-button"
             v-show="formData.collection.id"
