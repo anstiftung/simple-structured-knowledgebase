@@ -116,7 +116,10 @@ const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
       formData.collection = JSON.parse(persistedCollection)
+      router.push(formData.collection.url)
     })
+  } else {
+    router.push(formData.collection.url)
   }
 }
 </script>
