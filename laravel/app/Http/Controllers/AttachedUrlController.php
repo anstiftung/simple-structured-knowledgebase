@@ -66,9 +66,18 @@ class AttachedUrlController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(AttachedUrl $attachedUrl)
+    public function show(AttachedUrl $attachedUrl, Request $request)
     {
-        //
+
+        if ($request->boolean('withArticles')) {
+            // load only published articles for unauthenticated users
+            $attachedUrl->load(['articles' => function ($query) {
+                if (!$this->authUser) {
+                    $query->published();
+                }
+            }]);
+        }
+        return new AttachedUrlResource($attachedUrl);
     }
 
     /**
