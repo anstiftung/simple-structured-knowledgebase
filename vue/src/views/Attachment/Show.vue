@@ -16,22 +16,28 @@ const $toast = inject('$toast')
 const router = useRouter()
 const route = useRoute()
 const id = route.params.id
-const attachedFile = ref(null)
+const attachment = ref(null)
 
 const loadFromServer = () => {
-  AttachmentService.getAttachedFile(id, true)
+  let getPromise
+  if (route.name == 'attachedFile') {
+    getPromise = AttachmentService.getAttachedFile(id, true)
+  } else if (route.name == 'attachedUrl') {
+    getPromise = AttachmentService.getAttachedUrl(id, true)
+  }
+  getPromise
     .then(data => {
-      attachedFile.value = data
-      document.title = `Cowiki | ${attachedFile.value.title}`
+      attachment.value = data
+      document.title = `Cowiki | ${attachment.value.title}`
     })
-    .catch(error => {
+    .catch(() => {
       router.push({ name: 'not-found' })
     })
 }
 
 const deleteAttachedFile = () => {
   $toast.confirm('Anhang wirklich löschen?', () => {
-    AttachmentService.deleteAttachedFile(attachedFile.value).then(data => {
+    AttachmentService.deleteAttachedFile(attachment.value).then(data => {
       router.push({ name: 'dashboard' })
     })
   })
@@ -45,73 +51,95 @@ loadFromServer()
     <model-header
       colorClass="bg-green"
       secondaryColorClass="bg-green/50"
-      v-if="attachedFile"
+      v-if="attachment"
     >
       <template v-slot:description>Anhang</template>
       <template v-slot:content>
-        <h2 class="text-4xl text-center">{{ attachedFile.title }}</h2>
+        <h2 class="text-4xl text-center">{{ attachment.title }}</h2>
       </template>
     </model-header>
-    <section v-if="attachedFile" class="grid grid-cols-6 my-8 width-wrapper">
+    <section v-if="attachment" class="grid grid-cols-6 my-8 width-wrapper">
       <div class="col-span-4 px-8 py-8">
-        <img
-          v-if="attachedFile.is_image"
-          :src="attachedFile.serve_url"
-          class="w-full h-auto"
-        />
-        <div
-          v-else
-          class="px-8 py-12 bg-gray-100 border-[1px] flex flex-col items-center justify-center gap-4 text-center border-gray-400 border-dashed rounded-md"
-        >
-          <icon name="file" class="text-gray-400 size-20"></icon>
-          <p>Keine Vorschau für diesen Dateityp</p>
-        </div>
+        <template v-if="attachment.type == 'AttachedFile'">
+          <img
+            v-if="attachment.is_image"
+            :src="attachment.serve_url"
+            class="w-full h-auto"
+          />
+          <div
+            v-else
+            class="px-8 py-12 bg-gray-100 border-[1px] flex flex-col items-center justify-center gap-4 text-center border-gray-400 border-dashed rounded-md"
+          >
+            <icon name="file" class="text-gray-400 size-20"></icon>
+            <p>Keine Vorschau für diesen Dateityp</p>
+          </div>
+        </template>
+        <template v-else-if="attachment.type == 'AttachedUrl'">
+          <div
+            class="p-4 bg-gray-100 border-[1px] text-center border-gray-400 border-dashed rounded-md"
+          >
+            <a
+              :href="attachment.serve_url"
+              target="_blank"
+              class="font-semibold underline text-blue"
+              >{{ attachment.serve_url }}</a
+            >
+          </div>
+        </template>
         <h4 class="mt-6">Beschreibung:</h4>
-        <p>{{ attachedFile.description }}</p>
+        <p>{{ attachment.description }}</p>
       </div>
       <div class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar">
         <div class="flex flex-col gap-8">
-          <div v-if="attachedFile.approved">
+          <div v-if="attachment.approved">
             <icon name="approved" class="mr-2 text-green size-6"></icon>
             geprüfter Anhang
           </div>
           <div>
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
-            <p>{{ attachedFile.created_by.name }}</p>
+            <p>{{ attachment.created_by.name }}</p>
           </div>
           <div>
             <h4 class="mb-2 text-sm text-gray-300">erstellt am</h4>
-            <p>{{ $filters.formatedDate(attachedFile.created_at) }}</p>
+            <p>{{ $filters.formatedDate(attachment.created_at) }}</p>
           </div>
-          <div>
+          <div v-if="attachment.license">
             <h4 class="mb-2 text-sm text-gray-300">Lizenz</h4>
-            <p>{{ attachedFile.license.title }}</p>
+            <p>{{ attachment.license.title }}</p>
           </div>
-          <div>
+          <div v-if="attachment.source">
             <h4 class="mb-2 text-sm text-gray-300">Quelle</h4>
-            <p>{{ attachedFile.source }}</p>
+            <p>{{ attachment.source }}</p>
           </div>
-          <div class="grid grid-cols-2">
+          <div
+            class="grid grid-cols-2"
+            v-if="attachment.type == 'AttachedFile'"
+          >
             <div>
               <h4 class="mb-2 text-sm text-gray-300">Typ</h4>
-              <p>{{ $filters.fileNameToFileType(attachedFile.filename) }}</p>
+              <p>{{ $filters.fileNameToFileType(attachment.filename) }}</p>
             </div>
             <div>
               <h4 class="mb-2 text-sm text-gray-300">Größe</h4>
               <p>
-                {{ $filters.bytesToHumandReadableSize(attachedFile.filesize) }}
+                {{ $filters.bytesToHumandReadableSize(attachment.filesize) }}
               </p>
             </div>
           </div>
           <a
             target="blank"
-            :href="attachedFile.serve_url"
+            :href="attachment.serve_url"
             class="text-center default-button"
-            >Download</a
+          >
+            <template v-if="attachment.type == 'AttachedUrl'">Öffnen</template>
+            <template v-else>Download</template></a
           >
           <div
             class="cursor-pointer"
-            v-if="hasPermission('delete attached files')"
+            v-if="
+              attachment.type == 'AttachedFile' &&
+              hasPermission('delete attached files')
+            "
             @click="deleteAttachedFile"
           >
             <icon name="trash" class="text-black" />
@@ -120,14 +148,19 @@ loadFromServer()
         </div>
       </div>
     </section>
-    <section class="my-28 width-wrapper" v-if="attachedFile">
-      <separator>Enthalten in folgenden Beiträgen</separator>
+    <section class="my-28 width-wrapper" v-if="attachment">
+      <separator>
+        <template v-if="attachment.articles.length == 1">
+          Enthalten in folgendem Beitrag
+        </template>
+        <template v-else>Enthalten in folgenden Beiträgen</template>
+      </separator>
       <div
         class="grid grid-cols-4 gap-4"
-        v-if="attachedFile.articles && attachedFile.articles.length"
+        v-if="attachment.articles && attachment.articles.length"
       >
         <article-card
-          v-for="article in attachedFile.articles"
+          v-for="article in attachment.articles"
           :article="article"
         />
       </div>

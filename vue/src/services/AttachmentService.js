@@ -11,6 +11,17 @@ class AttachmentService {
     }
     return makeApiRequest(config)
   }
+  getAttachedUrl(id, withArticles = false) {
+    const config = {
+      method: 'get',
+      url: `attached-url/${id}`,
+      params: {
+        withArticles: withArticles,
+      },
+    }
+    return makeApiRequest(config)
+  }
+
   getAttachmentUrls(page = 1, creatorId = null, invalid = false) {
     const config = {
       method: 'get',

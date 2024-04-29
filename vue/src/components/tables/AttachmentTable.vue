@@ -9,7 +9,7 @@ defineProps({
 <template>
   <section>
     <table class="w-full" v-if="modelValue.length > 0">
-      <thead class="border-y w-full text-gray-400 sticky bg-white top-header">
+      <thead class="sticky w-full text-gray-400 bg-white border-y top-header">
         <tr>
           <td class="px-2 py-3">Titel</td>
           <td class="px-2 py-3">Datum</td>
@@ -20,13 +20,8 @@ defineProps({
       </thead>
       <tbody>
         <tr v-for="attachment in modelValue">
-          <td class="px-2 py-3 text-green font-semibold">
-            <template v-if="attachment.type == 'AttachedUrl'">
-              <a :href="attachment.url" target="_blank">
-                {{ attachment.title }}
-              </a>
-            </template>
-            <router-link :to="attachment.url" class="cursor-pointer" v-else>
+          <td class="px-2 py-3 font-semibold text-green">
+            <router-link :to="attachment.url" class="cursor-pointer">
               {{ attachment.title }}
             </router-link>
           </td>
@@ -49,6 +44,6 @@ defineProps({
         </tr>
       </tbody>
     </table>
-    <p class="text-sm pl-2 mb-12" v-else>Keine Ergebnisse…</p>
+    <p class="pl-2 mb-12 text-sm" v-else>Keine Ergebnisse…</p>
   </section>
 </template>

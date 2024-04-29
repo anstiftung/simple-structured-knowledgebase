@@ -21,7 +21,7 @@ const props = defineProps({
           {{ $filters.bytesToHumandReadableSize(attachment.filesize) }}
         </span>
         <span v-else class="line-clamp-1" :title="attachment.title">
-          {{ attachment.url }}
+          {{ attachment.serve_url }}
         </span>
         <icon v-if="attachment.approved" name="approved"></icon>
       </p>

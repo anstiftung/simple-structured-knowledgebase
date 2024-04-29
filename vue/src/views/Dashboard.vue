@@ -246,7 +246,7 @@ loadFromServer()
             >
               {{
                 attachment.type == 'AttachedUrl'
-                  ? attachment.url
+                  ? attachment.serve_url
                   : attachment.filename
               }}
             </span>
