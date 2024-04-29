@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\ArticleResource;
 
 class AttachedUrlResource extends BaseResource
 {
@@ -17,8 +18,10 @@ class AttachedUrlResource extends BaseResource
             'type' => 'AttachedUrl',
             'title' => $this->title,
             'description' => $this->description,
-            'url' => $this->url,
-            'preview_file' => $this->preview_file
+            'serve_url' => $this->url,
+            'url' => '/url/'.$this->id,
+            'preview_file' => $this->preview_file,
+            'articles' => ArticleResource::collection($this->whenLoaded('articles'))
         ];
     }
 }

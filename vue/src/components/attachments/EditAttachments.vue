@@ -50,7 +50,7 @@ const rules = {
 const v$ = useVuelidate(rules, formData)
 
 const editConfigUrls = {
-  titleAttribute: 'url',
+  titleAttribute: 'serve_url',
   inputs: [
     {
       attribute: 'title',
