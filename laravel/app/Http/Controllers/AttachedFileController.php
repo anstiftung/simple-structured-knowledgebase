@@ -116,7 +116,7 @@ class AttachedFileController extends BaseController
 
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type)
-        ->header('Content-disposition', 'attachment; filename="'.$attachedFile->filename.'"');
+            ->header('Content-disposition', 'inline; filename="'.$attachedFile->filename.'"');
 
         return $response;
     }
