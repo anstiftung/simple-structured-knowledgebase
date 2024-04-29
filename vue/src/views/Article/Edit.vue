@@ -104,7 +104,6 @@ const deleteArticle = () => {
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
-      formData.article = JSON.parse(persistedArticle)
       router.push(formData.article.url)
     })
   } else {
