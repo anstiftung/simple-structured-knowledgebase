@@ -43,7 +43,11 @@ const deleteAttachment = (forceDelete = false) => {
     () => {
       AttachmentService.deleteAttachment(attachment.value, forceDelete).then(
         data => {
-          router.back()
+          if (window.history.length > 1) {
+            router.back()
+          } else {
+            router.push({ name: 'dashboard' })
+          }
         },
       )
     },
