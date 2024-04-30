@@ -6,11 +6,13 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AttachedUrl extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',

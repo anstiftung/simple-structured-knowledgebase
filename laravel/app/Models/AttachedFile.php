@@ -62,7 +62,7 @@ class AttachedFile extends Model
     public static function boot()
     {
         parent::boot();
-        self::deleting(function ($attachedFile) {
+        self::forceDeleted(function ($attachedFile) {
             Storage::disk('uploads')->deleteDirectory($attachedFile->id);
         });
     }

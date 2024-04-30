@@ -19,6 +19,8 @@ class ArticleFactory extends Factory
     {
         $title = fake()->name();
         $content = '<h3>' . fake()->words(4, true) . '</h3><p>' . fake()->sentence(3) . '</p>';
+        $isDeleted = fake()->boolean(10);
+
         return [
             'title' => $title,
             'slug' => Str::slug($title),
@@ -28,6 +30,7 @@ class ArticleFactory extends Factory
             'claps' => fake()->numberBetween(0, 10),
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'deleted_at' => $isDeleted ? fake()->dateTimeBetween('-3 months', 'now') : null
         ];
     }
 }

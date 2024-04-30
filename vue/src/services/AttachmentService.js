@@ -112,10 +112,15 @@ class AttachmentService {
     return attachments
   }
 
-  deleteAttachedFile(attachedFile) {
+  deleteAttachment(attachment, forceDelete = false) {
+    let url =
+      attachment.type == 'AttachedFile' ? 'attached-file' : 'attached-url'
     const config = {
       method: 'delete',
-      url: `attached-file/${attachedFile.id}`,
+      url: `${url}/${attachment.id}`,
+      params: {
+        forceDelete: forceDelete,
+      },
     }
     return makeApiRequest(config)
   }

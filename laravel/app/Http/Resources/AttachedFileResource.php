@@ -29,7 +29,8 @@ class AttachedFileResource extends BaseResource
             'source' => $this->source,
             'license' => new LicenseResource($this->license),
             'approved' => $this->approved,
-            'articles' => ArticleResource::collection($this->whenLoaded('articles'))
+            'articles' => ArticleResource::collection($this->whenLoaded('articles')),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }

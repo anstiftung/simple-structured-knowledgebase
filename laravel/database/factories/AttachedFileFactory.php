@@ -20,6 +20,7 @@ class AttachedFileFactory extends Factory
         $title = fake()->name();
 
         $isFilled = fake()->boolean(70);
+        $isDeleted = fake()->boolean(20);
 
         return [
             'title' => $isFilled ? $title : null,
@@ -32,6 +33,7 @@ class AttachedFileFactory extends Factory
             'source' => $isFilled ? fake()->sentence(3) : null,
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'deleted_at' => $isDeleted ? fake()->dateTimeBetween('-3 months', 'now') : null
         ];
     }
 }
