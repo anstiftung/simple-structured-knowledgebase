@@ -38,7 +38,7 @@ class ArticleContentSeeder extends Seeder
                     consetetur sadipscing
                     elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
                     sadipscing elitr, sed diam nonumy
-                    <item-link data-type="AttachedUrl" data-id="$randomAttachedURL->id" href="$randomAttachedURL->url" target="_blank">Ein Link zu einem Anhang (URL)</item-link>
+                    <item-link data-type="AttachedUrl" data-id="$randomAttachedURL->id" href="/url/$randomAttachedURL->id" target="_blank">Ein Link zu einem Anhang (URL)</item-link>
                     sadipscing elitr, sed diam nonumy
                     <item-link data-type="AttachedFile" data-id="$randomAttachedFile->id" href="/anhang/$randomAttachedFile->id" target="_blank">Ein Link zu einem Anhang (File)</item-link>
                     sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
