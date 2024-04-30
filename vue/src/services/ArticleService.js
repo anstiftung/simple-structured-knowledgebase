@@ -1,12 +1,12 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class ArticleService {
-  getArticle(slug) {
+  getArticle(slug, errorFunction = null) {
     const config = {
       method: 'get',
       url: `article/${slug}`,
     }
-    return makeApiRequest(config)
+    return makeApiRequest(config, errorFunction)
   }
   getArticles(
     page = 1,

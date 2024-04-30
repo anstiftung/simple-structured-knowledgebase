@@ -1,7 +1,7 @@
 import { makeApiRequest } from '@/plugins/api'
 
 class AttachmentService {
-  getAttachedFile(id, withArticles = false) {
+  getAttachedFile(id, withArticles = false, errorFunction = null) {
     const config = {
       method: 'get',
       url: `attached-file/${id}`,
@@ -9,9 +9,9 @@ class AttachmentService {
         withArticles: withArticles,
       },
     }
-    return makeApiRequest(config)
+    return makeApiRequest(config, errorFunction)
   }
-  getAttachedUrl(id, withArticles = false) {
+  getAttachedUrl(id, withArticles = false, errorFunction = null) {
     const config = {
       method: 'get',
       url: `attached-url/${id}`,
@@ -19,7 +19,7 @@ class AttachmentService {
         withArticles: withArticles,
       },
     }
-    return makeApiRequest(config)
+    return makeApiRequest(config, errorFunction)
   }
 
   getAttachmentUrls(page = 1, creatorId = null, invalid = false) {
