@@ -63,6 +63,8 @@ class AttachedFile extends Model
     {
         parent::boot();
         self::forceDeleted(function ($attachedFile) {
+            // removes intermediate rows in `article_attachments`
+            $attachedFile->articles()->detach();
             Storage::disk('uploads')->deleteDirectory($attachedFile->id);
         });
     }

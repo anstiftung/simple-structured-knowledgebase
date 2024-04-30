@@ -42,4 +42,13 @@ class AttachedUrl extends Model
     {
         return $query->whereNull('title')->orWhereNull('description');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::forceDeleted(function ($attachedUrl) {
+            // removes intermediate rows in `article_attachments`
+            $attachedUrl->articles()->detach();
+        });
+    }
 }
