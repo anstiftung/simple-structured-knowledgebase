@@ -69,6 +69,28 @@ loadFromServer()
           <template v-else-if="attachment.mime_type == 'application/pdf'">
             <iframe :src="attachment.serve_url" class="w-full h-96"></iframe>
           </template>
+          <template v-else-if="attachment.mime_type == 'video/mp4'">
+            <video controls class="w-full aspect-video">
+              <source :src="attachment.serve_url" type="video/mp4" />
+              <div
+                class="px-8 py-12 bg-gray-100 border-[1px] flex flex-col items-center justify-center gap-4 text-center border-gray-400 border-dashed rounded-md"
+              >
+                <icon name="file" class="text-gray-400 size-20"></icon>
+                <p>Keine Vorschau für diesen Dateityp</p>
+              </div>
+            </video>
+          </template>
+          <template v-else-if="attachment.mime_type == 'audio/mpeg'">
+            <audio controls class="w-full">
+              <source :src="attachment.serve_url" type="audio/mpeg" />
+              <div
+                class="px-8 py-12 bg-gray-100 border-[1px] flex flex-col items-center justify-center gap-4 text-center border-gray-400 border-dashed rounded-md"
+              >
+                <icon name="file" class="text-gray-400 size-20"></icon>
+                <p>Keine Vorschau für diesen Dateityp</p>
+              </div>
+            </audio>
+          </template>
           <div
             v-else
             class="px-8 py-12 bg-gray-100 border-[1px] flex flex-col items-center justify-center gap-4 text-center border-gray-400 border-dashed rounded-md"
