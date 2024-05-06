@@ -6,11 +6,13 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreatedByAndUpdatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AttachedUrl extends Model
 {
     use HasFactory;
     use HasCreatedByAndUpdatedByTrait;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -39,5 +41,14 @@ class AttachedUrl extends Model
     public function scopeInvalid($query)
     {
         return $query->whereNull('title')->orWhereNull('description');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::forceDeleted(function ($attachedUrl) {
+            // removes intermediate rows in `article_attachments`
+            $attachedUrl->articles()->detach();
+        });
     }
 }

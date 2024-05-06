@@ -35,16 +35,19 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'delete collections']);
         Permission::create(['name' => 'feature collections']);
         Permission::create(['name' => 'edit collection creator']);
-        // attachments
+
+        // attached files
         Permission::create(['name' => 'create attached files']);
         Permission::create(['name' => 'update attached files']);
-        Permission::create(['name' => 'delete attached files']);
+
+        // attached urls
         Permission::create(['name' => 'create attached urls']);
         Permission::create(['name' => 'update attached urls']);
-        Permission::create(['name' => 'update others attached files']);
-        Permission::create(['name' => 'update others attached urls']);
-        Permission::create(['name' => 'create others attached files']);
-        Permission::create(['name' => 'create others attached urls']);
+
+        //attachments
+        Permission::create(['name' => 'delete others attachments']);
+        Permission::create(['name' => 'force delete attachments']);
+        Permission::create(['name' => 'list trashed attachments']);
 
         // comments
         Permission::create(['name' => 'create comments']);
@@ -54,26 +57,45 @@ class RolesPermissionsSeeder extends Seeder
         // general
         Permission::create(['name' => 'approve content']);
 
-        // create roles and assign created permissions
-
-        // this can be done as separate statements
         $role = Role::create(['name' => 'writer']);
-        $role->givePermissionTo(['edit articles', 'add articles']);
-        $role->givePermissionTo(['create attached files','update attached files']);
-        $role->givePermissionTo(['create attached urls','update attached urls']);
-        $role->givePermissionTo(['create comments']);
+        $role->givePermissionTo('edit articles');
+        $role->givePermissionTo('add articles');
 
-        // or may be done by chaining
+        $role->givePermissionTo('create attached files');
+        $role->givePermissionTo('update attached files');
+        $role->givePermissionTo('create attached urls');
+        $role->givePermissionTo('update attached urls');
+
+        $role->givePermissionTo('create comments');
+
         $role = Role::create(['name' => 'editor']);
-        $role->givePermissionTo(['edit articles', 'edit article creator', 'publish articles', 'add articles', 'update others articles', 'clap own articles', 'delete articles']);
-        $role->givePermissionTo(['add collections','edit collections', 'edit collection creator','delete collections','feature collections']);
-        $role->givePermissionTo(['create attached files','update attached files', 'delete attached files']);
-        $role->givePermissionTo(['create attached urls','update attached urls']);
-        $role->givePermissionTo(['create others attached files','update others attached files']);
-        $role->givePermissionTo(['create others attached urls','update others attached urls']);
-        $role->givePermissionTo(['create comments', 'delete comments']);
-        $role->givePermissionTo(['list users']);
-        $role->givePermissionTo(['approve content']);
+        $role->givePermissionTo('edit articles');
+        $role->givePermissionTo('edit article creator');
+        $role->givePermissionTo('publish articles');
+        $role->givePermissionTo('add articles');
+        $role->givePermissionTo('update others articles');
+        $role->givePermissionTo('clap own articles');
+        $role->givePermissionTo('delete articles');
+
+        $role->givePermissionTo('add collections');
+        $role->givePermissionTo('edit collections');
+        $role->givePermissionTo('edit collection creator');
+        $role->givePermissionTo('delete collections');
+        $role->givePermissionTo('feature collections');
+
+        $role->givePermissionTo('create attached files');
+        $role->givePermissionTo('update attached files');
+        $role->givePermissionTo('create attached urls');
+        $role->givePermissionTo('update attached urls');
+
+        $role->givePermissionTo('delete others attachments');
+        $role->givePermissionTo('force delete attachments');
+        $role->givePermissionTo('list trashed attachments');
+
+        $role->givePermissionTo('create comments');
+        $role->givePermissionTo('delete comments');
+        $role->givePermissionTo('list users');
+        $role->givePermissionTo('approve content');
 
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());

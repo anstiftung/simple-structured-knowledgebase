@@ -64,7 +64,7 @@ defineExpose({
             <template v-else>URL hinzufügen</template>
           </h3>
           <p class="text-gray-400">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+            Hier kannst du einen Link zu einer Website einfügen.
           </p>
         </div>
         <attachment-type-selector

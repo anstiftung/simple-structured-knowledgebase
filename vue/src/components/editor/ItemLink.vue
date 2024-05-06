@@ -10,14 +10,20 @@ const props = defineProps({
   target: String,
 })
 
-const attachedFile = ref(null)
-const article = ref(null)
+const model = ref(null)
 
 const loadFromServer = () => {
+  let getPromise
   if (props.dataType == 'AttachedFile') {
-    AttachmentService.getAttachedFile(props.dataId).then(data => {
-      attachedFile.value = data
-    })
+    getPromise = AttachmentService.getAttachedFile(
+      props.dataId,
+      false,
+      () => {}, // silent errors
+    )
+  }
+
+  if (props.dataType == 'AttachedUrl') {
+    getPromise = AttachmentService.getAttachedUrl(props.dataId, false, () => {}) // silent errors
   }
 
   if (props.dataType == 'Article') {
@@ -30,8 +36,12 @@ const loadFromServer = () => {
       console.error('Unable to parse slug from article url: ', props.href)
       return
     }
-    ArticleService.getArticle(slug).then(data => {
-      article.value = data
+
+    getPromise = ArticleService.getArticle(slug, () => {})
+  }
+  if (getPromise) {
+    getPromise.then(data => {
+      model.value = data
     })
   }
 }
@@ -39,29 +49,37 @@ loadFromServer()
 </script>
 
 <template>
-  <a :data-type="props['dataType']" :href="props.href" :target="props.target">
+  <component
+    :is="model ? 'a' : 'span'"
+    :data-type="props['dataType']"
+    :href="props.href"
+    :target="props.target"
+  >
     <slot></slot>
-    <span class="inline-block ml-2 text-xs font-semibold text-gray-400">
-      <template v-if="attachedFile"
-        >{{ $filters.fileNameToFileType(attachedFile.filename) }},
-        {{ $filters.bytesToHumandReadableSize(attachedFile.filesize) }}
+    <span
+      class="inline-block ml-2 text-xs font-semibold text-gray-400"
+      v-if="model"
+    >
+      <template v-if="model.type == 'AttachedFile'"
+        >{{ $filters.fileNameToFileType(model.filename) }},
+        {{ $filters.bytesToHumandReadableSize(model.filesize) }}
         <icon
-          v-if="attachedFile.approved"
+          v-if="model.approved"
           name="approved"
           class="mb-1 text-green size-3"
         ></icon>
       </template>
-      <template v-if="article">
-        {{ article.comments.length }}
+      <template v-if="model.type == 'Article'">
+        {{ model.comments.length }}
         <icon name="comment" class="text-gray-400 size-3"></icon>
         <icon
-          v-if="article.approved"
+          v-if="model.approved"
           name="approved"
           class="mb-1 ml-1 text-green size-3"
         ></icon>
       </template>
     </span>
-  </a>
+  </component>
 </template>
 
 <style scoped></style>

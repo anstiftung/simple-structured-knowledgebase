@@ -47,6 +47,7 @@ const querySearch = () => {
     activeModels.value,
     false,
     creatorId.value,
+    true, // include trashed
   ).then(({ data, meta }) => {
     searchResults.value = data
     // searchMeta.value = meta

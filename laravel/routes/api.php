@@ -34,25 +34,18 @@ Route::controller(SearchController::class)->group(function () {
 
 Route::controller(AttachedUrlController::class)->group(function () {
     Route::get('/attached-urls', 'index');
-    Route::get('/attached-url/{attachedUrl:id}', 'show');
+    Route::get('/attached-url/{attachedUrl:id}', 'show')->withTrashed(); // additional checks are performed in the controller function
 });
 
 Route::controller(AttachedFileController::class)->group(function () {
     Route::get('/attached-files', 'index');
-    Route::get('/attached-file/{attachedFile:id}', 'show');
+    Route::get('/attached-file/{attachedFile:id}', 'show')->withTrashed(); // additional checks are performed in the controller function
     Route::get('/attached-file/serve/{attachedFile:id}', 'serve');
 });
 
 Route::controller(CollectionController::class)->group(function () {
     Route::get('/collections', 'index');
     Route::get('/collection/{collection:slug}', 'show');
-});
-
-Route::get('/', function () {
-    return response()->json([
-        'api_version' => '1.0',
-        'state' => 'working',
-    ]);
 });
 
 // Add protected routes here
@@ -62,10 +55,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     // create and update attachments
     Route::post('/attached-url', [AttachedUrlController::class, 'store']);
     Route::patch('/attached-url', [AttachedUrlController::class, 'update']);
+    Route::delete('/attached-url/{attachedUrl:id}', [AttachedUrlController::class, 'destroy'])->withTrashed();
 
     Route::post('/attached-file', [AttachedFileController::class, 'store']);
     Route::patch('/attached-file', [AttachedFileController::class, 'update']);
-    Route::delete('/attached-file/{attachedFile:id}', [AttachedFileController::class, 'destroy']);
+    Route::delete('/attached-file/{attachedFile:id}', [AttachedFileController::class, 'destroy'])->withTrashed();
 
     // create and update articles
     Route::post('/article', [ArticleController::class, 'store']);

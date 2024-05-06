@@ -17,15 +17,21 @@ class ArticleTest extends TestCase
 
     public function test_index_all_articles(): void
     {
-        $countArticles = 10;
         $statePublished = State::where('key', 'publish')->first();
-        Article::factory($countArticles)
-        ->state(new Sequence(
-            fn(Sequence $sequence) => [
-                'state_id' => $statePublished->id,
-            ]
-        ))
-        ->create();
+
+        Article::factory(15)
+            ->state(new Sequence(
+                fn (Sequence $sequence) => [
+                    'state_id' => $statePublished->id,
+                ]
+            ))
+            ->create();
+
+        $countArticles = Article::where('state_id', $statePublished->id)
+            ->where('deleted_at', null)
+            ->count();
+
+        echo $countArticles;
 
         $response = $this->get('/api/articles');
         $response
@@ -36,13 +42,14 @@ class ArticleTest extends TestCase
     public function test_show_single_article(): void
     {
         $article = Article::factory()
-        ->state(new Sequence(
-            fn(Sequence $sequence) => [
-                'state_id' => State::where('key', 'publish')->first(),
-            ]
-        ))
-        ->create()
-        ->first();
+            ->state(new Sequence(
+                fn (Sequence $sequence) => [
+                    'state_id' => State::where('key', 'publish')->first(),
+                    'deleted_at' => null,
+                ]
+            ))
+            ->create()
+            ->first();
 
         $response = $this->get('/api/article/' . $article->slug);
 
