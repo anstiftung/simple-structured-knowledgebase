@@ -31,8 +31,22 @@ const updateValue = event => {
 </script>
 <template>
   <div v-bind="$attrs" class="flex flex-col text-gray-300">
-    <div class="flex justify-between text-sm">
+    <div class="flex text-sm">
       <label class="inline-block mb-1" :for="inputId">{{ props.label }}</label>
+      <div v-if="props.helpText" class="pl-1 pr-1 relative bottom-0.5">
+        <icon
+          name="info"
+          @click="helpVisible = !helpVisible"
+          role="button"
+        ></icon>
+        <div
+          class="triangle-before text-left absolute w-96 top-[30px] -left-3.5 z-50 p-2 text-sm text-white bg-gray-300 rounded-md shadow-md"
+          v-if="helpVisible"
+          ref="helpOverlay"
+        >
+          {{ props.helpText }}
+        </div>
+      </div>
       <div
         class="flex items-center gap-2 px-2 mb-1 bg-white bg-red-200 rounded-md"
         v-if="props.errors && props.errors.length"
@@ -59,21 +73,6 @@ const updateValue = event => {
       >
         {{ props.modelValue.length }} / {{ props.maxlength }}
       </p>
-      <div v-if="props.helpText" class="absolute right-0 pr-4 top-1">
-        <icon
-          name="info"
-          @click="helpVisible = !helpVisible"
-          role="button"
-          class="text-gray-400"
-        ></icon>
-        <div
-          class="triangle-before text-right absolute min-w-[200px] top-[30px] right-0 z-50 p-2 text-sm text-white bg-gray-300 rounded-md shadow-md"
-          v-if="helpVisible"
-          ref="helpOverlay"
-        >
-          {{ props.helpText }}
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -82,7 +81,7 @@ const updateValue = event => {
   content: '';
   position: absolute;
   top: -7px;
-  right: 16px;
+  left: 16px;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;

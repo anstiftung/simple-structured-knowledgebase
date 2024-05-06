@@ -34,6 +34,7 @@ Route::controller(SearchController::class)->group(function () {
 
 Route::controller(AttachedUrlController::class)->group(function () {
     Route::get('/attached-urls', 'index');
+    Route::get('/attached-url/{attachedUrl:id}', 'show');
 });
 
 Route::controller(AttachedFileController::class)->group(function () {

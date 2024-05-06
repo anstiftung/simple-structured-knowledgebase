@@ -1,10 +1,18 @@
-const AttachedFile = () => import('@/views/Attachment/Show.vue')
+const AttachmentShow = () => import('@/views/Attachment/Show.vue')
 
 export default [
   {
     path: '/anhang/:id',
-    component: AttachedFile,
+    component: AttachmentShow,
     name: 'attachedFile',
+    meta: {
+      title: 'Anhang',
+    },
+  },
+  {
+    path: '/url/:id',
+    component: AttachmentShow,
+    name: 'attachedUrl',
     meta: {
       title: 'Anhang',
     },

@@ -74,7 +74,9 @@ const props = defineProps({
     </router-link>
 
     <!-- AttachedFile -->
-    <span v-else-if="model.type == 'AttachedFile'">
+    <span
+      v-else-if="model.type == 'AttachedFile' || model.type == 'AttachedUrl'"
+    >
       <router-link
         v-if="navigate"
         :to="model.url"
@@ -82,24 +84,6 @@ const props = defineProps({
       >
         {{ model.title ?? '[Ohne Titel]' }}
       </router-link>
-      <span class="font-semibold cursor-pointer text-green" v-else>{{
-        model.title ?? '[Ohne Titel]'
-      }}</span>
-
-      <span class="inline-block ml-2 text-gray-200"
-        >erstellt {{ $filters.formatedDate(model.created_at) }}</span
-      >
-    </span>
-    <!-- AttachedUrl -->
-    <span v-else-if="model.type == 'AttachedUrl'">
-      <a
-        v-if="navigate"
-        :href="model.url"
-        target="_blank"
-        class="font-semibold cursor-pointer text-green"
-      >
-        {{ model.title ?? '[Ohne Titel]' }}
-      </a>
       <span class="font-semibold cursor-pointer text-green" v-else>{{
         model.title ?? '[Ohne Titel]'
       }}</span>
