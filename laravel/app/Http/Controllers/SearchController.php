@@ -19,6 +19,7 @@ class SearchController extends BaseController
     protected $query = false;
     protected $onlyPublished = true;
     protected $created_by_id = false;
+    protected $includingTrashed = false;
 
     public function __construct(Request $request)
     {
@@ -26,6 +27,7 @@ class SearchController extends BaseController
         $this->query = $request->query('query', false);
         $this->onlyPublished = $request->boolean('onlyPublished');
         $this->created_by_id = $request->query('created_by_id', false);
+        $this->includingTrashed = $request->boolean('includingTrashed', false);
     }
     /**
      * Run Search
@@ -82,11 +84,18 @@ class SearchController extends BaseController
             ->when($this->created_by_id, function ($query) {
                 $query->where('created_by_id', $this->created_by_id);
             })
+            ->when($this->includingTrashed && $this->authUser->can('list trashed attachments'), function ($query) {
+                $query->withTrashed();
+            })
             ->orderBy('created_at', 'DESC')
             ->get();
+
         $attachedFiles = AttachedFile::where('title', 'like', '%' . $this->query . '%')
             ->when($this->created_by_id, function ($query) {
                 $query->where('created_by_id', $this->created_by_id);
+            })
+            ->when($this->includingTrashed && $this->authUser->can('list trashed attachments'), function ($query) {
+                $query->withTrashed();
             })
             ->orderBy('created_at', 'DESC')
             ->get();

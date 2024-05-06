@@ -19,6 +19,7 @@ class AttachedUrlFactory extends Factory
     {
         $title = fake()->name();
         $isFilled = fake()->boolean(70);
+        $isDeleted = fake()->boolean(20);
 
         return [
             'title' => $isFilled ? $title : null,
@@ -29,6 +30,7 @@ class AttachedUrlFactory extends Factory
             'crawled_status' => fake()->numberBetween(200, 500),
             'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => fake()->dateTimeBetween('-5 months', 'now'),
+            'deleted_at' => $isDeleted ? fake()->dateTimeBetween('-3 months', 'now') : null
         ];
     }
 }

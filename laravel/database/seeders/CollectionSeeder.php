@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 class CollectionSeeder extends Seeder
 {
     private $numCollections = 60;
-    private $numAttachedArticlesMax = 15;
+    private $numAttachedArticlesMax = 5;
 
     /**
      * Run the database seeds.

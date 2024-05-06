@@ -6,6 +6,7 @@ class SearchService {
     types = ['articles', 'collections', 'attachments'],
     onlyPublished = true,
     creator_id = 0,
+    includingTrashed = false,
   ) {
     const config = {
       method: 'get',
@@ -15,6 +16,7 @@ class SearchService {
         types: types,
         onlyPublished: onlyPublished,
         created_by_id: creator_id,
+        includingTrashed: includingTrashed,
       },
     }
     return makeApiRequest(config)

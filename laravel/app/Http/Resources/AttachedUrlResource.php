@@ -21,7 +21,8 @@ class AttachedUrlResource extends BaseResource
             'serve_url' => $this->url,
             'url' => '/url/'.$this->id,
             'preview_file' => $this->preview_file,
-            'articles' => ArticleResource::collection($this->whenLoaded('articles'))
+            'articles' => ArticleResource::collection($this->whenLoaded('articles')),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }

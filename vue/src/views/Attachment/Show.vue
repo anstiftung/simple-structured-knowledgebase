@@ -35,12 +35,23 @@ const loadFromServer = () => {
     })
 }
 
-const deleteAttachedFile = () => {
-  $toast.confirm('Anhang wirklich löschen?', () => {
-    AttachmentService.deleteAttachedFile(attachment.value).then(data => {
-      router.push({ name: 'dashboard' })
-    })
-  })
+const deleteAttachment = (forceDelete = false) => {
+  $toast.confirm(
+    forceDelete
+      ? 'Anhang endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.'
+      : 'Anhang wirklich löschen?',
+    () => {
+      AttachmentService.deleteAttachment(attachment.value, forceDelete).then(
+        data => {
+          if (window.history.length > 1) {
+            router.back()
+          } else {
+            router.push({ name: 'dashboard' })
+          }
+        },
+      )
+    },
+  )
 }
 
 loadFromServer()
@@ -128,6 +139,10 @@ loadFromServer()
             <h4 class="mb-2 text-sm text-gray-300">erstellt am</h4>
             <p>{{ $filters.formatedDate(attachment.created_at) }}</p>
           </div>
+          <div v-if="attachment.deleted_at">
+            <h4 class="mb-2 text-sm text-gray-300">als gelöscht markiert</h4>
+            <p>{{ $filters.formatedDateTime(attachment.deleted_at) }}</p>
+          </div>
           <div v-if="attachment.license">
             <h4 class="mb-2 text-sm text-gray-300">Lizenz</h4>
             <p>{{ attachment.license.title }}</p>
@@ -162,13 +177,24 @@ loadFromServer()
           <div
             class="cursor-pointer"
             v-if="
-              attachment.type == 'AttachedFile' &&
-              hasPermission('delete attached files')
+              !attachment.deleted_at &&
+              (userStore.id == attachment.created_by.id ||
+                hasPermission('delete others attachments'))
             "
-            @click="deleteAttachedFile"
+            @click="deleteAttachment(false)"
           >
             <icon name="trash" class="text-black" />
             <span class="inline-block ml-2 underline">Löschen</span>
+          </div>
+          <div
+            class="cursor-pointer"
+            v-if="
+              attachment.deleted_at && hasPermission('force delete attachments')
+            "
+            @click="deleteAttachment(true)"
+          >
+            <icon name="trash" class="text-black" />
+            <span class="inline-block ml-2 underline">Endgültig Löschen</span>
           </div>
         </div>
       </div>

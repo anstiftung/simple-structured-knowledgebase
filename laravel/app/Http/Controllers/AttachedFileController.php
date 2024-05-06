@@ -87,6 +87,9 @@ class AttachedFileController extends BaseController
      */
     public function show(AttachedFile $attachedFile, Request $request)
     {
+        if ($attachedFile->trashed() && !$this->authUser?->can('list trashed attachments')) {
+            abort(404);
+        }
 
         if ($request->boolean('withArticles')) {
             // load only published articles for unauthenticated users
@@ -164,13 +167,17 @@ class AttachedFileController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AttachedFile $attachedFile)
+    public function destroy(Request $request, AttachedFile $attachedFile)
     {
-        if (!$this->authUser->can('delete attached files')) {
+        $forceDelete = $request->boolean('forceDelete', false);
+
+        if ($forceDelete && $this->authUser->can('force delete attachments')) {
+            $attachedFile->forceDelete();
+        } elseif (!$forceDelete && ($this->authUser->id == $attachedFile->created_by_id || $this->authUser->can('delete others attachments'))) {
+            $attachedFile->delete();
+        } else {
             return parent::abortUnauthorized();
         }
-
-        $attachedFile->delete();
         return new AttachedFileResource($attachedFile);
     }
 }
