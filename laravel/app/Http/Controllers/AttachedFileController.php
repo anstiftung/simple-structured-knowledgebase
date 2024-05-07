@@ -40,7 +40,7 @@ class AttachedFileController extends BaseController
      */
     public function store(Request $request)
     {
-        if (!$this->authUser->can('create attached files')) {
+        if (!$this->authUser->can('create attachments')) {
             return parent::abortUnauthorized();
         }
 
@@ -127,12 +127,8 @@ class AttachedFileController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AttachedFile $attachedFile)
+    public function update(Request $request)
     {
-        if (!$this->authUser->can('update attached files')) {
-            return parent::abortUnauthorized();
-        }
-
         $request->validate([
             'attached_files' => 'required|array|min:1',
             'attached_files.*.id' => 'required|exists:attached_files,id',
@@ -142,24 +138,34 @@ class AttachedFileController extends BaseController
             'attached_files.*.license.id' => 'required|exists:licenses,id',
         ]);
 
+        $attachmentsToUpdate = [];
+
+        // check for permissions and get attachedfiles
+        $request->collect('attached_files')->each(function ($attachedFileFromRequest) use (&$attachmentsToUpdate) {
+            $attachedFile = AttachedFile::findOrFail($attachedFileFromRequest['id']);
+            if (!$this->authUser->can('update attachments') || $this->authUser->id != $attachedFile->created_by_id) {
+                return parent::abortUnauthorized();
+            }
+            $attachmentsToUpdate[] = [$attachedFile, $attachedFileFromRequest];
+        });
+
         $updatedAttachments = [];
 
-        $request->collect('attached_files')->each(function ($attachedFile) use (&$updatedAttachments) {
-            $updated = tap(AttachedFile::find($attachedFile['id']))->update([
-                'title' => $attachedFile['title'],
-                'description' => $attachedFile['description'],
-                'source' => $attachedFile['source'],
-                'license_id' => $attachedFile['license']['id'],
+        foreach ($attachmentsToUpdate as [$attachedFile, $attachedFileFromRequest]) {
+            $attachedFile->update([
+                'title' => $attachedFileFromRequest['title'],
+                'description' => $attachedFileFromRequest['description'],
+                'source' => $attachedFileFromRequest['source'],
+                'license_id' => $attachedFileFromRequest['license']['id'],
             ]);
 
             if ($this->authUser->can('approve content')) {
-                AttachedFile::find($attachedFile['id'])->update([
-                    'approved' => $attachedFile['approved'] ?? false
+                $attachedFile->update([
+                    'approved' => $attachedFileFromRequest['approved'] ?? false
                 ]);
             }
-
-            $updatedAttachments[] = $updated;
-        });
+            $updatedAttachments[] = $attachedFile;
+        }
 
         return AttachedFileResource::collection($updatedAttachments);
     }

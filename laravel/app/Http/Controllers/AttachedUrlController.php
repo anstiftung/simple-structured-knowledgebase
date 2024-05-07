@@ -36,7 +36,7 @@ class AttachedUrlController extends BaseController
      */
     public function store(Request $request)
     {
-        if (!$this->authUser->can('create attached urls')) {
+        if (!$this->authUser->can('create attachments')) {
             return parent::abortUnauthorized();
         }
 
@@ -88,10 +88,6 @@ class AttachedUrlController extends BaseController
      */
     public function update(Request $request, AttachedUrl $attachedUrl)
     {
-        if (!$this->authUser->can('update attached urls')) {
-            return parent::abortUnauthorized();
-        }
-
         $request->validate([
             'attached_urls' => 'required|array|min:1',
             'attached_urls.*.id' => 'required|exists:attached_urls,id',
@@ -99,16 +95,27 @@ class AttachedUrlController extends BaseController
             'attached_urls.*.description' => 'required|max:250',
         ]);
 
+        $attachmentsToUpdate = [];
+
+        // check for permissions and get attachedfiles
+        $request->collect('attached_urls')->each(function ($attachedUrlFromRequest) use (&$attachmentsToUpdate) {
+            $attachedUrl = AttachedUrl::findOrFail($attachedUrlFromRequest['id']);
+            if (!$this->authUser->can('update attachments') || $this->authUser->id != $attachedUrl->created_by_id) {
+                return parent::abortUnauthorized();
+            }
+            $attachmentsToUpdate[] = [$attachedUrl, $attachedUrlFromRequest];
+        });
+
         $updatedAttachments = [];
 
-        $request->collect('attached_urls')->each(function ($attachedUrl) use (&$updatedAttachments) {
-            $updated = tap(AttachedUrl::find($attachedUrl['id']))->update([
-                'title' => $attachedUrl['title'],
-                'description' => $attachedUrl['description']
+        foreach ($attachmentsToUpdate as [$attachedUrl, $attachedUrlFromRequest]) {
+            $attachedUrl->update([
+                'title' => $attachedUrlFromRequest['title'],
+                'description' => $attachedUrlFromRequest['description']
             ]);
 
-            $updatedAttachments[] = $updated;
-        });
+            $updatedAttachments[] = $attachedUrl;
+        }
 
         return AttachedUrlResource::collection($updatedAttachments);
     }
