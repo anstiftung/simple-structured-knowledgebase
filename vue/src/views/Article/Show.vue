@@ -72,7 +72,7 @@ loadFromServer()
     >
       <template v-slot:description>Beitrag</template>
       <template v-slot:content>
-        <h2 class="text-4xl text-center break-words hyphens-auto" lang="de">
+        <h2 class="text-4xl text-center break-words hyphens-auto">
           {{ article.title }}
         </h2>
         <router-link
