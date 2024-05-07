@@ -212,7 +212,10 @@ const discard = () => {
         <div class="justify-end">
           <div
             class="mb-4 cursor-pointer"
-            v-if="hasPermission('delete articles')"
+            v-if="
+              hasPermission('delete articles') ||
+              formData.article.state?.key == 'draft'
+            "
             @click="deleteArticle"
           >
             <icon name="trash" class="text-black" />
