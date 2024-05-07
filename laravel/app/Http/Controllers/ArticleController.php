@@ -142,13 +142,13 @@ class ArticleController extends BaseController
     public function destroy(Article $article)
     {
         $userCanDeleteOwnUnpublishedArticles = $this->authUser->id == $article->created_by_id && $article->state->key == 'draft';
+
         if ($this->authUser->can('delete articles') || $userCanDeleteOwnUnpublishedArticles) {
             $article->delete();
             return new ArticleResource($article);
-        } else {
-            return parent::abortUnauthorized();
         }
 
+        return parent::abortUnauthorized();
     }
 
     public function clap(Article $article)

@@ -75,7 +75,7 @@ onBeforeRouteLeave((to, from, next) => {
 const persist = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    $toast.error('Formular ungültig')
+    $toast.error('Deine Eingaben sind ungültig, bitte prüfe das Formular.')
     return
   }
 
@@ -94,7 +94,7 @@ const persist = async () => {
 }
 
 const deleteArticle = () => {
-  $toast.confirm('Artikel wirklich löschen?', () => {
+  $toast.confirm('Willst du den Beitrag wirklich löschen?', () => {
     ArticleService.deleteArticle(formData.article).then(data => {
       router.push({ name: 'dashboard' })
     })
