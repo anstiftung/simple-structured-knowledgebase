@@ -183,3 +183,10 @@
     @apply absolute inline-block left-4 top-5 size-5;
   }
 }
+
+.license-icons {
+  @apply mb-2;
+  img {
+    @apply h-6;
+  }
+}

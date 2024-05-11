@@ -18,6 +18,8 @@ class LicenseResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'icons' => $this->icons,
+            'external_url' => $this->external_url,
             'order' => $this->order
         ];
     }

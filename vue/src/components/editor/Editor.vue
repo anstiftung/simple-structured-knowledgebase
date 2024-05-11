@@ -54,7 +54,7 @@ const editor = useEditor({
     InfoBox,
     Placeholder.configure({
       placeholder:
-        'Inhalte einpflegen (Hinweise, dass Markdown erlaubt ist? ###, * etc.)',
+        'Bitte hier die Inhalte einpflegen, nutze dafür den Editor, auch MarkDown ist erlaubt.',
     }),
   ],
   content: props.modelValue,
