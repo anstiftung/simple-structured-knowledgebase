@@ -75,7 +75,7 @@ onBeforeRouteLeave((to, from, next) => {
 const persist = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    $toast.error('Formular ungültig')
+    $toast.error('Hier fehlt etwas. Bitte prüfe alle Felder')
     return
   }
 
