@@ -29,6 +29,7 @@ trait HasUniqueSlugTrait
         // Check if the modified slug already exists in the table
         $existingSlugs = $this->getExistingSlugs($slug, $this->getTable());
 
+
         if (!in_array($slug, $existingSlugs)) {
             // Slug is unique, no need to append numbers
             return $slug . ($slugNumber ? "-$slugNumber" : '');
@@ -57,6 +58,7 @@ trait HasUniqueSlugTrait
     {
         return $this->where('slug', 'LIKE', $slug . '%')
             ->where('id', '!=', $this->id ?? null) // Exclude the current model's ID
+            ->withTrashed()
             ->pluck('slug')
             ->toArray();
     }
