@@ -193,5 +193,7 @@
   @apply mb-2;
   img {
     @apply h-6;
+    @apply inline-block;
+    @apply mr-0.5;
   }
 }
