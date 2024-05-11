@@ -1,4 +1,6 @@
 <script setup>
+import Icon from '../atoms/Icon.vue'
+
 defineProps({
   modelValue: {
     type: Array,
@@ -14,6 +16,10 @@ defineProps({
           <td class="px-2 py-3">Titel</td>
           <td class="px-2 py-3">Datum</td>
           <td class="px-2 py-3">Beiträge</td>
+          <td class="px-2 py-3">Ersteller:in</td>
+          <td class="px-2 py-3">Status</td>
+          <td class="px-2 py-3">erstellt</td>
+          <td class="px-2 py-3">geändert</td>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +34,23 @@ defineProps({
           </td>
           <td class="px-2 py-3">
             {{ collection.num_articles }}
+          </td>
+          <td class="px-2 py-3">
+            {{ collection.created_by.name }}
+          </td>
+          <td class="px-2 py-3">
+            <div v-if="collection.published" title="Veröffentlicht">
+              <icon name="book-open-text" class="size-5" />
+            </div>
+            <div v-else title="nicht Veröffentlicht">
+              <icon name="book" class="size-5" />
+            </div>
+          </td>
+          <td class="px-2 py-3">
+            {{ $filters.formatedDate(collection.created_at) }}
+          </td>
+          <td class="px-2 py-3">
+            {{ $filters.formatedDate(collection.updated_at) }}
           </td>
         </tr>
       </tbody>
