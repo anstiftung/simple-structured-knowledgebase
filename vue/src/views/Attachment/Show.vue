@@ -145,7 +145,23 @@ loadFromServer()
           </div>
           <div v-if="attachment.license">
             <h4 class="mb-2 text-sm text-gray-300">Lizenz</h4>
-            <p>{{ attachment.license.title }}</p>
+            <div
+              class="license-icons"
+              v-if="attachment.license?.icons"
+              v-html="attachment.license.icons"
+            />
+            <p class="text-xs">
+              <a
+                :href="attachment.license?.external_url"
+                target="_blank"
+                v-if="attachment.license?.external_url"
+                class="cursor-pointer hover:underline"
+                >{{ attachment.license.title }}</a
+              >
+              <template v-else>
+                {{ attachment.license.title }}
+              </template>
+            </p>
           </div>
           <div v-if="attachment.source">
             <h4 class="mb-2 text-sm text-gray-300">Quelle</h4>
@@ -169,7 +185,7 @@ loadFromServer()
           <a
             target="blank"
             :href="attachment.serve_url"
-            class="text-center default-button"
+            class="text-center default-button large"
           >
             <template v-if="attachment.type == 'AttachedUrl'">Öffnen</template>
             <template v-else>Download</template></a
