@@ -58,8 +58,15 @@ trait HasUniqueSlugTrait
     {
         return $this->where('slug', 'LIKE', $slug . '%')
             ->where('id', '!=', $this->id ?? null) // Exclude the current model's ID
-            ->withTrashed()
+            ->when($this->hasSoftDeletes(), function ($query) {
+                return $query->withTrashed();
+            })
             ->pluck('slug')
             ->toArray();
+    }
+
+    private function hasSoftDeletes(): bool
+    {
+        return in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses_recursive($this));
     }
 }
