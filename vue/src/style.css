@@ -57,6 +57,11 @@
   &:disabled {
     @apply bg-blue/20 border-blue/20;
   }
+
+  &.large {
+    @apply text-base;
+    @apply px-5 py-[7px];
+  }
 }
 
 .secondary-button {

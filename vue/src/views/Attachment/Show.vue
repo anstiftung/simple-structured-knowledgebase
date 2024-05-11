@@ -185,7 +185,7 @@ loadFromServer()
           <a
             target="blank"
             :href="attachment.serve_url"
-            class="text-center default-button"
+            class="text-center default-button large"
           >
             <template v-if="attachment.type == 'AttachedUrl'">Öffnen</template>
             <template v-else>Download</template></a
