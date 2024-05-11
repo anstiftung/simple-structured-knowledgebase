@@ -168,10 +168,6 @@
     &:hover:after {
       @apply w-[80%];
     }
-
-    &:before {
-      @apply content-[''] border-b-2 border-yellow w-full;
-    }
   }
 
   a[data-type='Article']:after {
