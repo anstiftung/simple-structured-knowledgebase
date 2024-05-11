@@ -194,6 +194,6 @@
   img {
     @apply h-6;
     @apply inline-block;
-    @apply mr-1;
+    @apply mr-0.5;
   }
 }
