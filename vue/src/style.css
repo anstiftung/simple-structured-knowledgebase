@@ -161,12 +161,16 @@
   }
 
   a {
-    @apply relative inline-block font-bold no-underline z-[1];
+    @apply relative inline font-bold no-underline z-[1];
     &:after {
-      @apply z-[-1] content-[''] block h-[3px] w-full rounded bottom-[3px] absolute right-0  bg-yellow transition-all;
+      @apply z-[-1] content-[''] block h-[3px] w-full rounded -bottom-[3px] absolute right-0  bg-yellow transition-all;
     }
     &:hover:after {
       @apply w-[80%];
+    }
+
+    &:before {
+      @apply content-[''] border-b-2 border-yellow w-full;
     }
   }
 
