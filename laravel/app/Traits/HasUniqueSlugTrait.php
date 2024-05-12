@@ -9,8 +9,8 @@ trait HasUniqueSlugTrait
 {
     public static function bootHasUniqueSlugTrait(): void
     {
-        static::saving(function ($model) {
-            $slug = $model->slug;
+        static::creating(function ($model) {
+            $slug = Str::slug($model->title);
             $model->slug = $model->generateUniqueSlug($slug);
         });
     }

@@ -15,7 +15,6 @@ class Collection extends Model
 
     protected $fillable = [
         'title',
-        'slug',
         'description',
         'featured',
         'published',

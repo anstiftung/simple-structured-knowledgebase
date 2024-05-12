@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
@@ -23,7 +22,6 @@ class ArticleFactory extends Factory
 
         return [
             'title' => $title,
-            'slug' => Str::slug($title),
             'description' => fake()->sentence(20),
             'content' => $content,
             'approved' => fake()->boolean(70),
