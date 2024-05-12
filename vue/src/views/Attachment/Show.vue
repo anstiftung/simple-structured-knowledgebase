@@ -83,8 +83,8 @@ loadFromServer()
           v-if="
             userStore.id &&
             !attachment.deleted_at &&
-            (hasPermission('update attachments') ||
-              userStore.id == attachment.created_by_id)
+            (hasPermission('update others attachments') ||
+              userStore.id == attachment.created_by.id)
           "
           class="block pt-2 opacity-70"
           role="button"

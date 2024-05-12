@@ -40,8 +40,10 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'edit collection creator']);
 
         //attachments
-        Permission::create(['name' => 'create attachments']);
-        Permission::create(['name' => 'update attachments']);
+        Permission::create(['name' => 'add attachments']);
+        Permission::create(['name' => 'update own attachments']);
+        Permission::create(['name' => 'update others attachments']);
+        Permission::create(['name' => 'delete own attachments']);
         Permission::create(['name' => 'delete others attachments']);
         Permission::create(['name' => 'force delete attachments']);
         Permission::create(['name' => 'list trashed attachments']);
@@ -61,7 +63,9 @@ class RolesPermissionsSeeder extends Seeder
         $role->givePermissionTo('update own articles');
         $role->givePermissionTo('delete own articles');
 
-        $role->givePermissionTo('create attachments');
+        $role->givePermissionTo('add attachments');
+        $role->givePermissionTo('update own attachments');
+        $role->givePermissionTo('delete own attachments');
 
         $role->givePermissionTo('create comments');
 
@@ -81,12 +85,16 @@ class RolesPermissionsSeeder extends Seeder
         $role->givePermissionTo('delete collections');
         $role->givePermissionTo('feature collections');
 
-        $role->givePermissionTo('create attachments');
+        $role->givePermissionTo('add attachments');
 
         $role->givePermissionTo('delete others attachments');
+        $role->givePermissionTo('delete own attachments');
         $role->givePermissionTo('force delete attachments');
+
         $role->givePermissionTo('list trashed attachments');
-        $role->givePermissionTo('update attachments');
+
+        $role->givePermissionTo('update own attachments');
+        $role->givePermissionTo('update others attachments');
 
         $role->givePermissionTo('create comments');
         $role->givePermissionTo('delete comments');
