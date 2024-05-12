@@ -23,11 +23,13 @@ class RolesPermissionsSeeder extends Seeder
 
         // articles
         Permission::create(['name' => 'add articles']);
-        Permission::create(['name' => 'edit articles']);
-        Permission::create(['name' => 'delete articles']);
+        Permission::create(['name' => 'delete others articles']);
+        Permission::create(['name' => 'delete own articles']);
+        Permission::create(['name' => 'update own articles']);
+        Permission::create(['name' => 'update others articles']);
+
         Permission::create(['name' => 'publish articles']);
         Permission::create(['name' => 'edit article creator']);
-        Permission::create(['name' => 'update others articles']);
         Permission::create(['name' => 'clap own articles']);
         // collections
         Permission::create(['name' => 'add collections']);
@@ -58,8 +60,9 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'approve content']);
 
         $role = Role::create(['name' => 'writer']);
-        $role->givePermissionTo('edit articles');
         $role->givePermissionTo('add articles');
+        $role->givePermissionTo('update own articles');
+        $role->givePermissionTo('delete own articles');
 
         $role->givePermissionTo('create attached files');
         $role->givePermissionTo('update attached files');
@@ -69,13 +72,14 @@ class RolesPermissionsSeeder extends Seeder
         $role->givePermissionTo('create comments');
 
         $role = Role::create(['name' => 'editor']);
-        $role->givePermissionTo('edit articles');
+        $role->givePermissionTo('update own articles');
+        $role->givePermissionTo('update others articles');
         $role->givePermissionTo('edit article creator');
         $role->givePermissionTo('publish articles');
         $role->givePermissionTo('add articles');
-        $role->givePermissionTo('update others articles');
         $role->givePermissionTo('clap own articles');
-        $role->givePermissionTo('delete articles');
+        $role->givePermissionTo('delete others articles');
+        $role->givePermissionTo('delete own articles');
 
         $role->givePermissionTo('add collections');
         $role->givePermissionTo('edit collections');
