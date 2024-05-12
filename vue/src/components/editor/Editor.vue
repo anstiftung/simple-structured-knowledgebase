@@ -13,6 +13,7 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import BulletList from '@tiptap/extension-bullet-list'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Placeholder from '@tiptap/extension-placeholder'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
@@ -46,13 +47,14 @@ const editor = useEditor({
     ListItem,
     Italic,
     Strike,
+    HorizontalRule,
     CustomImage,
     Dropcursor,
     ItemLinkNode,
     InfoBox,
     Placeholder.configure({
       placeholder:
-        'Inhalte einpflegen (Hinweise, dass Markdown erlaubt ist? ###, * etc.)',
+        'Bitte hier die Inhalte einpflegen, nutze dafür den Editor, auch MarkDown ist erlaubt.',
     }),
   ],
   content: props.modelValue,
