@@ -75,7 +75,7 @@ onBeforeRouteLeave((to, from, next) => {
 const persist = async () => {
   const formIsCorret = await v$.value.$validate()
   if (!formIsCorret) {
-    $toast.error('Formular ungültig')
+    $toast.error('Hier fehlt etwas. Bitte prüfe alle Felder')
     return
   }
 
@@ -94,7 +94,7 @@ const persist = async () => {
 }
 
 const deleteArticle = () => {
-  $toast.confirm('Artikel wirklich löschen?', () => {
+  $toast.confirm('Willst du den Beitrag wirklich löschen?', () => {
     ArticleService.deleteArticle(formData.article).then(data => {
       router.push({ name: 'dashboard' })
     })
@@ -212,7 +212,10 @@ const discard = () => {
         <div class="justify-end">
           <div
             class="mb-4 cursor-pointer"
-            v-if="hasPermission('delete articles')"
+            v-if="
+              hasPermission('delete others articles') ||
+              formData.article.state?.key == 'draft'
+            "
             @click="deleteArticle"
           >
             <icon name="trash" class="text-black" />

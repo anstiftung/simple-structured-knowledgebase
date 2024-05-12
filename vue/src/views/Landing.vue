@@ -46,13 +46,13 @@ loadFromServer()
           <template v-for="collection in collections" v-if="collections">
             <collection-section :collection="collection"></collection-section>
           </template>
-        </div>
-        <div
-          v-if="catchAllCollection && catchAllCollection.articles.length > 0"
-        >
-          <collection-section
-            :collection="catchAllCollection"
-          ></collection-section>
+          <template
+            v-if="catchAllCollection && catchAllCollection.articles.length > 0"
+          >
+            <collection-section
+              :collection="catchAllCollection"
+            ></collection-section>
+          </template>
         </div>
       </div>
     </section>

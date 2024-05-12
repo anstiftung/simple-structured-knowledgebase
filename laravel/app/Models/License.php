@@ -12,6 +12,8 @@ class License extends Model
     protected $fillable = [
         'title',
         'description',
+        'icons',
+        'external_url',
         'order',
         'active',
     ];
