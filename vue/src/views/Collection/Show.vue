@@ -49,7 +49,7 @@ loadFromServer()
         <h2 class="text-4xl text-center">{{ collection.title }}</h2>
         <router-link
           class="block pt-2 opacity-70"
-          v-if="collection.slug && hasPermission('edit collections')"
+          v-if="collection.slug && hasPermission('update collections')"
           :to="{ name: 'collectionEdit', params: { slug: collection.slug } }"
           ><icon name="edit" /><span class="inline-block ml-1 underline"
             >Bearbeiten</span

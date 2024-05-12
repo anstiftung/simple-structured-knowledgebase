@@ -99,7 +99,7 @@ class CollectionController extends BaseController
      */
     public function update(Collection $collection, Request $request)
     {
-        if (!$this->authUser->can('edit collections')) {
+        if (!$this->authUser->can('update collections')) {
             return parent::abortUnauthorized();
         }
 
