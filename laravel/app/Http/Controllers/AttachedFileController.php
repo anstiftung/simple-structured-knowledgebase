@@ -142,7 +142,7 @@ class AttachedFileController extends BaseController
 
         // check for permissions and get attachedfiles
         $request->collect('attached_files')->each(function ($attachedFileFromRequest) use (&$attachmentsToUpdate) {
-            $attachedFile = AttachedFile::findOrFail($attachedFileFromRequest['id']);
+            $attachedFile = AttachedFile::find($attachedFileFromRequest['id']);
             if (!$this->authUser->can('update attachments') || $this->authUser->id != $attachedFile->created_by_id) {
                 return parent::abortUnauthorized();
             }
