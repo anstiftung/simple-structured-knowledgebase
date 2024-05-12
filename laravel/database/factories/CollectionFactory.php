@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +21,6 @@ class CollectionFactory extends Factory
 
         return [
             'title' => $title,
-            'slug' => Str::slug($title),
             'description' => fake()->sentence(50),
             'published' => $isPublished,
             'featured' => $isPublished ? fake()->boolean(40) : false,
