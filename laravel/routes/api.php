@@ -24,8 +24,7 @@ Route::controller(StateController::class)->group(function () {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles', 'index');
-    Route::get('/article/{article:slug}', 'show');
-
+    Route::get('/article/{article:slug}', 'show')->withTrashed(); // additional checks are performed in the controller function
 });
 
 Route::controller(SearchController::class)->group(function () {

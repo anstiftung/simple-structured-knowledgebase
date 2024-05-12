@@ -21,12 +21,15 @@ class ArticlePolicy
      */
     public function view(?User $user, Article $article): Response
     {
-        if ($article->state->key == 'publish') {
+        // todo: test this properly
+        if ($user?->can('list trashed attachments')) {
             return Response::allow();
         }
-        // logged in users are allowed to view unpublished articles
-        if ($user !== null) {
-            return Response::allow();
+
+        if ($article->state->key == 'publish') {
+            return $article->trashed()
+                ? Response::denyAsNotFound()
+                : Response::allow();
         }
 
         return Response::denyAsNotFound();

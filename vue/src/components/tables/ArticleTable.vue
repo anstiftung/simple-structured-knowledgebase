@@ -9,7 +9,7 @@ defineProps({
 <template>
   <section>
     <table class="w-full mb-4" v-if="modelValue.length > 0">
-      <thead class="border-y w-full text-gray-400 sticky bg-white top-header">
+      <thead class="sticky w-full text-gray-400 bg-white border-y top-header">
         <tr>
           <td class="px-2 py-3">Titel</td>
           <td class="px-2 py-3">Ersteller:in</td>
@@ -21,11 +21,19 @@ defineProps({
         </tr>
       </thead>
       <tbody>
-        <tr v-for="article in modelValue">
-          <td class="px-2 py-1 text-orange font-semibold">
+        <tr
+          v-for="article in modelValue"
+          :class="article.deleted_at ? 'opacity-50' : ''"
+        >
+          <td class="px-2 py-1 font-semibold text-orange">
             <router-link :to="article.url" class="cursor-pointer">
               {{ article.title }}
             </router-link>
+            <icon
+              name="trash"
+              class="text-gray-400"
+              v-if="article.deleted_at"
+            ></icon>
           </td>
           <td class="px-2 py-3">{{ article.created_by.name }}</td>
           <td class="px-2 py-3">
@@ -53,6 +61,6 @@ defineProps({
         </tr>
       </tbody>
     </table>
-    <p class="text-s pl-2 mb-12" v-else>Keine Ergebnisse…</p>
+    <p class="pl-2 mb-12 text-s" v-else>Keine Ergebnisse…</p>
   </section>
 </template>

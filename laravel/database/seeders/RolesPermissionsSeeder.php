@@ -25,12 +25,15 @@ class RolesPermissionsSeeder extends Seeder
         Permission::create(['name' => 'add articles']);
         Permission::create(['name' => 'delete others articles']);
         Permission::create(['name' => 'delete own articles']);
+        Permission::create(['name' => 'list trashed articles']);
+        Permission::create(['name' => 'force delete articles']);
         Permission::create(['name' => 'update own articles']);
         Permission::create(['name' => 'update others articles']);
 
         Permission::create(['name' => 'publish articles']);
         Permission::create(['name' => 'edit article creator']);
         Permission::create(['name' => 'clap own articles']);
+
         // collections
         Permission::create(['name' => 'add collections']);
         Permission::create(['name' => 'edit collections']);
@@ -80,6 +83,9 @@ class RolesPermissionsSeeder extends Seeder
         $role->givePermissionTo('clap own articles');
         $role->givePermissionTo('delete others articles');
         $role->givePermissionTo('delete own articles');
+
+        $role->givePermissionTo('list trashed articles');
+        $role->givePermissionTo('force delete articles');
 
         $role->givePermissionTo('add collections');
         $role->givePermissionTo('edit collections');
