@@ -34,7 +34,6 @@ class RolesPermissionsSeeder extends Seeder
         // collections
         Permission::create(['name' => 'add collections']);
         Permission::create(['name' => 'edit collections']);
-        Permission::create(['name' => 'delete collections']);
         Permission::create(['name' => 'feature collections']);
         Permission::create(['name' => 'edit collection creator']);
 
@@ -84,7 +83,6 @@ class RolesPermissionsSeeder extends Seeder
         $role->givePermissionTo('add collections');
         $role->givePermissionTo('edit collections');
         $role->givePermissionTo('edit collection creator');
-        $role->givePermissionTo('delete collections');
         $role->givePermissionTo('feature collections');
 
         $role->givePermissionTo('create attached files');
