@@ -213,7 +213,7 @@ const discard = () => {
           <div
             class="mb-4 cursor-pointer"
             v-if="
-              hasPermission('delete articles') ||
+              hasPermission('delete others articles') ||
               formData.article.state?.key == 'draft'
             "
             @click="deleteArticle"
