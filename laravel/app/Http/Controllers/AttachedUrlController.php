@@ -7,6 +7,7 @@ use App\Models\AttachedUrl;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\AttachedUrlResource;
+use Illuminate\Support\Facades\Gate;
 
 class AttachedUrlController extends BaseController
 {
@@ -36,9 +37,7 @@ class AttachedUrlController extends BaseController
      */
     public function store(Request $request)
     {
-        if (!$this->authUser->can('create attached urls')) {
-            return parent::abortUnauthorized();
-        }
+        Gate::authorize('create', AttachedUrl::class);
 
         $request->validate([
              'attached_urls' => 'required|array|min:1',
@@ -68,9 +67,7 @@ class AttachedUrlController extends BaseController
      */
     public function show(AttachedUrl $attachedUrl, Request $request)
     {
-        if ($attachedUrl->trashed() && !$this->authUser?->can('list trashed attachments')) {
-            abort(404);
-        }
+        Gate::authorize('view', $attachedUrl);
 
         if ($request->boolean('withArticles')) {
             // load only published articles for unauthenticated users
@@ -88,10 +85,6 @@ class AttachedUrlController extends BaseController
      */
     public function update(Request $request, AttachedUrl $attachedUrl)
     {
-        if (!$this->authUser->can('update attached urls')) {
-            return parent::abortUnauthorized();
-        }
-
         $request->validate([
             'attached_urls' => 'required|array|min:1',
             'attached_urls.*.id' => 'required|exists:attached_urls,id',
@@ -99,16 +92,27 @@ class AttachedUrlController extends BaseController
             'attached_urls.*.description' => 'required|max:250',
         ]);
 
+        $attachmentsToUpdate = [];
+
+        // check for permissions and get attachedfiles
+        $request->collect('attached_urls')->each(function ($attachedUrlFromRequest) use (&$attachmentsToUpdate) {
+            $attachedUrl = AttachedUrl::find($attachedUrlFromRequest['id']);
+
+            Gate::authorize('update', $attachedUrl);
+
+            $attachmentsToUpdate[] = [$attachedUrl, $attachedUrlFromRequest];
+        });
+
         $updatedAttachments = [];
 
-        $request->collect('attached_urls')->each(function ($attachedUrl) use (&$updatedAttachments) {
-            $updated = tap(AttachedUrl::find($attachedUrl['id']))->update([
-                'title' => $attachedUrl['title'],
-                'description' => $attachedUrl['description']
+        foreach ($attachmentsToUpdate as [$attachedUrl, $attachedUrlFromRequest]) {
+            $attachedUrl->update([
+                'title' => $attachedUrlFromRequest['title'],
+                'description' => $attachedUrlFromRequest['description']
             ]);
 
-            $updatedAttachments[] = $updated;
-        });
+            $updatedAttachments[] = $attachedUrl;
+        }
 
         return AttachedUrlResource::collection($updatedAttachments);
     }
@@ -120,13 +124,14 @@ class AttachedUrlController extends BaseController
     {
         $forceDelete = $request->boolean('forceDelete', false);
 
-        if ($forceDelete && $this->authUser->can('force delete attachments')) {
+        if ($forceDelete === true) {
+            Gate::authorize('forceDelete', $attachedUrl);
             $attachedUrl->forceDelete();
-        } elseif (!$forceDelete && ($this->authUser->id == $attachedUrl->created_by_id || $this->authUser->can('delete others attachments'))) {
-            $attachedUrl->delete();
         } else {
-            return parent::abortUnauthorized();
+            Gate::authorize('delete', $attachedUrl);
+            $attachedUrl->delete();
         }
+
         return new AttachedUrlResource($attachedUrl);
     }
 }

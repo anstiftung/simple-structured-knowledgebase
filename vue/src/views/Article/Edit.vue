@@ -117,7 +117,7 @@ const discard = () => {
     <model-header colorClass="bg-orange" secondaryColorClass="bg-orange/50">
       <template v-slot:description>Beitrag</template>
       <template v-slot:content>
-        <h2 class="text-4xl text-center break-words hyphens-auto" lang="de">
+        <h2 class="text-4xl text-center break-words hyphens-auto">
           <span v-if="formData.article.title">
             {{ formData.article.title }}
           </span>
