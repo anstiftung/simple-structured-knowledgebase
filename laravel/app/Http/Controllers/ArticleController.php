@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\State;
 use App\Models\Article;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Rules\ArticleStateValidator;
 use App\Http\Resources\ArticleResource;
@@ -60,7 +59,6 @@ class ArticleController extends BaseController
 
         $newArticle = Article::create([
            'title' => $request->title,
-           'slug' => Str::slug($request->title),
            'description' => $request->description,
            'content' => $request->content,
            'state_id' => $draftState->id

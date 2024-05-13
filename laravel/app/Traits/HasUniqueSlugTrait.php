@@ -9,8 +9,8 @@ trait HasUniqueSlugTrait
 {
     public static function bootHasUniqueSlugTrait(): void
     {
-        static::saving(function ($model) {
-            $slug = $model->slug;
+        static::creating(function ($model) {
+            $slug = Str::slug($model->title);
             $model->slug = $model->generateUniqueSlug($slug);
         });
     }
@@ -28,6 +28,7 @@ trait HasUniqueSlugTrait
 
         // Check if the modified slug already exists in the table
         $existingSlugs = $this->getExistingSlugs($slug, $this->getTable());
+
 
         if (!in_array($slug, $existingSlugs)) {
             // Slug is unique, no need to append numbers
@@ -57,7 +58,15 @@ trait HasUniqueSlugTrait
     {
         return $this->where('slug', 'LIKE', $slug . '%')
             ->where('id', '!=', $this->id ?? null) // Exclude the current model's ID
+            ->when($this->hasSoftDeletes(), function ($query) {
+                return $query->withTrashed();
+            })
             ->pluck('slug')
             ->toArray();
+    }
+
+    private function hasSoftDeletes(): bool
+    {
+        return in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses_recursive($this));
     }
 }

@@ -21,8 +21,7 @@ class ArticlePolicy
      */
     public function view(?User $user, Article $article): Response
     {
-        // todo: test this properly
-        if ($user?->can('list trashed attachments')) {
+        if ($article->published) {
             return Response::allow();
         }
 

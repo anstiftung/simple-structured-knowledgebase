@@ -200,7 +200,7 @@ const discard = () => {
                 <item-line
                   :model="element"
                   class="mb-2"
-                  :dragable="hasPermission('edit collections')"
+                  :dragable="hasPermission('update collections')"
                   :show-type="false"
                 />
                 <a
