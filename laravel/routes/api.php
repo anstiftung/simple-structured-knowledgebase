@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // create and update articles
     Route::post('/article', [ArticleController::class, 'store']);
     Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
-    Route::delete('/article/{article:id}', [ArticleController::class, 'destroy']);
+    Route::delete('/article/{article:id}', [ArticleController::class, 'destroy'])->withTrashed();
     Route::middleware(['throttle:claps'])->group(function () {
         Route::patch('/article/{article:slug}/clap', [ArticleController::class, 'clap']);
     });

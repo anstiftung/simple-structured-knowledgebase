@@ -127,11 +127,18 @@ class ArticleController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy(Request $request, Article $article)
     {
-        Gate::authorize('delete', $article);
+        $forceDelete = $request->boolean('forceDelete', false);
 
-        $article->delete();
+        if ($forceDelete === true) {
+            Gate::authorize('forceDelete', $article);
+            $article->forceDelete();
+        } else {
+            Gate::authorize('delete', $article);
+            $article->delete();
+        }
+
         return new ArticleResource($article);
     }
 

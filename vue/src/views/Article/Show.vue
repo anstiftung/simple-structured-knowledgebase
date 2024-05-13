@@ -38,10 +38,17 @@ const loadFromServer = () => {
     })
 }
 
-const clapArticle = () => {
-  ArticleService.clapArticle(slug).then(data => {
-    article.value.claps = data.claps
-  })
+const deleteArticle = (forceDelete = false) => {
+  $toast.confirm(
+    forceDelete
+      ? 'Beitrag endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.'
+      : 'Beitrag wirklich löschen?',
+    () => {
+      ArticleService.deleteArticle(article.value, forceDelete).then(data => {
+        router.push({ name: 'dashboard' })
+      })
+    },
+  )
 }
 
 const deleteComment = comment => {
@@ -77,8 +84,9 @@ loadFromServer()
         </h2>
         <router-link
           v-if="
-            userStore.id == article.created_by.id ||
-            hasPermission('update others articles')
+            !article.deleted_at &&
+            (userStore.id == article.created_by.id ||
+              hasPermission('update others articles'))
           "
           class="block pt-2 opacity-70"
           :to="{ name: 'articleEdit', params: { slug: article.slug } }"
@@ -94,7 +102,10 @@ loadFromServer()
         <div class="prose">
           <content-renderer :content="article.content" />
         </div>
-        <div class="mt-20 text-center" v-if="userStore.id">
+        <div
+          class="mt-20 text-center"
+          v-if="userStore.id && !article.deleted_at"
+        >
           <h3 class="text-lg">
             Dir hat der Beitrag gefallen? Lass einen clap da.
           </h3>
@@ -104,55 +115,85 @@ loadFromServer()
       <div
         class="self-start col-span-2 px-8 py-8 border-l sticky-sidebar min-h-full-without-header"
       >
-        <div v-if="article.approved">
-          <icon name="approved" class="mr-2 text-green size-6"></icon>
-          geprüfter Inhalt
-        </div>
-        <div class="grid grid-cols-2 mt-8">
-          <div class="flex items-center gap-2">
-            <icon name="clap" class="text-gray-300 size-6"></icon>
-            <span>{{ article.claps }}</span>
+        <div class="flex flex-col gap-8">
+          <div v-if="article.approved">
+            <icon name="approved" class="mr-2 text-green size-6"></icon>
+            geprüfter Inhalt
           </div>
-          <div class="flex items-center gap-2">
-            <icon name="comment" class="text-gray-300 size-6"></icon>
-            <span>{{ article.comments ? article.comments.length : '0' }}</span>
+          <div class="grid grid-cols-2">
+            <div class="flex items-center gap-2">
+              <icon name="clap" class="text-gray-300 size-6"></icon>
+              <span>{{ article.claps }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <icon name="comment" class="text-gray-300 size-6"></icon>
+              <span>{{
+                article.comments ? article.comments.length : '0'
+              }}</span>
+            </div>
           </div>
-        </div>
-        <div class="grid grid-cols-2 mt-8">
+          <div class="grid grid-cols-2">
+            <div>
+              <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
+              <p>{{ article.created_by.name }}</p>
+            </div>
+            <div>
+              <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>
+              <p>{{ article.state.title }}</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2">
+            <div>
+              <h4 class="mb-2 text-sm text-gray-300">erstellt am</h4>
+              <p>{{ $filters.formatedDate(article.created_at) }}</p>
+            </div>
+            <div>
+              <h4 class="mb-2 text-sm text-gray-300">geändert am</h4>
+              <p>{{ $filters.formatedDate(article.updated_at) }}</p>
+            </div>
+          </div>
+          <div v-if="article.deleted_at">
+            <h4 class="mb-2 text-sm text-gray-300">als gelöscht markiert</h4>
+            <p>{{ $filters.formatedDateTime(article.deleted_at) }}</p>
+          </div>
+          <div
+            class="cursor-pointer"
+            v-if="
+              !article.deleted_at &&
+              (hasPermission('delete others articles') ||
+                article.state?.key == 'draft')
+            "
+            @click="deleteArticle(false)"
+          >
+            <icon name="trash" class="text-black" />
+            <span class="inline-block ml-2 underline">Löschen</span>
+          </div>
+          <div
+            class="cursor-pointer"
+            v-if="article.deleted_at && hasPermission('force delete articles')"
+            @click="deleteArticle(true)"
+          >
+            <icon name="trash" class="text-black" />
+            <span class="inline-block ml-2 underline">Endgültig Löschen</span>
+          </div>
           <div>
-            <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
-            <p>{{ article.created_by.name }}</p>
-          </div>
-          <div>
-            <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>
-            <p>{{ article.state.title }}</p>
+            <h4
+              class="mb-2 text-sm text-gray-300"
+              v-if="article.collections.length"
+            >
+              andere Sammlungen mit diesem Beitrag
+            </h4>
+            <p>
+              <item-line
+                v-for="collection in article.collections"
+                :navigate="true"
+                :showType="false"
+                :model="collection"
+                class="mb-2"
+              ></item-line>
+            </p>
           </div>
         </div>
-        <div class="grid grid-cols-2 mt-8">
-          <div>
-            <h4 class="mb-2 text-sm text-gray-300">erstellt am</h4>
-            <p>{{ $filters.formatedDate(article.created_at) }}</p>
-          </div>
-          <div>
-            <h4 class="mb-2 text-sm text-gray-300">geändert am</h4>
-            <p>{{ $filters.formatedDate(article.updated_at) }}</p>
-          </div>
-        </div>
-        <h4
-          class="mt-8 mb-2 text-sm text-gray-300"
-          v-if="article.collections.length"
-        >
-          andere Sammlungen mit diesem Beitrag
-        </h4>
-        <p>
-          <item-line
-            v-for="collection in article.collections"
-            :navigate="true"
-            :showType="false"
-            :model="collection"
-            class="mb-2"
-          ></item-line>
-        </p>
       </div>
     </section>
 
