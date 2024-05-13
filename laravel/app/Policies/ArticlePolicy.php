@@ -21,7 +21,7 @@ class ArticlePolicy
      */
     public function view(?User $user, Article $article): Response
     {
-        if ($article->state->key == 'publish') {
+        if ($article->published) {
             return Response::allow();
         }
         // logged in users are allowed to view unpublished articles
