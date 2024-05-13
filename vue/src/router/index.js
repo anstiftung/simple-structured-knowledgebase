@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import routes from '@/router/routes.js'
 import { useUserStore } from '@/stores/user'
+import ToastPlugin from '@/plugins/toast.js'
+import keycloakInstance from '@/plugins/keycloak.js'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -18,6 +20,15 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = `Cowiki | ${to.meta.title}`
   const userStore = useUserStore()
+
+  // adds refreshing the token before any page-change
+  try {
+    keycloakInstance.updateToken(5).then(state => {
+      if (state) console.info('api token renewed.')
+    })
+  } catch (error) {
+    ToastPlugin.error('Can`t update Authorization-Token.')
+  }
 
   if (
     to.hash.startsWith('#error=login_required') ||
