@@ -88,8 +88,7 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         // disable observer (and mail notifications)
-        $articles = Article::withoutEvents(function () {
-            return Article::factory()->count($this->numArticles)
+        $articles = Article::factory()->count($this->numArticles)
             ->state(new Sequence(
                 fn (Sequence $sequence) => [
                     'created_by_id' => User::all()->random()->id,
@@ -98,7 +97,6 @@ class DatabaseSeeder extends Seeder
                 ],
             ))
             ->create();
-        });
 
         foreach ($articles as $article) {
             Comment::factory()->count(rand(0, 5))
@@ -111,8 +109,6 @@ class DatabaseSeeder extends Seeder
                 ))
                 ->create();
         }
-
-
 
         foreach ($generatedFiles as $file) {
             Storage::disk('uploads')->deleteDirectory($file->id);

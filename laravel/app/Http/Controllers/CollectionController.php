@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\CollectionResource;
@@ -56,7 +55,6 @@ class CollectionController extends BaseController
 
         $collection = Collection::create([
            'title' => $request->title,
-           'slug' => Str::slug($request->title),
            'description' => $request->description,
            'published' => $request->published,
            'content' => $request->content
