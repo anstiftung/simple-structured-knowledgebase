@@ -69,4 +69,17 @@ class Article extends Model
     {
         return $this->hasMany(Comment::class)->orderBy('created_at', 'ASC');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::forceDeleting(function ($article) {
+            // force delete articles
+            $article->comments()->forceDelete();
+            // remove intermediate data for attachments and collections
+            $article->collections()->detach();
+            $article->attached_files()->detach();
+            $article->attached_urls()->detach();
+        });
+    }
 }

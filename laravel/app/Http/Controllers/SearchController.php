@@ -141,6 +141,9 @@ class SearchController extends BaseController
             ->when($this->created_by_id, function ($query) {
                 $query->where('created_by_id', $this->created_by_id);
             })
+            ->when($this->includingTrashed && $this->authUser->can('list trashed articles'), function ($query) {
+                $query->withTrashed();
+            })
             ->orderBy('created_at', 'DESC')
             ->when(empty($this->authUser) || $this->onlyPublished, function ($query) {
                 $query->published();

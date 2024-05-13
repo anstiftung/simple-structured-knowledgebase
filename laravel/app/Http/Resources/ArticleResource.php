@@ -33,7 +33,8 @@ class ArticleResource extends BaseResource
             'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
             'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
             'collections' => CollectionResource::collection($this->whenLoaded('collections')),
-            'comments' => CommentResource::collection($this->whenLoaded('comments'))
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }
