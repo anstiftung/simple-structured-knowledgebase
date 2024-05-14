@@ -93,14 +93,6 @@ const persist = async () => {
   }
 }
 
-const deleteArticle = () => {
-  $toast.confirm('Artikel wirklich löschen?', () => {
-    ArticleService.deleteArticle(formData.article).then(data => {
-      router.push({ name: 'dashboard' })
-    })
-  })
-}
-
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
@@ -117,7 +109,7 @@ const discard = () => {
     <model-header colorClass="bg-orange" secondaryColorClass="bg-orange/50">
       <template v-slot:description>Beitrag</template>
       <template v-slot:content>
-        <h2 class="text-4xl text-center break-words hyphens-auto" lang="de">
+        <h2 class="text-4xl text-center break-words hyphens-auto">
           <span v-if="formData.article.title">
             {{ formData.article.title }}
           </span>
@@ -210,14 +202,6 @@ const discard = () => {
           </div>
         </div>
         <div class="justify-end">
-          <div
-            class="mb-4 cursor-pointer"
-            v-if="hasPermission('delete articles')"
-            @click="deleteArticle"
-          >
-            <icon name="trash" class="text-black" />
-            <span class="inline-block ml-2 underline">Löschen</span>
-          </div>
           <div class="flex justify-between gap-4">
             <button
               class="secondary-button"

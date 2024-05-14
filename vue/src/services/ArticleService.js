@@ -59,10 +59,13 @@ class ArticleService {
     return makeApiRequest(config)
   }
 
-  deleteArticle(article) {
+  deleteArticle(article, forceDelete = false) {
     const config = {
       method: 'delete',
       url: `article/${article.id}`,
+      params: {
+        forceDelete: forceDelete,
+      },
     }
     return makeApiRequest(config)
   }

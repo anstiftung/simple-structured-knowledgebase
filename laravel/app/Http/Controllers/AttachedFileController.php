@@ -11,6 +11,7 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Resources\AttachedFileResource;
 use Illuminate\Validation\Rules\File as FileValidator;
+use Illuminate\Support\Facades\Gate;
 
 class AttachedFileController extends BaseController
 {
@@ -40,9 +41,7 @@ class AttachedFileController extends BaseController
      */
     public function store(Request $request)
     {
-        if (!$this->authUser->can('create attached files')) {
-            return parent::abortUnauthorized();
-        }
+        Gate::authorize('create', AttachedFile::class);
 
         $request->validate([
             'attached_files' => 'required|array|min:1',
@@ -87,9 +86,7 @@ class AttachedFileController extends BaseController
      */
     public function show(AttachedFile $attachedFile, Request $request)
     {
-        if ($attachedFile->trashed() && !$this->authUser?->can('list trashed attachments')) {
-            abort(404);
-        }
+        Gate::authorize('view', $attachedFile);
 
         if ($request->boolean('withArticles')) {
             // load only published articles for unauthenticated users
@@ -127,12 +124,8 @@ class AttachedFileController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AttachedFile $attachedFile)
+    public function update(Request $request)
     {
-        if (!$this->authUser->can('update attached files')) {
-            return parent::abortUnauthorized();
-        }
-
         $request->validate([
             'attached_files' => 'required|array|min:1',
             'attached_files.*.id' => 'required|exists:attached_files,id',
@@ -142,24 +135,34 @@ class AttachedFileController extends BaseController
             'attached_files.*.license.id' => 'required|exists:licenses,id',
         ]);
 
+        $attachmentsToUpdate = [];
+
+        // check for permissions and get attachedfiles
+        $request->collect('attached_files')->each(function ($attachedFileFromRequest) use (&$attachmentsToUpdate) {
+            $attachedFile = AttachedFile::find($attachedFileFromRequest['id']);
+
+            Gate::authorize('update', $attachedFile);
+
+            $attachmentsToUpdate[] = [$attachedFile, $attachedFileFromRequest];
+        });
+
         $updatedAttachments = [];
 
-        $request->collect('attached_files')->each(function ($attachedFile) use (&$updatedAttachments) {
-            $updated = tap(AttachedFile::find($attachedFile['id']))->update([
-                'title' => $attachedFile['title'],
-                'description' => $attachedFile['description'],
-                'source' => $attachedFile['source'],
-                'license_id' => $attachedFile['license']['id'],
+        foreach ($attachmentsToUpdate as [$attachedFile, $attachedFileFromRequest]) {
+            $attachedFile->update([
+                'title' => $attachedFileFromRequest['title'],
+                'description' => $attachedFileFromRequest['description'],
+                'source' => $attachedFileFromRequest['source'],
+                'license_id' => $attachedFileFromRequest['license']['id'],
             ]);
 
             if ($this->authUser->can('approve content')) {
-                AttachedFile::find($attachedFile['id'])->update([
-                    'approved' => $attachedFile['approved'] ?? false
+                $attachedFile->update([
+                    'approved' => $attachedFileFromRequest['approved'] ?? false
                 ]);
             }
-
-            $updatedAttachments[] = $updated;
-        });
+            $updatedAttachments[] = $attachedFile;
+        }
 
         return AttachedFileResource::collection($updatedAttachments);
     }
@@ -171,13 +174,14 @@ class AttachedFileController extends BaseController
     {
         $forceDelete = $request->boolean('forceDelete', false);
 
-        if ($forceDelete && $this->authUser->can('force delete attachments')) {
+        if ($forceDelete === true) {
+            Gate::authorize('forceDelete', $attachedFile);
             $attachedFile->forceDelete();
-        } elseif (!$forceDelete && ($this->authUser->id == $attachedFile->created_by_id || $this->authUser->can('delete others attachments'))) {
-            $attachedFile->delete();
         } else {
-            return parent::abortUnauthorized();
+            Gate::authorize('delete', $attachedFile);
+            $attachedFile->delete();
         }
+
         return new AttachedFileResource($attachedFile);
     }
 }

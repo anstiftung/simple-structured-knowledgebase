@@ -7,6 +7,7 @@
 /storage/uploads
 /vendor
 .env
+.env.testing
 .env.backup
 .env.testing
 .env.production

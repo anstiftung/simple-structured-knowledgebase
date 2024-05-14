@@ -3,11 +3,13 @@ import { ref, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
+import { useModalStore } from '@/stores/modal'
 
 import AttachmentService from '@/services/AttachmentService'
 import ArticleCard from '@/components/atoms/ArticleCard.vue'
 import ModelHeader from '@/components/layouts/ModelHeader.vue'
 import Separator from '@/components/layouts/Separator.vue'
+import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
 const userStore = useUserStore()
 const { hasPermission } = storeToRefs(userStore)
@@ -15,6 +17,9 @@ const $toast = inject('$toast')
 
 const router = useRouter()
 const route = useRoute()
+
+const modal = useModalStore()
+
 const id = route.params.id
 const attachment = ref(null)
 
@@ -43,15 +48,18 @@ const deleteAttachment = (forceDelete = false) => {
     () => {
       AttachmentService.deleteAttachment(attachment.value, forceDelete).then(
         data => {
-          if (window.history.length > 1) {
-            router.back()
-          } else {
-            router.push({ name: 'dashboard' })
-          }
+          router.push({ name: 'dashboard' })
         },
       )
     },
   )
+}
+
+const editAttachment = () => {
+  const props = { attachments: [attachment.value] }
+  modal.open(EditAttachments, props, () => {
+    loadFromServer()
+  })
 }
 
 loadFromServer()
@@ -67,6 +75,21 @@ loadFromServer()
       <template v-slot:description>Anhang</template>
       <template v-slot:content>
         <h2 class="text-4xl text-center">{{ attachment.title }}</h2>
+        <div
+          v-if="
+            userStore.id &&
+            !attachment.deleted_at &&
+            (hasPermission('update others attachments') ||
+              userStore.id == attachment.created_by.id)
+          "
+          class="block pt-2 opacity-70"
+          role="button"
+          @click="editAttachment()"
+        >
+          <icon name="edit" /><span class="inline-block ml-1 underline"
+            >Bearbeiten</span
+          >
+        </div>
       </template>
     </model-header>
     <section v-if="attachment" class="grid grid-cols-6 my-8 width-wrapper">

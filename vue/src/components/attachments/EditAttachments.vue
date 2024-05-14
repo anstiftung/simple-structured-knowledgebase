@@ -23,10 +23,7 @@ const emit = defineEmits(['done'])
 const $toast = inject('$toast')
 
 const shouldCloseModal = done => {
-  $toast.confirm(
-    'Der Anhang kann mit unzureichenden Metadten nicht verwendet werden. Vorgang wirklich beenden? ',
-    done,
-  )
+  $toast.confirm('Vorgang wirklich beenden? ', done)
 }
 
 defineExpose({

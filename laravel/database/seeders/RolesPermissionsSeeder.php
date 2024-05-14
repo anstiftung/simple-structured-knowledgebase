@@ -23,28 +23,28 @@ class RolesPermissionsSeeder extends Seeder
 
         // articles
         Permission::create(['name' => 'add articles']);
-        Permission::create(['name' => 'edit articles']);
-        Permission::create(['name' => 'delete articles']);
+        Permission::create(['name' => 'delete others articles']);
+        Permission::create(['name' => 'delete own articles']);
+        Permission::create(['name' => 'list trashed articles']);
+        Permission::create(['name' => 'force delete articles']);
+        Permission::create(['name' => 'update own articles']);
+        Permission::create(['name' => 'update others articles']);
+
         Permission::create(['name' => 'publish articles']);
         Permission::create(['name' => 'edit article creator']);
-        Permission::create(['name' => 'update others articles']);
         Permission::create(['name' => 'clap own articles']);
+
         // collections
         Permission::create(['name' => 'add collections']);
-        Permission::create(['name' => 'edit collections']);
-        Permission::create(['name' => 'delete collections']);
+        Permission::create(['name' => 'update collections']);
         Permission::create(['name' => 'feature collections']);
         Permission::create(['name' => 'edit collection creator']);
 
-        // attached files
-        Permission::create(['name' => 'create attached files']);
-        Permission::create(['name' => 'update attached files']);
-
-        // attached urls
-        Permission::create(['name' => 'create attached urls']);
-        Permission::create(['name' => 'update attached urls']);
-
         //attachments
+        Permission::create(['name' => 'add attachments']);
+        Permission::create(['name' => 'update own attachments']);
+        Permission::create(['name' => 'update others attachments']);
+        Permission::create(['name' => 'delete own attachments']);
         Permission::create(['name' => 'delete others attachments']);
         Permission::create(['name' => 'force delete attachments']);
         Permission::create(['name' => 'list trashed attachments']);
@@ -52,45 +52,52 @@ class RolesPermissionsSeeder extends Seeder
         // comments
         Permission::create(['name' => 'create comments']);
         Permission::create(['name' => 'delete comments']);
+
         // users
         Permission::create(['name' => 'list users']);
+
         // general
         Permission::create(['name' => 'approve content']);
 
         $role = Role::create(['name' => 'writer']);
-        $role->givePermissionTo('edit articles');
         $role->givePermissionTo('add articles');
+        $role->givePermissionTo('update own articles');
+        $role->givePermissionTo('delete own articles');
 
-        $role->givePermissionTo('create attached files');
-        $role->givePermissionTo('update attached files');
-        $role->givePermissionTo('create attached urls');
-        $role->givePermissionTo('update attached urls');
+        $role->givePermissionTo('add attachments');
+        $role->givePermissionTo('update own attachments');
+        $role->givePermissionTo('delete own attachments');
 
         $role->givePermissionTo('create comments');
 
         $role = Role::create(['name' => 'editor']);
-        $role->givePermissionTo('edit articles');
+        $role->givePermissionTo('update own articles');
+        $role->givePermissionTo('update others articles');
         $role->givePermissionTo('edit article creator');
         $role->givePermissionTo('publish articles');
         $role->givePermissionTo('add articles');
-        $role->givePermissionTo('update others articles');
         $role->givePermissionTo('clap own articles');
-        $role->givePermissionTo('delete articles');
+        $role->givePermissionTo('delete others articles');
+        $role->givePermissionTo('delete own articles');
+
+        $role->givePermissionTo('list trashed articles');
+        $role->givePermissionTo('force delete articles');
 
         $role->givePermissionTo('add collections');
-        $role->givePermissionTo('edit collections');
+        $role->givePermissionTo('update collections');
         $role->givePermissionTo('edit collection creator');
-        $role->givePermissionTo('delete collections');
         $role->givePermissionTo('feature collections');
 
-        $role->givePermissionTo('create attached files');
-        $role->givePermissionTo('update attached files');
-        $role->givePermissionTo('create attached urls');
-        $role->givePermissionTo('update attached urls');
+        $role->givePermissionTo('add attachments');
 
         $role->givePermissionTo('delete others attachments');
+        $role->givePermissionTo('delete own attachments');
         $role->givePermissionTo('force delete attachments');
+
         $role->givePermissionTo('list trashed attachments');
+
+        $role->givePermissionTo('update own attachments');
+        $role->givePermissionTo('update others attachments');
 
         $role->givePermissionTo('create comments');
         $role->givePermissionTo('delete comments');
