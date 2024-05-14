@@ -100,7 +100,7 @@ loadFromServer()
     <section v-if="article" class="grid grid-cols-6 my-8 width-wrapper">
       <div class="col-span-4 px-8 py-16">
         <div class="prose">
-          <content-renderer :content="article.content" />
+          <content-renderer :content="article.content" v-if="article.content" />
         </div>
         <div
           class="mt-20 text-center"
