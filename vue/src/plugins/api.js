@@ -19,7 +19,6 @@ api.interceptors.request.use(function (config) {
 })
 
 export const makeApiRequest = async (config, errorFunction = null) => {
-  // adds refreshing the token before any api-call, most of the refreshes should be handled by
   await refreshToken()
 
   return api(config)
