@@ -93,14 +93,6 @@ const persist = async () => {
   }
 }
 
-const deleteArticle = () => {
-  $toast.confirm('Willst du den Beitrag wirklich löschen?', () => {
-    ArticleService.deleteArticle(formData.article).then(data => {
-      router.push({ name: 'dashboard' })
-    })
-  })
-}
-
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
@@ -210,17 +202,6 @@ const discard = () => {
           </div>
         </div>
         <div class="justify-end">
-          <div
-            class="mb-4 cursor-pointer"
-            v-if="
-              hasPermission('delete others articles') ||
-              formData.article.state?.key == 'draft'
-            "
-            @click="deleteArticle"
-          >
-            <icon name="trash" class="text-black" />
-            <span class="inline-block ml-2 underline">Löschen</span>
-          </div>
           <div class="flex justify-between gap-4">
             <button
               class="secondary-button"

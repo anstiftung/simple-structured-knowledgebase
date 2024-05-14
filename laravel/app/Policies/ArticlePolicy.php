@@ -21,15 +21,22 @@ class ArticlePolicy
      */
     public function view(?User $user, Article $article): Response
     {
-        if ($article->published) {
-            return Response::allow();
+        // only users with the permission are allowed to view tashed articles
+        if ($article->trashed()) {
+            return $user?->can('list trashed articles')
+                ? Response::allow()
+                : Response::denyAsNotFound();
         }
-        // logged in users are allowed to view unpublished articles
-        if ($user !== null) {
+
+        // published articles are visible to everyone
+        if ($article->state->key === 'publish') {
             return Response::allow();
         }
 
-        return Response::denyAsNotFound();
+        // unplished articles are only visible to logged in users
+        return $user
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -99,7 +106,11 @@ class ArticlePolicy
      */
     public function forceDelete(User $user, Article $article): Response
     {
-        //
+        if ($user->can('force delete articles')) {
+            return Response::allow();
+        }
+
+        Response::deny('Du darfst keine Beiträge endgültig löschen.');
     }
 
     public function clap(User $user, Article $article): Response
