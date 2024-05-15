@@ -59,7 +59,7 @@ class CollectionService {
     }
     const config = {
       method: 'patch',
-      url: `/collection/${collection.slug}`,
+      url: `/collection/${collection.id}`,
       data: data,
     }
     return makeApiRequest(config)

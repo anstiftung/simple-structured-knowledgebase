@@ -80,6 +80,12 @@ const persist = async () => {
   }
 
   const afterPersist = data => {
+    // only on update we warn about a slug changed caused by the `HasUniqueSlugTrait^`
+    if (formData.article.id && formData.article.slug != data.slug) {
+      $toast.warning(
+        'Der Slug enthielt ungültige Zeichen oder wurde bereits verwendet. Wir haben ihn leicht angepasst.',
+      )
+    }
     formData.article = data
     persistedArticle = JSON.stringify(data)
     $toast.success('Beitrag erfolgreich gespeichert')
@@ -188,6 +194,24 @@ const discard = () => {
               v-model="formData.article.created_by"
             ></user-select>
             <p v-else>{{ formData.article.created_by.name }}</p>
+          </div>
+          <div v-if="formData.article.id && hasPermission('edit article slug')">
+            <input-wrapper
+              v-model="formData.article.slug"
+              label="Slug"
+              helpText="Der Slug ist eine eindeutige Zeichenkette, die die URL des Beitrags bildet."
+            >
+              <template #default="{ inputId, modelValue, updateValue }">
+                <input
+                  type="text"
+                  autofocus
+                  placeholder="Slug des Beitrags"
+                  :id="inputId"
+                  :value="modelValue"
+                  @input="updateValue"
+                />
+              </template>
+            </input-wrapper>
           </div>
           <div v-if="hasPermission('approve content') && formData.article.id">
             <h4 class="mb-2 text-sm text-gray-300">Geprüft</h4>

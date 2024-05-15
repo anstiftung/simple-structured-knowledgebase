@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // create and update articles
     Route::post('/article', [ArticleController::class, 'store']);
-    Route::patch('/article/{article:slug}', [ArticleController::class, 'update']);
+    Route::patch('/article/{article:id}', [ArticleController::class, 'update']);
     Route::delete('/article/{article:id}', [ArticleController::class, 'destroy'])->withTrashed();
     Route::middleware(['throttle:claps'])->group(function () {
         Route::patch('/article/{article:slug}/clap', [ArticleController::class, 'clap']);
@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // create and update collections
     Route::post('/collection', [CollectionController::class, 'store']);
-    Route::patch('/collection/{collection:slug}', [CollectionController::class, 'update']);
+    Route::patch('/collection/{collection:id}', [CollectionController::class, 'update']);
 
     // resort collections
     Route::patch('/collections/featured/reorder', [CollectionListController::class, 'reorder']);

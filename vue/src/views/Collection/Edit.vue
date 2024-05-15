@@ -100,6 +100,12 @@ const persist = async () => {
   }
 
   const afterPersist = data => {
+    // only on update we warn about a slug changed caused by the `HasUniqueSlugTrait^`
+    if (formData.collection.id && formData.collection.slug != data.slug) {
+      $toast.warning(
+        'Der Slug enthielt ungültige Zeichen oder wurde bereits verwendet. Wir haben ihn leicht angepasst.',
+      )
+    }
     formData.collection = data
     persistedCollection = JSON.stringify(data)
     $toast.success('Sammlung erfolgreich gespeichert')
@@ -270,6 +276,28 @@ const discard = () => {
               v-model="formData.collection.created_by"
             ></user-select>
             <p v-else>{{ formData.collection.created_by.name }}</p>
+          </div>
+          <div
+            v-if="
+              formData.collection.id && hasPermission('edit collection slug')
+            "
+          >
+            <input-wrapper
+              v-model="formData.collection.slug"
+              label="Slug"
+              helpText="Der Slug ist eine eindeutige Zeichenkette, die die URL der Sammlung bildet."
+            >
+              <template #default="{ inputId, modelValue, updateValue }">
+                <input
+                  type="text"
+                  autofocus
+                  placeholder="Slug der Sammlung"
+                  :id="inputId"
+                  :value="modelValue"
+                  @input="updateValue"
+                />
+              </template>
+            </input-wrapper>
           </div>
         </div>
         <div class="flex justify-between gap-4">
