@@ -21,9 +21,6 @@ const licenses = ref([])
 const loadFromServer = () => {
   LicenseService.getLicenses().then(data => {
     licenses.value = data
-
-    // Set first Model default Model if none is insice v-model
-    if (localModel.value === null) localModel.value = data[0]
   })
 }
 
@@ -35,7 +32,6 @@ loadFromServer()
     class="w-full max-w-xl px-4 py-3 text-gray-800 bg-white rounded-md"
     v-model="localModel"
   >
-    <!-- <option :value="null" disabled>Keine Lizenz ausgewählt</option> -->
     <option v-for="license in licenses" :value="license">
       {{ license.title }}
     </option>
