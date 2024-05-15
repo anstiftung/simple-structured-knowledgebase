@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import routes from '@/router/routes.js'
 import { useUserStore } from '@/stores/user'
+import refreshToken from '@/plugins/keycloak-token-refresh.js'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -18,6 +19,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = `Cowiki | ${to.meta.title}`
   const userStore = useUserStore()
+
+  refreshToken()
 
   if (
     to.hash.startsWith('#error=login_required') ||

@@ -1,6 +1,7 @@
 import ToastPlugin from '@/plugins/toast.js'
 import axios from 'axios'
 import keycloakInstance from '@/plugins/keycloak.js'
+import refreshToken from '@/plugins/keycloak-token-refresh.js'
 const API_URL = import.meta.env.VITE_API_ROOT + 'api/'
 
 const api = axios.create({
@@ -17,7 +18,9 @@ api.interceptors.request.use(function (config) {
   return config
 })
 
-export const makeApiRequest = (config, errorFunction = null) => {
+export const makeApiRequest = async (config, errorFunction = null) => {
+  await refreshToken()
+
   return api(config)
     .then(response => {
       if (response.data.meta) {
