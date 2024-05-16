@@ -42,7 +42,7 @@ export default Node.create({
         [
           'use',
           {
-            href: '/icons/warning.svg#warning',
+            href: getInfoBoxIcon(node.attrs['data-type']),
           },
         ],
       ],
@@ -76,10 +76,7 @@ function getMainDom(node) {
     'http://www.w3.org/2000/svg',
     'use',
   )
-  useElement.setAttribute(
-    'href',
-    `/icons/${node.attrs['data-type']}.svg#${node.attrs['data-type']}`,
-  )
+  useElement.setAttribute('href', getInfoBoxIcon(node.attrs['data-type']))
 
   iconSVG.append(useElement)
   dom.append(iconSVG)
@@ -91,4 +88,8 @@ function getMainDom(node) {
   dom.append(contentElement)
 
   return [dom, contentElement]
+}
+
+function getInfoBoxIcon(type) {
+  return `/icons/${type}.svg#${type}`
 }
