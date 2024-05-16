@@ -63,6 +63,11 @@ const editor = useEditor({
   onUpdate: ({ editor }) => {
     emit('update:modelValue', editor.getHTML())
   },
+  editorProps: {
+    transformPastedHTML(html) {
+      return html.replace(/<img.*?>/g, '')
+    },
+  },
 })
 
 watch(
@@ -82,6 +87,9 @@ watch(
   <div class="relative flex flex-col h-full gap-4">
     <fixed-menu :editor="editor" v-if="editor" />
     <editor-content :editor="editor" class="prose grow" />
+    <pre v-if="editor">
+        {{ editor.getHTML() }}
+    </pre>
     <image-menu :editor="editor" />
   </div>
 </template>
