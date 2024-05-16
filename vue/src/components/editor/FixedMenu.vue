@@ -118,7 +118,9 @@ const insertAttachmentsAsImages = items => {
       insertItemAsLink(item)
     }
   })
-  props.editor.chain().focus().insertContent(contentToInsert).run()
+  // workaround: add empty paragraph after image
+  contentToInsert.push({ type: 'text', text: ' ' })
+  props.editor.commands.insertContent(contentToInsert)
 }
 
 /* inserts an item (article|collection|attachment) as link */
