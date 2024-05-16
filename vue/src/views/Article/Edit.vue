@@ -102,6 +102,8 @@ const persist = async () => {
 const discard = () => {
   if (isDirty.value) {
     $toast.confirm('Ungespeicherte Änderungen wirklich verwerfen?', () => {
+      // prevents onBeforeLeaveHook to raise another confirmation
+      formData.article = JSON.parse(persistedArticle)
       router.push(formData.article.url)
     })
   } else {
