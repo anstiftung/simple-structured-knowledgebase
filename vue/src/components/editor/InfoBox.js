@@ -28,9 +28,26 @@ export default Node.create({
     ]
   },
 
-  renderHTML({ node }) {
-    const [dom, contentElement] = getMainDom(node)
-    return dom
+  renderHTML({ node, HTMLAttributes }) {
+    return [
+      'div',
+      HTMLAttributes,
+      [
+        'svg',
+        {
+          viewBox: '0 0 15 15',
+          height: '15px',
+          width: '15px',
+        },
+        [
+          'use',
+          {
+            href: '/icons/warning.svg#warning',
+          },
+        ],
+      ],
+      ['span', 0],
+    ]
   },
 
   addNodeView() {
