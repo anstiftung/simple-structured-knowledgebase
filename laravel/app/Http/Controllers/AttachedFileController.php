@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\License;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -56,11 +55,6 @@ class AttachedFileController extends BaseController
 
         $newAttachments = [];
 
-        $defaultLicense = License::orderBy('order', 'ASC')->where('active', true)->first();
-        if (!$defaultLicense) {
-            $this->abortServerError('Default License not found');
-        }
-
         $files = $request->file('attached_files');
         foreach ($files as $file) {
             $new = AttachedFile::create([]);
@@ -74,7 +68,6 @@ class AttachedFileController extends BaseController
                 'filename' => $name,
                 'filesize' => $file->getSize(),
                 'mime_type' => $file->getMimeType(),
-                'license_id' => $defaultLicense->id
             ]);
             $newAttachments[] = $new;
         }
