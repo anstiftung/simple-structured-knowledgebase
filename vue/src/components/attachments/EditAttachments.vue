@@ -229,7 +229,11 @@ const save = async () => {
           >
             <template #default="{ inputId, modelValue, updateValue }">
               <template v-if="field.type == 'license'">
-                <license-select v-model="currentAttachment[field.attribute]" />
+                <license-select
+                  v-model="currentAttachment[field.attribute]"
+                  defaultLicense="CC0"
+                  :key="currentAttachment.id"
+                />
               </template>
               <template v-else>
                 <input
