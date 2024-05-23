@@ -59,6 +59,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         License::factory($this->numLicenses)->create();
+        // make shure there is one CC0 license for default selection
+        $license = License::first()->update(['title' => 'CC0']);
 
         User::factory($this->numUsers)->create();
 

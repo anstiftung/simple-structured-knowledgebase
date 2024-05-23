@@ -173,7 +173,7 @@ loadFromServer()
               v-if="attachment.license?.icons"
               v-html="attachment.license.icons"
             />
-            <p class="text-xs">
+            <p>
               <a
                 :href="attachment.license?.external_url"
                 target="_blank"

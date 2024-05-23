@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import LicenseService from '@/services/LicenseService'
 
 const emit = defineEmits(['update:modelValue'])
@@ -8,8 +8,13 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  defaultLicense: {
+    type: String,
+    default: '',
+  },
 })
 
+onMounted(() => {})
 // borrowed from https://dev.to/blindkai/objects-and-v-model-in-vue3-1l9h
 const localModel = computed({
   get: () => props.modelValue,
@@ -22,8 +27,13 @@ const loadFromServer = () => {
   LicenseService.getLicenses().then(data => {
     licenses.value = data
 
-    // Set first Model default Model if none is insice v-model
-    if (localModel.value === null) localModel.value = data[0]
+    // the value is empty and a defaultLicense is provided
+    if (!localModel.value && props.defaultLicense) {
+      const license = licenses.value.find(e => e.title === props.defaultLicense)
+      if (license) {
+        localModel.value = license
+      }
+    }
   })
 }
 
@@ -35,7 +45,6 @@ loadFromServer()
     class="w-full max-w-xl px-4 py-3 text-gray-800 bg-white rounded-md"
     v-model="localModel"
   >
-    <!-- <option :value="null" disabled>Keine Lizenz ausgewählt</option> -->
     <option v-for="license in licenses" :value="license">
       {{ license.title }}
     </option>
