@@ -7,7 +7,7 @@ export default Node.create({
 
   inline: true,
 
-  content: 'inline*',
+  content: 'text*',
 
   addAttributes() {
     return {

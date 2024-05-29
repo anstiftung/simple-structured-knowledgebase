@@ -63,6 +63,11 @@ const editor = useEditor({
   onUpdate: ({ editor }) => {
     emit('update:modelValue', editor.getHTML())
   },
+  editorProps: {
+    transformPastedHTML(html) {
+      return html.replace(/<img.*?>/g, '')
+    },
+  },
 })
 
 watch(

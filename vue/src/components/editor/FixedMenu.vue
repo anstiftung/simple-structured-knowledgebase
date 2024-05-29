@@ -118,7 +118,9 @@ const insertAttachmentsAsImages = items => {
       insertItemAsLink(item)
     }
   })
-  props.editor.chain().focus().insertContent(contentToInsert).run()
+  // workaround: add empty paragraph after image
+  contentToInsert.push({ type: 'text', text: ' ' })
+  props.editor.commands.insertContent(contentToInsert)
 }
 
 /* inserts an item (article|collection|attachment) as link */
@@ -358,7 +360,7 @@ onMounted(() => {
   @apply px-3 py-2;
 }
 .listbox-button {
-  @apply relative inline-flex items-center h-full gap-2 text-left cursor-default toolbarButton;
+  @apply relative inline-flex items-center h-full gap-2 text-left cursor-default whitespace-nowrap toolbarButton;
 }
 .listbox-options {
   @apply absolute overflow-auto text-gray-300 bg-white divide-y shadow-lg rounded-b-md;
