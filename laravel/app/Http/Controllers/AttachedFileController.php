@@ -6,12 +6,12 @@ use App\Models\Article;
 use App\Models\AttachedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Resources\AttachedFileResource;
 use Illuminate\Validation\Rules\File as FileValidator;
-use Illuminate\Support\Facades\Gate;
 
 class AttachedFileController extends BaseController
 {
@@ -67,7 +67,7 @@ class AttachedFileController extends BaseController
             $new->update([
                 'filename' => $name,
                 'filesize' => $file->getSize(),
-                'mime_type' => $file->getMimeType()
+                'mime_type' => $file->getMimeType(),
             ]);
             $newAttachments[] = $new;
         }

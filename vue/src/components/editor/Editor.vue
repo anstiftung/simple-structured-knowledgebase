@@ -16,6 +16,7 @@ import Strike from '@tiptap/extension-strike'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Placeholder from '@tiptap/extension-placeholder'
 import Dropcursor from '@tiptap/extension-dropcursor'
+import HardBreak from '@tiptap/extension-hard-break'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 
 import ImageMenu from '@/components/editor/ImageMenu.vue'
@@ -50,6 +51,7 @@ const editor = useEditor({
     HorizontalRule,
     CustomImage,
     Dropcursor,
+    HardBreak,
     ItemLinkNode,
     InfoBox,
     Placeholder.configure({

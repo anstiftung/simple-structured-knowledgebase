@@ -9,6 +9,7 @@ use App\Rules\ArticleStateValidator;
 use App\Http\Resources\ArticleResource;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class ArticleController extends BaseController
 {
@@ -109,6 +110,14 @@ class ArticleController extends BaseController
         if ($this->authUser->can('edit article creator')) {
             $article->update([
                 'created_by_id' => $request->created_by['id']
+            ]);
+        }
+
+        // conditional update slug
+        if ($this->authUser->can('edit article slug') && $request->slug != $article->slug) {
+            $newSlug = Str::slug($request->slug);
+            $article->update([
+                'slug' => $article->generateUniqueSlug($newSlug)
             ]);
         }
 

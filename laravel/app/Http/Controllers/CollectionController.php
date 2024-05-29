@@ -8,6 +8,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\CollectionResource;
 use App\Rules\CollectionStateValidator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class CollectionController extends BaseController
 {
@@ -120,6 +121,14 @@ class CollectionController extends BaseController
         if ($this->authUser->can('edit collection creator')) {
             $collection->update([
                 'created_by_id' => $request->created_by['id']
+            ]);
+        }
+
+        // conditional update slug
+        if ($this->authUser->can('edit collection slug') && $request->slug != $collection->slug) {
+            $newSlug = Str::slug($request->slug);
+            $collection->update([
+                'slug' => $collection->generateUniqueSlug($newSlug)
             ]);
         }
 
