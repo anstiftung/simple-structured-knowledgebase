@@ -28,9 +28,26 @@ export default Node.create({
     ]
   },
 
-  renderHTML({ node }) {
-    const [dom, contentElement] = getMainDom(node)
-    return dom
+  renderHTML({ node, HTMLAttributes }) {
+    return [
+      'div',
+      HTMLAttributes,
+      [
+        'svg',
+        {
+          viewBox: '0 0 15 15',
+          height: '15px',
+          width: '15px',
+        },
+        [
+          'use',
+          {
+            href: getInfoBoxIcon(node.attrs['data-type']),
+          },
+        ],
+      ],
+      ['span', 0],
+    ]
   },
 
   addNodeView() {
@@ -59,10 +76,7 @@ function getMainDom(node) {
     'http://www.w3.org/2000/svg',
     'use',
   )
-  useElement.setAttribute(
-    'href',
-    `/icons/${node.attrs['data-type']}.svg#${node.attrs['data-type']}`,
-  )
+  useElement.setAttribute('href', getInfoBoxIcon(node.attrs['data-type']))
 
   iconSVG.append(useElement)
   dom.append(iconSVG)
@@ -74,4 +88,8 @@ function getMainDom(node) {
   dom.append(contentElement)
 
   return [dom, contentElement]
+}
+
+function getInfoBoxIcon(type) {
+  return `/icons/${type}.svg#${type}`
 }

@@ -26,6 +26,11 @@ const loadFromServer = () => {
     getPromise = AttachmentService.getAttachedUrl(props.dataId, false, () => {}) // silent errors
   }
 
+  // currently we don not load collections in item link but we want to show them as a tag anyway
+  if (props.dataType == 'Collection') {
+    model.value = true
+  }
+
   if (props.dataType == 'Article') {
     // extract slug from href prop because the getArticle route uses slugs instead of id's
     let slug = null
