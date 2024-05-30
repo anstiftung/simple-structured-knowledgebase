@@ -4,8 +4,9 @@ import { useDebounceFn } from '@vueuse/core'
 
 import AttachmentService from '@/services/AttachmentService'
 import SearchService from '@/services/SearchService'
-import ItemLine from '@/components/atoms/ItemLine.vue'
+
 import LoadingSpinner from '@/components/atoms/LoadingSpinner.vue'
+import QuickSearchResult from '@/components/search/QuickSearchResult.vue'
 
 const props = defineProps({
   modelType: String,
@@ -95,20 +96,18 @@ const modelResults = computed(() => {
         ref="searchInput"
       />
     </form>
-    <div class="min-h-[100px] max-h-[400px] overflow-y-scroll bg-white p-4">
+    <div class="min-h-[100px] max-h-[400px] bg-white overflow-y-scroll">
       <loading-spinner v-if="loading"></loading-spinner>
-      <div v-else class="flex flex-col gap-2">
+      <div v-else class="flex flex-col gap-2 p-4">
         <p class="text-sm italic text-gray-300">{{ modelLabel }}</p>
         <p v-if="!searchMeta || searchMeta.num_results == 0">
           Keine Ergebnisse
         </p>
-        <item-line
+        <QuickSearchResult
+          :modelType="props.modelType"
+          :results="modelResults"
+          @result-selected="item => selectModel(item)"
           v-else
-          v-for="item in modelResults"
-          :model="item"
-          :showType="false"
-          :navigate="false"
-          @click.prevent="selectModel(item)"
         />
       </div>
     </div>
