@@ -12,6 +12,12 @@ const props = defineProps({
       <td class="flex items-center gap-2 px-2 py-3 font-semibold text-green">
         <router-link :to="attachment.url" class="cursor-pointer">
           {{ attachment.title }}
+          <span
+            v-if="attachment.type == 'AttachedUrl'"
+            class="font-normal text-black"
+          >
+            {{ attachment.serve_url }}
+          </span>
         </router-link>
         <icon
           name="trash"
@@ -20,10 +26,10 @@ const props = defineProps({
         ></icon>
       </td>
       <td class="px-2 py-3">
-        {{ $filters.formatedDate(attachment.created_at) }}
+        {{ attachment.created_by.name }}
       </td>
       <td class="px-2 py-3">
-        {{ $filters.formatedDate(attachment.updated_at) }}
+        {{ $filters.formatedDate(attachment.created_at) }}
       </td>
       <td class="px-2 py-3">
         {{ attachment.mime_type ? attachment.mime_type : 'url' }}

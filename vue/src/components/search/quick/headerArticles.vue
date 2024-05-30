@@ -3,9 +3,7 @@
     <tr>
       <td class="px-2 py-3">Titel</td>
       <td class="px-2 py-3">Ersteller:in</td>
-      <td class="px-2 py-3">Status</td>
       <td class="px-2 py-3">erstellt</td>
-      <td class="px-2 py-3">geändert</td>
       <td class="px-2 py-3">Claps</td>
       <td class="px-2 py-3">Kommentare</td>
     </tr>
