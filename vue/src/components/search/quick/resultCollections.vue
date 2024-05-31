@@ -19,9 +19,12 @@ const props = defineProps({
     <tbody>
       <tr v-for="collection in collections">
         <td class="px-2 py-3 text-blue-400 font-semibold">
-          <router-link :to="collection.url" class="cursor-pointer">
+          <div
+            class="cursor-pointer flex items-center"
+            @click.prevent="$emit('resultSelected', collection)"
+          >
             {{ collection.title }}
-          </router-link>
+          </div>
         </td>
         <td class="px-2 py-3">
           {{ $filters.formatedDate(collection.created_at) }}

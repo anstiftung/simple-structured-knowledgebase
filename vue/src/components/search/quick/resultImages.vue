@@ -20,9 +20,18 @@ const props = defineProps({
         :class="attachment.deleted_at ? 'opacity-50' : ''"
       >
         <td class="flex items-center gap-2 px-2 py-3 font-semibold text-green">
-          <router-link :to="attachment.url" class="cursor-pointer">
+          <div
+            class="cursor-pointer flex items-center"
+            @click.prevent="$emit('resultSelected', attachment)"
+          >
+            <img
+              :src="attachment.serve_url"
+              class="rounded-full h-8 w-8 inline mr-2"
+              v-if="attachment.type == 'Image'"
+            />
+
             {{ attachment.title }}
-          </router-link>
+          </div>
           <icon
             name="trash"
             class="text-gray-400"
