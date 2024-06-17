@@ -22,6 +22,7 @@ class ImageResource extends BaseResource
             'filename' => $this->filename,
             'is_image' => true,
             'preview_file' => $this->filename,
+            'filesize' => $this->filesize,
             'source' => $this->source,
             'license' => new LicenseResource($this->license),
         ];

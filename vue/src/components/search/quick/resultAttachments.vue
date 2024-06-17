@@ -31,7 +31,7 @@ const has_preview = mime => {
             @click.prevent="$emit('resultSelected', attachment)"
           >
             <div
-              class="flex items-center gap-2 px-2 py-3 font-semibold text-green"
+              class="flex items-center gap-2 px-2 py-3 font-semibold text-green w-full"
             >
               <!-- Preview Image or Placeholder-->
               <div>
@@ -42,14 +42,16 @@ const has_preview = mime => {
                 />
                 <div class="w-6 h-6 mr-2" v-else />
               </div>
-              <!-- Titel -->
-              <div class="whitespace-nowrap">{{ attachment.title }}</div>
-              <!-- If URL: add shortened url -->
-              <div
-                v-if="attachment.type == 'AttachedUrl'"
-                class="font-normal text-gray-400 text-ellipsis overflow-hidden whitespace-nowrap"
-              >
-                {{ attachment.serve_url }}
+              <div class="flex w-full">
+                <!-- Titel -->
+                <div class="whitespace-nowrap">{{ attachment.title }}</div>
+                <!-- If URL: add shortened url -->
+                <div
+                  v-if="attachment.type == 'AttachedUrl'"
+                  class="pl-2 pr-8 font-normal text-gray-400 text-ellipsis overflow-hidden whitespace-nowrap"
+                >
+                  {{ attachment.serve_url }}
+                </div>
               </div>
             </div>
           </div>
