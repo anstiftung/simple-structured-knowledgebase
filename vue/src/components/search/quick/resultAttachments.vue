@@ -13,11 +13,11 @@ const has_preview = mime => {
   <table class="w-full mb-4 table-fixed" v-if="attachments.length > 0">
     <thead class="sticky w-full text-gray-400 bg-white border-y top-0">
       <tr>
-        <td class="px-2 py-3 w-5/12">Titel</td>
-        <td class="px-2 py-3 w-3/12">Ersteller:in</td>
-        <td class="px-2 py-3">Datum</td>
-        <td class="px-2 py-3">Typ</td>
-        <td class="px-2 py-3">Größe</td>
+        <td class="px-2 py-3 w-6/12">Titel</td>
+        <td class="px-2 py-3 w-2/12">Ersteller:in</td>
+        <td class="px-2 py-3 w-1/12">Datum</td>
+        <td class="px-2 py-3 w-1/12">Typ</td>
+        <td class="px-2 py-3 w-1/12">Größe</td>
       </tr>
     </thead>
     <tbody>
@@ -49,6 +49,7 @@ const has_preview = mime => {
                 <div
                   v-if="attachment.type == 'AttachedUrl'"
                   class="pl-2 pr-8 font-normal text-gray-400 text-ellipsis overflow-hidden whitespace-nowrap"
+                  :title="attachment.serve_url"
                 >
                   {{ attachment.serve_url }}
                 </div>
@@ -62,7 +63,10 @@ const has_preview = mime => {
             v-if="attachment.deleted_at"
           ></icon>
         </td>
-        <td class="px-2 py-3">
+        <td
+          class="px-2 py-3 text-ellipsis overflow-hidden whitespace-nowrap"
+          :title="attachment.created_by.name"
+        >
           {{ attachment.created_by.name }}
         </td>
         <td class="px-2 py-3">
