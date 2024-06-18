@@ -2,12 +2,6 @@
 const props = defineProps({
   attachments: Object,
 })
-
-const previewableMimes = ['image/png', 'image/jpg', 'image/jpeg']
-
-const has_preview = mime => {
-  return previewableMimes.includes(mime)
-}
 </script>
 <template>
   <table class="w-full mb-4 table-fixed" v-if="attachments.length > 0">
@@ -38,7 +32,7 @@ const has_preview = mime => {
                 <img
                   :src="attachment.serve_url"
                   class="rounded-full h-6 w-6 inline-block mr-2"
-                  v-if="has_preview(attachment.mime_type)"
+                  v-if="attachment.is_image"
                 />
                 <div class="w-6 h-6 mr-2" v-else />
               </div>
