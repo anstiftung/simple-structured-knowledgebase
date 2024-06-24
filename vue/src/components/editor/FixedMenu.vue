@@ -5,7 +5,7 @@ import { useModalStore } from '@/stores/modal'
 import AddAttachments from '@/components/attachments/AddAttachments.vue'
 import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
-import ModelSelector from '@/components/forms/ModelSelector.vue'
+import ModelSelector from '@/components/search/ModelSelector.vue'
 import {
   Listbox,
   ListboxButton,
