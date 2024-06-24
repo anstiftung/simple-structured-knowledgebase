@@ -29,8 +29,9 @@ class ArticleObserver
             }
 
             if ($newState->key == 'review') {
-                foreach (User::role('editor')->get() as $user) {
-                    Mail::to($user->email)->queue(new ArticleReview($article));
+                $notification_recipients  = config('cowiki.system_notifcation_email', []);
+                foreach ($notification_recipients as $recipient_mail) {
+                    Mail::to($recipient_mail)->queue(new ArticleReview($article));
                 }
             }
         }
