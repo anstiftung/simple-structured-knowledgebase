@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 
-import SearchForm from '@/components/forms/SearchForm.vue'
+import SearchForm from '@/components/search/SearchForm.vue'
 import ExplainSection from '@/components/layouts/ExplainSection.vue'
 import CollectionSection from '@/components/layouts/CollectionSection.vue'
 

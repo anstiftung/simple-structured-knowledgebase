@@ -15,9 +15,9 @@ import AttachmentService from '@/services/AttachmentService'
 import AddAttachments from '@/components/attachments/AddAttachments.vue'
 import EditAttachments from '@/components/attachments/EditAttachments.vue'
 
-import SearchForm from '@/components/forms/SearchForm.vue'
+import SearchForm from '@/components/search/SearchForm.vue'
 import ItemLine from '@/components/atoms/ItemLine.vue'
-import ModelSelector from '@/components/forms/ModelSelector.vue'
+import ModelSelector from '@/components/search/ModelSelector.vue'
 
 const router = useRouter()
 const route = useRoute()
