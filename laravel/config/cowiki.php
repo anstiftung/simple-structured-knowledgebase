@@ -9,5 +9,7 @@ return [
     // alowed file types for uploads: https://laravel.com/docs/10.x/validation#validating-files-file-types
     'upload_file_types' => ['png', 'jpg', 'jpeg', 'svg', 'mp4', 'zip', 'tar.gz', 'pdf', 'doc', 'xls', 'csv', 'pdf', 'ai', 'indd', 'odt', 'ods', 'odp'],
     // allowed filesite for uploads https://laravel.com/docs/10.x/validation#validating-files-file-sizes
-    'upload_file_size' => '10mb'
+    'upload_file_size' => '10mb',
+
+    'system_notifcation_email' => ['redaktion@cowiki.de','post@makakken.de'],
 ];
