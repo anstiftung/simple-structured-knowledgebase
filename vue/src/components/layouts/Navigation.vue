@@ -33,7 +33,7 @@ const userStore = useUserStore()
             active-class="text-black fill-black"
           >
             <icon name="dashboard" />
-            Dashboard
+            <span class="hidden sm:inline">Dashboard</span>
           </router-link>
           <div
             :class="[
@@ -50,7 +50,7 @@ const userStore = useUserStore()
               @click="userMenuVisible = !userMenuVisible"
             >
               <icon name="user" />
-              <span class="grow">{{ userStore.name }}</span>
+              <span class="grow hidden sm:inline">{{ userStore.name }}</span>
               <icon name="arrow-up" v-if="userMenuVisible" />
               <icon name="arrow-down" v-else />
             </div>

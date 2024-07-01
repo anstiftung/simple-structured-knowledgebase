@@ -13,8 +13,8 @@ const limitedArticles = collection => {
 <template>
   <section class="py-12">
     <h3 class="mb-4 text-xl text-blue-600">{{ collection.title }}</h3>
-    <div class="relative grid grid-cols-3 gap-12">
-      <div class="flex flex-col col-span-1 gap-6 mt-4">
+    <div class="relative grid sm:grid-cols-3 gap-12">
+      <div class="flex flex-col sm:col-span-1 gap-6 mt-4">
         <p class="text-blue-600 line-clamp-5">
           {{ collection.description }}
         </p>
@@ -29,7 +29,7 @@ const limitedArticles = collection => {
           >Sammlung öffnen</router-link
         >
       </div>
-      <div class="grid grid-cols-3 col-span-2 gap-12">
+      <div class="grid sm:grid-cols-3 sm:col-span-2 gap-12">
         <article-card
           v-for="article in limitedArticles(collection)"
           :article="article"
