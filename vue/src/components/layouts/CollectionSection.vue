@@ -36,7 +36,7 @@ const limitedArticles = collection => {
         ></article-card>
       </div>
       <div
-        class="absolute -right-[50px] top-1/2"
+        class="absolute -right-[50px] top-1/2 hidden sm:block"
         v-if="collection.articles.length > 3"
       >
         <router-link :to="collection.url">
