@@ -103,7 +103,7 @@ loadFromServer()
           <content-renderer :content="article.content" v-if="article.content" />
         </div>
         <div
-          class="mt-20 text-center"
+          class="mt-20 text-center clear-both"
           v-if="userStore.id && !article.deleted_at"
         >
           <h3 class="text-lg">
