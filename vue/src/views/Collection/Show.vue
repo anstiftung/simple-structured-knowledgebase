@@ -63,7 +63,7 @@ loadFromServer()
         {{ collection.articles.length ? collection.articles.length : 'Keine' }}
         {{ collection.articles.length == 1 ? 'Beitrag' : 'Beiträge' }}
       </separator>
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid sm:grid-cols-4 gap-4">
         <article-card
           v-for="article in collection.articles"
           :article="article"
