@@ -97,13 +97,13 @@ loadFromServer()
       </template>
     </model-header>
 
-    <section v-if="article" class="grid grid-cols-6 my-8 width-wrapper">
+    <section v-if="article" class="grid sm:grid-cols-6 my-8 width-wrapper">
       <div class="col-span-4 px-8 py-16">
         <div class="prose">
           <content-renderer :content="article.content" v-if="article.content" />
         </div>
         <div
-          class="mt-20 text-center"
+          class="mt-20 text-center clear-both"
           v-if="userStore.id && !article.deleted_at"
         >
           <h3 class="text-lg">
@@ -202,7 +202,7 @@ loadFromServer()
       class="my-8 width-wrapper"
     >
       <h3 class="pb-2 border-b">Alle verwendeten Anhänge dieses Beitrags</h3>
-      <div class="grid grid-cols-3 gap-8 py-8 auto-rows-[1fr]">
+      <div class="grid sm:grid-cols-3 gap-8 py-8 auto-rows-[1fr]">
         <attachment-card
           v-for="attachment in unifiedAttachments"
           :attachment="attachment"
@@ -213,7 +213,7 @@ loadFromServer()
       <h3 class="pb-2 border-b">
         Kommentare ({{ article.comments ? article.comments.length : '0' }})
       </h3>
-      <div class="grid grid-cols-6">
+      <div class="grid sm:grid-cols-6">
         <div class="col-span-4 divide-y">
           <div class="py-8" v-for="comment in article.comments">
             <div class="flex justify-between">

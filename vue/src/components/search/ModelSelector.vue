@@ -103,7 +103,7 @@ const modelResults = computed(() => {
         <p v-if="!searchMeta || searchMeta.num_results == 0">
           Keine Ergebnisse
         </p>
-        <QuickSearchResult
+        <quick-search-result
           :modelType="props.modelType"
           :results="modelResults"
           @result-selected="item => selectModel(item)"

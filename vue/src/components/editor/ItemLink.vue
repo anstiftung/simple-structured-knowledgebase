@@ -74,6 +74,9 @@ loadFromServer()
           class="mb-1 text-green size-3"
         ></icon>
       </template>
+      <template v-if="model.type == 'AttachedUrl'">
+        <icon name="arrow-square-out" class="mb-1 text-gray-400 size-3"></icon>
+      </template>
       <template v-if="model.type == 'Article'">
         {{ model.comments.length }}
         <icon name="comment" class="text-gray-400 size-3"></icon>

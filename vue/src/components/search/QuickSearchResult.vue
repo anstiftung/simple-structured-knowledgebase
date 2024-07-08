@@ -1,9 +1,9 @@
 <script setup>
 import ItemLine from '@/components/atoms/ItemLine.vue'
-import resultArticles from '@/components/search/quick/resultArticles.vue'
-import resultCollections from '@/components/search/quick/resultCollections.vue'
-import resultAttachments from '@/components/search/quick/resultAttachments.vue'
-import resultImages from '@/components/search/quick/resultImages.vue'
+import ResultArticles from '@/components/search/quick/ResultArticles.vue'
+import ResultCollections from '@/components/search/quick/ResultCollections.vue'
+import ResultAttachments from '@/components/search/quick/ResultAttachments.vue'
+import ResultImages from '@/components/search/quick/ResultImages.vue'
 
 defineEmits(['resultSelected'])
 
@@ -16,10 +16,10 @@ const props = defineProps({
 <template>
   <div class="quicksearch-result">
     <template v-if="modelType == 'articles'">
-      <resultArticles
+      <result-articles
         :articles="results"
         @result-selected="article => $emit('resultSelected', article)"
-      ></resultArticles>
+      ></result-articles>
     </template>
 
     <template v-else-if="modelType == 'collections'">
@@ -30,17 +30,17 @@ const props = defineProps({
     </template>
 
     <template v-else-if="modelType == 'attachments'">
-      <resultAttachments
+      <result-attachments
         :attachments="results"
         @result-selected="attachment => $emit('resultSelected', attachment)"
-      ></resultAttachments>
+      ></result-attachments>
     </template>
 
     <template v-else-if="modelType == 'images'">
-      <resultImages
+      <result-images
         :images="results"
         @result-selected="image => $emit('resultSelected', image)"
-      ></resultImages>
+      ></result-images>
     </template>
 
     <item-line

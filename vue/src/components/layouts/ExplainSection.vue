@@ -7,7 +7,7 @@ import Separator from '@/components/layouts/Separator.vue'
       <h3>Wie funktioniert das COWIKI?</h3>
     </separator>
 
-    <div class="grid grid-cols-2 pt-2 pb-8 gap-x-6 gap-y-6 w-9/12 mx-auto">
+    <div class="grid sm:grid-cols-2 pt-2 pb-8 gap-x-6 gap-y-6 w-9/12 mx-auto">
       <router-link
         to="/beitrag/was-ist-ein-cowiki-beitrag"
         class="aspect-square border border-gray flex justify-center items-center transition-all hover:shadow-md"
