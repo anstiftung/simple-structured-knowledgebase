@@ -34,6 +34,11 @@ class ArticleController extends BaseController
         })
         ->orderBy('updated_at', 'DESC');
 
+        if($this->authUser) {
+            $articlesOwn = Article::where('created_by_id', $this->authUser->id)->orderBy('updated_at', 'DESC');
+            $query = $query->union($articlesOwn);
+        }
+
         $articles = $request->boolean('withoutPagination') ? $query->get() : $query->paginate();
 
         return ArticleResource::collection($articles);
