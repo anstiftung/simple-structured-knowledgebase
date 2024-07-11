@@ -60,7 +60,11 @@ loadFromServer()
     :href="props.href"
     :target="props.target"
   >
-    <slot></slot>
+    <span
+      class="text-gray-400"
+      title="Dieser Inhalt ist nicht öffentlich verfügbar."
+      ><slot></slot
+    ></span>
     <span
       class="inline-block ml-2 text-xs font-semibold text-gray-400"
       v-if="model"
