@@ -85,6 +85,13 @@ loadFromServer()
           name="approved"
           class="mb-1 ml-1 text-green size-3"
         ></icon>
+
+        <span v-if="model.state.key == 'review'" title="Zum Review eingereicht">
+          <icon name="book-open-user" class="size-3 ml-1" />
+        </span>
+        <span v-if="model.state.key == 'draft'" title="nicht Veröffentlicht">
+          <icon name="book" class="size-3 ml-1" />
+        </span>
       </template>
     </span>
   </component>
