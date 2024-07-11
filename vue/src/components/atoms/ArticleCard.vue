@@ -1,4 +1,6 @@
 <script setup>
+import ArticleStateIndicator from '@/components/atoms/ArticleStateIndicator.vue'
+
 const props = defineProps({
   article: Object,
 })
@@ -29,18 +31,7 @@ const props = defineProps({
             <span>{{ article.claps }}</span>
           </span>
           <icon v-if="article.approved" name="approved" class="size-5"></icon>
-          <span
-            v-if="article.state.key == 'review'"
-            title="Zum Review eingereicht"
-          >
-            <icon name="book-open-user" class="size-5 ml-1" />
-          </span>
-          <span
-            v-if="article.state.key == 'draft'"
-            title="nicht Veröffentlicht"
-          >
-            <icon name="book" class="size-5 ml-1" />
-          </span>
+          <ArticleStateIndicator :article="article" class="size-5" />
         </span>
       </p>
     </div>

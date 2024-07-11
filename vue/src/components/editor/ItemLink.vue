@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import AttachmentService from '@/services/AttachmentService'
 import ArticleService from '@/services/ArticleService'
+import ArticleStateIndicator from '../atoms/ArticleStateIndicator.vue'
 
 const props = defineProps({
   dataType: String,
@@ -90,12 +91,7 @@ loadFromServer()
           class="mb-1 ml-1 text-green size-3"
         ></icon>
 
-        <span v-if="model.state.key == 'review'" title="Zum Review eingereicht">
-          <icon name="book-open-user" class="size-3 ml-1" />
-        </span>
-        <span v-if="model.state.key == 'draft'" title="nicht Veröffentlicht">
-          <icon name="book" class="size-3 ml-1" />
-        </span>
+        <ArticleStateIndicator :article="model" class="size-3" />
       </template>
     </span>
   </component>
