@@ -137,7 +137,7 @@ class SearchController extends BaseController
     }
     public function searchArticles()
     {
-        $articles = Article::where('title', 'like', '%' . $this->query . '%')
+        $query = Article::where('title', 'like', '%' . $this->query . '%')
             ->when($this->created_by_id, function ($query) {
                 $query->where('created_by_id', $this->created_by_id);
             })
@@ -147,8 +147,14 @@ class SearchController extends BaseController
             ->orderBy('created_at', 'DESC')
             ->when(empty($this->authUser) || $this->onlyPublished, function ($query) {
                 $query->published();
-            })
-            ->get();
+            });
+
+        if($this->authUser) {
+            $articlesOwn = Article::where('created_by_id', $this->authUser->id)->orderBy('updated_at', 'DESC');
+            $query = $query->union($articlesOwn);
+        }
+
+        $articles = $query->get();
 
         $numArticles = $articles->count();
 
