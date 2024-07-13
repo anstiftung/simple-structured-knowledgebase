@@ -46,4 +46,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'created_by_id');
+    }
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class, 'created_by_id');
+    }
+
+    public function attached_files()
+    {
+        return $this->hasMany(AttachedFile::class, 'created_by_id');
+    }
+
+    public function attached_urls()
+    {
+        return $this->hasMany(AttachedUrl::class, 'created_by_id');
+    }
 }

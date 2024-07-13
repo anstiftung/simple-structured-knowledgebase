@@ -16,7 +16,11 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'collections' => CollectionResource::collection($this->whenLoaded('collections')),
+            'articles' => ArticleResource::collection($this->whenLoaded('articles')),
+            'attached_files' => ArticleResource::collection($this->whenLoaded('attached_files')),
+            'attached_urls' => ArticleResource::collection($this->whenLoaded('attached_urls')),
         ];
     }
 }

@@ -28,13 +28,25 @@ class ArticleResource extends BaseResource
             'url' => '/beitrag/' . $this->slug,
             'description' => $this->description,
             'content' => $this->content,
-            'num_comments' => $this->comments->count(),
-            'num_attachments' => $this->attached_urls->count() + $this->attached_files->count(),
+            'num_comments' => $this->comments ? $this->comments->count() : null,
+            'num_attachments' => $this->calculateNumAttachments(),
             'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
             'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
             'collections' => CollectionResource::collection($this->whenLoaded('collections')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'deleted_at' => $this->deleted_at
         ];
+    }
+
+    private function calculateNumAttachments()
+    {
+        $num = null;
+        if($this->attached_urls) {
+            $num += $this->attached_urls->count();
+        }
+        if($this->attached_files) {
+            $num += $this->attached_files->count();
+        }
+        return $num;
     }
 }

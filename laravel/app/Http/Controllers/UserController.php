@@ -39,6 +39,14 @@ class UserController extends BaseController
      */
     public function show(User $user)
     {
+        $user->load([
+            'articles' => fn ($query) => $query->whereHas('state', function ($query) {
+                $query->where('key', 'publish');
+            }),
+            'collections' => fn ($query) => $query->where('published', true),
+            'attached_urls' => fn ($query) => $query->whereNotNull('title')->whereNotNull('description'),
+            'attached_files' => fn ($query) => $query->whereNotNull('title')->whereNotNull('description')->whereNotNull('source')->whereNotNull('license_id'),
+        ]);
         return new UserResource($user);
     }
 
