@@ -156,7 +156,17 @@ loadFromServer()
           </div>
           <div>
             <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
-            <p>{{ attachment.created_by.name }}</p>
+            <p>
+              <router-link
+                :to="{
+                  name: 'profile',
+                  params: { id: attachment.created_by.id },
+                }"
+                class="text-blue-600 font-semibold"
+              >
+                {{ attachment.created_by.name }}
+              </router-link>
+            </p>
           </div>
           <div>
             <h4 class="mb-2 text-sm text-gray-300">erstellt am</h4>
