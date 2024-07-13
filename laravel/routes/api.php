@@ -47,6 +47,10 @@ Route::controller(CollectionController::class)->group(function () {
     Route::get('/collection/{collection:slug}', 'show');
 });
 
+Route::controller(UserController::class)->group(function () {
+    Route::get('/user/{user:id}', 'show');
+});
+
 // Add protected routes here
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/user-credentials', [UserCredentialsController::class, 'index']);

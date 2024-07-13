@@ -21,7 +21,7 @@ class ArticlePolicy
      */
     public function view(?User $user, Article $article): Response
     {
-        // only users with the permission are allowed to view tashed articles
+        // only users with the permission are allowed to view trashed articles
         if ($article->trashed()) {
             return $user?->can('list trashed articles')
                 ? Response::allow()

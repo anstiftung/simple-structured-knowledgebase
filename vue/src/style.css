@@ -170,6 +170,20 @@
     }
   }
 
+  span[data-type='Article'],
+  span[data-type='Collection'],
+  span[data-type='AttachedUrl'],
+  span[data-type='AttachedFile'] {
+    @apply relative inline no-underline z-[1];
+  }
+
+  span[data-type='Article']:after,
+  span[data-type='Collection']:after,
+  span[data-type='AttachedUrl']:after,
+  span[data-type='AttachedFile']:after {
+    @apply z-[-1] content-[''] block h-[2px] w-full rounded -bottom-[3px] absolute right-0  bg-gray-400;
+  }
+
   a[data-type='Article']:after {
     @apply bg-orange;
   }

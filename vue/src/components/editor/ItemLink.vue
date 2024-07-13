@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import AttachmentService from '@/services/AttachmentService'
 import ArticleService from '@/services/ArticleService'
+import ArticleStateIndicator from '../atoms/ArticleStateIndicator.vue'
 
 const props = defineProps({
   dataType: String,
@@ -60,7 +61,11 @@ loadFromServer()
     :href="props.href"
     :target="props.target"
   >
-    <slot></slot>
+    <span
+      class="text-gray-400"
+      title="Dieser Inhalt ist nicht öffentlich verfügbar."
+      ><slot></slot
+    ></span>
     <span
       class="inline-block ml-2 text-xs font-semibold text-gray-400"
       v-if="model"
@@ -85,6 +90,8 @@ loadFromServer()
           name="approved"
           class="mb-1 ml-1 text-green size-3"
         ></icon>
+
+        <ArticleStateIndicator :article="model" class="size-3" />
       </template>
     </span>
   </component>

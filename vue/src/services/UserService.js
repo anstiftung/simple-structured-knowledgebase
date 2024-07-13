@@ -11,6 +11,14 @@ class UserService {
     }
     return makeApiRequest(config)
   }
+
+  getUser(id) {
+    const config = {
+      method: 'get',
+      url: `user/${id}`,
+    }
+    return makeApiRequest(config)
+  }
 }
 
 export default new UserService()

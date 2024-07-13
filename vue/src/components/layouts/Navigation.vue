@@ -19,7 +19,7 @@ const userStore = useUserStore()
     class="sticky top-0 z-40 flex flex-col justify-center w-full bg-white h-header"
   >
     <div class="grid items-center grid-cols-2 gap-4 width-wrapper">
-      <h1 class="text-3xl text-blue">
+      <h1 class="text-2xl sm:text-3xl text-blue">
         <router-link to="/">
           <span>VOW_</span>
           <span class="font-bold">COWIKI</span>
@@ -37,7 +37,7 @@ const userStore = useUserStore()
           </router-link>
           <div
             :class="[
-              'relative min-w-[140px]',
+              'relative sm:min-w-[140px]',
               [
                 userMenuVisible
                   ? 'user-menu-border-top'
@@ -55,7 +55,7 @@ const userStore = useUserStore()
               <icon name="arrow-down" v-else />
             </div>
             <div
-              class="absolute left-[-1px] w-full user-menu-border-bottom min-w-[140px] bg-white"
+              class="absolute left-[-1px] w-full user-menu-border-bottom sm:min-w-[140px] bg-white"
               v-show="userMenuVisible"
               ref="userMenuOverlay"
             >
@@ -68,22 +68,31 @@ const userStore = useUserStore()
                 class="flex items-center gap-2 px-2 py-2"
               >
                 <img src="/icons/logout.svg" />
-                Logout
+                <span class="hidden sm:inline">Logout</span>
               </router-link>
             </div>
           </div>
         </template>
         <template v-else>
-          <router-link
-            class="secondary-button"
-            :to="{ name: 'login', query: { redirect: route.fullPath } }"
-            >Login</router-link
-          >
-          <a
-            class="default-button"
-            href="https://www.offene-werkstaetten.org/de/registrieren"
-            >Registrieren</a
-          >
+          <div class="hidden sm:flex gap-4">
+            <router-link
+              class="secondary-button"
+              :to="{ name: 'login', query: { redirect: route.fullPath } }"
+              >Login</router-link
+            >
+            <a
+              class="default-button"
+              href="https://www.offene-werkstaetten.org/de/registrieren"
+              >Registrieren</a
+            >
+          </div>
+          <div class="sm:hidden">
+            <router-link
+              class="secondary-button"
+              :to="{ name: 'login', query: { redirect: route.fullPath } }"
+              >Anmelden</router-link
+            >
+          </div>
         </template>
       </div>
     </div>
