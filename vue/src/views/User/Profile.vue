@@ -59,32 +59,31 @@ const numArticles = computed(() => {
     <h1 v-if="user" class="mt-2 mb-4 text-xl text-blue-600">
       <icon name="user" /> {{ user.name }}
     </h1>
-    <div class="text-blue-600 mb-4">
+    <div class="mb-4">
       <p>
         Diese Benutzer_in hat insgesamt
-        <span class="font-semibold"
-          >{{ numAttachments }} <span class="text-green">Anhänge</span></span
-        >
+        <a class="font-semibold text-blue-600" href="#attachment-table">
+          {{ numAttachments }} <span class="text-green">Anhänge</span>
+        </a>
         zum CoWiki hinzugefügt.
       </p>
       <p>
         Es wurden
-        <span class="font-semibold"
-          >{{ numArticles }} <span class="text-red">Beiträge</span></span
-        >
+        <a class="font-semibold text-blue-600" href="#article-table">
+          {{ numArticles }} <span class="text-red">Beiträge</span>
+        </a>
         der Nutzer:in veröffentlicht.
       </p>
       <p v-if="user?.collections">
         Die Nutzer:in hat
-        <span class="font-semibold"
-          >{{ numCollections }}
-          <span class="font-semibold">Sammlungen</span></span
-        >
+        <a class="font-semibold text-blue-600" href="#collection-table">
+          {{ numCollections }} <span class="font-semibold">Sammlungen</span>
+        </a>
         angelegt.
       </p>
     </div>
 
-    <section v-if="user">
+    <section v-if="user" id="collection-table">
       <h2 class="mb-4 text-lg text-blue-600">Sammlungen der Benutzer:in</h2>
       <collection-table
         v-model="user.collections"
@@ -92,7 +91,7 @@ const numArticles = computed(() => {
         class="mb-6"
       />
     </section>
-    <section v-if="user">
+    <section v-if="user" id="article-table">
       <h2 class="mb-4 text-lg text-blue-600">Beiträge der Benutzer:in</h2>
       <article-table
         v-model="user.articles"
@@ -100,7 +99,7 @@ const numArticles = computed(() => {
         class="mb-6"
       />
     </section>
-    <section v-if="user">
+    <section v-if="user" id="attachment-table">
       <h2 class="mb-4 text-lg text-blue-600">Anhänge der Benutzer:in</h2>
       <attachment-table v-model="attachments" v-if="attachments" class="mb-6" />
     </section>
