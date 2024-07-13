@@ -135,7 +135,16 @@ loadFromServer()
           <div class="grid grid-cols-2">
             <div>
               <h4 class="mb-2 text-sm text-gray-300">Ersteller*in</h4>
-              <p>{{ article.created_by.name }}</p>
+              <p>
+                <router-link
+                  :to="{
+                    name: 'profile',
+                    params: { id: article.created_by.id },
+                  }"
+                >
+                  {{ article.created_by.name }}
+                </router-link>
+              </p>
             </div>
             <div>
               <h4 class="mb-2 text-sm text-gray-300">Zustand</h4>

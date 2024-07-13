@@ -15,7 +15,7 @@ const { hasPermission } = storeToRefs(userStore)
 const router = useRouter()
 const route = useRoute()
 const id = route.params.id
-const user = ref()
+const user = ref(null)
 
 const loadFromServer = () => {
   let loadFunction = null
@@ -42,16 +42,16 @@ const attachments = computed(() => {
 
 const numAttachments = computed(() => {
   let num = 0
-  num += user.value.attached_urls.length ?? 0
-  num += user.value.attached_files.length ?? 0
+  num += user.value?.attached_urls.length ?? 0
+  num += user.value?.attached_files.length ?? 0
   return num
 })
 
 const numCollections = computed(() => {
-  return user.value.collections.length ?? 0
+  return user.value?.collections.length ?? 0
 })
 const numArticles = computed(() => {
-  return user.value.articles.length ?? 0
+  return user.value?.articles.length ?? 0
 })
 </script>
 <template>
@@ -74,7 +74,7 @@ const numArticles = computed(() => {
         >
         der Nutzer:in veröffentlicht.
       </p>
-      <p v-if="user.collections">
+      <p v-if="user?.collections">
         Die Nutzer:in hat
         <span class="font-semibold"
           >{{ numCollections }}
@@ -84,23 +84,25 @@ const numArticles = computed(() => {
       </p>
     </div>
 
-    <h2 class="mb-4 text-lg text-blue-600" v-if="user.collections">
-      Sammlungen der Benutzer:in
-    </h2>
-    <collection-table
-      v-model="user.collections"
-      v-if="user.collections"
-      class="mb-6"
-    />
-
-    <h2 v-if="user" class="mb-4 text-lg text-blue-600">
-      Beiträge der Benutzer:in
-    </h2>
-    <article-table v-model="user.articles" v-if="user.articles" class="mb-6" />
-
-    <h2 v-if="user" class="mb-4 text-lg text-blue-600">
-      Anhänge der Benutzer:in
-    </h2>
-    <attachment-table v-model="attachments" v-if="attachments" class="mb-6" />
+    <section v-if="user">
+      <h2 class="mb-4 text-lg text-blue-600">Sammlungen der Benutzer:in</h2>
+      <collection-table
+        v-model="user.collections"
+        v-if="user.collections"
+        class="mb-6"
+      />
+    </section>
+    <section v-if="user">
+      <h2 class="mb-4 text-lg text-blue-600">Beiträge der Benutzer:in</h2>
+      <article-table
+        v-model="user.articles"
+        v-if="user.articles"
+        class="mb-6"
+      />
+    </section>
+    <section v-if="user">
+      <h2 class="mb-4 text-lg text-blue-600">Anhänge der Benutzer:in</h2>
+      <attachment-table v-model="attachments" v-if="attachments" class="mb-6" />
+    </section>
   </div>
 </template>

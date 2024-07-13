@@ -19,8 +19,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'collections' => CollectionResource::collection($this->whenLoaded('collections')),
             'articles' => ArticleResource::collection($this->whenLoaded('articles')),
-            'attached_files' => ArticleResource::collection($this->whenLoaded('attached_files')),
-            'attached_urls' => ArticleResource::collection($this->whenLoaded('attached_urls')),
+            'attached_files' => AttachedFileResource::collection($this->whenLoaded('attached_files')),
+            'attached_urls' => AttachedUrlResource::collection($this->whenLoaded('attached_urls')),
         ];
     }
 }
