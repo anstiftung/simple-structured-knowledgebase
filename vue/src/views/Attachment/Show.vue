@@ -162,6 +162,7 @@ loadFromServer()
                   name: 'profile',
                   params: { id: attachment.created_by.id },
                 }"
+                class="text-blue-600 font-semibold"
               >
                 {{ attachment.created_by.name }}
               </router-link>

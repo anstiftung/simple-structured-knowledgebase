@@ -141,6 +141,7 @@ loadFromServer()
                     name: 'profile',
                     params: { id: article.created_by.id },
                   }"
+                  class="text-blue-600 font-semibold"
                 >
                   {{ article.created_by.name }}
                 </router-link>
