@@ -92,7 +92,7 @@ loadFromServer()
         </div>
       </template>
     </model-header>
-    <section v-if="attachment" class="grid grid-cols-6 my-8 width-wrapper">
+    <section v-if="attachment" class="grid sm:grid-cols-6 my-8 width-wrapper">
       <div class="col-span-4 px-8 py-8">
         <template v-if="attachment.type == 'AttachedFile'">
           <img
@@ -246,7 +246,7 @@ loadFromServer()
         <template v-else>Enthalten in folgenden Beiträgen</template>
       </separator>
       <div
-        class="grid grid-cols-4 gap-4"
+        class="grid sm:grid-cols-4 gap-4"
         v-if="attachment.articles && attachment.articles.length"
       >
         <article-card
