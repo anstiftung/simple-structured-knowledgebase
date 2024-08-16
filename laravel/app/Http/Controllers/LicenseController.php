@@ -10,8 +10,12 @@ use App\Http\Controllers\BaseController;
 class LicenseController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     */
+    * Display Licenses
+    *
+    * Display all Licenses currently available for Selection inside the CoWiki
+    *
+    * @hideFromAPIDocumentation
+    */
     public function index()
     {
         $licenses = License::orderBy('order', 'asc')->where('active', true)->get();

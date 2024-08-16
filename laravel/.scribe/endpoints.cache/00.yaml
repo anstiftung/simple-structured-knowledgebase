@@ -6,108 +6,61 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: api/licenses
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"data":[{"id":3,"title":"Whitney Murazik","description":"Dolores omnis.","icons":"<img src=\"\/license-icons\/cc-logo.svg\" \/><img src=\"\/license-icons\/cc-zero.svg\" \/>","external_url":"http:\/\/stamm.com\/","order":1},{"id":1,"title":"CC0","description":"Voluptates sequi.","icons":"<img src=\"\/license-icons\/cc-logo.svg\" \/><img src=\"\/license-icons\/cc-by.svg\" \/>","external_url":"http:\/\/muller.com\/vitae-dolor-aut-quibusdam.html","order":2},{"id":2,"title":"Mr. Tristin Hane V","description":"Rerum laborum velit.","icons":"<img src=\"\/license-icons\/cc-logo.svg\" \/><img src=\"\/license-icons\/cc-by.svg\" \/>","external_url":null,"order":4},{"id":4,"title":"Mr. Melvin Moore DVM","description":"Autem ratione provident.","icons":"","external_url":"http:\/\/www.turner.com\/","order":6}]}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '599'
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/states
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"data":[{"id":1,"title":"Entwurf","key":"draft"},{"id":2,"title":"Review","key":"review"},{"id":3,"title":"Ver\u00f6ffentlicht","key":"publish"}]}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '598'
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
     uri: api/articles
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: |-
-        Avaible params:
-        – page
-        – creatorId -> filter by creator
-        - withoutCollection -> returns only articles without any collection
-        - withoutPagination -> disables pagination
+      title: 'Display Article Listing from CoWiki.'
+      description: 'This Endpoint lists all articles from the CoWiki filtered by the Url-Params'
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
+    urlParameters:
+      page:
+        name: page
+        description: 'The page number which should be returned in paginated Responses.'
+        required: false
+        example: 12
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      creatorId:
+        name: creatorId
+        description: 'Only get Articles created by the defined creatorId.'
+        required: false
+        example: 14
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      withoutCollection:
+        name: withoutCollection
+        description: 'bool Returns articles with no relation to any collection.'
+        required: false
+        example: maiores
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      withoutPagination:
+        name: withoutPagination
+        description: 'bool disables pagination and returns all results.'
+        required: false
+        example: numquam
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      page: 12
+      creatorId: 14
+      withoutCollection: maiores
+      withoutPagination: numquam
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -121,7 +74,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '597'
+          x-ratelimit-remaining: '579'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -140,8 +93,8 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
+      title: 'Display Article from CoWiki.'
+      description: 'Shows all publised Articles from the CoWiki.'
       authenticated: false
       custom: []
     headers:
@@ -172,7 +125,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '596'
+          x-ratelimit-remaining: '578'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -213,7 +166,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '595'
+          x-ratelimit-remaining: '577'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -232,7 +185,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
+      title: 'Display AttachedUrl Listing from CoWiki.'
       description: ''
       authenticated: false
       custom: []
@@ -254,7 +207,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '594'
+          x-ratelimit-remaining: '576'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -305,7 +258,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '593'
+          x-ratelimit-remaining: '575'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -324,7 +277,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
+      title: 'Display AttachedFile Listing from CoWiki.'
       description: ''
       authenticated: false
       custom: []
@@ -346,7 +299,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '592'
+          x-ratelimit-remaining: '574'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -397,7 +350,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '591'
+          x-ratelimit-remaining: '573'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -451,7 +404,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '590'
+          x-ratelimit-remaining: '572'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -470,7 +423,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
+      title: 'Display Collection Listing from CoWiki.'
       description: ''
       authenticated: false
       custom: []
@@ -492,7 +445,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '589'
+          x-ratelimit-remaining: '571'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -546,7 +499,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '600'
-          x-ratelimit-remaining: '588'
+          x-ratelimit-remaining: '570'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -604,11 +557,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: 'Save AttachedUrl to CoWiki'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -639,7 +593,7 @@ endpoints:
         name: 'attached_urls[].url'
         description: 'Must be a valid URL.'
         required: true
-        example: 'https://ondricka.com/quibusdam-autem-laborum-in-nihil.html'
+        example: 'http://ernser.net/'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -647,11 +601,14 @@ endpoints:
     cleanBodyParameters:
       attached_urls:
         -
-          url: 'https://ondricka.com/quibusdam-autem-laborum-in-nihil.html'
+          url: 'http://ernser.net/'
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer DfZE6V4c6vakbe3aP1h5dg8'
     controller: null
     method: null
     route: null
@@ -691,7 +648,7 @@ endpoints:
         name: 'attached_urls[].id'
         description: ''
         required: true
-        example: possimus
+        example: maiores
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -700,7 +657,7 @@ endpoints:
         name: 'attached_urls[].title'
         description: 'Must not be greater than 100 characters.'
         required: true
-        example: pcosxtfbebkbt
+        example: pgoegbsl
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -709,7 +666,7 @@ endpoints:
         name: 'attached_urls[].description'
         description: 'Must not be greater than 250 characters.'
         required: true
-        example: 'Voluptatem laborum maiores aut ut aut.'
+        example: 'Modi ea voluptatem similique sint nesciunt.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -717,9 +674,9 @@ endpoints:
     cleanBodyParameters:
       attached_urls:
         -
-          id: possimus
-          title: pcosxtfbebkbt
-          description: 'Voluptatem laborum maiores aut ut aut.'
+          id: maiores
+          title: pgoegbsl
+          description: 'Modi ea voluptatem similique sint nesciunt.'
     fileParameters: []
     responses: []
     responseFields: []
@@ -777,11 +734,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: 'Save AttachedFile to CoWiki'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -794,7 +752,7 @@ endpoints:
         description: ''
         required: true
         example:
-          - sunt
+          - rerum
         type: 'string[]'
         enumValues: []
         exampleWasSpecified: false
@@ -810,11 +768,14 @@ endpoints:
         custom: []
     cleanBodyParameters:
       attached_files:
-        - sunt
+        - rerum
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 5adfgbVkPZ4E8v66ehcD13a'
     controller: null
     method: null
     route: null
@@ -854,7 +815,7 @@ endpoints:
         name: 'attached_files[].id'
         description: ''
         required: true
-        example: dolores
+        example: ut
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -863,7 +824,7 @@ endpoints:
         name: 'attached_files[].title'
         description: 'Must not be greater than 100 characters.'
         required: true
-        example: otizyckrfexjgyw
+        example: ftxifjfzbqqon
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -872,7 +833,7 @@ endpoints:
         name: 'attached_files[].description'
         description: 'Must not be greater than 250 characters.'
         required: true
-        example: 'Aliquam qui non ex fugiat tempora.'
+        example: 'Inventore quo dignissimos et vel dolores qui.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -881,7 +842,7 @@ endpoints:
         name: 'attached_files[].source'
         description: 'Must not be greater than 400 characters.'
         required: true
-        example: fihehqeuhtgxyx
+        example: gdoxxuivdypzbiguk
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -899,7 +860,7 @@ endpoints:
         name: 'attached_files[].license.id'
         description: ''
         required: true
-        example: exercitationem
+        example: iure
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -907,12 +868,12 @@ endpoints:
     cleanBodyParameters:
       attached_files:
         -
-          id: dolores
-          title: otizyckrfexjgyw
-          description: 'Aliquam qui non ex fugiat tempora.'
-          source: fihehqeuhtgxyx
+          id: ut
+          title: ftxifjfzbqqon
+          description: 'Inventore quo dignissimos et vel dolores qui.'
+          source: gdoxxuivdypzbiguk
           license:
-            id: exercitationem
+            id: iure
     fileParameters: []
     responses: []
     responseFields: []
@@ -970,11 +931,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: 'Save Article to CoWiki'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -986,7 +948,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: ygakrmh
+        example: fhtntkcueeh
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -995,7 +957,7 @@ endpoints:
         name: description
         description: 'Must not be greater than 1000 characters.'
         required: true
-        example: 'Maiores quaerat autem aliquam ea veniam deleniti.'
+        example: 'Fugit sunt et placeat omnis et ut non.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1004,19 +966,22 @@ endpoints:
         name: content
         description: ''
         required: false
-        example: eveniet
+        example: laudantium
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: ygakrmh
-      description: 'Maiores quaerat autem aliquam ea veniam deleniti.'
-      content: eveniet
+      title: fhtntkcueeh
+      description: 'Fugit sunt et placeat omnis et ut non.'
+      content: laudantium
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer aZPhb6Ec5av1dD36fgeV48k'
     controller: null
     method: null
     route: null
@@ -1030,11 +995,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update the specified resource in storage.'
+      title: 'Update Article from the CoWiki.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1042,39 +1008,39 @@ endpoints:
         name: article_id
         description: 'The ID of the article.'
         required: true
-        example: mr-griffin-mohr-phd
-        type: string
+        example: 12
+        type: integer
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         custom: []
     cleanUrlParameters:
-      article_id: mr-griffin-mohr-phd
+      article_id: 12
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
       title:
         name: title
-        description: 'Must not be greater than 255 characters.'
+        description: 'The articles title. Must not be greater than 255 characters.'
         required: true
-        example: gd
+        example: drzidsfrzapwewgmrlkmnchp
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
       description:
         name: description
-        description: 'Must not be greater than 1000 characters.'
+        description: 'The articles short description (or excerpt). Must not be greater than 1000 characters.'
         required: true
-        example: 'Et maiores repellendus quia rerum suscipit voluptas.'
+        example: 'Est deserunt voluptatum culpa sit.'
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
       content:
         name: content
-        description: ''
+        description: 'The articles full content Markdown and some Special Tags are supported.'
         required: false
-        example: amet
+        example: sequi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1090,9 +1056,9 @@ endpoints:
         custom: []
       state.id:
         name: state.id
-        description: ''
-        required: false
-        example: null
+        description: 'The articles state.'
+        required: true
+        example: est
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1108,23 +1074,28 @@ endpoints:
         custom: []
       created_by.id:
         name: created_by.id
-        description: ''
-        required: false
-        example: null
+        description: 'The articles creator ID.'
+        required: true
+        example: corrupti
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: gd
-      description: 'Et maiores repellendus quia rerum suscipit voluptas.'
-      content: amet
-      state: []
-      created_by: []
+      title: drzidsfrzapwewgmrlkmnchp
+      description: 'Est deserunt voluptatum culpa sit.'
+      content: sequi
+      state:
+        id: est
+      created_by:
+        id: corrupti
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 5Dae1hvEVkbZ48dPg6f6ca3'
     controller: null
     method: null
     route: null
@@ -1138,11 +1109,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remove the specified resource from storage.'
-      description: ''
-      authenticated: false
+      title: 'Remove Article from the CoWiki.'
+      description: 'Articles get soft-deleted. Only User with the right Permissions are allowed to force-delete Articles.'
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1159,12 +1131,25 @@ endpoints:
       article_id: mr-griffin-mohr-phd
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      forceDelete:
+        name: forceDelete
+        description: 'force Delete the Article. Defaults to false.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      forceDelete: false
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3P6hk5cDZE84bda6efv1agV'
     controller: null
     method: null
     route: null
@@ -1178,11 +1163,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
+      title: 'Add a Clap to the Article'
+      description: 'Users can leave a Clap for articles they like.'
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1204,7 +1190,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer hE5b6Zvf38PDVagadc4ek16'
     controller: null
     method: null
     route: null
@@ -1218,11 +1207,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: 'Save Collection to CoWiki'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1234,7 +1224,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: jexggz
+        example: acjpkfxomdncumguasmabp
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1243,7 +1233,7 @@ endpoints:
         name: description
         description: 'Must not be greater than 1000 characters.'
         required: true
-        example: 'Vel exercitationem voluptas neque hic voluptatibus perspiciatis consequatur laboriosam.'
+        example: 'Repellat eum maiores consequatur maxime ut veniam.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1252,7 +1242,7 @@ endpoints:
         name: published
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -1280,22 +1270,25 @@ endpoints:
         name: 'articles[].order'
         description: ''
         required: false
-        example: 16
+        example: 7
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: jexggz
-      description: 'Vel exercitationem voluptas neque hic voluptatibus perspiciatis consequatur laboriosam.'
-      published: true
+      title: acjpkfxomdncumguasmabp
+      description: 'Repellat eum maiores consequatur maxime ut veniam.'
+      published: false
       articles:
         -
-          order: 16
+          order: 7
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer vEhf6aVe6c8gk4bZP3aD5d1'
     controller: null
     method: null
     route: null
@@ -1335,7 +1328,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: lyqbwptlvrnhyc
+        example: gvimluarrcwmcbscts
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1344,7 +1337,7 @@ endpoints:
         name: description
         description: 'Must not be greater than 1000 characters.'
         required: true
-        example: 'Saepe est et nesciunt voluptas nesciunt.'
+        example: 'Voluptatem est ut voluptatem et nisi.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1399,19 +1392,19 @@ endpoints:
         name: 'articles[].order'
         description: ''
         required: false
-        example: 1
+        example: 10
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: lyqbwptlvrnhyc
-      description: 'Saepe est et nesciunt voluptas nesciunt.'
+      title: gvimluarrcwmcbscts
+      description: 'Voluptatem est ut voluptatem et nisi.'
       published: false
       created_by: []
       articles:
         -
-          order: 1
+          order: 10
     fileParameters: []
     responses: []
     responseFields: []
@@ -1459,11 +1452,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: 'Save Comment to CoWiki-Article'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1473,28 +1467,32 @@ endpoints:
     bodyParameters:
       content:
         name: content
-        description: 'Must not be greater than 1000 characters.'
+        description: 'The comments message. Must not be longer than 1000 Characters.'
         required: true
-        example: uxaauxxcz
+        example: cumque
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
       article_id:
         name: article_id
-        description: ''
-        required: false
-        example: null
-        type: string
+        description: 'the Article ID of the article you want to attach your comment to.'
+        required: true
+        example: 12
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      content: uxaauxxcz
+      content: cumque
+      article_id: 12
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer dD8k5c6fVae3E4PZavhb61g'
     controller: null
     method: null
     route: null
@@ -1508,11 +1506,12 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remove the specified resource from storage.'
+      title: 'Remove Comment from the CoWiki.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1534,7 +1533,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 8P6fEZcve1k4bgdh63aV5aD'
     controller: null
     method: null
     route: null
@@ -1548,7 +1550,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
+      title: 'Display User Listing from CoWiki.'
       description: ''
       authenticated: false
       custom: []

@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 class CollectionController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Display Collection Listing from CoWiki.
      */
     public function index(Request $request)
     {
@@ -40,7 +40,9 @@ class CollectionController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Save Collection to CoWiki
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {

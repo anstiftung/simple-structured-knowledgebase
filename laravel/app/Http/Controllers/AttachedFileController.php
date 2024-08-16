@@ -16,7 +16,7 @@ use Illuminate\Validation\Rules\File as FileValidator;
 class AttachedFileController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Display AttachedFile Listing from CoWiki.
      */
     public function index(Request $request)
     {
@@ -37,7 +37,9 @@ class AttachedFileController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Save AttachedFile to CoWiki
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {

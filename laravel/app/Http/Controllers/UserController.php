@@ -10,7 +10,7 @@ use App\Http\Controllers\BaseController;
 class UserController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Display User Listing from CoWiki.
      */
     public function index(Request $request)
     {

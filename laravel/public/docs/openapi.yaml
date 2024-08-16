@@ -7,168 +7,11 @@ servers:
   -
     url: cowiki.de
 paths:
-  /api/licenses:
-    get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
-      description: ''
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  data:
-                    -
-                      id: 3
-                      title: 'Whitney Murazik'
-                      description: 'Dolores omnis.'
-                      icons: '<img src="/license-icons/cc-logo.svg" /><img src="/license-icons/cc-zero.svg" />'
-                      external_url: 'http://stamm.com/'
-                      order: 1
-                    -
-                      id: 1
-                      title: CC0
-                      description: 'Voluptates sequi.'
-                      icons: '<img src="/license-icons/cc-logo.svg" /><img src="/license-icons/cc-by.svg" />'
-                      external_url: 'http://muller.com/vitae-dolor-aut-quibusdam.html'
-                      order: 2
-                    -
-                      id: 2
-                      title: 'Mr. Tristin Hane V'
-                      description: 'Rerum laborum velit.'
-                      icons: '<img src="/license-icons/cc-logo.svg" /><img src="/license-icons/cc-by.svg" />'
-                      external_url: null
-                      order: 4
-                    -
-                      id: 4
-                      title: 'Mr. Melvin Moore DVM'
-                      description: 'Autem ratione provident.'
-                      icons: ''
-                      external_url: 'http://www.turner.com/'
-                      order: 6
-                properties:
-                  data:
-                    type: array
-                    example:
-                      -
-                        id: 3
-                        title: 'Whitney Murazik'
-                        description: 'Dolores omnis.'
-                        icons: '<img src="/license-icons/cc-logo.svg" /><img src="/license-icons/cc-zero.svg" />'
-                        external_url: 'http://stamm.com/'
-                        order: 1
-                      -
-                        id: 1
-                        title: CC0
-                        description: 'Voluptates sequi.'
-                        icons: '<img src="/license-icons/cc-logo.svg" /><img src="/license-icons/cc-by.svg" />'
-                        external_url: 'http://muller.com/vitae-dolor-aut-quibusdam.html'
-                        order: 2
-                      -
-                        id: 2
-                        title: 'Mr. Tristin Hane V'
-                        description: 'Rerum laborum velit.'
-                        icons: '<img src="/license-icons/cc-logo.svg" /><img src="/license-icons/cc-by.svg" />'
-                        external_url: null
-                        order: 4
-                      -
-                        id: 4
-                        title: 'Mr. Melvin Moore DVM'
-                        description: 'Autem ratione provident.'
-                        icons: ''
-                        external_url: 'http://www.turner.com/'
-                        order: 6
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 3
-                        title:
-                          type: string
-                          example: 'Whitney Murazik'
-                        description:
-                          type: string
-                          example: 'Dolores omnis.'
-                        icons:
-                          type: string
-                          example: '<img src="/license-icons/cc-logo.svg" /><img src="/license-icons/cc-zero.svg" />'
-                        external_url:
-                          type: string
-                          example: 'http://stamm.com/'
-                        order:
-                          type: integer
-                          example: 1
-      tags:
-        - Endpoints
-      security: []
-  /api/states:
-    get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
-      description: ''
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  data:
-                    -
-                      id: 1
-                      title: Entwurf
-                      key: draft
-                    -
-                      id: 2
-                      title: Review
-                      key: review
-                    -
-                      id: 3
-                      title: Veröffentlicht
-                      key: publish
-                properties:
-                  data:
-                    type: array
-                    example:
-                      -
-                        id: 1
-                        title: Entwurf
-                        key: draft
-                      -
-                        id: 2
-                        title: Review
-                        key: review
-                      -
-                        id: 3
-                        title: Veröffentlicht
-                        key: publish
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 1
-                        title:
-                          type: string
-                          example: Entwurf
-                        key:
-                          type: string
-                          example: draft
-      tags:
-        - Endpoints
-      security: []
   /api/articles:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
-      description: "Avaible params:\n– page\n– creatorId -> filter by creator\n- withoutCollection -> returns only articles without any collection\n- withoutPagination -> disables pagination"
+      summary: 'Display Article Listing from CoWiki.'
+      operationId: displayArticleListingFromCoWiki
+      description: 'This Endpoint lists all articles from the CoWiki filtered by the Url-Params'
       parameters: []
       responses:
         200:
@@ -3054,11 +2897,68 @@ paths:
       tags:
         - Endpoints
       security: []
+    parameters:
+      -
+        in: path
+        name: page
+        description: 'Optional parameter. The page number which should be returned in paginated Responses.'
+        required: true
+        schema:
+          type: integer
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 12
+      -
+        in: path
+        name: creatorId
+        description: 'Optional parameter. Only get Articles created by the defined creatorId.'
+        required: true
+        schema:
+          type: integer
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 14
+      -
+        in: path
+        name: withoutCollection
+        description: 'Optional parameter. bool Returns articles with no relation to any collection.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: maiores
+      -
+        in: path
+        name: withoutPagination
+        description: 'Optional parameter. bool disables pagination and returns all results.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: numquam
   '/api/article/{article_slug}':
     get:
-      summary: 'Display the specified resource.'
-      operationId: displayTheSpecifiedResource
-      description: ''
+      summary: 'Display Article from CoWiki.'
+      operationId: displayArticleFromCoWiki
+      description: 'Shows all publised Articles from the CoWiki.'
       parameters: []
       responses:
         200:
@@ -11919,8 +11819,8 @@ paths:
       security: []
   /api/attached-urls:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
+      summary: 'Display AttachedUrl Listing from CoWiki.'
+      operationId: displayAttachedUrlListingFromCoWiki
       description: ''
       parameters: []
       responses:
@@ -12494,8 +12394,8 @@ paths:
           type: integer
   /api/attached-files:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
+      summary: 'Display AttachedFile Listing from CoWiki.'
+      operationId: displayAttachedFileListingFromCoWiki
       description: ''
       parameters: []
       responses:
@@ -13425,8 +13325,8 @@ paths:
           type: integer
   /api/collections:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
+      summary: 'Display Collection Listing from CoWiki.'
+      operationId: displayCollectionListingFromCoWiki
       description: ''
       parameters: []
       responses:
@@ -16468,8 +16368,8 @@ paths:
       security: []
   /api/attached-url:
     post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
+      summary: 'Save AttachedUrl to CoWiki'
+      operationId: saveAttachedUrlToCoWiki
       description: ''
       parameters: []
       responses: {  }
@@ -16493,7 +16393,7 @@ paths:
                       url:
                         type: string
                         description: 'Must be a valid URL.'
-                        example: 'https://ondricka.com/quibusdam-autem-laborum-in-nihil.html'
+                        example: 'http://ernser.net/'
                     required:
                       - url
                 article_id:
@@ -16502,7 +16402,6 @@ paths:
                   example: null
               required:
                 - attached_urls
-      security: []
     patch:
       summary: 'Update the specified resource in storage.'
       operationId: updateTheSpecifiedResourceInStorage
@@ -16529,15 +16428,15 @@ paths:
                       id:
                         type: string
                         description: ''
-                        example: possimus
+                        example: maiores
                       title:
                         type: string
                         description: 'Must not be greater than 100 characters.'
-                        example: pcosxtfbebkbt
+                        example: pgoegbsl
                       description:
                         type: string
                         description: 'Must not be greater than 250 characters.'
-                        example: 'Voluptatem laborum maiores aut ut aut.'
+                        example: 'Modi ea voluptatem similique sint nesciunt.'
                     required:
                       - id
                       - title
@@ -16547,8 +16446,8 @@ paths:
       security: []
   /api/attached-file:
     post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
+      summary: 'Save AttachedFile to CoWiki'
+      operationId: saveAttachedFileToCoWiki
       description: ''
       parameters: []
       responses: {  }
@@ -16565,7 +16464,7 @@ paths:
                   type: array
                   description: ''
                   example:
-                    - sunt
+                    - rerum
                   items:
                     type: string
                 article_id:
@@ -16574,7 +16473,6 @@ paths:
                   example: null
               required:
                 - attached_files
-      security: []
     patch:
       summary: 'Update the specified resource in storage.'
       operationId: updateTheSpecifiedResourceInStorage
@@ -16601,19 +16499,19 @@ paths:
                       id:
                         type: string
                         description: ''
-                        example: dolores
+                        example: ut
                       title:
                         type: string
                         description: 'Must not be greater than 100 characters.'
-                        example: otizyckrfexjgyw
+                        example: ftxifjfzbqqon
                       description:
                         type: string
                         description: 'Must not be greater than 250 characters.'
-                        example: 'Aliquam qui non ex fugiat tempora.'
+                        example: 'Inventore quo dignissimos et vel dolores qui.'
                       source:
                         type: string
                         description: 'Must not be greater than 400 characters.'
-                        example: fihehqeuhtgxyx
+                        example: gdoxxuivdypzbiguk
                       license:
                         type: object
                         description: ''
@@ -16622,7 +16520,7 @@ paths:
                           id:
                             type: string
                             description: ''
-                            example: exercitationem
+                            example: iure
                     required:
                       - id
                       - title
@@ -16633,8 +16531,8 @@ paths:
       security: []
   /api/article:
     post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
+      summary: 'Save Article to CoWiki'
+      operationId: saveArticleToCoWiki
       description: ''
       parameters: []
       responses: {  }
@@ -16650,23 +16548,22 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ygakrmh
+                  example: fhtntkcueeh
                 description:
                   type: string
                   description: 'Must not be greater than 1000 characters.'
-                  example: 'Maiores quaerat autem aliquam ea veniam deleniti.'
+                  example: 'Fugit sunt et placeat omnis et ut non.'
                 content:
                   type: string
                   description: ''
-                  example: eveniet
+                  example: laudantium
               required:
                 - title
                 - description
-      security: []
   '/api/article/{article_id}':
     patch:
-      summary: 'Update the specified resource in storage.'
-      operationId: updateTheSpecifiedResourceInStorage
+      summary: 'Update Article from the CoWiki.'
+      operationId: updateArticleFromTheCoWiki
       description: ''
       parameters: []
       responses: {  }
@@ -16681,16 +16578,16 @@ paths:
               properties:
                 title:
                   type: string
-                  description: 'Must not be greater than 255 characters.'
-                  example: gd
+                  description: 'The articles title. Must not be greater than 255 characters.'
+                  example: drzidsfrzapwewgmrlkmnchp
                 description:
                   type: string
-                  description: 'Must not be greater than 1000 characters.'
-                  example: 'Et maiores repellendus quia rerum suscipit voluptas.'
+                  description: 'The articles short description (or excerpt). Must not be greater than 1000 characters.'
+                  example: 'Est deserunt voluptatum culpa sit.'
                 content:
                   type: string
-                  description: ''
-                  example: amet
+                  description: 'The articles full content Markdown and some Special Tags are supported.'
+                  example: sequi
                 state:
                   type: object
                   description: ''
@@ -16698,8 +16595,8 @@ paths:
                   properties:
                     id:
                       type: string
-                      description: ''
-                      example: null
+                      description: 'The articles state.'
+                      example: est
                 created_by:
                   type: object
                   description: ''
@@ -16707,40 +16604,48 @@ paths:
                   properties:
                     id:
                       type: string
-                      description: ''
-                      example: null
+                      description: 'The articles creator ID.'
+                      example: corrupti
               required:
                 - title
                 - description
-      security: []
     delete:
-      summary: 'Remove the specified resource from storage.'
-      operationId: removeTheSpecifiedResourceFromStorage
-      description: ''
+      summary: 'Remove Article from the CoWiki.'
+      operationId: removeArticleFromTheCoWiki
+      description: 'Articles get soft-deleted. Only User with the right Permissions are allowed to force-delete Articles.'
       parameters: []
       responses: {  }
       tags:
         - Endpoints
-      security: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                forceDelete:
+                  type: boolean
+                  description: 'force Delete the Article. Defaults to false.'
+                  example: false
     parameters:
       -
         in: path
         name: article_id
         description: 'The ID of the article.'
-        example: mr-griffin-mohr-phd
+        example: 12
         required: true
         schema:
-          type: string
+          type: integer
   '/api/article/{article_slug}/clap':
     patch:
-      summary: ''
-      operationId: patchApiArticleArticle_slugClap
-      description: ''
+      summary: 'Add a Clap to the Article'
+      operationId: addAClapToTheArticle
+      description: 'Users can leave a Clap for articles they like.'
       parameters: []
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
@@ -16752,8 +16657,8 @@ paths:
           type: string
   /api/collection:
     post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
+      summary: 'Save Collection to CoWiki'
+      operationId: saveCollectionToCoWiki
       description: ''
       parameters: []
       responses: {  }
@@ -16769,15 +16674,15 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: jexggz
+                  example: acjpkfxomdncumguasmabp
                 description:
                   type: string
                   description: 'Must not be greater than 1000 characters.'
-                  example: 'Vel exercitationem voluptas neque hic voluptatibus perspiciatis consequatur laboriosam.'
+                  example: 'Repellat eum maiores consequatur maxime ut veniam.'
                 published:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 articles:
                   type: array
                   description: ''
@@ -16793,11 +16698,10 @@ paths:
                       order:
                         type: integer
                         description: ''
-                        example: 16
+                        example: 7
               required:
                 - title
                 - description
-      security: []
   '/api/collection/{collection_id}':
     patch:
       summary: 'Update the specified resource in storage.'
@@ -16817,11 +16721,11 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: lyqbwptlvrnhyc
+                  example: gvimluarrcwmcbscts
                 description:
                   type: string
                   description: 'Must not be greater than 1000 characters.'
-                  example: 'Saepe est et nesciunt voluptas nesciunt.'
+                  example: 'Voluptatem est ut voluptatem et nisi.'
                 published:
                   type: boolean
                   description: ''
@@ -16850,7 +16754,7 @@ paths:
                       order:
                         type: integer
                         description: ''
-                        example: 1
+                        example: 10
               required:
                 - title
                 - description
@@ -16876,8 +16780,8 @@ paths:
       security: []
   /api/comment:
     post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
+      summary: 'Save Comment to CoWiki-Article'
+      operationId: saveCommentToCoWikiArticle
       description: ''
       parameters: []
       responses: {  }
@@ -16892,25 +16796,24 @@ paths:
               properties:
                 content:
                   type: string
-                  description: 'Must not be greater than 1000 characters.'
-                  example: uxaauxxcz
+                  description: 'The comments message. Must not be longer than 1000 Characters.'
+                  example: cumque
                 article_id:
-                  type: string
-                  description: ''
-                  example: null
+                  type: integer
+                  description: 'the Article ID of the article you want to attach your comment to.'
+                  example: 12
               required:
                 - content
-      security: []
+                - article_id
   '/api/comment/{comment_id}':
     delete:
-      summary: 'Remove the specified resource from storage.'
-      operationId: removeTheSpecifiedResourceFromStorage
+      summary: 'Remove Comment from the CoWiki.'
+      operationId: removeCommentFromTheCoWiki
       description: ''
       parameters: []
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
@@ -16922,8 +16825,8 @@ paths:
           type: integer
   /api/users:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
+      summary: 'Display User Listing from CoWiki.'
+      operationId: displayUserListingFromCoWiki
       description: ''
       parameters: []
       responses:

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Gate;
 class AttachedUrlController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Display AttachedUrl Listing from CoWiki.
      */
     public function index(Request $request)
     {
@@ -33,7 +33,9 @@ class AttachedUrlController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Save AttachedUrl to CoWiki
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {

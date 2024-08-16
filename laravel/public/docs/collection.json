@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "CoWiki API",
-        "_postman_id": "cf289b98-9b53-42da-aa70-ea7e3a4441b1",
+        "_postman_id": "53fba6f1-a186-48eb-b621-ed55480093ee",
         "description": "The OpenAPI Description of the CoWiki-Knowledge-Base",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -20,125 +20,39 @@
             "description": "",
             "item": [
                 {
-                    "name": "Display a listing of the resource.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/licenses",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/licenses"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "600"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "599"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 200,
-                            "body": "{\"data\":[{\"id\":3,\"title\":\"Whitney Murazik\",\"description\":\"Dolores omnis.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-zero.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/stamm.com\\\/\",\"order\":1},{\"id\":1,\"title\":\"CC0\",\"description\":\"Voluptates sequi.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/muller.com\\\/vitae-dolor-aut-quibusdam.html\",\"order\":2},{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},{\"id\":4,\"title\":\"Mr. Melvin Moore DVM\",\"description\":\"Autem ratione provident.\",\"icons\":\"\",\"external_url\":\"http:\\\/\\\/www.turner.com\\\/\",\"order\":6}]}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Display a listing of the resource.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/states",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/states"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "600"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "598"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 200,
-                            "body": "{\"data\":[{\"id\":1,\"title\":\"Entwurf\",\"key\":\"draft\"},{\"id\":2,\"title\":\"Review\",\"key\":\"review\"},{\"id\":3,\"title\":\"Ver\\u00f6ffentlicht\",\"key\":\"publish\"}]}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Display a listing of the resource.",
+                    "name": "Display Article Listing from CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
                             "path": "api\/articles",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/articles"
+                            "raw": "{{baseUrl}}\/api\/articles",
+                            "variable": [
+                                {
+                                    "id": "page",
+                                    "key": "page",
+                                    "value": "12",
+                                    "description": "The page number which should be returned in paginated Responses."
+                                },
+                                {
+                                    "id": "creatorId",
+                                    "key": "creatorId",
+                                    "value": "14",
+                                    "description": "Only get Articles created by the defined creatorId."
+                                },
+                                {
+                                    "id": "withoutCollection",
+                                    "key": "withoutCollection",
+                                    "value": "maiores",
+                                    "description": "bool Returns articles with no relation to any collection."
+                                },
+                                {
+                                    "id": "withoutPagination",
+                                    "key": "withoutPagination",
+                                    "value": "numquam",
+                                    "description": "bool disables pagination and returns all results."
+                                }
+                            ]
                         },
                         "method": "GET",
                         "header": [
@@ -152,7 +66,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "Avaible params:\n\u2013 page\n\u2013 creatorId -> filter by creator\n- withoutCollection -> returns only articles without any collection\n- withoutPagination -> disables pagination",
+                        "description": "This Endpoint lists all articles from the CoWiki filtered by the Url-Params",
                         "auth": {
                             "type": "noauth"
                         }
@@ -174,7 +88,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "597"
+                                    "value": "579"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -188,7 +102,7 @@
                     ]
                 },
                 {
-                    "name": "Display the specified resource.",
+                    "name": "Display Article from CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -216,7 +130,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
+                        "description": "Shows all publised Articles from the CoWiki.",
                         "auth": {
                             "type": "noauth"
                         }
@@ -238,7 +152,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "596"
+                                    "value": "578"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -294,7 +208,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "595"
+                                    "value": "577"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -308,7 +222,7 @@
                     ]
                 },
                 {
-                    "name": "Display a listing of the resource.",
+                    "name": "Display AttachedUrl Listing from CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -350,7 +264,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "594"
+                                    "value": "576"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -414,7 +328,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "593"
+                                    "value": "575"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -428,7 +342,7 @@
                     ]
                 },
                 {
-                    "name": "Display a listing of the resource.",
+                    "name": "Display AttachedFile Listing from CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -470,7 +384,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "592"
+                                    "value": "574"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -534,7 +448,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "591"
+                                    "value": "573"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -598,7 +512,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "590"
+                                    "value": "572"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -612,7 +526,7 @@
                     ]
                 },
                 {
-                    "name": "Display a listing of the resource.",
+                    "name": "Display Collection Listing from CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -654,7 +568,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "589"
+                                    "value": "571"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -718,7 +632,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "588"
+                                    "value": "570"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -780,7 +694,7 @@
                     ]
                 },
                 {
-                    "name": "Store a newly created resource in storage.",
+                    "name": "Save AttachedUrl to CoWiki",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -801,12 +715,9 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_urls\":[{\"url\":\"https:\\\/\\\/ondricka.com\\\/quibusdam-autem-laborum-in-nihil.html\"}]}"
+                            "raw": "{\"attached_urls\":[{\"url\":\"http:\\\/\\\/ernser.net\\\/\"}]}"
                         },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": []
                 },
@@ -832,7 +743,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_urls\":[{\"id\":\"possimus\",\"title\":\"pcosxtfbebkbt\",\"description\":\"Voluptatem laborum maiores aut ut aut.\"}]}"
+                            "raw": "{\"attached_urls\":[{\"id\":\"maiores\",\"title\":\"pgoegbsl\",\"description\":\"Modi ea voluptatem similique sint nesciunt.\"}]}"
                         },
                         "description": "",
                         "auth": {
@@ -878,7 +789,7 @@
                     "response": []
                 },
                 {
-                    "name": "Store a newly created resource in storage.",
+                    "name": "Save AttachedFile to CoWiki",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -899,12 +810,9 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_files\":[\"sunt\"]}"
+                            "raw": "{\"attached_files\":[\"rerum\"]}"
                         },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": []
                 },
@@ -930,7 +838,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_files\":[{\"id\":\"dolores\",\"title\":\"otizyckrfexjgyw\",\"description\":\"Aliquam qui non ex fugiat tempora.\",\"source\":\"fihehqeuhtgxyx\",\"license\":{\"id\":\"exercitationem\"}}]}"
+                            "raw": "{\"attached_files\":[{\"id\":\"ut\",\"title\":\"ftxifjfzbqqon\",\"description\":\"Inventore quo dignissimos et vel dolores qui.\",\"source\":\"gdoxxuivdypzbiguk\",\"license\":{\"id\":\"iure\"}}]}"
                         },
                         "description": "",
                         "auth": {
@@ -976,7 +884,7 @@
                     "response": []
                 },
                 {
-                    "name": "Store a newly created resource in storage.",
+                    "name": "Save Article to CoWiki",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -997,17 +905,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"ygakrmh\",\"description\":\"Maiores quaerat autem aliquam ea veniam deleniti.\",\"content\":\"eveniet\"}"
+                            "raw": "{\"title\":\"fhtntkcueeh\",\"description\":\"Fugit sunt et placeat omnis et ut non.\",\"content\":\"laudantium\"}"
                         },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": []
                 },
                 {
-                    "name": "Update the specified resource in storage.",
+                    "name": "Update Article from the CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -1018,7 +923,7 @@
                                 {
                                     "id": "article_id",
                                     "key": "article_id",
-                                    "value": "mr-griffin-mohr-phd",
+                                    "value": "12",
                                     "description": "The ID of the article."
                                 }
                             ]
@@ -1036,17 +941,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"gd\",\"description\":\"Et maiores repellendus quia rerum suscipit voluptas.\",\"content\":\"amet\",\"state\":[],\"created_by\":[]}"
+                            "raw": "{\"title\":\"drzidsfrzapwewgmrlkmnchp\",\"description\":\"Est deserunt voluptatum culpa sit.\",\"content\":\"sequi\",\"state\":{\"id\":\"est\"},\"created_by\":{\"id\":\"corrupti\"}}"
                         },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": []
                 },
                 {
-                    "name": "Remove the specified resource from storage.",
+                    "name": "Remove Article from the CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -1073,16 +975,16 @@
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"forceDelete\":false}"
+                        },
+                        "description": "Articles get soft-deleted. Only User with the right Permissions are allowed to force-delete Articles."
                     },
                     "response": []
                 },
                 {
-                    "name": "PATCH api\/article\/{article_slug}\/clap",
+                    "name": "Add a Clap to the Article",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -1110,15 +1012,12 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": "Users can leave a Clap for articles they like."
                     },
                     "response": []
                 },
                 {
-                    "name": "Store a newly created resource in storage.",
+                    "name": "Save Collection to CoWiki",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -1139,12 +1038,9 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"jexggz\",\"description\":\"Vel exercitationem voluptas neque hic voluptatibus perspiciatis consequatur laboriosam.\",\"published\":true,\"articles\":[{\"order\":16}]}"
+                            "raw": "{\"title\":\"acjpkfxomdncumguasmabp\",\"description\":\"Repellat eum maiores consequatur maxime ut veniam.\",\"published\":false,\"articles\":[{\"order\":7}]}"
                         },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": []
                 },
@@ -1178,7 +1074,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"lyqbwptlvrnhyc\",\"description\":\"Saepe est et nesciunt voluptas nesciunt.\",\"published\":false,\"created_by\":[],\"articles\":[{\"order\":1}]}"
+                            "raw": "{\"title\":\"gvimluarrcwmcbscts\",\"description\":\"Voluptatem est ut voluptatem et nisi.\",\"published\":false,\"created_by\":[],\"articles\":[{\"order\":10}]}"
                         },
                         "description": "",
                         "auth": {
@@ -1216,7 +1112,7 @@
                     "response": []
                 },
                 {
-                    "name": "Store a newly created resource in storage.",
+                    "name": "Save Comment to CoWiki-Article",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -1237,17 +1133,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"content\":\"uxaauxxcz\"}"
+                            "raw": "{\"content\":\"cumque\",\"article_id\":12}"
                         },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": []
                 },
                 {
-                    "name": "Remove the specified resource from storage.",
+                    "name": "Remove Comment from the CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -1275,15 +1168,12 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": []
                 },
                 {
-                    "name": "Display a listing of the resource.",
+                    "name": "Display User Listing from CoWiki.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",

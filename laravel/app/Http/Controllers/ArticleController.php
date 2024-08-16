@@ -14,12 +14,14 @@ use Illuminate\Support\Str;
 class ArticleController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     * Avaible params:
-     * – page
-     * – creatorId -> filter by creator
-     * - withoutCollection -> returns only articles without any collection
-     * - withoutPagination -> disables pagination
+     * Display Article Listing from CoWiki.
+     *
+     * This Endpoint lists all articles from the CoWiki filtered by the Url-Params
+     *
+     * @urlParam page int The page number which should be returned in paginated Responses.
+     * @urlParam creatorId int Only get Articles created by the defined creatorId.
+     * @urlParam withoutCollection bool Returns articles with no relation to any collection.
+     * @urlParam withoutPagination bool disables pagination and returns all results.
      */
     public function index(Request $request)
     {
@@ -40,7 +42,9 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Save Article to CoWiki
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {
@@ -69,7 +73,11 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * Display Article from CoWiki.
+     *
+     * Shows all publised Articles from the CoWiki.
+     *
+     * @unauthenticated
      */
     public function show(Article $article)
     {
@@ -85,18 +93,27 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Article from the CoWiki.
+     *
+     * @authenticated
+     *
+     * @urlParam article_id int required The ID of the article. Example: 12
      */
     public function update(Article $article, Request $request)
     {
         Gate::authorize('update', $article);
 
         $request->validate([
+            // The articles title
             'title' => 'required|max:255',
+            // The articles short description (or excerpt).
             'description' => 'required|max:1000',
+            // The articles full content Markdown and some Special Tags are supported.
             'content' => 'present|string|nullable',
-            'state.id' => ['exists:states,id', new ArticleStateValidator($article, $this->authUser)],
-            'created_by.id' => 'exists:users,id'
+            // The articles state
+            'state.id' => ['required|exists:states,id', new ArticleStateValidator($article, $this->authUser)],
+            // The articles creator ID
+            'created_by.id' => 'required|exists:users,id'
         ]);
 
         $article->update([
@@ -134,7 +151,13 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove Article from the CoWiki.
+     *
+     * Articles get soft-deleted. Only User with the right Permissions are allowed to force-delete Articles.
+     *
+     * @authenticated
+     *
+     * @bodyParam forceDelete bool force Delete the Article. Defaults to false.
      */
     public function destroy(Request $request, Article $article)
     {
@@ -151,6 +174,13 @@ class ArticleController extends BaseController
         return new ArticleResource($article);
     }
 
+    /**
+     * Add a Clap to the Article
+     *
+     * Users can leave a Clap for articles they like.
+     *
+     * @authenticated
+     */
     public function clap(Article $article)
     {
         Gate::authorize('clap', $article);
