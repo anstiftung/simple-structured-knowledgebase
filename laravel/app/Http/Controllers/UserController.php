@@ -11,6 +11,8 @@ class UserController extends BaseController
 {
     /**
      * Display User Listing from CoWiki.
+     *
+     * @bodyParam onlyEditors boolean Show only users with role "Editor"
      */
     public function index(Request $request)
     {

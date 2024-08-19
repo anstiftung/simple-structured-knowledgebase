@@ -63,6 +63,7 @@ class CommentController extends BaseController
     /**
      * Remove Comment from the CoWiki.
      *
+     * @urlParam article_id int required the Comment ID of the comment you want to remove.
      * @authenticated
      */
     public function destroy(Comment $comment)

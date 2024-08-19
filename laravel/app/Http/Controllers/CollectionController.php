@@ -75,7 +75,7 @@ class CollectionController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * Display a Collection from CoWiki.
      */
     public function show(Collection $collection)
     {
@@ -92,7 +92,7 @@ class CollectionController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Collection to CoWiki.
      */
     public function update(Collection $collection, Request $request)
     {
