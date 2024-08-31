@@ -14,6 +14,10 @@ use App\Http\Resources\CollectionResource;
 use App\Http\Resources\AttachedUrlResource;
 use App\Http\Resources\AttachedFileResource;
 
+/**
+ * @group Search
+ */
+
 class SearchController extends BaseController
 {
     protected $query = false;

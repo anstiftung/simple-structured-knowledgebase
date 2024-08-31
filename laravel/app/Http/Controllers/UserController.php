@@ -7,10 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\BaseController;
 
+/**
+ * @group User
+ */
+
 class UserController extends BaseController
 {
     /**
-     * Display User Listing from CoWiki.
+     * User Listing
+     *
+     * This Endpoint returns a list of CoWiki-users. This only works for users of role "Administrator"
      *
      * @bodyParam onlyEditors boolean Show only users with role "Editor"
      */

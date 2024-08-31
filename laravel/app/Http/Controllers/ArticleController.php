@@ -11,17 +11,21 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
+/**
+ * @group Articles
+ */
+
 class ArticleController extends BaseController
 {
     /**
-     * Display Article Listing from CoWiki.
+     * Article Listing
      *
-     * This Endpoint lists all articles from the CoWiki filtered by the Url-Params
+     * This Endpoint lists all articles from the CoWiki filtered by the Query-Params
      *
-     * @urlParam page int The page number which should be returned in paginated Responses.
-     * @urlParam creatorId int Only get Articles created by the defined creatorId.
-     * @urlParam withoutCollection bool Returns articles with no relation to any collection.
-     * @urlParam withoutPagination bool disables pagination and returns all results.
+     * @queryParam page int The page number which should be returned in paginated Responses.
+     * @queryParam creatorId int Only get Articles created by the defined creatorId.
+     * @queryParam withoutCollection bool Returns articles with no relation to any collection.
+     * @queryParam withoutPagination bool disables pagination and returns all results.
      */
     public function index(Request $request)
     {
@@ -42,7 +46,7 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Save Article to CoWiki
+     * Article Save
      *
      * @authenticated
      */
@@ -73,7 +77,7 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Display Article from CoWiki.
+     * Article Detail
      *
      * Shows all publised Articles from the CoWiki.
      *
@@ -93,7 +97,7 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Update Article from the CoWiki.
+     * Article Update
      *
      * @authenticated
      *
@@ -151,7 +155,7 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Remove Article from the CoWiki.
+     * Article Remove
      *
      * Articles get soft-deleted. Only User with the right Permissions are allowed to force-delete Articles.
      *
@@ -175,9 +179,9 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Add a Clap to the Article
+     * Article Clap
      *
-     * Users can leave a Clap for articles they like.
+     * Users can leave a Clap for articles they like. If you send an authenticated Request to this Endpoint with a valid article slug, the clap count increases by one.
      *
      * @authenticated
      */

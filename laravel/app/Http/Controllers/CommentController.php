@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
 use App\Http\Controllers\BaseController;
 
+/**
+ * @group Comments
+ */
+
 class CommentController extends BaseController
 {
     /**
@@ -18,7 +22,9 @@ class CommentController extends BaseController
     }
 
     /**
-     * Save Comment to CoWiki-Article
+     * Comment Save
+     *
+     * This Endpoint let's you save a Comment for the defined CoWiki-Article id.
      *
      * @authenticated
      *
@@ -61,7 +67,9 @@ class CommentController extends BaseController
     }
 
     /**
-     * Remove Comment from the CoWiki.
+     * Comment Remove
+     *
+     * This Endpoint let's you delete a comment
      *
      * @urlParam article_id int required the Comment ID of the comment you want to remove.
      * @authenticated
