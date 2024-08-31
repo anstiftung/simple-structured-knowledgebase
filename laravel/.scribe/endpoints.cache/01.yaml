@@ -26,13 +26,13 @@ endpoints:
         name: types
         description: 'enum The Type of content you are searching for. Possible values: articles, collections, attachments, images. For multiple values add comma-separated list.'
         required: false
-        example: et
+        example: ut
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanQueryParameters:
-      types: et
+      types: ut
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []

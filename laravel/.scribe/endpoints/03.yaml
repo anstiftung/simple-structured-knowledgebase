@@ -176,7 +176,7 @@ endpoints:
         name: articles.id
         description: "the related article's id"
         required: false
-        example: 20
+        example: 2
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -185,7 +185,7 @@ endpoints:
         name: articles.order
         description: 'the related articles sort-order'
         required: false
-        example: 9
+        example: 4
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -197,15 +197,15 @@ endpoints:
       articles:
         0:
           order: 4
-        id: 20
-        order: 9
+        id: 2
+        order: 4
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer fD8gdPhek3ba4Va6cv51Z6E'
+      - 'Bearer abVP4Z65de13vD8Efkgahc6'
     controller: null
     method: null
     route: null
@@ -245,7 +245,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: rqwsnzjnomopxp
+        example: jndycjzp
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -254,7 +254,7 @@ endpoints:
         name: description
         description: 'Must not be greater than 1000 characters.'
         required: true
-        example: 'Soluta quam aspernatur possimus ut corrupti.'
+        example: 'Distinctio minus minus est eum repellendus aperiam labore.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -309,19 +309,19 @@ endpoints:
         name: 'articles[].order'
         description: ''
         required: false
-        example: 9
+        example: 3
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: rqwsnzjnomopxp
-      description: 'Soluta quam aspernatur possimus ut corrupti.'
+      title: jndycjzp
+      description: 'Distinctio minus minus est eum repellendus aperiam labore.'
       published: false
       created_by: []
       articles:
         -
-          order: 9
+          order: 3
     fileParameters: []
     responses: []
     responseFields: []
@@ -361,7 +361,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 63gfP65e8DkvVZaE1cb4dha'
+      - 'Bearer 1cVv3a6bD6aEh4Z8ekPfdg5'
     controller: null
     method: null
     route: null

@@ -26,13 +26,13 @@ endpoints:
         name: onlyEditors
         description: 'Show only users with role "Editor"'
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      onlyEditors: true
+      onlyEditors: false
     fileParameters: []
     responses:
       -

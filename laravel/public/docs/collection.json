@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "CoWiki API",
-        "_postman_id": "0c9200f8-8f9b-424b-b47b-7f97c0dbc6b0",
+        "_postman_id": "ac60699e-4c13-4881-89fd-f496412209cf",
         "description": "The OpenAPI Description of the CoWiki-Knowledge-Base",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -28,30 +28,30 @@
                             "query": [
                                 {
                                     "key": "page",
-                                    "value": "20",
+                                    "value": "13",
                                     "description": "The page number which should be returned in paginated Responses.",
                                     "disabled": false
                                 },
                                 {
                                     "key": "creatorId",
-                                    "value": "10",
+                                    "value": "6",
                                     "description": "Only get Articles created by the defined creatorId.",
                                     "disabled": false
                                 },
                                 {
                                     "key": "withoutCollection",
-                                    "value": "1",
+                                    "value": "",
                                     "description": "Returns articles with no relation to any collection.",
-                                    "disabled": false
+                                    "disabled": true
                                 },
                                 {
                                     "key": "withoutPagination",
-                                    "value": "1",
+                                    "value": "",
                                     "description": "disables pagination and returns all results.",
-                                    "disabled": false
+                                    "disabled": true
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/articles?page=20&creatorId=10&withoutCollection=1&withoutPagination=1"
+                            "raw": "{{baseUrl}}\/api\/articles?page=13&creatorId=6&withoutCollection=&withoutPagination="
                         },
                         "method": "GET",
                         "header": [
@@ -95,7 +95,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":[]}",
+                            "body": "{\"data\":[],\"links\":{\"first\":\"http:\\\/\\\/localhost\\\/api\\\/articles?page=1\",\"last\":\"http:\\\/\\\/localhost\\\/api\\\/articles?page=1\",\"prev\":\"http:\\\/\\\/localhost\\\/api\\\/articles?page=12\",\"next\":null},\"meta\":{\"current_page\":13,\"from\":null,\"last_page\":1,\"links\":[{\"url\":\"http:\\\/\\\/localhost\\\/api\\\/articles?page=12\",\"label\":\"&laquo; Previous\",\"active\":false},{\"url\":\"http:\\\/\\\/localhost\\\/api\\\/articles?page=1\",\"label\":\"1\",\"active\":false},{\"url\":null,\"label\":\"Next &raquo;\",\"active\":false}],\"path\":\"http:\\\/\\\/localhost\\\/api\\\/articles\",\"per_page\":15,\"to\":null,\"total\":0}}",
                             "name": ""
                         }
                     ]
@@ -186,7 +186,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"lnx\",\"description\":\"Quia veniam rerum dignissimos rem omnis voluptatibus non.\",\"content\":\"accusamus\"}"
+                            "raw": "{\"title\":\"ijeykblsqni\",\"description\":\"Voluptatibus asperiores at facilis ut cumque accusamus consequatur.\",\"content\":\"debitis\"}"
                         },
                         "description": ""
                     },
@@ -222,7 +222,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"gdtsorcrosiwogb\",\"description\":\"Consequatur natus sit est quam.\",\"content\":\"qui\",\"state\":{\"id\":\"et\"},\"created_by\":{\"id\":\"est\"}}"
+                            "raw": "{\"title\":\"lwtqvyyj\",\"description\":\"Ut at architecto voluptatibus suscipit.\",\"content\":\"sit\",\"state\":{\"id\":\"reiciendis\"},\"created_by\":{\"id\":\"illo\"}}"
                         },
                         "description": ""
                     },
@@ -258,7 +258,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"forceDelete\":true}"
+                            "raw": "{\"forceDelete\":false}"
                         },
                         "description": "Articles get soft-deleted. Only User with the right Permissions are allowed to force-delete Articles."
                     },
@@ -312,18 +312,18 @@
                             "query": [
                                 {
                                     "key": "created_by_id",
-                                    "value": "4",
+                                    "value": "20",
                                     "description": "only return AttachedUrls created by the defined id",
                                     "disabled": false
                                 },
                                 {
                                     "key": "invalid",
-                                    "value": "",
+                                    "value": "1",
                                     "description": "if true, return only invalid (metadata not completely filled) AttachedUrls",
-                                    "disabled": true
+                                    "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/attached-urls?created_by_id=4&invalid="
+                            "raw": "{{baseUrl}}\/api\/attached-urls?created_by_id=20&invalid=1"
                         },
                         "method": "GET",
                         "header": [
@@ -367,7 +367,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":[{\"id\":3,\"created_at\":\"2024-06-19T15:18:28.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Meaghan Dietrich\",\"description\":\"Molestiae laboriosam pariatur labore.\",\"serve_url\":\"http:\\\/\\\/www.emard.org\\\/placeat-quia-incidunt-repellat-et\",\"url\":\"\\\/url\\\/3\",\"preview_file\":\"meaghan-dietrich.png\",\"deleted_at\":null},{\"id\":10,\"created_at\":\"2024-06-19T08:06:47.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Mrs. Cara Morar Jr.\",\"description\":\"Quas sunt reiciendis maxime aliquid.\",\"serve_url\":\"https:\\\/\\\/paucek.com\\\/commodi-ipsam-suscipit-ut-vero-harum-tempora.html\",\"url\":\"\\\/url\\\/10\",\"preview_file\":\"mrs-cara-morar-jr.png\",\"deleted_at\":null},{\"id\":4,\"created_at\":\"2024-06-09T08:13:41.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Humberto Rowe\",\"description\":\"Aut facilis consectetur.\",\"serve_url\":\"http:\\\/\\\/www.farrell.biz\\\/\",\"url\":\"\\\/url\\\/4\",\"preview_file\":\"humberto-rowe.png\",\"deleted_at\":null},{\"id\":5,\"created_at\":\"2024-05-18T11:19:58.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Tom O'Conner\",\"description\":\"Rerum at maxime magni.\",\"serve_url\":\"https:\\\/\\\/jones.com\\\/voluptatum-minus-aspernatur-maxime-inventore-molestias.html\",\"url\":\"\\\/url\\\/5\",\"preview_file\":\"tom-oconner.png\",\"deleted_at\":null},{\"id\":7,\"created_at\":\"2024-05-17T07:42:13.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Robin Ondricka\",\"description\":\"Ea praesentium eveniet tenetur.\",\"serve_url\":\"http:\\\/\\\/gottlieb.org\\\/laudantium-quidem-quia-id-provident-iure.html\",\"url\":\"\\\/url\\\/7\",\"preview_file\":\"robin-ondricka.png\",\"deleted_at\":null},{\"id\":9,\"created_at\":\"2024-05-05T14:33:32.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Shyanne Zieme\",\"description\":\"Soluta aut itaque laudantium.\",\"serve_url\":\"http:\\\/\\\/www.tillman.com\\\/saepe-ea-dolores-iusto-quod-velit.html\",\"url\":\"\\\/url\\\/9\",\"preview_file\":\"shyanne-zieme.png\",\"deleted_at\":null},{\"id\":1,\"created_at\":\"2024-04-30T10:54:39.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T10:44:32.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Wunschvorstellung\",\"description\":\"Hier gehts zu deiner Wunschvorstellung\",\"serve_url\":\"http:\\\/\\\/www.wunsch.com\\\/fugiat-id-illo-id-autem\",\"url\":\"\\\/url\\\/1\",\"preview_file\":\"prof-rickey-fritsch-v.png\",\"deleted_at\":null},{\"id\":2,\"created_at\":\"2024-04-17T05:26:44.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":null,\"description\":null,\"serve_url\":\"http:\\\/\\\/www.block.net\\\/voluptatem-magni-vero-perferendis-pariatur-aliquam-veritatis-optio.html\",\"url\":\"\\\/url\\\/2\",\"preview_file\":\"bernard-hartmann.png\",\"deleted_at\":null},{\"id\":8,\"created_at\":\"2024-02-09T13:03:36.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Marcelo Romaguera\",\"description\":\"Quia debitis et accusamus.\",\"serve_url\":\"http:\\\/\\\/kulas.info\\\/\",\"url\":\"\\\/url\\\/8\",\"preview_file\":\"marcelo-romaguera.png\",\"deleted_at\":null}],\"links\":{\"first\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls?page=1\",\"last\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls?page=1\",\"prev\":null,\"next\":null},\"meta\":{\"current_page\":1,\"from\":1,\"last_page\":1,\"links\":[{\"url\":null,\"label\":\"&laquo; Previous\",\"active\":false},{\"url\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls?page=1\",\"label\":\"1\",\"active\":true},{\"url\":null,\"label\":\"Next &raquo;\",\"active\":false}],\"path\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls\",\"per_page\":15,\"to\":9,\"total\":9}}",
+                            "body": "{\"data\":[{\"id\":2,\"created_at\":\"2024-04-17T05:26:44.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":null,\"description\":null,\"serve_url\":\"http:\\\/\\\/www.block.net\\\/voluptatem-magni-vero-perferendis-pariatur-aliquam-veritatis-optio.html\",\"url\":\"\\\/url\\\/2\",\"preview_file\":\"bernard-hartmann.png\",\"deleted_at\":null}],\"links\":{\"first\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls?page=1\",\"last\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls?page=1\",\"prev\":null,\"next\":null},\"meta\":{\"current_page\":1,\"from\":1,\"last_page\":1,\"links\":[{\"url\":null,\"label\":\"&laquo; Previous\",\"active\":false},{\"url\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls?page=1\",\"label\":\"1\",\"active\":true},{\"url\":null,\"label\":\"Next &raquo;\",\"active\":false}],\"path\":\"http:\\\/\\\/localhost\\\/api\\\/attached-urls\",\"per_page\":15,\"to\":1,\"total\":1}}",
                             "name": ""
                         }
                     ]
@@ -390,7 +390,7 @@
                                 {
                                     "id": "attached_url_id",
                                     "key": "attached_url_id",
-                                    "value": "11",
+                                    "value": "9",
                                     "description": ""
                                 }
                             ]
@@ -408,7 +408,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"withArticles\":true}"
+                            "raw": "{\"withArticles\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -440,7 +440,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":{\"id\":1,\"created_at\":\"2024-04-30T10:54:39.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T10:44:32.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Wunschvorstellung\",\"description\":\"Hier gehts zu deiner Wunschvorstellung\",\"serve_url\":\"http:\\\/\\\/www.wunsch.com\\\/fugiat-id-illo-id-autem\",\"url\":\"\\\/url\\\/1\",\"preview_file\":\"prof-rickey-fritsch-v.png\",\"articles\":[],\"deleted_at\":null}}",
+                            "body": "{\"data\":{\"id\":1,\"created_at\":\"2024-04-30T10:54:39.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T10:44:32.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Wunschvorstellung\",\"description\":\"Hier gehts zu deiner Wunschvorstellung\",\"serve_url\":\"http:\\\/\\\/www.wunsch.com\\\/fugiat-id-illo-id-autem\",\"url\":\"\\\/url\\\/1\",\"preview_file\":\"prof-rickey-fritsch-v.png\",\"deleted_at\":null}}",
                             "name": ""
                         }
                     ]
@@ -454,18 +454,18 @@
                             "query": [
                                 {
                                     "key": "created_by_id",
-                                    "value": "1",
+                                    "value": "19",
                                     "description": "only return AttachedFiles created by the defined id",
                                     "disabled": false
                                 },
                                 {
                                     "key": "invalid",
-                                    "value": "",
+                                    "value": "1",
                                     "description": "if true, return only invalid (metadata not completely filled) AttachedFiles",
-                                    "disabled": true
+                                    "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/attached-files?created_by_id=1&invalid="
+                            "raw": "{{baseUrl}}\/api\/attached-files?created_by_id=19&invalid=1"
                         },
                         "method": "GET",
                         "header": [
@@ -509,7 +509,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":[{\"id\":7,\"created_at\":\"2024-06-06T17:31:19.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Prof. Ubaldo Kuhlman\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/7\",\"url\":\"\\\/anhang\\\/7\",\"description\":\"Quaerat dolores qui vel.\",\"filename\":\"9960595068c970ca75a6df96e37d8bf7.png\",\"mime_type\":\"image\\\/png\",\"is_image\":true,\"filesize\":4066,\"preview_file\":\"9960595068c970ca75a6df96e37d8bf7.png\",\"source\":\"Praesentium dolores non culpa.\",\"license\":{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},\"approved\":true,\"deleted_at\":null},{\"id\":10,\"created_at\":\"2024-05-20T12:53:41.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":null,\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/10\",\"url\":\"\\\/anhang\\\/10\",\"description\":null,\"filename\":\"158de3c577165de59bb186c2648ffdbc.png\",\"mime_type\":\"image\\\/png\",\"is_image\":true,\"filesize\":5391,\"preview_file\":\"158de3c577165de59bb186c2648ffdbc.png\",\"source\":null,\"license\":{\"id\":1,\"title\":\"CC0\",\"description\":\"Voluptates sequi.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/muller.com\\\/vitae-dolor-aut-quibusdam.html\",\"order\":2},\"approved\":true,\"deleted_at\":null},{\"id\":8,\"created_at\":\"2024-05-09T12:38:05.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Mrs. Lysanne Batz\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/8\",\"url\":\"\\\/anhang\\\/8\",\"description\":\"Sed officiis accusamus sunt.\",\"filename\":\"08cc959ae99ab1fc527851783d9d725b.png\",\"mime_type\":\"image\\\/png\",\"is_image\":true,\"filesize\":2707,\"preview_file\":\"08cc959ae99ab1fc527851783d9d725b.png\",\"source\":\"Et consequatur.\",\"license\":{\"id\":1,\"title\":\"CC0\",\"description\":\"Voluptates sequi.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/muller.com\\\/vitae-dolor-aut-quibusdam.html\",\"order\":2},\"approved\":false,\"deleted_at\":null},{\"id\":1,\"created_at\":\"2024-03-21T18:23:37.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Alessandro Hackett\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/1\",\"url\":\"\\\/anhang\\\/1\",\"description\":\"Fuga eos similique rerum.\",\"filename\":\"alessandro-hackett.png\",\"mime_type\":\"text\\\/uri-list\",\"is_image\":false,\"filesize\":682140,\"preview_file\":\"alessandro-hackett.png\",\"source\":\"Quos eaque et.\",\"license\":{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},\"approved\":true,\"deleted_at\":null},{\"id\":5,\"created_at\":\"2024-03-18T22:35:15.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Hector O'Kon\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/5\",\"url\":\"\\\/anhang\\\/5\",\"description\":\"Et architecto ab.\",\"filename\":\"8635e69eb3908b929cc9ca8d969c04a1.png\",\"mime_type\":\"image\\\/png\",\"is_image\":true,\"filesize\":4715,\"preview_file\":\"8635e69eb3908b929cc9ca8d969c04a1.png\",\"source\":\"Deserunt possimus vel.\",\"license\":{\"id\":4,\"title\":\"Mr. Melvin Moore DVM\",\"description\":\"Autem ratione provident.\",\"icons\":\"\",\"external_url\":\"http:\\\/\\\/www.turner.com\\\/\",\"order\":6},\"approved\":true,\"deleted_at\":null},{\"id\":2,\"created_at\":\"2024-03-15T03:29:36.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Everett Feil\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/2\",\"url\":\"\\\/anhang\\\/2\",\"description\":\"Dolore repellat.\",\"filename\":\"everett-feil.png\",\"mime_type\":\"application\\\/x-bittorrent\",\"is_image\":false,\"filesize\":477337,\"preview_file\":\"everett-feil.png\",\"source\":\"Nam fuga qui voluptatem.\",\"license\":{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},\"approved\":false,\"deleted_at\":null},{\"id\":3,\"created_at\":\"2024-03-08T07:54:44.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Mrs. Donna Barrows\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/3\",\"url\":\"\\\/anhang\\\/3\",\"description\":\"Iure et culpa omnis.\",\"filename\":\"mrs-donna-barrows.png\",\"mime_type\":\"model\\\/vnd.mts\",\"is_image\":false,\"filesize\":620755,\"preview_file\":\"mrs-donna-barrows.png\",\"source\":\"Non voluptates distinctio.\",\"license\":{\"id\":3,\"title\":\"Whitney Murazik\",\"description\":\"Dolores omnis.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-zero.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/stamm.com\\\/\",\"order\":1},\"approved\":true,\"deleted_at\":null},{\"id\":6,\"created_at\":\"2024-02-24T06:37:51.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Prof. Ryan Heller IV\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/6\",\"url\":\"\\\/anhang\\\/6\",\"description\":\"Temporibus saepe rem.\",\"filename\":\"prof-ryan-heller-iv.png\",\"mime_type\":\"application\\\/vnd.enliven\",\"is_image\":false,\"filesize\":889088,\"preview_file\":\"prof-ryan-heller-iv.png\",\"source\":\"Voluptatum harum quo.\",\"license\":{\"id\":1,\"title\":\"CC0\",\"description\":\"Voluptates sequi.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/muller.com\\\/vitae-dolor-aut-quibusdam.html\",\"order\":2},\"approved\":true,\"deleted_at\":null},{\"id\":9,\"created_at\":\"2024-02-10T02:45:17.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Adrian King\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/9\",\"url\":\"\\\/anhang\\\/9\",\"description\":\"Molestiae deleniti nihil quibusdam.\",\"filename\":\"11c697e34716292379ab0ed1de214fbc.png\",\"mime_type\":\"image\\\/png\",\"is_image\":true,\"filesize\":7623,\"preview_file\":\"11c697e34716292379ab0ed1de214fbc.png\",\"source\":\"Eos assumenda quia.\",\"license\":{\"id\":1,\"title\":\"CC0\",\"description\":\"Voluptates sequi.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/muller.com\\\/vitae-dolor-aut-quibusdam.html\",\"order\":2},\"approved\":false,\"deleted_at\":null}],\"links\":{\"first\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files?page=1\",\"last\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files?page=1\",\"prev\":null,\"next\":null},\"meta\":{\"current_page\":1,\"from\":1,\"last_page\":1,\"links\":[{\"url\":null,\"label\":\"&laquo; Previous\",\"active\":false},{\"url\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files?page=1\",\"label\":\"1\",\"active\":true},{\"url\":null,\"label\":\"Next &raquo;\",\"active\":false}],\"path\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files\",\"per_page\":15,\"to\":9,\"total\":9}}",
+                            "body": "{\"data\":[{\"id\":10,\"created_at\":\"2024-05-20T12:53:41.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":null,\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/10\",\"url\":\"\\\/anhang\\\/10\",\"description\":null,\"filename\":\"158de3c577165de59bb186c2648ffdbc.png\",\"mime_type\":\"image\\\/png\",\"is_image\":true,\"filesize\":5391,\"preview_file\":\"158de3c577165de59bb186c2648ffdbc.png\",\"source\":null,\"license\":{\"id\":1,\"title\":\"CC0\",\"description\":\"Voluptates sequi.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":\"http:\\\/\\\/muller.com\\\/vitae-dolor-aut-quibusdam.html\",\"order\":2},\"approved\":true,\"deleted_at\":null}],\"links\":{\"first\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files?page=1\",\"last\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files?page=1\",\"prev\":null,\"next\":null},\"meta\":{\"current_page\":1,\"from\":1,\"last_page\":1,\"links\":[{\"url\":null,\"label\":\"&laquo; Previous\",\"active\":false},{\"url\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files?page=1\",\"label\":\"1\",\"active\":true},{\"url\":null,\"label\":\"Next &raquo;\",\"active\":false}],\"path\":\"http:\\\/\\\/localhost\\\/api\\\/attached-files\",\"per_page\":15,\"to\":1,\"total\":1}}",
                             "name": ""
                         }
                     ]
@@ -532,7 +532,7 @@
                                 {
                                     "id": "attached_file_id",
                                     "key": "attached_file_id",
-                                    "value": "8",
+                                    "value": "18",
                                     "description": ""
                                 }
                             ]
@@ -550,7 +550,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"withArticles\":false}"
+                            "raw": "{\"withArticles\":true}"
                         },
                         "description": "This Endpoint returns Details for the specified attached_file",
                         "auth": {
@@ -582,7 +582,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":{\"id\":1,\"created_at\":\"2024-03-21T18:23:37.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Alessandro Hackett\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/1\",\"url\":\"\\\/anhang\\\/1\",\"description\":\"Fuga eos similique rerum.\",\"filename\":\"alessandro-hackett.png\",\"mime_type\":\"text\\\/uri-list\",\"is_image\":false,\"filesize\":682140,\"preview_file\":\"alessandro-hackett.png\",\"source\":\"Quos eaque et.\",\"license\":{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},\"approved\":true,\"deleted_at\":null}}",
+                            "body": "{\"data\":{\"id\":1,\"created_at\":\"2024-03-21T18:23:37.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Alessandro Hackett\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/1\",\"url\":\"\\\/anhang\\\/1\",\"description\":\"Fuga eos similique rerum.\",\"filename\":\"alessandro-hackett.png\",\"mime_type\":\"text\\\/uri-list\",\"is_image\":false,\"filesize\":682140,\"preview_file\":\"alessandro-hackett.png\",\"source\":\"Quos eaque et.\",\"license\":{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},\"approved\":true,\"articles\":[{\"id\":19,\"created_at\":\"2024-03-06T15:36:03.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"Article\",\"title\":\"Dr. Kali Jerde\",\"slug\":\"dr-kali-jerde\",\"state\":{\"id\":3,\"title\":\"Ver\\u00f6ffentlicht\",\"key\":\"publish\"},\"approved\":false,\"claps\":8,\"url\":\"\\\/beitrag\\\/dr-kali-jerde\",\"description\":\"Eum voluptatem est quia ipsa explicabo minus laboriosam qui accusantium aut provident sint ut magni.\",\"content\":\"    <h2>Eine gro\\u00dfe \\u00dcberschrift (H2)<\\\/h2>\\n    <p>Wir\\n        <strong>verwenden<\\\/strong>\\n        einen\\n        <em>gr\\u00f6\\u00dferen<\\\/em>\\n        <u>Zeilenabstand<\\\/u>\\n        f\\u00fcr eine\\n        <s>bessere<\\\/s>\\n        Lesbarkeit und einem fluffigeren Auftreten.\\n        <item-link data-type=\\\"Article\\\" data-id=\\\"1\\\" href=\\\"\\\/beitrag\\\/mr-griffin-mohr-phd\\\">Ein Link zu einem Beitrag<\\\/item-link>\\n        accusam et justo\\n        <item-link data-type=\\\"Collection\\\" data-id=\\\"60\\\" href=\\\"\\\/sammlung\\\/moises-morar-sr\\\">Ein Link zu einer Sammlung<\\\/item-link>\\n        consetetur sadipscing\\n        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,\\n        sadipscing elitr, sed diam nonumy\\n        <item-link data-type=\\\"AttachedUrl\\\" data-id=\\\"7\\\" href=\\\"\\\/url\\\/7\\\" target=\\\"_blank\\\">Ein Link zu einem Anhang (URL)<\\\/item-link>\\n        sadipscing elitr, sed diam nonumy\\n        <item-link data-type=\\\"AttachedFile\\\" data-id=\\\"1\\\" href=\\\"\\\/anhang\\\/1\\\" target=\\\"_blank\\\">Ein Link zu einem Anhang (File)<\\\/item-link>\\n        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\\n    <\\\/p>\\n    <img src=\\\"\\\/api\\\/attached-file\\\/serve\\\/1\\\" alt=\\\"Baylee Crooks\\\" title=\\\"(c) Numquam saepe sunt voluptates.\\\">\\n    <h3>Eine \\u00dcberschrift (h3)<\\\/h3>\\n    <ul>\\n        <li>\\n            <p>Und<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>eine liste gibt's auch<\\\/p>\\n        <\\\/li>\\n    <\\\/ul>\\n    <h4>Eine \\u00dcberschrift (h4)<\\\/h4>\\n    <ol>\\n        <li>\\n            <p>Und<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>auch<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>numerierte<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>listen<\\\/p>\\n            <ol>\\n                <li>\\n                    <p>gibt\\n                    <\\\/p>\\n                <\\\/li>\\n                <li>\\n                    <p>es<\\\/p>\\n                <\\\/li>\\n            <\\\/ol>\\n        <\\\/li>\\n    <\\\/ol>\\n    <h3>Und Infoboxen<\\\/h3>\\n    <div class=\\\"info-box\\\" data-type=\\\"warning\\\">\\n        <svg viewBox=\\\"0 0 15 15\\\" width=\\\"15px\\\" height=\\\"15px\\\"><use href=\\\"\\\/icons\\\/warning.svg#warning\\\"><\\\/use><\\\/svg>\\n        <div class=\\\"content\\\">\\n            Hinweis\\n        <\\\/div>\\n    <\\\/div>\\n    <div class=\\\"info-box\\\" data-type=\\\"danger\\\">\\n        <svg viewBox=\\\"0 0 15 15\\\" width=\\\"15px\\\" height=\\\"15px\\\"><use href=\\\"\\\/icons\\\/danger.svg#danger\\\"><\\\/use><\\\/svg>\\n        <div class=\\\"content\\\">\\n            Gefahr\\n        <\\\/div>\\n    <\\\/div>\\n    <div class=\\\"info-box\\\" data-type=\\\"question\\\">\\n        <svg viewBox=\\\"0 0 15 15\\\" width=\\\"15px\\\" height=\\\"15px\\\"><use href=\\\"\\\/icons\\\/question.svg#question\\\"><\\\/use><\\\/svg>\\n        <div class=\\\"content\\\">\\n            Fragestellung: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\\n        <\\\/div>\\n    <\\\/div>\\n\",\"num_comments\":4,\"num_attachments\":2,\"attached_urls\":[{\"id\":7,\"created_at\":\"2024-05-17T07:42:13.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Robin Ondricka\",\"description\":\"Ea praesentium eveniet tenetur.\",\"serve_url\":\"http:\\\/\\\/gottlieb.org\\\/laudantium-quidem-quia-id-provident-iure.html\",\"url\":\"\\\/url\\\/7\",\"preview_file\":\"robin-ondricka.png\",\"deleted_at\":null}],\"attached_files\":[{\"id\":1,\"created_at\":\"2024-03-21T18:23:37.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Alessandro Hackett\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/1\",\"url\":\"\\\/anhang\\\/1\",\"description\":\"Fuga eos similique rerum.\",\"filename\":\"alessandro-hackett.png\",\"mime_type\":\"text\\\/uri-list\",\"is_image\":false,\"filesize\":682140,\"preview_file\":\"alessandro-hackett.png\",\"source\":\"Quos eaque et.\",\"license\":{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},\"approved\":true,\"deleted_at\":null}],\"comments\":[{\"id\":44,\"created_at\":\"2024-03-05T11:13:06.000000Z\",\"created_by\":{\"id\":1,\"name\":\"Kody Gusikowski\"},\"updated_at\":\"2024-04-26T17:40:11.000000Z\",\"updated_by\":{\"id\":2,\"name\":\"Alberta Moen\"},\"type\":\"Comment\",\"content\":\"Eveniet excepturi dolorum dolorem ratione alias illo necessitatibus aliquid dolorem delectus alias nemo dolor et quos quia sunt corporis rerum omnis nulla officia cumque et aliquid at eveniet doloremque nobis repellat ut et a cum omnis facere maiores quam velit possimus a perferendis aliquid mollitia rerum mollitia.\"},{\"id\":42,\"created_at\":\"2024-06-07T12:02:46.000000Z\",\"created_by\":{\"id\":9,\"name\":\"Citlalli Cruickshank II\"},\"updated_at\":\"2024-03-08T22:01:35.000000Z\",\"updated_by\":{\"id\":6,\"name\":\"Murray Pagac\"},\"type\":\"Comment\",\"content\":\"Ut id delectus quia saepe sapiente esse aut nostrum quos natus corporis perspiciatis omnis nemo autem non voluptatem sed enim velit esse quis corrupti sunt et nisi veniam voluptatibus aut id quibusdam quia quas aut sint quae sunt sed natus consectetur eum quis voluptas ducimus asperiores provident quia aperiam et placeat reiciendis consequatur est impedit qui qui dolorum provident enim explicabo culpa quaerat qui dignissimos.\"},{\"id\":41,\"created_at\":\"2024-06-17T19:54:54.000000Z\",\"created_by\":{\"id\":8,\"name\":\"Jared Boyer\"},\"updated_at\":\"2024-04-26T04:25:52.000000Z\",\"updated_by\":{\"id\":4,\"name\":\"Jacky Miller\"},\"type\":\"Comment\",\"content\":\"Debitis officiis quis excepturi sint cumque modi quam earum iusto adipisci et omnis blanditiis reiciendis quia voluptas vel laudantium molestiae est atque autem libero a quam cupiditate aut consequuntur laboriosam reprehenderit quae ad totam cum ullam minus voluptatem rerum et quis iusto eligendi sunt quisquam ab modi et.\"},{\"id\":40,\"created_at\":\"2024-07-06T13:47:14.000000Z\",\"created_by\":{\"id\":9,\"name\":\"Citlalli Cruickshank II\"},\"updated_at\":\"2024-03-23T11:44:47.000000Z\",\"updated_by\":{\"id\":1,\"name\":\"Kody Gusikowski\"},\"type\":\"Comment\",\"content\":\"Veritatis aut beatae qui omnis dolore enim exercitationem quae ipsa tempore ipsa odit labore nam eveniet et id blanditiis libero veniam molestias odio voluptate sint animi labore quis voluptates sit explicabo assumenda et assumenda hic et ea voluptatem id aut illum et dicta officiis.\"}],\"deleted_at\":null},{\"id\":39,\"created_at\":\"2024-05-20T12:38:20.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"Article\",\"title\":\"Pansy Leffler\",\"slug\":\"pansy-leffler\",\"state\":{\"id\":3,\"title\":\"Ver\\u00f6ffentlicht\",\"key\":\"publish\"},\"approved\":false,\"claps\":1,\"url\":\"\\\/beitrag\\\/pansy-leffler\",\"description\":\"Aspernatur blanditiis voluptatum dignissimos quam in quia laudantium id aliquam sit ipsa ut ut at maiores ea quam et molestias non officiis voluptas velit odit dolores nihil rerum.\",\"content\":\"    <h2>Eine gro\\u00dfe \\u00dcberschrift (H2)<\\\/h2>\\n    <p>Wir\\n        <strong>verwenden<\\\/strong>\\n        einen\\n        <em>gr\\u00f6\\u00dferen<\\\/em>\\n        <u>Zeilenabstand<\\\/u>\\n        f\\u00fcr eine\\n        <s>bessere<\\\/s>\\n        Lesbarkeit und einem fluffigeren Auftreten.\\n        <item-link data-type=\\\"Article\\\" data-id=\\\"31\\\" href=\\\"\\\/beitrag\\\/kieran-kris\\\">Ein Link zu einem Beitrag<\\\/item-link>\\n        accusam et justo\\n        <item-link data-type=\\\"Collection\\\" data-id=\\\"7\\\" href=\\\"\\\/sammlung\\\/arjun-gerlach\\\">Ein Link zu einer Sammlung<\\\/item-link>\\n        consetetur sadipscing\\n        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,\\n        sadipscing elitr, sed diam nonumy\\n        <item-link data-type=\\\"AttachedUrl\\\" data-id=\\\"10\\\" href=\\\"\\\/url\\\/10\\\" target=\\\"_blank\\\">Ein Link zu einem Anhang (URL)<\\\/item-link>\\n        sadipscing elitr, sed diam nonumy\\n        <item-link data-type=\\\"AttachedFile\\\" data-id=\\\"1\\\" href=\\\"\\\/anhang\\\/1\\\" target=\\\"_blank\\\">Ein Link zu einem Anhang (File)<\\\/item-link>\\n        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\\n    <\\\/p>\\n    <img src=\\\"\\\/api\\\/attached-file\\\/serve\\\/1\\\" alt=\\\"Baylee Crooks\\\" title=\\\"(c) Numquam saepe sunt voluptates.\\\">\\n    <h3>Eine \\u00dcberschrift (h3)<\\\/h3>\\n    <ul>\\n        <li>\\n            <p>Und<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>eine liste gibt's auch<\\\/p>\\n        <\\\/li>\\n    <\\\/ul>\\n    <h4>Eine \\u00dcberschrift (h4)<\\\/h4>\\n    <ol>\\n        <li>\\n            <p>Und<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>auch<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>numerierte<\\\/p>\\n        <\\\/li>\\n        <li>\\n            <p>listen<\\\/p>\\n            <ol>\\n                <li>\\n                    <p>gibt\\n                    <\\\/p>\\n                <\\\/li>\\n                <li>\\n                    <p>es<\\\/p>\\n                <\\\/li>\\n            <\\\/ol>\\n        <\\\/li>\\n    <\\\/ol>\\n    <h3>Und Infoboxen<\\\/h3>\\n    <div class=\\\"info-box\\\" data-type=\\\"warning\\\">\\n        <svg viewBox=\\\"0 0 15 15\\\" width=\\\"15px\\\" height=\\\"15px\\\"><use href=\\\"\\\/icons\\\/warning.svg#warning\\\"><\\\/use><\\\/svg>\\n        <div class=\\\"content\\\">\\n            Hinweis\\n        <\\\/div>\\n    <\\\/div>\\n    <div class=\\\"info-box\\\" data-type=\\\"danger\\\">\\n        <svg viewBox=\\\"0 0 15 15\\\" width=\\\"15px\\\" height=\\\"15px\\\"><use href=\\\"\\\/icons\\\/danger.svg#danger\\\"><\\\/use><\\\/svg>\\n        <div class=\\\"content\\\">\\n            Gefahr\\n        <\\\/div>\\n    <\\\/div>\\n    <div class=\\\"info-box\\\" data-type=\\\"question\\\">\\n        <svg viewBox=\\\"0 0 15 15\\\" width=\\\"15px\\\" height=\\\"15px\\\"><use href=\\\"\\\/icons\\\/question.svg#question\\\"><\\\/use><\\\/svg>\\n        <div class=\\\"content\\\">\\n            Fragestellung: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\\n        <\\\/div>\\n    <\\\/div>\\n\",\"num_comments\":4,\"num_attachments\":2,\"attached_urls\":[{\"id\":10,\"created_at\":\"2024-06-19T08:06:47.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedUrl\",\"title\":\"Mrs. Cara Morar Jr.\",\"description\":\"Quas sunt reiciendis maxime aliquid.\",\"serve_url\":\"https:\\\/\\\/paucek.com\\\/commodi-ipsam-suscipit-ut-vero-harum-tempora.html\",\"url\":\"\\\/url\\\/10\",\"preview_file\":\"mrs-cara-morar-jr.png\",\"deleted_at\":null}],\"attached_files\":[{\"id\":1,\"created_at\":\"2024-03-21T18:23:37.000000Z\",\"created_by\":{\"id\":11,\"name\":\"makakken\"},\"updated_at\":\"2024-07-13T09:45:58.000000Z\",\"updated_by\":{\"id\":11,\"name\":\"makakken\"},\"type\":\"AttachedFile\",\"title\":\"Alessandro Hackett\",\"serve_url\":\"\\\/api\\\/attached-file\\\/serve\\\/1\",\"url\":\"\\\/anhang\\\/1\",\"description\":\"Fuga eos similique rerum.\",\"filename\":\"alessandro-hackett.png\",\"mime_type\":\"text\\\/uri-list\",\"is_image\":false,\"filesize\":682140,\"preview_file\":\"alessandro-hackett.png\",\"source\":\"Quos eaque et.\",\"license\":{\"id\":2,\"title\":\"Mr. Tristin Hane V\",\"description\":\"Rerum laborum velit.\",\"icons\":\"<img src=\\\"\\\/license-icons\\\/cc-logo.svg\\\" \\\/><img src=\\\"\\\/license-icons\\\/cc-by.svg\\\" \\\/>\",\"external_url\":null,\"order\":4},\"approved\":true,\"deleted_at\":null}],\"comments\":[{\"id\":80,\"created_at\":\"2024-03-18T01:41:34.000000Z\",\"created_by\":{\"id\":10,\"name\":\"Royal Collins\"},\"updated_at\":\"2024-03-21T21:28:26.000000Z\",\"updated_by\":{\"id\":8,\"name\":\"Jared Boyer\"},\"type\":\"Comment\",\"content\":\"Quae reiciendis delectus minus quam laudantium aut distinctio officiis illo provident esse et ab delectus nobis autem esse iste voluptatum aliquid laborum magnam enim at architecto voluptates eos est aperiam deleniti hic eveniet dolores provident quia libero est non quaerat rerum ipsum hic ut ullam eum libero sapiente magnam et nemo tempore veniam totam explicabo provident nihil vitae ullam in eum cupiditate nihil rerum eligendi veniam corrupti voluptatem sint.\"},{\"id\":81,\"created_at\":\"2024-04-21T10:19:40.000000Z\",\"created_by\":{\"id\":10,\"name\":\"Royal Collins\"},\"updated_at\":\"2024-02-29T08:02:29.000000Z\",\"updated_by\":{\"id\":7,\"name\":\"Prof. Aubrey Murazik\"},\"type\":\"Comment\",\"content\":\"Dolores totam ut et facilis enim omnis facere saepe voluptatibus tempore aut aut rerum aut rem dolore doloremque fugit laudantium hic doloribus dignissimos dignissimos consequatur assumenda quas voluptates quia aut et sint facere aliquid aut dolore eum nihil velit mollitia sit beatae sunt eveniet ipsam ad quas eum ducimus qui commodi voluptatem.\"},{\"id\":83,\"created_at\":\"2024-05-09T01:59:43.000000Z\",\"created_by\":{\"id\":8,\"name\":\"Jared Boyer\"},\"updated_at\":\"2024-04-12T07:52:15.000000Z\",\"updated_by\":{\"id\":4,\"name\":\"Jacky Miller\"},\"type\":\"Comment\",\"content\":\"Sit quibusdam hic reprehenderit minima perferendis odio non mollitia quod nihil nobis dolorum ut nobis hic delectus fuga quaerat iste sed quis modi fugit aliquid aut quis in temporibus iusto sed impedit aut temporibus velit quaerat blanditiis qui explicabo consequuntur provident magnam voluptas commodi laborum.\"},{\"id\":84,\"created_at\":\"2024-06-16T00:03:17.000000Z\",\"created_by\":{\"id\":7,\"name\":\"Prof. Aubrey Murazik\"},\"updated_at\":\"2024-03-28T07:44:10.000000Z\",\"updated_by\":{\"id\":7,\"name\":\"Prof. Aubrey Murazik\"},\"type\":\"Comment\",\"content\":\"A et aspernatur possimus aut ex esse saepe fuga tenetur qui voluptatem dolores sed explicabo adipisci aut placeat aut modi consequatur et vel necessitatibus omnis ut sapiente nihil omnis dolor adipisci recusandae excepturi aut eos nesciunt sed soluta amet reiciendis laudantium ea suscipit quia soluta vero nam sit eum excepturi voluptates laborum maiores est ex placeat numquam nihil consequatur atque suscipit.\"}],\"deleted_at\":null}],\"deleted_at\":null}}",
                             "name": ""
                         }
                     ]
@@ -609,7 +609,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_urls\":{\"0\":{\"url\":\"http:\\\/\\\/considine.com\\\/quidem-sed-impedit-quae-nam-aperiam-iste\"},\"url\":\"http:\\\/\\\/www.romaguera.org\\\/\"},\"article_id\":[]}"
+                            "raw": "{\"attached_urls\":{\"0\":{\"url\":\"http:\\\/\\\/prohaska.org\\\/praesentium-aliquam-voluptates-eum-modi-ratione\"},\"url\":\"http:\\\/\\\/www.nicolas.net\\\/\"},\"article_id\":[]}"
                         },
                         "description": ""
                     },
@@ -637,7 +637,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_urls\":[{\"id\":\"error\",\"title\":\"knmjagihhtxkmri\",\"description\":\"Adipisci consequatur blanditiis quaerat doloremque mollitia repellendus.\"}]}"
+                            "raw": "{\"attached_urls\":[{\"id\":\"maiores\",\"title\":\"lhxfevxobui\",\"description\":\"Recusandae minima rerum excepturi magni libero provident voluptas.\"}]}"
                         },
                         "description": "",
                         "auth": {
@@ -697,7 +697,7 @@
                                 {
                                     "id": "article_Id",
                                     "key": "article_Id",
-                                    "value": "6",
+                                    "value": "4",
                                     "description": "The Article id the file should be attached to."
                                 }
                             ]
@@ -715,7 +715,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_files\":[\"eaque\"]}"
+                            "raw": "{\"attached_files\":[\"dolorem\"]}"
                         },
                         "description": "This Endpoint let's you save File-Attachments to the CoWiki."
                     },
@@ -743,7 +743,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"attached_files\":[{\"id\":\"sequi\",\"title\":\"kxbbevifkwitlgrcmcvwvkkqr\",\"description\":\"Beatae esse maiores similique quibusdam id vero.\",\"source\":\"vlajq\",\"license\":{\"id\":\"est\"}}]}"
+                            "raw": "{\"attached_files\":[{\"id\":\"reiciendis\",\"title\":\"eoxqktshuxdutqitisyapvez\",\"description\":\"Quia tempore consequatur corporis dicta at sequi et.\",\"source\":\"hha\",\"license\":{\"id\":\"eos\"}}]}"
                         },
                         "description": "Bulk Update AttachedFile Metadata",
                         "auth": {
@@ -782,7 +782,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"forceDelete\":false}"
+                            "raw": "{\"forceDelete\":true}"
                         },
                         "description": "",
                         "auth": {
@@ -939,7 +939,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"The Nicest Article ever\",\"description\":\"What a lorem ipsum description.\",\"published\":true,\"articles\":{\"0\":{\"order\":4},\"id\":20,\"order\":9}}"
+                            "raw": "{\"title\":\"The Nicest Article ever\",\"description\":\"What a lorem ipsum description.\",\"published\":true,\"articles\":{\"0\":{\"order\":4},\"id\":2,\"order\":4}}"
                         },
                         "description": ""
                     },
@@ -975,7 +975,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"title\":\"rqwsnzjnomopxp\",\"description\":\"Soluta quam aspernatur possimus ut corrupti.\",\"published\":false,\"created_by\":[],\"articles\":[{\"order\":9}]}"
+                            "raw": "{\"title\":\"jndycjzp\",\"description\":\"Distinctio minus minus est eum repellendus aperiam labore.\",\"published\":false,\"created_by\":[],\"articles\":[{\"order\":3}]}"
                         },
                         "description": "",
                         "auth": {
@@ -1037,7 +1037,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"content\":\"saepe\",\"article_id\":11}"
+                            "raw": "{\"content\":\"consectetur\",\"article_id\":10}"
                         },
                         "description": "This Endpoint let's you save a Comment for the defined CoWiki-Article id."
                     },
@@ -1061,7 +1061,7 @@
                                 {
                                     "id": "article_id",
                                     "key": "article_id",
-                                    "value": "9",
+                                    "value": "20",
                                     "description": "the Comment ID of the comment you want to remove."
                                 }
                             ]
@@ -1097,12 +1097,12 @@
                             "query": [
                                 {
                                     "key": "types",
-                                    "value": "et",
+                                    "value": "ut",
                                     "description": "enum The Type of content you are searching for. Possible values: articles, collections, attachments, images. For multiple values add comma-separated list.",
                                     "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/search?types=et"
+                            "raw": "{{baseUrl}}\/api\/search?types=ut"
                         },
                         "method": "GET",
                         "header": [
@@ -1179,7 +1179,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"onlyEditors\":true}"
+                            "raw": "{\"onlyEditors\":false}"
                         },
                         "description": "This Endpoint returns a list of CoWiki-users. This only works for users of role \"Administrator\"",
                         "auth": {

@@ -118,7 +118,15 @@ return [
         'placeholder' => '{YOUR_AUTH_KEY}',
 
         // Any extra authentication-related info for your users. Markdown and HTML are supported.
-        'extra_info' => 'To retrive a valid token send POST-request with valid credentials to the <b>token-endpoint</b> mentioned here: https://willkommen.offene-werkstaetten.org/realms/verbund-offener-werkstaetten/.well-known/openid-configuration',
+        'extra_info' => '
+<p>To retrive a valid token send POST-request with valid credentials to the <b>token-endpoint</b> mentioned here: https://willkommen.offene-werkstaetten.org/realms/verbund-offener-werkstaetten/.well-known/openid-configuration</p>
+<pre>Example request:
+curl -X POST --url https://willkommen.offene-werkstaetten.org/realms/verbund-offener-werkstaetten/protocol/openid-connect/token \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "client_id=api" \
+    -d "username={username}" \
+    -d "password={password}"
+</pre>',
     ],
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.

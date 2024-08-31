@@ -26,7 +26,7 @@ endpoints:
         name: page
         description: 'The page number which should be returned in paginated Responses.'
         required: false
-        example: 20
+        example: 13
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -35,7 +35,7 @@ endpoints:
         name: creatorId
         description: 'Only get Articles created by the defined creatorId.'
         required: false
-        example: 10
+        example: 6
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -44,7 +44,7 @@ endpoints:
         name: withoutCollection
         description: 'Returns articles with no relation to any collection.'
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -53,23 +53,23 @@ endpoints:
         name: withoutPagination
         description: 'disables pagination and returns all results.'
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanQueryParameters:
-      page: 20
-      creatorId: 10
-      withoutCollection: true
-      withoutPagination: true
+      page: 13
+      creatorId: 6
+      withoutCollection: false
+      withoutPagination: false
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":[]}'
+        content: '{"data":[],"links":{"first":"http:\/\/localhost\/api\/articles?page=1","last":"http:\/\/localhost\/api\/articles?page=1","prev":"http:\/\/localhost\/api\/articles?page=12","next":null},"meta":{"current_page":13,"from":null,"last_page":1,"links":[{"url":"http:\/\/localhost\/api\/articles?page=12","label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost\/api\/articles?page=1","label":"1","active":false},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost\/api\/articles","per_page":15,"to":null,"total":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -161,7 +161,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: lnx
+        example: ijeykblsqni
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -170,7 +170,7 @@ endpoints:
         name: description
         description: 'Must not be greater than 1000 characters.'
         required: true
-        example: 'Quia veniam rerum dignissimos rem omnis voluptatibus non.'
+        example: 'Voluptatibus asperiores at facilis ut cumque accusamus consequatur.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -179,22 +179,22 @@ endpoints:
         name: content
         description: ''
         required: false
-        example: accusamus
+        example: debitis
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: lnx
-      description: 'Quia veniam rerum dignissimos rem omnis voluptatibus non.'
-      content: accusamus
+      title: ijeykblsqni
+      description: 'Voluptatibus asperiores at facilis ut cumque accusamus consequatur.'
+      content: debitis
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer Pkg5e64f6hvD3bcE8da1ZVa'
+      - 'Bearer D8hvakd6gceaE31V54Pf6bZ'
     controller: null
     method: null
     route: null
@@ -235,7 +235,7 @@ endpoints:
         name: title
         description: 'The articles title. Must not be greater than 255 characters.'
         required: true
-        example: gdtsorcrosiwogb
+        example: lwtqvyyj
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -244,7 +244,7 @@ endpoints:
         name: description
         description: 'The articles short description (or excerpt). Must not be greater than 1000 characters.'
         required: true
-        example: 'Consequatur natus sit est quam.'
+        example: 'Ut at architecto voluptatibus suscipit.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -253,7 +253,7 @@ endpoints:
         name: content
         description: 'The articles full content Markdown and some Special Tags are supported.'
         required: false
-        example: qui
+        example: sit
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -271,7 +271,7 @@ endpoints:
         name: state.id
         description: 'The articles state.'
         required: true
-        example: et
+        example: reiciendis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -289,26 +289,26 @@ endpoints:
         name: created_by.id
         description: 'The articles creator ID.'
         required: true
-        example: est
+        example: illo
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: gdtsorcrosiwogb
-      description: 'Consequatur natus sit est quam.'
-      content: qui
+      title: lwtqvyyj
+      description: 'Ut at architecto voluptatibus suscipit.'
+      content: sit
       state:
-        id: et
+        id: reiciendis
       created_by:
-        id: est
+        id: illo
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 3Ev6fVZhDkb8aP5adge1c64'
+      - 'Bearer 3edPVEva4Zhg5f6kcD6b81a'
     controller: null
     method: null
     route: null
@@ -349,20 +349,20 @@ endpoints:
         name: forceDelete
         description: 'force Delete the Article. Defaults to false.'
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      forceDelete: true
+      forceDelete: false
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer Z4b5fDcE83vVeadkgahP166'
+      - 'Bearer hg81b6ZEdPv6Dfk45Vcaea3'
     controller: null
     method: null
     route: null
@@ -406,7 +406,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 8E134daZafg5cPeDhkb6V6v'
+      - 'Bearer d5e6aDb3Zvkach81EP6gfV4'
     controller: null
     method: null
     route: null
