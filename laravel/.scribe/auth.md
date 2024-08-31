@@ -4,4 +4,4 @@ To authenticate requests, include an **`Authorization`** header with the value *
 
 All authenticated endpoints are marked with a `requires authentication` badge in the documentation below.
 
-You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.
+To retrive a valid token send POST-request with valid credentials to the <b>token-endpoint</b> mentioned here: https://willkommen.offene-werkstaetten.org/realms/verbund-offener-werkstaetten/.well-known/openid-configuration

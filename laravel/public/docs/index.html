@@ -211,7 +211,7 @@ You can switch the language used with the tabs at the top right (or from the nav
         <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>To authenticate requests, include an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
 <p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
-<p>You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.</p>
+<p>To retrive a valid token send POST-request with valid credentials to the <b>token-endpoint</b> mentioned here: <a href="https://willkommen.offene-werkstaetten.org/realms/verbund-offener-werkstaetten/.well-known/openid-configuration">https://willkommen.offene-werkstaetten.org/realms/verbund-offener-werkstaetten/.well-known/openid-configuration</a></p>
 
         <h1 id="articles">Articles</h1>
 
@@ -230,7 +230,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "cowiki.de/api/articles?page=2&amp;creatorId=19&amp;withoutCollection=1&amp;withoutPagination=" \
+    --get "cowiki.de/api/articles?page=20&amp;creatorId=10&amp;withoutCollection=1&amp;withoutPagination=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -241,10 +241,10 @@ You can switch the language used with the tabs at the top right (or from the nav
 );
 
 const params = {
-    "page": "2",
-    "creatorId": "19",
+    "page": "20",
+    "creatorId": "10",
     "withoutCollection": "1",
-    "withoutPagination": "0",
+    "withoutPagination": "1",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -277,39 +277,7 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;data&quot;: [],
-    &quot;links&quot;: {
-        &quot;first&quot;: &quot;http://localhost/api/articles?page=1&quot;,
-        &quot;last&quot;: &quot;http://localhost/api/articles?page=1&quot;,
-        &quot;prev&quot;: &quot;http://localhost/api/articles?page=1&quot;,
-        &quot;next&quot;: null
-    },
-    &quot;meta&quot;: {
-        &quot;current_page&quot;: 2,
-        &quot;from&quot;: null,
-        &quot;last_page&quot;: 1,
-        &quot;links&quot;: [
-            {
-                &quot;url&quot;: &quot;http://localhost/api/articles?page=1&quot;,
-                &quot;label&quot;: &quot;&amp;laquo; Previous&quot;,
-                &quot;active&quot;: false
-            },
-            {
-                &quot;url&quot;: &quot;http://localhost/api/articles?page=1&quot;,
-                &quot;label&quot;: &quot;1&quot;,
-                &quot;active&quot;: false
-            },
-            {
-                &quot;url&quot;: null,
-                &quot;label&quot;: &quot;Next &amp;raquo;&quot;,
-                &quot;active&quot;: false
-            }
-        ],
-        &quot;path&quot;: &quot;http://localhost/api/articles&quot;,
-        &quot;per_page&quot;: 15,
-        &quot;to&quot;: null,
-        &quot;total&quot;: 0
-    }
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -389,10 +357,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-articles"
-               value="2"
+               value="20"
                data-component="query">
     <br>
-<p>The page number which should be returned in paginated Responses. Example: <code>2</code></p>
+<p>The page number which should be returned in paginated Responses. Example: <code>20</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>creatorId</code></b>&nbsp;&nbsp;
@@ -400,10 +368,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="creatorId"                data-endpoint="GETapi-articles"
-               value="19"
+               value="10"
                data-component="query">
     <br>
-<p>Only get Articles created by the defined creatorId. Example: <code>19</code></p>
+<p>Only get Articles created by the defined creatorId. Example: <code>10</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>withoutCollection</code></b>&nbsp;&nbsp;
@@ -445,7 +413,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>disables pagination and returns all results. Example: <code>false</code></p>
+<p>disables pagination and returns all results. Example: <code>true</code></p>
             </div>
                 </form>
 
@@ -1201,9 +1169,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"title\": \"sdrrqmijrww\",
-    \"description\": \"Molestias iusto quaerat autem odit odio.\",
-    \"content\": \"aut\"
+    \"title\": \"lnx\",
+    \"description\": \"Quia veniam rerum dignissimos rem omnis voluptatibus non.\",
+    \"content\": \"accusamus\"
 }"
 </code></pre></div>
 
@@ -1220,9 +1188,9 @@ const headers = {
 };
 
 let body = {
-    "title": "sdrrqmijrww",
-    "description": "Molestias iusto quaerat autem odit odio.",
-    "content": "aut"
+    "title": "lnx",
+    "description": "Quia veniam rerum dignissimos rem omnis voluptatibus non.",
+    "content": "accusamus"
 };
 
 fetch(url, {
@@ -1322,10 +1290,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="title"                data-endpoint="POSTapi-article"
-               value="sdrrqmijrww"
+               value="lnx"
                data-component="body">
     <br>
-<p>Must not be greater than 255 characters. Example: <code>sdrrqmijrww</code></p>
+<p>Must not be greater than 255 characters. Example: <code>lnx</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -1333,10 +1301,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="POSTapi-article"
-               value="Molestias iusto quaerat autem odit odio."
+               value="Quia veniam rerum dignissimos rem omnis voluptatibus non."
                data-component="body">
     <br>
-<p>Must not be greater than 1000 characters. Example: <code>Molestias iusto quaerat autem odit odio.</code></p>
+<p>Must not be greater than 1000 characters. Example: <code>Quia veniam rerum dignissimos rem omnis voluptatibus non.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>content</code></b>&nbsp;&nbsp;
@@ -1344,10 +1312,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="content"                data-endpoint="POSTapi-article"
-               value="aut"
+               value="accusamus"
                data-component="body">
     <br>
-<p>Example: <code>aut</code></p>
+<p>Example: <code>accusamus</code></p>
         </div>
         </form>
 
@@ -1370,14 +1338,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"title\": \"ovfqcoffsxonw\",
-    \"description\": \"Aut similique hic ut delectus.\",
-    \"content\": \"maiores\",
+    \"title\": \"gdtsorcrosiwogb\",
+    \"description\": \"Consequatur natus sit est quam.\",
+    \"content\": \"qui\",
     \"state\": {
-        \"id\": \"quia\"
+        \"id\": \"et\"
     },
     \"created_by\": {
-        \"id\": \"sint\"
+        \"id\": \"est\"
     }
 }"
 </code></pre></div>
@@ -1395,14 +1363,14 @@ const headers = {
 };
 
 let body = {
-    "title": "ovfqcoffsxonw",
-    "description": "Aut similique hic ut delectus.",
-    "content": "maiores",
+    "title": "gdtsorcrosiwogb",
+    "description": "Consequatur natus sit est quam.",
+    "content": "qui",
     "state": {
-        "id": "quia"
+        "id": "et"
     },
     "created_by": {
-        "id": "sint"
+        "id": "est"
     }
 };
 
@@ -1515,10 +1483,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="title"                data-endpoint="PATCHapi-article--article_id-"
-               value="ovfqcoffsxonw"
+               value="gdtsorcrosiwogb"
                data-component="body">
     <br>
-<p>The articles title. Must not be greater than 255 characters. Example: <code>ovfqcoffsxonw</code></p>
+<p>The articles title. Must not be greater than 255 characters. Example: <code>gdtsorcrosiwogb</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -1526,10 +1494,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="PATCHapi-article--article_id-"
-               value="Aut similique hic ut delectus."
+               value="Consequatur natus sit est quam."
                data-component="body">
     <br>
-<p>The articles short description (or excerpt). Must not be greater than 1000 characters. Example: <code>Aut similique hic ut delectus.</code></p>
+<p>The articles short description (or excerpt). Must not be greater than 1000 characters. Example: <code>Consequatur natus sit est quam.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>content</code></b>&nbsp;&nbsp;
@@ -1537,10 +1505,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="content"                data-endpoint="PATCHapi-article--article_id-"
-               value="maiores"
+               value="qui"
                data-component="body">
     <br>
-<p>The articles full content Markdown and some Special Tags are supported. Example: <code>maiores</code></p>
+<p>The articles full content Markdown and some Special Tags are supported. Example: <code>qui</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
         <details>
@@ -1557,10 +1525,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="state.id"                data-endpoint="PATCHapi-article--article_id-"
-               value="quia"
+               value="et"
                data-component="body">
     <br>
-<p>The articles state. Example: <code>quia</code></p>
+<p>The articles state. Example: <code>et</code></p>
                     </div>
                                     </details>
         </div>
@@ -1579,10 +1547,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="created_by.id"                data-endpoint="PATCHapi-article--article_id-"
-               value="sint"
+               value="est"
                data-component="body">
     <br>
-<p>The articles creator ID. Example: <code>sint</code></p>
+<p>The articles creator ID. Example: <code>est</code></p>
                     </div>
                                     </details>
         </div>
@@ -1607,7 +1575,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"forceDelete\": false
+    \"forceDelete\": true
 }"
 </code></pre></div>
 
@@ -1624,7 +1592,7 @@ const headers = {
 };
 
 let body = {
-    "forceDelete": false
+    "forceDelete": true
 };
 
 fetch(url, {
@@ -1749,7 +1717,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>force Delete the Article. Defaults to false. Example: <code>false</code></p>
+<p>force Delete the Article. Defaults to false. Example: <code>true</code></p>
         </div>
         </form>
 
@@ -1904,7 +1872,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "cowiki.de/api/attached-urls?created_by_id=11&amp;invalid=1" \
+    --get "cowiki.de/api/attached-urls?created_by_id=4&amp;invalid=" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -1915,8 +1883,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "created_by_id": "11",
-    "invalid": "1",
+    "created_by_id": "4",
+    "invalid": "0",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -1951,6 +1919,146 @@ access-control-allow-origin: *
 <code class="language-json" style="max-height: 300px;">{
     &quot;data&quot;: [
         {
+            &quot;id&quot;: 3,
+            &quot;created_at&quot;: &quot;2024-06-19T15:18:28.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Meaghan Dietrich&quot;,
+            &quot;description&quot;: &quot;Molestiae laboriosam pariatur labore.&quot;,
+            &quot;serve_url&quot;: &quot;http://www.emard.org/placeat-quia-incidunt-repellat-et&quot;,
+            &quot;url&quot;: &quot;/url/3&quot;,
+            &quot;preview_file&quot;: &quot;meaghan-dietrich.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
+            &quot;id&quot;: 10,
+            &quot;created_at&quot;: &quot;2024-06-19T08:06:47.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Mrs. Cara Morar Jr.&quot;,
+            &quot;description&quot;: &quot;Quas sunt reiciendis maxime aliquid.&quot;,
+            &quot;serve_url&quot;: &quot;https://paucek.com/commodi-ipsam-suscipit-ut-vero-harum-tempora.html&quot;,
+            &quot;url&quot;: &quot;/url/10&quot;,
+            &quot;preview_file&quot;: &quot;mrs-cara-morar-jr.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;created_at&quot;: &quot;2024-06-09T08:13:41.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Humberto Rowe&quot;,
+            &quot;description&quot;: &quot;Aut facilis consectetur.&quot;,
+            &quot;serve_url&quot;: &quot;http://www.farrell.biz/&quot;,
+            &quot;url&quot;: &quot;/url/4&quot;,
+            &quot;preview_file&quot;: &quot;humberto-rowe.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;created_at&quot;: &quot;2024-05-18T11:19:58.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Tom O&#039;Conner&quot;,
+            &quot;description&quot;: &quot;Rerum at maxime magni.&quot;,
+            &quot;serve_url&quot;: &quot;https://jones.com/voluptatum-minus-aspernatur-maxime-inventore-molestias.html&quot;,
+            &quot;url&quot;: &quot;/url/5&quot;,
+            &quot;preview_file&quot;: &quot;tom-oconner.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
+            &quot;id&quot;: 7,
+            &quot;created_at&quot;: &quot;2024-05-17T07:42:13.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Robin Ondricka&quot;,
+            &quot;description&quot;: &quot;Ea praesentium eveniet tenetur.&quot;,
+            &quot;serve_url&quot;: &quot;http://gottlieb.org/laudantium-quidem-quia-id-provident-iure.html&quot;,
+            &quot;url&quot;: &quot;/url/7&quot;,
+            &quot;preview_file&quot;: &quot;robin-ondricka.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
+            &quot;id&quot;: 9,
+            &quot;created_at&quot;: &quot;2024-05-05T14:33:32.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Shyanne Zieme&quot;,
+            &quot;description&quot;: &quot;Soluta aut itaque laudantium.&quot;,
+            &quot;serve_url&quot;: &quot;http://www.tillman.com/saepe-ea-dolores-iusto-quod-velit.html&quot;,
+            &quot;url&quot;: &quot;/url/9&quot;,
+            &quot;preview_file&quot;: &quot;shyanne-zieme.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
+            &quot;id&quot;: 1,
+            &quot;created_at&quot;: &quot;2024-04-30T10:54:39.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T10:44:32.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Wunschvorstellung&quot;,
+            &quot;description&quot;: &quot;Hier gehts zu deiner Wunschvorstellung&quot;,
+            &quot;serve_url&quot;: &quot;http://www.wunsch.com/fugiat-id-illo-id-autem&quot;,
+            &quot;url&quot;: &quot;/url/1&quot;,
+            &quot;preview_file&quot;: &quot;prof-rickey-fritsch-v.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
             &quot;id&quot;: 2,
             &quot;created_at&quot;: &quot;2024-04-17T05:26:44.000000Z&quot;,
             &quot;created_by&quot;: {
@@ -1968,6 +2076,26 @@ access-control-allow-origin: *
             &quot;serve_url&quot;: &quot;http://www.block.net/voluptatem-magni-vero-perferendis-pariatur-aliquam-veritatis-optio.html&quot;,
             &quot;url&quot;: &quot;/url/2&quot;,
             &quot;preview_file&quot;: &quot;bernard-hartmann.png&quot;,
+            &quot;deleted_at&quot;: null
+        },
+        {
+            &quot;id&quot;: 8,
+            &quot;created_at&quot;: &quot;2024-02-09T13:03:36.000000Z&quot;,
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
+            &quot;updated_by&quot;: {
+                &quot;id&quot;: 11,
+                &quot;name&quot;: &quot;makakken&quot;
+            },
+            &quot;type&quot;: &quot;AttachedUrl&quot;,
+            &quot;title&quot;: &quot;Marcelo Romaguera&quot;,
+            &quot;description&quot;: &quot;Quia debitis et accusamus.&quot;,
+            &quot;serve_url&quot;: &quot;http://kulas.info/&quot;,
+            &quot;url&quot;: &quot;/url/8&quot;,
+            &quot;preview_file&quot;: &quot;marcelo-romaguera.png&quot;,
             &quot;deleted_at&quot;: null
         }
     ],
@@ -2000,8 +2128,8 @@ access-control-allow-origin: *
         ],
         &quot;path&quot;: &quot;http://localhost/api/attached-urls&quot;,
         &quot;per_page&quot;: 15,
-        &quot;to&quot;: 1,
-        &quot;total&quot;: 1
+        &quot;to&quot;: 9,
+        &quot;total&quot;: 9
     }
 }</code>
  </pre>
@@ -2082,10 +2210,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="created_by_id"                data-endpoint="GETapi-attached-urls"
-               value="11"
+               value="4"
                data-component="query">
     <br>
-<p>only return AttachedUrls created by the defined id Example: <code>11</code></p>
+<p>only return AttachedUrls created by the defined id Example: <code>4</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>invalid</code></b>&nbsp;&nbsp;
@@ -2106,7 +2234,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>if true, return only invalid (metadata not completely filled) AttachedUrls Example: <code>true</code></p>
+<p>if true, return only invalid (metadata not completely filled) AttachedUrls Example: <code>false</code></p>
             </div>
                 </form>
 
@@ -2281,10 +2409,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="attached_url_id"                data-endpoint="GETapi-attached-url--attachedUrl_id-"
-               value="15"
+               value="11"
                data-component="url">
     <br>
-<p>Example: <code>15</code></p>
+<p>Example: <code>11</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2323,7 +2451,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "cowiki.de/api/attached-files?created_by_id=19&amp;invalid=" \
+    --get "cowiki.de/api/attached-files?created_by_id=1&amp;invalid=" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -2334,7 +2462,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "created_by_id": "19",
+    "created_by_id": "1",
     "invalid": "0",
 };
 Object.keys(params)
@@ -2787,10 +2915,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="created_by_id"                data-endpoint="GETapi-attached-files"
-               value="19"
+               value="1"
                data-component="query">
     <br>
-<p>only return AttachedFiles created by the defined id Example: <code>19</code></p>
+<p>only return AttachedFiles created by the defined id Example: <code>1</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>invalid</code></b>&nbsp;&nbsp;
@@ -2832,7 +2960,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"withArticles\": true
+    \"withArticles\": false
 }"
 </code></pre></div>
 
@@ -2848,7 +2976,7 @@ const headers = {
 };
 
 let body = {
-    "withArticles": true
+    "withArticles": false
 };
 
 fetch(url, {
@@ -2907,306 +3035,6 @@ access-control-allow-origin: *
             &quot;order&quot;: 4
         },
         &quot;approved&quot;: true,
-        &quot;articles&quot;: [
-            {
-                &quot;id&quot;: 19,
-                &quot;created_at&quot;: &quot;2024-03-06T15:36:03.000000Z&quot;,
-                &quot;created_by&quot;: {
-                    &quot;id&quot;: 11,
-                    &quot;name&quot;: &quot;makakken&quot;
-                },
-                &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
-                &quot;updated_by&quot;: {
-                    &quot;id&quot;: 11,
-                    &quot;name&quot;: &quot;makakken&quot;
-                },
-                &quot;type&quot;: &quot;Article&quot;,
-                &quot;title&quot;: &quot;Dr. Kali Jerde&quot;,
-                &quot;slug&quot;: &quot;dr-kali-jerde&quot;,
-                &quot;state&quot;: {
-                    &quot;id&quot;: 3,
-                    &quot;title&quot;: &quot;Ver&ouml;ffentlicht&quot;,
-                    &quot;key&quot;: &quot;publish&quot;
-                },
-                &quot;approved&quot;: false,
-                &quot;claps&quot;: 8,
-                &quot;url&quot;: &quot;/beitrag/dr-kali-jerde&quot;,
-                &quot;description&quot;: &quot;Eum voluptatem est quia ipsa explicabo minus laboriosam qui accusantium aut provident sint ut magni.&quot;,
-                &quot;content&quot;: &quot;    &lt;h2&gt;Eine gro&szlig;e &Uuml;berschrift (H2)&lt;/h2&gt;\n    &lt;p&gt;Wir\n        &lt;strong&gt;verwenden&lt;/strong&gt;\n        einen\n        &lt;em&gt;gr&ouml;&szlig;eren&lt;/em&gt;\n        &lt;u&gt;Zeilenabstand&lt;/u&gt;\n        f&uuml;r eine\n        &lt;s&gt;bessere&lt;/s&gt;\n        Lesbarkeit und einem fluffigeren Auftreten.\n        &lt;item-link data-type=\&quot;Article\&quot; data-id=\&quot;1\&quot; href=\&quot;/beitrag/mr-griffin-mohr-phd\&quot;&gt;Ein Link zu einem Beitrag&lt;/item-link&gt;\n        accusam et justo\n        &lt;item-link data-type=\&quot;Collection\&quot; data-id=\&quot;60\&quot; href=\&quot;/sammlung/moises-morar-sr\&quot;&gt;Ein Link zu einer Sammlung&lt;/item-link&gt;\n        consetetur sadipscing\n        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,\n        sadipscing elitr, sed diam nonumy\n        &lt;item-link data-type=\&quot;AttachedUrl\&quot; data-id=\&quot;7\&quot; href=\&quot;/url/7\&quot; target=\&quot;_blank\&quot;&gt;Ein Link zu einem Anhang (URL)&lt;/item-link&gt;\n        sadipscing elitr, sed diam nonumy\n        &lt;item-link data-type=\&quot;AttachedFile\&quot; data-id=\&quot;1\&quot; href=\&quot;/anhang/1\&quot; target=\&quot;_blank\&quot;&gt;Ein Link zu einem Anhang (File)&lt;/item-link&gt;\n        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n    &lt;/p&gt;\n    &lt;img src=\&quot;/api/attached-file/serve/1\&quot; alt=\&quot;Baylee Crooks\&quot; title=\&quot;(c) Numquam saepe sunt voluptates.\&quot;&gt;\n    &lt;h3&gt;Eine &Uuml;berschrift (h3)&lt;/h3&gt;\n    &lt;ul&gt;\n        &lt;li&gt;\n            &lt;p&gt;Und&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;eine liste gibt&#039;s auch&lt;/p&gt;\n        &lt;/li&gt;\n    &lt;/ul&gt;\n    &lt;h4&gt;Eine &Uuml;berschrift (h4)&lt;/h4&gt;\n    &lt;ol&gt;\n        &lt;li&gt;\n            &lt;p&gt;Und&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;auch&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;numerierte&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;listen&lt;/p&gt;\n            &lt;ol&gt;\n                &lt;li&gt;\n                    &lt;p&gt;gibt\n                    &lt;/p&gt;\n                &lt;/li&gt;\n                &lt;li&gt;\n                    &lt;p&gt;es&lt;/p&gt;\n                &lt;/li&gt;\n            &lt;/ol&gt;\n        &lt;/li&gt;\n    &lt;/ol&gt;\n    &lt;h3&gt;Und Infoboxen&lt;/h3&gt;\n    &lt;div class=\&quot;info-box\&quot; data-type=\&quot;warning\&quot;&gt;\n        &lt;svg viewBox=\&quot;0 0 15 15\&quot; width=\&quot;15px\&quot; height=\&quot;15px\&quot;&gt;&lt;use href=\&quot;/icons/warning.svg#warning\&quot;&gt;&lt;/use&gt;&lt;/svg&gt;\n        &lt;div class=\&quot;content\&quot;&gt;\n            Hinweis\n        &lt;/div&gt;\n    &lt;/div&gt;\n    &lt;div class=\&quot;info-box\&quot; data-type=\&quot;danger\&quot;&gt;\n        &lt;svg viewBox=\&quot;0 0 15 15\&quot; width=\&quot;15px\&quot; height=\&quot;15px\&quot;&gt;&lt;use href=\&quot;/icons/danger.svg#danger\&quot;&gt;&lt;/use&gt;&lt;/svg&gt;\n        &lt;div class=\&quot;content\&quot;&gt;\n            Gefahr\n        &lt;/div&gt;\n    &lt;/div&gt;\n    &lt;div class=\&quot;info-box\&quot; data-type=\&quot;question\&quot;&gt;\n        &lt;svg viewBox=\&quot;0 0 15 15\&quot; width=\&quot;15px\&quot; height=\&quot;15px\&quot;&gt;&lt;use href=\&quot;/icons/question.svg#question\&quot;&gt;&lt;/use&gt;&lt;/svg&gt;\n        &lt;div class=\&quot;content\&quot;&gt;\n            Fragestellung: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n        &lt;/div&gt;\n    &lt;/div&gt;\n&quot;,
-                &quot;num_comments&quot;: 4,
-                &quot;num_attachments&quot;: 2,
-                &quot;attached_urls&quot;: [
-                    {
-                        &quot;id&quot;: 7,
-                        &quot;created_at&quot;: &quot;2024-05-17T07:42:13.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;type&quot;: &quot;AttachedUrl&quot;,
-                        &quot;title&quot;: &quot;Robin Ondricka&quot;,
-                        &quot;description&quot;: &quot;Ea praesentium eveniet tenetur.&quot;,
-                        &quot;serve_url&quot;: &quot;http://gottlieb.org/laudantium-quidem-quia-id-provident-iure.html&quot;,
-                        &quot;url&quot;: &quot;/url/7&quot;,
-                        &quot;preview_file&quot;: &quot;robin-ondricka.png&quot;,
-                        &quot;deleted_at&quot;: null
-                    }
-                ],
-                &quot;attached_files&quot;: [
-                    {
-                        &quot;id&quot;: 1,
-                        &quot;created_at&quot;: &quot;2024-03-21T18:23:37.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;type&quot;: &quot;AttachedFile&quot;,
-                        &quot;title&quot;: &quot;Alessandro Hackett&quot;,
-                        &quot;serve_url&quot;: &quot;/api/attached-file/serve/1&quot;,
-                        &quot;url&quot;: &quot;/anhang/1&quot;,
-                        &quot;description&quot;: &quot;Fuga eos similique rerum.&quot;,
-                        &quot;filename&quot;: &quot;alessandro-hackett.png&quot;,
-                        &quot;mime_type&quot;: &quot;text/uri-list&quot;,
-                        &quot;is_image&quot;: false,
-                        &quot;filesize&quot;: 682140,
-                        &quot;preview_file&quot;: &quot;alessandro-hackett.png&quot;,
-                        &quot;source&quot;: &quot;Quos eaque et.&quot;,
-                        &quot;license&quot;: {
-                            &quot;id&quot;: 2,
-                            &quot;title&quot;: &quot;Mr. Tristin Hane V&quot;,
-                            &quot;description&quot;: &quot;Rerum laborum velit.&quot;,
-                            &quot;icons&quot;: &quot;&lt;img src=\&quot;/license-icons/cc-logo.svg\&quot; /&gt;&lt;img src=\&quot;/license-icons/cc-by.svg\&quot; /&gt;&quot;,
-                            &quot;external_url&quot;: null,
-                            &quot;order&quot;: 4
-                        },
-                        &quot;approved&quot;: true,
-                        &quot;deleted_at&quot;: null
-                    }
-                ],
-                &quot;comments&quot;: [
-                    {
-                        &quot;id&quot;: 44,
-                        &quot;created_at&quot;: &quot;2024-03-05T11:13:06.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 1,
-                            &quot;name&quot;: &quot;Kody Gusikowski&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-04-26T17:40:11.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 2,
-                            &quot;name&quot;: &quot;Alberta Moen&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;Eveniet excepturi dolorum dolorem ratione alias illo necessitatibus aliquid dolorem delectus alias nemo dolor et quos quia sunt corporis rerum omnis nulla officia cumque et aliquid at eveniet doloremque nobis repellat ut et a cum omnis facere maiores quam velit possimus a perferendis aliquid mollitia rerum mollitia.&quot;
-                    },
-                    {
-                        &quot;id&quot;: 42,
-                        &quot;created_at&quot;: &quot;2024-06-07T12:02:46.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 9,
-                            &quot;name&quot;: &quot;Citlalli Cruickshank II&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-03-08T22:01:35.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 6,
-                            &quot;name&quot;: &quot;Murray Pagac&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;Ut id delectus quia saepe sapiente esse aut nostrum quos natus corporis perspiciatis omnis nemo autem non voluptatem sed enim velit esse quis corrupti sunt et nisi veniam voluptatibus aut id quibusdam quia quas aut sint quae sunt sed natus consectetur eum quis voluptas ducimus asperiores provident quia aperiam et placeat reiciendis consequatur est impedit qui qui dolorum provident enim explicabo culpa quaerat qui dignissimos.&quot;
-                    },
-                    {
-                        &quot;id&quot;: 41,
-                        &quot;created_at&quot;: &quot;2024-06-17T19:54:54.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 8,
-                            &quot;name&quot;: &quot;Jared Boyer&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-04-26T04:25:52.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 4,
-                            &quot;name&quot;: &quot;Jacky Miller&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;Debitis officiis quis excepturi sint cumque modi quam earum iusto adipisci et omnis blanditiis reiciendis quia voluptas vel laudantium molestiae est atque autem libero a quam cupiditate aut consequuntur laboriosam reprehenderit quae ad totam cum ullam minus voluptatem rerum et quis iusto eligendi sunt quisquam ab modi et.&quot;
-                    },
-                    {
-                        &quot;id&quot;: 40,
-                        &quot;created_at&quot;: &quot;2024-07-06T13:47:14.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 9,
-                            &quot;name&quot;: &quot;Citlalli Cruickshank II&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-03-23T11:44:47.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 1,
-                            &quot;name&quot;: &quot;Kody Gusikowski&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;Veritatis aut beatae qui omnis dolore enim exercitationem quae ipsa tempore ipsa odit labore nam eveniet et id blanditiis libero veniam molestias odio voluptate sint animi labore quis voluptates sit explicabo assumenda et assumenda hic et ea voluptatem id aut illum et dicta officiis.&quot;
-                    }
-                ],
-                &quot;deleted_at&quot;: null
-            },
-            {
-                &quot;id&quot;: 39,
-                &quot;created_at&quot;: &quot;2024-05-20T12:38:20.000000Z&quot;,
-                &quot;created_by&quot;: {
-                    &quot;id&quot;: 11,
-                    &quot;name&quot;: &quot;makakken&quot;
-                },
-                &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
-                &quot;updated_by&quot;: {
-                    &quot;id&quot;: 11,
-                    &quot;name&quot;: &quot;makakken&quot;
-                },
-                &quot;type&quot;: &quot;Article&quot;,
-                &quot;title&quot;: &quot;Pansy Leffler&quot;,
-                &quot;slug&quot;: &quot;pansy-leffler&quot;,
-                &quot;state&quot;: {
-                    &quot;id&quot;: 3,
-                    &quot;title&quot;: &quot;Ver&ouml;ffentlicht&quot;,
-                    &quot;key&quot;: &quot;publish&quot;
-                },
-                &quot;approved&quot;: false,
-                &quot;claps&quot;: 1,
-                &quot;url&quot;: &quot;/beitrag/pansy-leffler&quot;,
-                &quot;description&quot;: &quot;Aspernatur blanditiis voluptatum dignissimos quam in quia laudantium id aliquam sit ipsa ut ut at maiores ea quam et molestias non officiis voluptas velit odit dolores nihil rerum.&quot;,
-                &quot;content&quot;: &quot;    &lt;h2&gt;Eine gro&szlig;e &Uuml;berschrift (H2)&lt;/h2&gt;\n    &lt;p&gt;Wir\n        &lt;strong&gt;verwenden&lt;/strong&gt;\n        einen\n        &lt;em&gt;gr&ouml;&szlig;eren&lt;/em&gt;\n        &lt;u&gt;Zeilenabstand&lt;/u&gt;\n        f&uuml;r eine\n        &lt;s&gt;bessere&lt;/s&gt;\n        Lesbarkeit und einem fluffigeren Auftreten.\n        &lt;item-link data-type=\&quot;Article\&quot; data-id=\&quot;31\&quot; href=\&quot;/beitrag/kieran-kris\&quot;&gt;Ein Link zu einem Beitrag&lt;/item-link&gt;\n        accusam et justo\n        &lt;item-link data-type=\&quot;Collection\&quot; data-id=\&quot;7\&quot; href=\&quot;/sammlung/arjun-gerlach\&quot;&gt;Ein Link zu einer Sammlung&lt;/item-link&gt;\n        consetetur sadipscing\n        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,\n        sadipscing elitr, sed diam nonumy\n        &lt;item-link data-type=\&quot;AttachedUrl\&quot; data-id=\&quot;10\&quot; href=\&quot;/url/10\&quot; target=\&quot;_blank\&quot;&gt;Ein Link zu einem Anhang (URL)&lt;/item-link&gt;\n        sadipscing elitr, sed diam nonumy\n        &lt;item-link data-type=\&quot;AttachedFile\&quot; data-id=\&quot;1\&quot; href=\&quot;/anhang/1\&quot; target=\&quot;_blank\&quot;&gt;Ein Link zu einem Anhang (File)&lt;/item-link&gt;\n        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n    &lt;/p&gt;\n    &lt;img src=\&quot;/api/attached-file/serve/1\&quot; alt=\&quot;Baylee Crooks\&quot; title=\&quot;(c) Numquam saepe sunt voluptates.\&quot;&gt;\n    &lt;h3&gt;Eine &Uuml;berschrift (h3)&lt;/h3&gt;\n    &lt;ul&gt;\n        &lt;li&gt;\n            &lt;p&gt;Und&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;eine liste gibt&#039;s auch&lt;/p&gt;\n        &lt;/li&gt;\n    &lt;/ul&gt;\n    &lt;h4&gt;Eine &Uuml;berschrift (h4)&lt;/h4&gt;\n    &lt;ol&gt;\n        &lt;li&gt;\n            &lt;p&gt;Und&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;auch&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;numerierte&lt;/p&gt;\n        &lt;/li&gt;\n        &lt;li&gt;\n            &lt;p&gt;listen&lt;/p&gt;\n            &lt;ol&gt;\n                &lt;li&gt;\n                    &lt;p&gt;gibt\n                    &lt;/p&gt;\n                &lt;/li&gt;\n                &lt;li&gt;\n                    &lt;p&gt;es&lt;/p&gt;\n                &lt;/li&gt;\n            &lt;/ol&gt;\n        &lt;/li&gt;\n    &lt;/ol&gt;\n    &lt;h3&gt;Und Infoboxen&lt;/h3&gt;\n    &lt;div class=\&quot;info-box\&quot; data-type=\&quot;warning\&quot;&gt;\n        &lt;svg viewBox=\&quot;0 0 15 15\&quot; width=\&quot;15px\&quot; height=\&quot;15px\&quot;&gt;&lt;use href=\&quot;/icons/warning.svg#warning\&quot;&gt;&lt;/use&gt;&lt;/svg&gt;\n        &lt;div class=\&quot;content\&quot;&gt;\n            Hinweis\n        &lt;/div&gt;\n    &lt;/div&gt;\n    &lt;div class=\&quot;info-box\&quot; data-type=\&quot;danger\&quot;&gt;\n        &lt;svg viewBox=\&quot;0 0 15 15\&quot; width=\&quot;15px\&quot; height=\&quot;15px\&quot;&gt;&lt;use href=\&quot;/icons/danger.svg#danger\&quot;&gt;&lt;/use&gt;&lt;/svg&gt;\n        &lt;div class=\&quot;content\&quot;&gt;\n            Gefahr\n        &lt;/div&gt;\n    &lt;/div&gt;\n    &lt;div class=\&quot;info-box\&quot; data-type=\&quot;question\&quot;&gt;\n        &lt;svg viewBox=\&quot;0 0 15 15\&quot; width=\&quot;15px\&quot; height=\&quot;15px\&quot;&gt;&lt;use href=\&quot;/icons/question.svg#question\&quot;&gt;&lt;/use&gt;&lt;/svg&gt;\n        &lt;div class=\&quot;content\&quot;&gt;\n            Fragestellung: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n        &lt;/div&gt;\n    &lt;/div&gt;\n&quot;,
-                &quot;num_comments&quot;: 4,
-                &quot;num_attachments&quot;: 2,
-                &quot;attached_urls&quot;: [
-                    {
-                        &quot;id&quot;: 10,
-                        &quot;created_at&quot;: &quot;2024-06-19T08:06:47.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;type&quot;: &quot;AttachedUrl&quot;,
-                        &quot;title&quot;: &quot;Mrs. Cara Morar Jr.&quot;,
-                        &quot;description&quot;: &quot;Quas sunt reiciendis maxime aliquid.&quot;,
-                        &quot;serve_url&quot;: &quot;https://paucek.com/commodi-ipsam-suscipit-ut-vero-harum-tempora.html&quot;,
-                        &quot;url&quot;: &quot;/url/10&quot;,
-                        &quot;preview_file&quot;: &quot;mrs-cara-morar-jr.png&quot;,
-                        &quot;deleted_at&quot;: null
-                    }
-                ],
-                &quot;attached_files&quot;: [
-                    {
-                        &quot;id&quot;: 1,
-                        &quot;created_at&quot;: &quot;2024-03-21T18:23:37.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-07-13T09:45:58.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 11,
-                            &quot;name&quot;: &quot;makakken&quot;
-                        },
-                        &quot;type&quot;: &quot;AttachedFile&quot;,
-                        &quot;title&quot;: &quot;Alessandro Hackett&quot;,
-                        &quot;serve_url&quot;: &quot;/api/attached-file/serve/1&quot;,
-                        &quot;url&quot;: &quot;/anhang/1&quot;,
-                        &quot;description&quot;: &quot;Fuga eos similique rerum.&quot;,
-                        &quot;filename&quot;: &quot;alessandro-hackett.png&quot;,
-                        &quot;mime_type&quot;: &quot;text/uri-list&quot;,
-                        &quot;is_image&quot;: false,
-                        &quot;filesize&quot;: 682140,
-                        &quot;preview_file&quot;: &quot;alessandro-hackett.png&quot;,
-                        &quot;source&quot;: &quot;Quos eaque et.&quot;,
-                        &quot;license&quot;: {
-                            &quot;id&quot;: 2,
-                            &quot;title&quot;: &quot;Mr. Tristin Hane V&quot;,
-                            &quot;description&quot;: &quot;Rerum laborum velit.&quot;,
-                            &quot;icons&quot;: &quot;&lt;img src=\&quot;/license-icons/cc-logo.svg\&quot; /&gt;&lt;img src=\&quot;/license-icons/cc-by.svg\&quot; /&gt;&quot;,
-                            &quot;external_url&quot;: null,
-                            &quot;order&quot;: 4
-                        },
-                        &quot;approved&quot;: true,
-                        &quot;deleted_at&quot;: null
-                    }
-                ],
-                &quot;comments&quot;: [
-                    {
-                        &quot;id&quot;: 80,
-                        &quot;created_at&quot;: &quot;2024-03-18T01:41:34.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 10,
-                            &quot;name&quot;: &quot;Royal Collins&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-03-21T21:28:26.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 8,
-                            &quot;name&quot;: &quot;Jared Boyer&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;Quae reiciendis delectus minus quam laudantium aut distinctio officiis illo provident esse et ab delectus nobis autem esse iste voluptatum aliquid laborum magnam enim at architecto voluptates eos est aperiam deleniti hic eveniet dolores provident quia libero est non quaerat rerum ipsum hic ut ullam eum libero sapiente magnam et nemo tempore veniam totam explicabo provident nihil vitae ullam in eum cupiditate nihil rerum eligendi veniam corrupti voluptatem sint.&quot;
-                    },
-                    {
-                        &quot;id&quot;: 81,
-                        &quot;created_at&quot;: &quot;2024-04-21T10:19:40.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 10,
-                            &quot;name&quot;: &quot;Royal Collins&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-02-29T08:02:29.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 7,
-                            &quot;name&quot;: &quot;Prof. Aubrey Murazik&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;Dolores totam ut et facilis enim omnis facere saepe voluptatibus tempore aut aut rerum aut rem dolore doloremque fugit laudantium hic doloribus dignissimos dignissimos consequatur assumenda quas voluptates quia aut et sint facere aliquid aut dolore eum nihil velit mollitia sit beatae sunt eveniet ipsam ad quas eum ducimus qui commodi voluptatem.&quot;
-                    },
-                    {
-                        &quot;id&quot;: 83,
-                        &quot;created_at&quot;: &quot;2024-05-09T01:59:43.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 8,
-                            &quot;name&quot;: &quot;Jared Boyer&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-04-12T07:52:15.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 4,
-                            &quot;name&quot;: &quot;Jacky Miller&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;Sit quibusdam hic reprehenderit minima perferendis odio non mollitia quod nihil nobis dolorum ut nobis hic delectus fuga quaerat iste sed quis modi fugit aliquid aut quis in temporibus iusto sed impedit aut temporibus velit quaerat blanditiis qui explicabo consequuntur provident magnam voluptas commodi laborum.&quot;
-                    },
-                    {
-                        &quot;id&quot;: 84,
-                        &quot;created_at&quot;: &quot;2024-06-16T00:03:17.000000Z&quot;,
-                        &quot;created_by&quot;: {
-                            &quot;id&quot;: 7,
-                            &quot;name&quot;: &quot;Prof. Aubrey Murazik&quot;
-                        },
-                        &quot;updated_at&quot;: &quot;2024-03-28T07:44:10.000000Z&quot;,
-                        &quot;updated_by&quot;: {
-                            &quot;id&quot;: 7,
-                            &quot;name&quot;: &quot;Prof. Aubrey Murazik&quot;
-                        },
-                        &quot;type&quot;: &quot;Comment&quot;,
-                        &quot;content&quot;: &quot;A et aspernatur possimus aut ex esse saepe fuga tenetur qui voluptatem dolores sed explicabo adipisci aut placeat aut modi consequatur et vel necessitatibus omnis ut sapiente nihil omnis dolor adipisci recusandae excepturi aut eos nesciunt sed soluta amet reiciendis laudantium ea suscipit quia soluta vero nam sit eum excepturi voluptates laborum maiores est ex placeat numquam nihil consequatur atque suscipit.&quot;
-                    }
-                ],
-                &quot;deleted_at&quot;: null
-            }
-        ],
         &quot;deleted_at&quot;: null
     }
 }</code>
@@ -3299,10 +3127,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="attached_file_id"                data-endpoint="GETapi-attached-file--attachedFile_id-"
-               value="19"
+               value="8"
                data-component="url">
     <br>
-<p>Example: <code>19</code></p>
+<p>Example: <code>8</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -3324,7 +3152,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>also return all associated articles Example: <code>true</code></p>
+<p>also return all associated articles Example: <code>false</code></p>
         </div>
         </form>
 
@@ -3349,9 +3177,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"attached_urls\": {
         \"0\": {
-            \"url\": \"http:\\/\\/www.dubuque.com\\/cumque-sit-quas-eaque-odit-repellat-et.html\"
+            \"url\": \"http:\\/\\/considine.com\\/quidem-sed-impedit-quae-nam-aperiam-iste\"
         },
-        \"url\": \"http:\\/\\/www.schneider.com\\/aliquam-ut-rem-quis-eius-officiis.html\"
+        \"url\": \"http:\\/\\/www.romaguera.org\\/\"
     },
     \"article_id\": []
 }"
@@ -3372,9 +3200,9 @@ const headers = {
 let body = {
     "attached_urls": {
         "0": {
-            "url": "http:\/\/www.dubuque.com\/cumque-sit-quas-eaque-odit-repellat-et.html"
+            "url": "http:\/\/considine.com\/quidem-sed-impedit-quae-nam-aperiam-iste"
         },
-        "url": "http:\/\/www.schneider.com\/aliquam-ut-rem-quis-eius-officiis.html"
+        "url": "http:\/\/www.romaguera.org\/"
     },
     "article_id": []
 };
@@ -3485,10 +3313,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_urls.url"                data-endpoint="POSTapi-attached-url"
-               value="http://www.schneider.com/aliquam-ut-rem-quis-eius-officiis.html"
+               value="http://www.romaguera.org/"
                data-component="body">
     <br>
-<p>a valid URL prefixed with <strong>http://</strong>  or <strong>https://</strong> Example: <code>http://www.schneider.com/aliquam-ut-rem-quis-eius-officiis.html</code></p>
+<p>a valid URL prefixed with <strong>http://</strong>  or <strong>https://</strong> Example: <code>http://www.romaguera.org/</code></p>
                     </div>
                                     </details>
         </div>
@@ -3524,9 +3352,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"attached_urls\": [
         {
-            \"id\": \"deleniti\",
-            \"title\": \"tsclugxmuq\",
-            \"description\": \"Corrupti nisi enim eos vel.\"
+            \"id\": \"error\",
+            \"title\": \"knmjagihhtxkmri\",
+            \"description\": \"Adipisci consequatur blanditiis quaerat doloremque mollitia repellendus.\"
         }
     ]
 }"
@@ -3546,9 +3374,9 @@ const headers = {
 let body = {
     "attached_urls": [
         {
-            "id": "deleniti",
-            "title": "tsclugxmuq",
-            "description": "Corrupti nisi enim eos vel."
+            "id": "error",
+            "title": "knmjagihhtxkmri",
+            "description": "Adipisci consequatur blanditiis quaerat doloremque mollitia repellendus."
         }
     ]
 };
@@ -3648,10 +3476,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_urls.0.id"                data-endpoint="PATCHapi-attached-url"
-               value="deleniti"
+               value="error"
                data-component="body">
     <br>
-<p>Example: <code>deleniti</code></p>
+<p>Example: <code>error</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
@@ -3659,10 +3487,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_urls.0.title"                data-endpoint="PATCHapi-attached-url"
-               value="tsclugxmuq"
+               value="knmjagihhtxkmri"
                data-component="body">
     <br>
-<p>Must not be greater than 100 characters. Example: <code>tsclugxmuq</code></p>
+<p>Must not be greater than 100 characters. Example: <code>knmjagihhtxkmri</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -3670,10 +3498,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_urls.0.description"                data-endpoint="PATCHapi-attached-url"
-               value="Corrupti nisi enim eos vel."
+               value="Adipisci consequatur blanditiis quaerat doloremque mollitia repellendus."
                data-component="body">
     <br>
-<p>Must not be greater than 250 characters. Example: <code>Corrupti nisi enim eos vel.</code></p>
+<p>Must not be greater than 250 characters. Example: <code>Adipisci consequatur blanditiis quaerat doloremque mollitia repellendus.</code></p>
                     </div>
                                     </details>
         </div>
@@ -3696,7 +3524,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"forceDelete\": true
+    \"forceDelete\": false
 }"
 </code></pre></div>
 
@@ -3712,7 +3540,7 @@ const headers = {
 };
 
 let body = {
-    "forceDelete": true
+    "forceDelete": false
 };
 
 fetch(url, {
@@ -3826,7 +3654,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>if true, AttachedFile will be deleted permanently Example: <code>true</code></p>
+<p>if true, AttachedFile will be deleted permanently Example: <code>false</code></p>
         </div>
         </form>
 
@@ -3850,7 +3678,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"attached_files\": [
-        \"occaecati\"
+        \"eaque\"
     ]
 }"
 </code></pre></div>
@@ -3869,7 +3697,7 @@ const headers = {
 
 let body = {
     "attached_files": [
-        "occaecati"
+        "eaque"
     ]
 };
 
@@ -3970,10 +3798,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="article_Id"                data-endpoint="POSTapi-attached-file"
-               value="9"
+               value="6"
                data-component="url">
     <br>
-<p>The Article id the file should be attached to. Example: <code>9</code></p>
+<p>The Article id the file should be attached to. Example: <code>6</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4021,12 +3849,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"attached_files\": [
         {
-            \"id\": \"quam\",
-            \"title\": \"apqakolyh\",
-            \"description\": \"Nostrum quis voluptate et molestiae esse.\",
-            \"source\": \"jbbvrawfdoqshodt\",
+            \"id\": \"sequi\",
+            \"title\": \"kxbbevifkwitlgrcmcvwvkkqr\",
+            \"description\": \"Beatae esse maiores similique quibusdam id vero.\",
+            \"source\": \"vlajq\",
             \"license\": {
-                \"id\": \"distinctio\"
+                \"id\": \"est\"
             }
         }
     ]
@@ -4047,12 +3875,12 @@ const headers = {
 let body = {
     "attached_files": [
         {
-            "id": "quam",
-            "title": "apqakolyh",
-            "description": "Nostrum quis voluptate et molestiae esse.",
-            "source": "jbbvrawfdoqshodt",
+            "id": "sequi",
+            "title": "kxbbevifkwitlgrcmcvwvkkqr",
+            "description": "Beatae esse maiores similique quibusdam id vero.",
+            "source": "vlajq",
             "license": {
-                "id": "distinctio"
+                "id": "est"
             }
         }
     ]
@@ -4153,10 +3981,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_files.0.id"                data-endpoint="PATCHapi-attached-file"
-               value="quam"
+               value="sequi"
                data-component="body">
     <br>
-<p>Example: <code>quam</code></p>
+<p>Example: <code>sequi</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
@@ -4164,10 +3992,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_files.0.title"                data-endpoint="PATCHapi-attached-file"
-               value="apqakolyh"
+               value="kxbbevifkwitlgrcmcvwvkkqr"
                data-component="body">
     <br>
-<p>Must not be greater than 100 characters. Example: <code>apqakolyh</code></p>
+<p>Must not be greater than 100 characters. Example: <code>kxbbevifkwitlgrcmcvwvkkqr</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -4175,10 +4003,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_files.0.description"                data-endpoint="PATCHapi-attached-file"
-               value="Nostrum quis voluptate et molestiae esse."
+               value="Beatae esse maiores similique quibusdam id vero."
                data-component="body">
     <br>
-<p>Must not be greater than 250 characters. Example: <code>Nostrum quis voluptate et molestiae esse.</code></p>
+<p>Must not be greater than 250 characters. Example: <code>Beatae esse maiores similique quibusdam id vero.</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>source</code></b>&nbsp;&nbsp;
@@ -4186,10 +4014,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_files.0.source"                data-endpoint="PATCHapi-attached-file"
-               value="jbbvrawfdoqshodt"
+               value="vlajq"
                data-component="body">
     <br>
-<p>Must not be greater than 400 characters. Example: <code>jbbvrawfdoqshodt</code></p>
+<p>Must not be greater than 400 characters. Example: <code>vlajq</code></p>
                     </div>
                                                                 <div style=" margin-left: 14px; clear: unset;">
         <details>
@@ -4206,10 +4034,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="attached_files.0.license.id"                data-endpoint="PATCHapi-attached-file"
-               value="distinctio"
+               value="est"
                data-component="body">
     <br>
-<p>Example: <code>distinctio</code></p>
+<p>Example: <code>est</code></p>
                     </div>
                                     </details>
         </div>
@@ -6287,13 +6115,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"title\": \"The Nicest Article ever\",
     \"description\": \"What a lorem ipsum description.\",
-    \"published\": false,
+    \"published\": true,
     \"articles\": {
         \"0\": {
-            \"order\": 18
+            \"order\": 4
         },
-        \"id\": 5,
-        \"order\": 19
+        \"id\": 20,
+        \"order\": 9
     }
 }"
 </code></pre></div>
@@ -6313,13 +6141,13 @@ const headers = {
 let body = {
     "title": "The Nicest Article ever",
     "description": "What a lorem ipsum description.",
-    "published": false,
+    "published": true,
     "articles": {
         "0": {
-            "order": 18
+            "order": 4
         },
-        "id": 5,
-        "order": 19
+        "id": 20,
+        "order": 9
     }
 };
 
@@ -6455,7 +6283,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Defaults to false Example: <code>false</code></p>
+<p>Defaults to false Example: <code>true</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
         <details>
@@ -6472,10 +6300,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="articles.id"                data-endpoint="POSTapi-collection"
-               value="5"
+               value="20"
                data-component="body">
     <br>
-<p>the related article's id Example: <code>5</code></p>
+<p>the related article's id Example: <code>20</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>order</code></b>&nbsp;&nbsp;
@@ -6483,10 +6311,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="articles.order"                data-endpoint="POSTapi-collection"
-               value="19"
+               value="9"
                data-component="body">
     <br>
-<p>the related articles sort-order Example: <code>19</code></p>
+<p>the related articles sort-order Example: <code>9</code></p>
                     </div>
                                     </details>
         </div>
@@ -6509,13 +6337,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"title\": \"b\",
-    \"description\": \"Est ullam voluptas ducimus sed quos et velit molestiae.\",
+    \"title\": \"rqwsnzjnomopxp\",
+    \"description\": \"Soluta quam aspernatur possimus ut corrupti.\",
     \"published\": false,
     \"created_by\": [],
     \"articles\": [
         {
-            \"order\": 18
+            \"order\": 9
         }
     ]
 }"
@@ -6533,13 +6361,13 @@ const headers = {
 };
 
 let body = {
-    "title": "b",
-    "description": "Est ullam voluptas ducimus sed quos et velit molestiae.",
+    "title": "rqwsnzjnomopxp",
+    "description": "Soluta quam aspernatur possimus ut corrupti.",
     "published": false,
     "created_by": [],
     "articles": [
         {
-            "order": 18
+            "order": 9
         }
     ]
 };
@@ -6642,10 +6470,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="title"                data-endpoint="PATCHapi-collection--collection_id-"
-               value="b"
+               value="rqwsnzjnomopxp"
                data-component="body">
     <br>
-<p>Must not be greater than 255 characters. Example: <code>b</code></p>
+<p>Must not be greater than 255 characters. Example: <code>rqwsnzjnomopxp</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -6653,10 +6481,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="PATCHapi-collection--collection_id-"
-               value="Est ullam voluptas ducimus sed quos et velit molestiae."
+               value="Soluta quam aspernatur possimus ut corrupti."
                data-component="body">
     <br>
-<p>Must not be greater than 1000 characters. Example: <code>Est ullam voluptas ducimus sed quos et velit molestiae.</code></p>
+<p>Must not be greater than 1000 characters. Example: <code>Soluta quam aspernatur possimus ut corrupti.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>published</code></b>&nbsp;&nbsp;
@@ -6727,10 +6555,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="articles.0.order"                data-endpoint="PATCHapi-collection--collection_id-"
-               value="18"
+               value="9"
                data-component="body">
     <br>
-<p>Example: <code>18</code></p>
+<p>Example: <code>9</code></p>
                     </div>
                                     </details>
         </div>
@@ -6882,8 +6710,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"content\": \"et\",
-    \"article_id\": 9
+    \"content\": \"saepe\",
+    \"article_id\": 11
 }"
 </code></pre></div>
 
@@ -6900,8 +6728,8 @@ const headers = {
 };
 
 let body = {
-    "content": "et",
-    "article_id": 9
+    "content": "saepe",
+    "article_id": 11
 };
 
 fetch(url, {
@@ -7001,10 +6829,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="content"                data-endpoint="POSTapi-comment"
-               value="et"
+               value="saepe"
                data-component="body">
     <br>
-<p>The comments message. Must not be longer than 1000 Characters. Example: <code>et</code></p>
+<p>The comments message. Must not be longer than 1000 Characters. Example: <code>saepe</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>article_id</code></b>&nbsp;&nbsp;
@@ -7012,10 +6840,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="article_id"                data-endpoint="POSTapi-comment"
-               value="9"
+               value="11"
                data-component="body">
     <br>
-<p>the Article ID of the article you want to attach your comment to. Example: <code>9</code></p>
+<p>the Article ID of the article you want to attach your comment to. Example: <code>11</code></p>
         </div>
         </form>
 
@@ -7181,7 +7009,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "cowiki.de/api/search?types=perferendis" \
+    --get "cowiki.de/api/search?types=et" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -7192,7 +7020,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "types": "perferendis",
+    "types": "et",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -7308,10 +7136,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="types"                data-endpoint="GETapi-search"
-               value="perferendis"
+               value="et"
                data-component="query">
     <br>
-<p>enum The Type of content you are searching for. Possible values: articles, collections, attachments, images. For multiple values add comma-separated list. Example: <code>perferendis</code></p>
+<p>enum The Type of content you are searching for. Possible values: articles, collections, attachments, images. For multiple values add comma-separated list. Example: <code>et</code></p>
             </div>
                 </form>
 
@@ -7336,7 +7164,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"onlyEditors\": false
+    \"onlyEditors\": true
 }"
 </code></pre></div>
 
@@ -7352,7 +7180,7 @@ const headers = {
 };
 
 let body = {
-    "onlyEditors": false
+    "onlyEditors": true
 };
 
 fetch(url, {
@@ -7470,7 +7298,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Show only users with role &quot;Editor&quot; Example: <code>false</code></p>
+<p>Show only users with role &quot;Editor&quot; Example: <code>true</code></p>
         </div>
         </form>
 

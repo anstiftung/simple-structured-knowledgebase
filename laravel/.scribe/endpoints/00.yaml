@@ -24,7 +24,7 @@ endpoints:
         name: page
         description: 'The page number which should be returned in paginated Responses.'
         required: false
-        example: 2
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -33,7 +33,7 @@ endpoints:
         name: creatorId
         description: 'Only get Articles created by the defined creatorId.'
         required: false
-        example: 19
+        example: 10
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -51,23 +51,23 @@ endpoints:
         name: withoutPagination
         description: 'disables pagination and returns all results.'
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanQueryParameters:
-      page: 2
-      creatorId: 19
+      page: 20
+      creatorId: 10
       withoutCollection: true
-      withoutPagination: false
+      withoutPagination: true
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/localhost\/api\/articles?page=1","last":"http:\/\/localhost\/api\/articles?page=1","prev":"http:\/\/localhost\/api\/articles?page=1","next":null},"meta":{"current_page":2,"from":null,"last_page":1,"links":[{"url":"http:\/\/localhost\/api\/articles?page=1","label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost\/api\/articles?page=1","label":"1","active":false},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost\/api\/articles","per_page":15,"to":null,"total":0}}'
+        content: '{"data":[]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -159,7 +159,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: sdrrqmijrww
+        example: lnx
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -168,7 +168,7 @@ endpoints:
         name: description
         description: 'Must not be greater than 1000 characters.'
         required: true
-        example: 'Molestias iusto quaerat autem odit odio.'
+        example: 'Quia veniam rerum dignissimos rem omnis voluptatibus non.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -177,22 +177,22 @@ endpoints:
         name: content
         description: ''
         required: false
-        example: aut
+        example: accusamus
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: sdrrqmijrww
-      description: 'Molestias iusto quaerat autem odit odio.'
-      content: aut
+      title: lnx
+      description: 'Quia veniam rerum dignissimos rem omnis voluptatibus non.'
+      content: accusamus
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer a4c5dZ6b1ge6ha3VD8EfvkP'
+      - 'Bearer Pkg5e64f6hvD3bcE8da1ZVa'
     controller: null
     method: null
     route: null
@@ -233,7 +233,7 @@ endpoints:
         name: title
         description: 'The articles title. Must not be greater than 255 characters.'
         required: true
-        example: ovfqcoffsxonw
+        example: gdtsorcrosiwogb
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -242,7 +242,7 @@ endpoints:
         name: description
         description: 'The articles short description (or excerpt). Must not be greater than 1000 characters.'
         required: true
-        example: 'Aut similique hic ut delectus.'
+        example: 'Consequatur natus sit est quam.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -251,7 +251,7 @@ endpoints:
         name: content
         description: 'The articles full content Markdown and some Special Tags are supported.'
         required: false
-        example: maiores
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -269,7 +269,7 @@ endpoints:
         name: state.id
         description: 'The articles state.'
         required: true
-        example: quia
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -287,26 +287,26 @@ endpoints:
         name: created_by.id
         description: 'The articles creator ID.'
         required: true
-        example: sint
+        example: est
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: ovfqcoffsxonw
-      description: 'Aut similique hic ut delectus.'
-      content: maiores
+      title: gdtsorcrosiwogb
+      description: 'Consequatur natus sit est quam.'
+      content: qui
       state:
-        id: quia
+        id: et
       created_by:
-        id: sint
+        id: est
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 4hZabkP8136ceV6DvE5gadf'
+      - 'Bearer 3Ev6fVZhDkb8aP5adge1c64'
     controller: null
     method: null
     route: null
@@ -347,20 +347,20 @@ endpoints:
         name: forceDelete
         description: 'force Delete the Article. Defaults to false.'
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      forceDelete: false
+      forceDelete: true
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer degV14PD36fa8h6ka5bZvcE'
+      - 'Bearer Z4b5fDcE83vVeadkgahP166'
     controller: null
     method: null
     route: null
@@ -404,7 +404,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Pagdf8cvVb1a3hkD466eEZ5'
+      - 'Bearer 8E134daZafg5cPeDhkb6V6v'
     controller: null
     method: null
     route: null

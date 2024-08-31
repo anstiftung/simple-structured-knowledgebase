@@ -142,7 +142,7 @@ endpoints:
         name: published
         description: 'Defaults to false'
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -169,7 +169,7 @@ endpoints:
         name: 'articles[].order'
         description: ''
         required: false
-        example: 18
+        example: 4
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -178,7 +178,7 @@ endpoints:
         name: articles.id
         description: "the related article's id"
         required: false
-        example: 5
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -187,7 +187,7 @@ endpoints:
         name: articles.order
         description: 'the related articles sort-order'
         required: false
-        example: 19
+        example: 9
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -195,19 +195,19 @@ endpoints:
     cleanBodyParameters:
       title: 'The Nicest Article ever'
       description: 'What a lorem ipsum description.'
-      published: false
+      published: true
       articles:
         0:
-          order: 18
-        id: 5
-        order: 19
+          order: 4
+        id: 20
+        order: 9
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 6ZvbVkf5d34aa1Dg8eEPh6c'
+      - 'Bearer fD8gdPhek3ba4Va6cv51Z6E'
     controller: null
     method: null
     route: null
@@ -247,7 +247,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: b
+        example: rqwsnzjnomopxp
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -256,7 +256,7 @@ endpoints:
         name: description
         description: 'Must not be greater than 1000 characters.'
         required: true
-        example: 'Est ullam voluptas ducimus sed quos et velit molestiae.'
+        example: 'Soluta quam aspernatur possimus ut corrupti.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -311,19 +311,19 @@ endpoints:
         name: 'articles[].order'
         description: ''
         required: false
-        example: 18
+        example: 9
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: b
-      description: 'Est ullam voluptas ducimus sed quos et velit molestiae.'
+      title: rqwsnzjnomopxp
+      description: 'Soluta quam aspernatur possimus ut corrupti.'
       published: false
       created_by: []
       articles:
         -
-          order: 18
+          order: 9
     fileParameters: []
     responses: []
     responseFields: []
@@ -363,7 +363,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Dc4d6agf1V6v8Eb3eh5ZkPa'
+      - 'Bearer 63gfP65e8DkvVZaE1cb4dha'
     controller: null
     method: null
     route: null

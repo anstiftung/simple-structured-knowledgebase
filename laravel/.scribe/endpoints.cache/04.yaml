@@ -29,7 +29,7 @@ endpoints:
         name: content
         description: 'The comments message. Must not be longer than 1000 Characters.'
         required: true
-        example: et
+        example: saepe
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -38,21 +38,21 @@ endpoints:
         name: article_id
         description: 'the Article ID of the article you want to attach your comment to.'
         required: true
-        example: 9
+        example: 11
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      content: et
-      article_id: 9
+      content: saepe
+      article_id: 11
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer g6Z6435hdv1PkacaVDbEe8f'
+      - 'Bearer 6kPdgaD4EvV6bfhZa3c51e8'
     controller: null
     method: null
     route: null
@@ -106,7 +106,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer chfZ61v5EbP86Veag4Da3kd'
+      - 'Bearer 6ga4dEk65P1aDZcf38hVveb'
     controller: null
     method: null
     route: null
