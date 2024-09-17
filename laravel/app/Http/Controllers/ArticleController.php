@@ -11,15 +11,21 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
+/**
+ * @group Articles
+ */
+
 class ArticleController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     * Avaible params:
-     * – page
-     * – creatorId -> filter by creator
-     * - withoutCollection -> returns only articles without any collection
-     * - withoutPagination -> disables pagination
+     * Article Listing
+     *
+     * This Endpoint lists all articles from the CoWiki filtered by the Query-Params
+     *
+     * @queryParam page int The page number which should be returned in paginated Responses.
+     * @queryParam creatorId int Only get Articles created by the defined creatorId.
+     * @queryParam withoutCollection bool Returns articles with no relation to any collection.
+     * @queryParam withoutPagination bool disables pagination and returns all results.
      */
     public function index(Request $request)
     {
@@ -45,7 +51,9 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Article Save
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {
@@ -74,7 +82,11 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * Article Detail
+     *
+     * Shows all publised Articles from the CoWiki.
+     *
+     * @unauthenticated
      */
     public function show(Article $article)
     {
@@ -90,18 +102,27 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Article Update
+     *
+     * @authenticated
+     *
+     * @urlParam article_id int required The ID of the article. Example: 12
      */
     public function update(Article $article, Request $request)
     {
         Gate::authorize('update', $article);
 
         $request->validate([
+            // The articles title
             'title' => 'required|max:255',
+            // The articles short description (or excerpt).
             'description' => 'required|max:1000',
+            // The articles full content Markdown and some Special Tags are supported.
             'content' => 'present|string|nullable',
-            'state.id' => ['exists:states,id', new ArticleStateValidator($article, $this->authUser)],
-            'created_by.id' => 'exists:users,id'
+            // The articles state
+            'state.id' => ['required|exists:states,id', new ArticleStateValidator($article, $this->authUser)],
+            // The articles creator ID
+            'created_by.id' => 'required|exists:users,id'
         ]);
 
         $article->update([
@@ -139,7 +160,13 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Article Remove
+     *
+     * Articles get soft-deleted. Only User with the right Permissions are allowed to force-delete Articles.
+     *
+     * @authenticated
+     *
+     * @bodyParam forceDelete bool force Delete the Article. Defaults to false.
      */
     public function destroy(Request $request, Article $article)
     {
@@ -156,6 +183,13 @@ class ArticleController extends BaseController
         return new ArticleResource($article);
     }
 
+    /**
+     * Article Clap
+     *
+     * Users can leave a Clap for articles they like. If you send an authenticated Request to this Endpoint with a valid article slug, the clap count increases by one.
+     *
+     * @authenticated
+     */
     public function clap(Article $article)
     {
         Gate::authorize('clap', $article);

@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
 use App\Http\Controllers\BaseController;
 
+/**
+ * @group Comments
+ */
+
 class CommentController extends BaseController
 {
     /**
@@ -18,7 +22,14 @@ class CommentController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Comment Save
+     *
+     * This Endpoint let's you save a Comment for the defined CoWiki-Article id.
+     *
+     * @authenticated
+     *
+     * @bodyParam article_id int required the Article ID of the article you want to attach your comment to.
+     * @bodyParam content string required The comments message. Must not be longer than 1000 Characters.
      */
     public function store(Request $request)
     {
@@ -28,7 +39,7 @@ class CommentController extends BaseController
 
         $request->validate([
              'content' => 'required|max:1000',
-             'article_id' => 'exists:articles,id'
+             'article_id' => 'required|exists:articles,id'
          ]);
 
         $newComment = Comment::create([
@@ -56,7 +67,12 @@ class CommentController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Comment Remove
+     *
+     * This Endpoint let's you delete a comment
+     *
+     * @urlParam article_id int required the Comment ID of the comment you want to remove.
+     * @authenticated
      */
     public function destroy(Comment $comment)
     {

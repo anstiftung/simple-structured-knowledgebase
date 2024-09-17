@@ -15,6 +15,11 @@ export default defineConfig({
         changeOrigin: false,
         secure: false,
       },
+      '/docs': {
+        target: 'http://nginx/',
+        changeOrigin: false,
+        secure: false,
+      },
     },
   },
   resolve: {

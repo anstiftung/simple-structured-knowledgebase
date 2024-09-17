@@ -7,10 +7,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\CollectionResource;
 
+/**
+ * @group Collections
+ */
+
 class CollectionListController extends BaseController
 {
     /**
-     * Update a List of Resources (needed for resorting)
+     * Collections Reorder
+     *
+     * You can use this endpoint to resort Collections. Send a JSON list of collection id's with corresponding sort-order values.
+     * Example: `[ {"id":2,"order":0}, {"id":5,"order":2}, {"id":7,"order":1} ]`
+     *
+     * @authenticated
      */
     public function reorder(Request $request)
     {

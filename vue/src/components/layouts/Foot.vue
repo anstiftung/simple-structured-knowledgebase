@@ -15,6 +15,10 @@ const links = ref([
     link: 'https://www.offene-werkstaetten.org/de/seite/unsere-ziele#spenden',
   },
   {
+    title: 'API',
+    link: 'https://cowiki.de/docs',
+  },
+  {
     title: 'Github',
     link: 'https://github.com/Verbund-Offener-Werkstaetten/vow-cowiki',
   },

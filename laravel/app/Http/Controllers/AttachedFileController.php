@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Response;
 use App\Http\Resources\AttachedFileResource;
 use Illuminate\Validation\Rules\File as FileValidator;
 
+/**
+ * @group Attachments
+ */
+
 class AttachedFileController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * AttachedFile Listing
+     *
+     * @queryParam created_by_id int only return AttachedFiles created by the defined id
+     * @queryParam invalid boolean if true, return only invalid (metadata not completely filled) AttachedFiles
      */
     public function index(Request $request)
     {
@@ -37,7 +44,13 @@ class AttachedFileController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * AttachedFile Save
+     *
+     * This Endpoint let's you save File-Attachments to the CoWiki.
+     *
+     * @urlParam article_Id int The Article id the file should be attached to.
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {
@@ -82,7 +95,12 @@ class AttachedFileController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * AttachedFile Details
+     *
+     * This Endpoint returns Details for the specified attached_file
+     *
+     * @urlParam attached_file_id int required
+     * @bodyParam withArticles boolean also return all associated articles
      */
     public function show(AttachedFile $attachedFile, Request $request)
     {
@@ -102,6 +120,7 @@ class AttachedFileController extends BaseController
 
     /**
     * Serve the specified resource.
+    * @hideFromAPIDocumentation
     */
     public function serve(AttachedFile $attachedFile)
     {
@@ -122,7 +141,9 @@ class AttachedFileController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Attached File Update
+     *
+     * Bulk Update AttachedFile Metadata
      */
     public function update(Request $request)
     {
@@ -168,7 +189,9 @@ class AttachedFileController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * AttachedFile Remove
+     *
+     * @bodyParam forceDelete boolean if true, AttachedFile will be deleted permanently
      */
     public function destroy(Request $request, AttachedFile $attachedFile)
     {

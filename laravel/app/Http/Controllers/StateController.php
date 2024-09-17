@@ -11,8 +11,12 @@ use App\Http\Controllers\BaseController;
 class StateController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     */
+    * Display States
+    *
+    * Display all States currently available for Selection inside the CoWiki
+    *
+    * @hideFromAPIDocumentation
+    */
     public function index()
     {
         $states = State::all();

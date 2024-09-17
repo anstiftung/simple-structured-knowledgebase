@@ -1,0 +1,111 @@
+name: Comments
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/comment
+    metadata:
+      groupName: Comments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Comment Save'
+      description: "This Endpoint let's you save a Comment for the defined CoWiki-Article id."
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      content:
+        name: content
+        description: 'The comments message. Must not be longer than 1000 Characters.'
+        required: true
+        example: consectetur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      article_id:
+        name: article_id
+        description: 'the Article ID of the article you want to attach your comment to.'
+        required: true
+        example: 10
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      content: consectetur
+      article_id: 10
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 4dDah1v5e6PkafZgE6cbV83'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/comment/{comment_id}'
+    metadata:
+      groupName: Comments
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Comment Remove'
+      description: "This Endpoint let's you delete a comment"
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      comment_id:
+        name: comment_id
+        description: 'The ID of the comment.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      article_id:
+        name: article_id
+        description: 'the Comment ID of the comment you want to remove.'
+        required: true
+        example: 20
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      comment_id: 2
+      article_id: 20
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer ac64v65VP3kEfa1ZheDb8gd'
+    controller: null
+    method: null
+    route: null
+    custom: []

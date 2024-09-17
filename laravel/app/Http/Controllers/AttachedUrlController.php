@@ -9,10 +9,17 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\AttachedUrlResource;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * @group Attachments
+ */
+
 class AttachedUrlController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * AttachedUrl Listing
+     *
+     * @queryParam created_by_id int only return AttachedUrls created by the defined id
+     * @queryParam invalid boolean if true, return only invalid (metadata not completely filled) AttachedUrls
      */
     public function index(Request $request)
     {
@@ -33,7 +40,13 @@ class AttachedUrlController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * AttachedUrl Save
+     *
+     * @bodyParam attached_urls object required List of urls to attach to an **article_id**
+     * @bodyParam attached_urls.url string required a valid URL prefixed with __http://__  or __https://__
+     * @bodyParam article_id object The ID of the article this urls should be attached to
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {
@@ -63,7 +76,10 @@ class AttachedUrlController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * AttachedUrl Details
+     *
+     * @urlParam attached_url_id int required
+     * @bodyParam withArticles boolean also return all associated articles
      */
     public function show(AttachedUrl $attachedUrl, Request $request)
     {
@@ -81,7 +97,7 @@ class AttachedUrlController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * AttachedUrl Update
      */
     public function update(Request $request, AttachedUrl $attachedUrl)
     {
@@ -118,7 +134,9 @@ class AttachedUrlController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * AttachedUrl Remove
+     *
+     * @bodyParam forceDelete boolean if true, AttachedFile will be deleted permanently
      */
     public function destroy(Request $request, AttachedUrl $attachedUrl)
     {

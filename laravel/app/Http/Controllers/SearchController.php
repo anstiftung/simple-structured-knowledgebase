@@ -14,6 +14,10 @@ use App\Http\Resources\CollectionResource;
 use App\Http\Resources\AttachedUrlResource;
 use App\Http\Resources\AttachedFileResource;
 
+/**
+ * @group Search
+ */
+
 class SearchController extends BaseController
 {
     protected $query = false;
@@ -31,6 +35,8 @@ class SearchController extends BaseController
     }
     /**
      * Run Search
+     *
+     * @queryParam types enum The Type of content you are searching for. Possible values: articles, collections, attachments, images. For multiple values add comma-separated list.
      */
     public function search(Request $request)
     {

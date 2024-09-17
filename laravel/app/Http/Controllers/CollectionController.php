@@ -10,10 +10,14 @@ use App\Rules\CollectionStateValidator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
+/**
+ * @group Collections
+ */
+
 class CollectionController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Collection Listing
      */
     public function index(Request $request)
     {
@@ -40,7 +44,16 @@ class CollectionController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Collection Save
+     *
+     * @bodyParam title required string Must not be greater than 255 characters. Example: The Nicest Article ever
+     * @bodyParam description required string Must not be greater than 1000 characters. Example: What a lorem ipsum description.
+     * @bodyParam published boolean Defaults to false
+     * @bodyParam articles object A List of Articles with defined order
+     * @bodyParam articles.id int the related article's id
+     * @bodyParam articles.order int the related articles sort-order
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {
@@ -73,7 +86,9 @@ class CollectionController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * Collection Details
+     *
+     * Show details of the defined Collection
      */
     public function show(Collection $collection)
     {
@@ -90,7 +105,7 @@ class CollectionController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Collection Update
      */
     public function update(Collection $collection, Request $request)
     {
