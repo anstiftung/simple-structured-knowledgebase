@@ -42,9 +42,12 @@ return [
         ],
         'api' => [
             'driver' => 'keycloak',
-            //'provider' => 'users',
             'provider' => 'keycloak_users',
         ],
+        // 'api' => [
+        //     'driver' => 'jwt',
+        //     'provider' => 'users',
+        // ],
     ],
 
     /*
