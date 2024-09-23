@@ -86,3 +86,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     // list users
     Route::get('/users', [UserController::class, 'index']);
 });
+
+// Routes only available if jwt-token is set, and there is no KEYCLOAK_REALM_PUBLIC_KEY
+
+// Route::group([ 'middleware' => 'auth:api', 'prefix' => 'auth'], function () {
+//     Route::post('login', 'AuthController@login');
+//     Route::post('logout', 'AuthController@logout');
+//     Route::post('refresh', 'AuthController@refresh');
+//     Route::post('me', 'AuthController@me');
+// });
