@@ -6,6 +6,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { email } from '@vuelidate/validators'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 import InputWrapper from '@/components/forms/InputWrapper.vue'
+import { makeApiRequest } from '@/plugins/api'
 
 const formData = reactive({
   user: {
@@ -22,6 +23,21 @@ const rules = {
 }
 
 const v$ = useVuelidate(rules, formData)
+
+const login = () => {
+  const config = {
+    method: 'post',
+    url: 'auth/login',
+    params: {
+      email: formData.user.email,
+      password: formData.user.password,
+    },
+  }
+
+  makeApiRequest(config).then(data => {
+    console.log(data)
+  })
+}
 </script>
 <template>
   <section class="bg-white">
@@ -69,7 +85,7 @@ const v$ = useVuelidate(rules, formData)
         </template>
       </input-wrapper>
 
-      <button class="default-button large" @click="persist">Einloggen</button>
+      <button class="default-button large" @click="login">Einloggen</button>
     </div>
   </section>
 </template>
