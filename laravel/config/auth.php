@@ -40,14 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'api' => [
-            'driver' => 'keycloak',
-            'provider' => 'keycloak_users',
-        ],
         // 'api' => [
-        //     'driver' => 'jwt',
-        //     'provider' => 'users',
+        //     'driver' => 'keycloak',
+        //     'provider' => 'keycloak_users',
         // ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
 
     /*

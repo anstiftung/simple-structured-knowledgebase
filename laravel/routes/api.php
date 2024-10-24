@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
@@ -88,12 +89,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users', [UserController::class, 'index']);
 });
 
-if(Config::get('KEYCLOAK_REALM_PUBLIC_KEY', true) && Config::get('JWT_SECRET', false)) {
+if(Config::get('KEYCLOAK_REALM_PUBLIC_KEY') === null && Config::get('jwt.secret') !== null) {
     // Routes only available if jwt-token is set, and there is no KEYCLOAK_REALM_PUBLIC_KEY
-    Route::group([ 'middleware' => 'auth:api', 'prefix' => 'auth'], function () {
-        Route::post('login', 'AuthController@login');
-        Route::post('logout', 'AuthController@logout');
-        Route::post('refresh', 'AuthController@refresh');
-        Route::post('me', 'AuthController@me');
+    Route::group([ 'middleware' => 'api', 'prefix' => 'auth'], function () {
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('logout', [AuthController::class,'logout']);
+        Route::post('refresh', [AuthController::class,'refresh']);
+        Route::post('me', [AuthController::class,'me']);
     });
 }
