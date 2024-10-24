@@ -2,6 +2,7 @@ import ToastPlugin from '@/plugins/toast.js'
 import axios from 'axios'
 import keycloakInstance from '@/plugins/keycloak.js'
 import refreshToken from '@/plugins/keycloak-token-refresh.js'
+import { useUserStore } from '@/stores/user'
 const API_URL = import.meta.env.VITE_API_ROOT + 'api/'
 
 const api = axios.create({
@@ -10,7 +11,9 @@ const api = axios.create({
 
 // adds interceptor to injext auth token in every api request
 api.interceptors.request.use(function (config) {
-  const token = keycloakInstance.token
+  const KEYCLOAK_ENABLED = import.meta.env.VITE_KEYCLOAK_ENABLED
+  const userStore = useUserStore()
+  const token = KEYCLOAK_ENABLED ? keycloakInstance.token : userStore.getToken()
   if (token) {
     config.headers.Authorization = 'Bearer ' + token
   }

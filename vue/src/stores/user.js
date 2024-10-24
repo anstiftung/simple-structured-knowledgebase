@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', {
     email: useLocalStorage('auth-email', null),
     id: useLocalStorage('auth-id', null),
     permissions: useLocalStorage('auth-permissions', []),
+    token: useLocalStorage('auth-token', null),
   }),
   getters: {
     hasPermission: state => {
@@ -22,6 +23,11 @@ export const useUserStore = defineStore('user', {
       return {
         id: state.id,
         name: state.name,
+      }
+    },
+    getToken: state => {
+      return {
+        token: state.token,
       }
     },
   },
@@ -48,6 +54,9 @@ export const useUserStore = defineStore('user', {
       this.email = null
       this.id = null
       this.permissions = []
+    },
+    setToken(token) {
+      this.token = token
     },
   },
 })

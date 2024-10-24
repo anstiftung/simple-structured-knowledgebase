@@ -1,12 +1,13 @@
 <script setup>
 import { reactive, computed, inject } from 'vue'
 import CollectionService from '@/services/CollectionService'
-import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { email } from '@vuelidate/validators'
 import { required$, maxLength$ } from '@/plugins/validators.js'
 import InputWrapper from '@/components/forms/InputWrapper.vue'
 import { makeApiRequest } from '@/plugins/api'
+import { useUserStore } from '@/stores/user'
 
 const formData = reactive({
   user: {
@@ -14,6 +15,8 @@ const formData = reactive({
     password: '',
   },
 })
+
+const router = useRouter()
 
 const rules = {
   user: {
@@ -35,7 +38,11 @@ const login = () => {
   }
 
   makeApiRequest(config).then(data => {
-    console.log(data)
+    const userStore = useUserStore()
+    userStore.setToken(data.access_token)
+    userStore.loadUserData(data.access_token).then(() => {
+      router.push({ name: 'dashboard' })
+    })
   })
 }
 </script>
