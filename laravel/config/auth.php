@@ -40,10 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        // 'api' => [
-        //     'driver' => 'keycloak',
-        //     'provider' => 'keycloak_users',
-        // ],
+        'api' => [
+            'driver' => env('API_AUTH_DRIVER', 'keycloak'), // allowed values: keycloak, jwt
+            'provider' => env('API_AUTH_RPOVIDER', 'keycloak_users'), // allowed values: keycloak_users, users
+        ],
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',

@@ -87,23 +87,8 @@ in laravel/.env youhave to make sure that:
 - `KEYCLOAK_REALM_PUBLIC_KEY=null` ( set keycloak realm public key to null)
 - `JWT_SECRET=yourfreakysecret` (set a JWT-Secret, you can use
   `php artisan jwt:secret` to generate one)
-
-in laravel/config/auth.php make sure you have the following auth-driver
-configured:
-
-```
-'guards' => [
-    'web' => [
-        'driver' => 'session',
-        'provider' => 'users',
-    ],
-    'api' => [
-        'driver' => 'jwt',
-        'provider' => 'users',
-    ],
-],
-
-```
+- `API_AUTH_DRIVER=jwt` API_AUTH_DRIVER is set to jwt
+- `API_AUTH_PROVIDER=users` API_AUTH_PROVIDER is set to users
 
 You will now have a /register Page available, where you can add and register new
 users. The Application will then work with the newly registered users (locally
