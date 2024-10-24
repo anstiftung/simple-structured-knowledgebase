@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Config;
 
 class AuthController extends Controller
@@ -15,7 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     public function register(Request $request)
@@ -42,9 +44,11 @@ class AuthController extends Controller
         $user->assignRole('writer');
 
         return response()->json([
-            'success' => true,
-            'message' => 'User created successfully',
-            'user' => $user
+            'data' => [
+                'success' => true,
+                'message' => 'User created successfully',
+                'user' => $user
+            ]
         ]);
     }
 

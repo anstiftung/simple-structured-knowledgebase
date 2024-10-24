@@ -1,3 +1,6 @@
+const Register = () => import('@/views/Auth/Register.vue')
+const NotFound = () => import('@/views/NotFound.vue')
+
 const Login = () => import('@/views/Auth/Login.vue')
 const Logout = () => import('@/views/Auth/Logout.vue')
 const LoginLocally = () => import('@/views/Auth/LoginLocally.vue')
@@ -19,6 +22,14 @@ export default [
     name: 'logout',
     meta: {
       title: 'Logout',
+    },
+  },
+  {
+    path: '/auth/register',
+    component: KEYCLOAK_ENABLED == 'true' ? NotFound : Register,
+    name: 'register',
+    meta: {
+      title: 'Registrierung',
     },
   },
 ]
