@@ -50,6 +50,7 @@ export const useUserStore = defineStore('user', {
         })
     },
     deleteUserData() {
+      this.token = null
       this.name = null
       this.email = null
       this.id = null
