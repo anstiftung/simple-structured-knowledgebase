@@ -76,7 +76,7 @@ const login = () => {
         v-model="formData.user.email"
         @update:modelValue="v$.user.email.$touch"
         :errors="v$.user.email.$errors"
-        label="e-Mail"
+        label="E-Mail"
         helpText="Der Benutzername für den Login muss eine E-Mail-Adresse eines gültigen Benutzers sein."
         class="mb-4"
       >
