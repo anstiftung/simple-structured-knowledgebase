@@ -90,7 +90,7 @@ in laravel/.env youhave to make sure that:
 - `API_AUTH_DRIVER=jwt` API_AUTH_DRIVER is set to jwt
 - `API_AUTH_PROVIDER=users` API_AUTH_PROVIDER is set to users
 
-You will now have a /register Page available, where you can add and register new
+You will now have a /auth/register Page available, where you can add and register new
 users. The Application will then work with the newly registered users (locally
 from your database, no SSO via Keycloak needed).
 
