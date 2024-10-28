@@ -13,7 +13,9 @@ const api = axios.create({
 api.interceptors.request.use(function (config) {
   const KEYCLOAK_ENABLED = import.meta.env.VITE_KEYCLOAK_ENABLED
   const userStore = useUserStore()
-  const token = KEYCLOAK_ENABLED ? keycloakInstance.token : userStore.getToken()
+  const token =
+    KEYCLOAK_ENABLED == 'true' ? keycloakInstance.token : userStore.token
+
   if (token) {
     config.headers.Authorization = 'Bearer ' + token
   }

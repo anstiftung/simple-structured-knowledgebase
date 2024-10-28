@@ -36,19 +36,27 @@ app.provide('keycloak', keycloakInstance)
 app.use(pinia)
 app.use(VueAxios, axios)
 
-keycloakInstance
-  .init({ checkLoginIframe: false, onLoad: 'check-sso' })
-  .then(auth => {
-    const userStore = useUserStore()
-    // if the application is authenticated load the userData
-    if (auth) {
-      userStore.loadUserData(keycloakInstance.token)
-    } else {
-      // delete userData when unauthenticated
-      userStore.deleteUserData()
-    }
+const KEYCLOAK_ENABLED = import.meta.env.VITE_KEYCLOAK_ENABLED
 
-    // It's important add router AFTER eventually userStore is deleted!
-    app.use(router)
-    app.mount('#app')
-  })
+if (KEYCLOAK_ENABLED == 'true') {
+  keycloakInstance
+    .init({ checkLoginIframe: false, onLoad: 'check-sso' })
+    .then(auth => {
+      const userStore = useUserStore()
+
+      // if the application is authenticated load the userData
+      if (auth) {
+        userStore.loadUserData(keycloakInstance.token)
+      } else {
+        // delete userData when unauthenticated
+        userStore.deleteUserData()
+      }
+
+      // It's important add router AFTER eventually userStore is deleted!
+      app.use(router)
+      app.mount('#app')
+    })
+} else {
+  app.use(router)
+  app.mount('#app')
+}
