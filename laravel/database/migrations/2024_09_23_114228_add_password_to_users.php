@@ -11,7 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('password')->after('email_verified_at');
+            $table->string('password')->after('email_verified_at')->nullable();
         });
     }
 
