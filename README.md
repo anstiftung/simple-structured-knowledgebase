@@ -74,6 +74,26 @@ art migrate
 art db:seed
 ```
 
+### Local Authentication
+
+If you want to test the Application offline (without having valid
+willkommen.offene-werkstaetten.org credentials), you can activate a local
+jwt-authentication.
+
+in vue/.env you have to set `VITE_KEYCLOAK_ENABLED=false`
+
+in laravel/.env youhave to make sure that:
+
+- `KEYCLOAK_REALM_PUBLIC_KEY=null` ( set keycloak realm public key to null)
+- `JWT_SECRET=yourfreakysecret` (set a JWT-Secret, you can use
+  `php artisan jwt:secret` to generate one)
+- `API_AUTH_DRIVER=jwt` API_AUTH_DRIVER is set to jwt
+- `API_AUTH_PROVIDER=users` API_AUTH_PROVIDER is set to users
+
+You will now have a /auth/register Page available, where you can add and register new
+users. The Application will then work with the newly registered users (locally
+from your database, no SSO via Keycloak needed).
+
 ## Code-Style
 
 To maintain a consistent code style across the project, we use the following
@@ -125,7 +145,7 @@ command:
 art test
 ```
 
-## Using the API
+## Using the API for cowiki.de
 
 you can find a Open-API-Specification at https://cowiki.de/docs/. You will be
 able to authenticate and communicate with the API Endpoint under cowiki.de The

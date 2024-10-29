@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\AttachedUrlController;
 use App\Http\Controllers\AttachedFileController;
 use App\Http\Controllers\CollectionListController;
+use Illuminate\Support\Facades\Config;
 
 Route::controller(LicenseController::class)->group(function () {
     Route::get('/licenses', 'index');
@@ -86,3 +88,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     // list users
     Route::get('/users', [UserController::class, 'index']);
 });
+
+if(Config::get('KEYCLOAK_REALM_PUBLIC_KEY') === null && Config::get('jwt.secret') !== null) {
+    // Routes only available if jwt-token is set, and there is no KEYCLOAK_REALM_PUBLIC_KEY
+    Route::group([ 'middleware' => 'api', 'prefix' => 'auth'], function () {
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('logout', [AuthController::class,'logout']);
+        Route::post('register', [AuthController::class,'register']);
+        Route::post('refresh', [AuthController::class,'refresh']);
+        Route::post('me', [AuthController::class,'me']);
+    });
+}

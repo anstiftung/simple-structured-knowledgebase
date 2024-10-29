@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'realm_public_key' => env('KEYCLOAK_REALM_PUBLIC_KEY', null),
+    'realm_public_key' => env('KEYCLOAK_REALM_PUBLIC_KEY'),
 
     'load_user_from_database' => env('KEYCLOAK_LOAD_USER_FROM_DATABASE', true),
 
