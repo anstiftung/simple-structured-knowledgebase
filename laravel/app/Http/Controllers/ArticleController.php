@@ -120,7 +120,7 @@ class ArticleController extends BaseController
             // The articles full content Markdown and some Special Tags are supported.
             'content' => 'present|string|nullable',
             // The articles state
-            'state.id' => ['required|exists:states,id', new ArticleStateValidator($article, $this->authUser)],
+            'state.id' => ['required','exists:states,id', new ArticleStateValidator($article, $this->authUser)],
             // The articles creator ID
             'created_by.id' => 'required|exists:users,id'
         ]);
