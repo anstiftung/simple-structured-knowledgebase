@@ -138,6 +138,10 @@
     @apply inline;
   }
 
+  p {
+    min-height: 1rem;
+  }
+
   ul {
     @apply list-none;
     li:before {
