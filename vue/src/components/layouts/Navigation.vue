@@ -21,7 +21,6 @@ const userStore = useUserStore()
     <div class="grid items-center grid-cols-2 gap-4 width-wrapper">
       <h1 class="text-2xl sm:text-3xl text-blue">
         <router-link to="/">
-          <span>VOW_</span>
           <span class="font-bold">COWIKI</span>
         </router-link>
       </h1>

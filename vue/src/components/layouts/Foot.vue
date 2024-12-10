@@ -8,7 +8,7 @@ const scrollTop = () => {
 const links = ref([
   {
     title: 'Impressum & Datenschutz',
-    link: 'https://www.offene-werkstaetten.org/de/seite/impressum-datenschutz',
+    link: 'https://anstiftung.de/impressum',
   },
   {
     title: 'Spenden',
@@ -20,7 +20,7 @@ const links = ref([
   },
   {
     title: 'Github',
-    link: 'https://github.com/Verbund-Offener-Werkstaetten/vow-cowiki',
+    link: 'https://github.com/anstiftung/simple-structured-knowledgebase',
   },
 ])
 </script>
