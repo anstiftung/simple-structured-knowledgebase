@@ -24,6 +24,8 @@ class SearchController extends BaseController
     protected $onlyPublished = true;
     protected $created_by_id = false;
     protected $includingTrashed = false;
+    protected $sortBy = null;
+    protected $sortOrder = null;
 
     public function __construct(Request $request)
     {
@@ -32,6 +34,8 @@ class SearchController extends BaseController
         $this->onlyPublished = $request->boolean('onlyPublished');
         $this->created_by_id = $request->query('created_by_id', false);
         $this->includingTrashed = $request->boolean('includingTrashed', false);
+        $this->sortBy = $request->query('sortBy', 'created_at');
+        $this->sortOrder = $request->query('sortOrder', 'desc');
     }
     /**
      * Run Search
@@ -71,7 +75,9 @@ class SearchController extends BaseController
             ->when($this->created_by_id, function ($query) {
                 $query->where('created_by_id', $this->created_by_id);
             })
-            ->orderBy('created_at', 'DESC')
+            ->when($this->sortBy && $this->sortOrder, function ($query) {
+                $query->orderBy($this->sortBy, $this->sortOrder);
+            })
             ->get()
             ->where('isImage', true);
 
@@ -93,7 +99,9 @@ class SearchController extends BaseController
             ->when($this->includingTrashed && $this->authUser->can('list trashed attachments'), function ($query) {
                 $query->withTrashed();
             })
-            ->orderBy('created_at', 'DESC')
+            ->when($this->sortBy && $this->sortOrder, function ($query) {
+                $query->orderBy($this->sortBy, $this->sortOrder);
+            })
             ->get();
 
         $attachedFiles = AttachedFile::where('title', 'like', '%' . $this->query . '%')
@@ -103,7 +111,9 @@ class SearchController extends BaseController
             ->when($this->includingTrashed && $this->authUser->can('list trashed attachments'), function ($query) {
                 $query->withTrashed();
             })
-            ->orderBy('created_at', 'DESC')
+            ->when($this->sortBy && $this->sortOrder, function ($query) {
+                $query->orderBy($this->sortBy, $this->sortOrder);
+            })
             ->get();
         $numAttachedUrls = $attachedUrls->count();
         $numAttachedFiles = $attachedFiles->count();
@@ -128,9 +138,11 @@ class SearchController extends BaseController
             ->when($this->created_by_id, function ($query) {
                 $query->where('created_by_id', $this->created_by_id);
             })
-            ->orderBy('created_at', 'DESC')
             ->when(empty($this->authUser) || $this->onlyPublished, function ($query) {
                 $query->published();
+            })
+            ->when($this->sortBy && $this->sortOrder, function ($query) {
+                $query->orderBy($this->sortBy, $this->sortOrder);
             })
             ->get();
         $numCollections = $collections->count();
@@ -150,15 +162,23 @@ class SearchController extends BaseController
             ->when($this->includingTrashed && $this->authUser->can('list trashed articles'), function ($query) {
                 $query->withTrashed();
             })
-            ->orderBy('created_at', 'DESC')
+            // ->orderBy('created_at', 'DESC')
             ->when(empty($this->authUser) || $this->onlyPublished, function ($query) {
                 $query->published();
             });
 
         if($this->authUser) {
-            $articlesOwn = Article::where('created_by_id', $this->authUser->id)->orderBy('updated_at', 'DESC');
+            $articlesOwn = Article::where('created_by_id', $this->authUser->id);
+            // ->orderBy('updated_at', 'DESC')
+            // ->when($this->sortBy && $this->sortOrder, function ($query) {
+            //     $query->orderBy($this->sortBy, $this->sortOrder);
+            // });
             $query = $query->union($articlesOwn);
         }
+
+        $query->when($this->sortBy && $this->sortOrder, function ($query) {
+            $query->orderBy($this->sortBy, $this->sortOrder);
+        });
 
         $articles = $query->get();
 

@@ -106,9 +106,13 @@ class AttachmentService {
     return makeApiRequest(config)
   }
 
-  combineAttachments(urls, files) {
+  combineAttachments(urls, files, sortBy = 'created_at', sortOrder = 'desc') {
     let attachments = urls.concat(files)
-    attachments = attachments.sort((a, b) => a.created_at < b.created_at)
+    if (sortOrder == 'desc') {
+      attachments = attachments.sort((a, b) => a[sortBy] < b[sortBy])
+    } else {
+      attachments = attachments.sort((a, b) => a[sortBy] > b[sortBy])
+    }
     return attachments
   }
 

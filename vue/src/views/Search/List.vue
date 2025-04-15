@@ -26,13 +26,15 @@ const creatorId = ref(null)
 const searchResults = ref([])
 const searchQuery = ref([])
 const sortBy = ref('created_at')
-const sortType = ref('asc')
+const sortOrder = ref('asc')
 const loading = ref(false)
 
 const attachments = computed(() => {
   return AttachmentService.combineAttachments(
     searchResults.value.attached_urls ?? [],
     searchResults.value.attached_files ?? [],
+    sortBy.value,
+    sortOrder.value,
   )
 })
 
@@ -51,7 +53,7 @@ const querySearch = () => {
     creatorId.value,
     true, // include trashed
     sortBy.value,
-    sortType.value,
+    sortOrder.value,
   ).then(({ data, meta }) => {
     searchResults.value = data
     // searchMeta.value = meta
@@ -67,7 +69,7 @@ const searchQueryUpdated = searchQuery => {
       m: activeModels.value,
       o: creatorId.value,
       sortBy: sortBy.value,
-      sortType: sortType.value,
+      sortOrder: sortOrder.value,
     },
   })
 }
@@ -89,8 +91,8 @@ onBeforeMount(() => {
     sortBy.value = route.query.sortBy
   }
 
-  if (route.query.sortType) {
-    sortType.value = route.query.sortType
+  if (route.query.sortOrder) {
+    sortOrder.value = route.query.sortOrder
   }
 
   querySearch()

@@ -19,6 +19,8 @@ class SearchService {
         onlyPublished: onlyPublished,
         created_by_id: creator_id,
         includingTrashed: includingTrashed,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
       },
     }
     return makeApiRequest(config)
