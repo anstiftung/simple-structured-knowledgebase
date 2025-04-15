@@ -101,7 +101,14 @@ onBeforeMount(() => {
 const switchModel = model => {
   activeModels.value = []
   activeModels.value.push(model)
+  sortBy.value = 'created_at'
+  sortOrder.value = 'asc'
   onQueryInput()
+}
+
+const changeSort = ({ _sortBy, _sortOrder }) => {
+  sortBy.value = _sortBy
+  sortOrder.value = _sortOrder
 }
 </script>
 <template>
@@ -187,7 +194,11 @@ const switchModel = model => {
         </template>
 
         <template v-if="activeModels.includes('attachments')">
-          <attachment-table v-model="attachments" v-if="attachments" />
+          <attachment-table
+            v-model="attachments"
+            v-if="attachments"
+            @sortChanged="changeSort"
+          />
         </template>
       </template>
     </div>

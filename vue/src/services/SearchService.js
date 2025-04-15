@@ -7,7 +7,7 @@ class SearchService {
     onlyPublished = true,
     creator_id = 0,
     includingTrashed = false,
-    sortBy = created_at,
+    sortBy = 'created_at',
     sortOrder = 'desc',
   ) {
     const config = {
