@@ -25,6 +25,8 @@ const creatorId = ref(null)
 
 const searchResults = ref([])
 const searchQuery = ref([])
+const sortBy = ref('created_at')
+const sortType = ref('asc')
 const loading = ref(false)
 
 const attachments = computed(() => {
@@ -48,6 +50,8 @@ const querySearch = () => {
     false,
     creatorId.value,
     true, // include trashed
+    sortBy.value,
+    sortType.value,
   ).then(({ data, meta }) => {
     searchResults.value = data
     // searchMeta.value = meta
@@ -62,6 +66,8 @@ const searchQueryUpdated = searchQuery => {
       q: searchQuery.value ? encodeURI(searchQuery.value) : '',
       m: activeModels.value,
       o: creatorId.value,
+      sortBy: sortBy.value,
+      sortType: sortType.value,
     },
   })
 }
@@ -77,6 +83,14 @@ onBeforeMount(() => {
 
   if (route.query.o) {
     creatorId.value = route.query.o
+  }
+
+  if (route.query.sortBy) {
+    sortBy.value = route.query.sortBy
+  }
+
+  if (route.query.sortType) {
+    sortType.value = route.query.sortType
   }
 
   querySearch()
