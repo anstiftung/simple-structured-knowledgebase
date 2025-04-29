@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, computed, onBeforeMount, watch } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 
 import { useRouter, useRoute } from 'vue-router'
@@ -24,7 +24,7 @@ const activeModels = ref(['articles'])
 const creatorId = ref(null)
 
 const searchResults = ref([])
-const searchQuery = ref([])
+const searchQuery = ref('')
 const sortBy = ref('created_at')
 const sortOrder = ref('asc')
 const loading = ref(false)
@@ -39,13 +39,12 @@ const attachments = computed(() => {
 })
 
 const onQueryInput = useDebounceFn(() => {
-  searchResults.value = []
-  searchQueryUpdated(searchQuery)
-  querySearch()
+  updateRouteParams()
 }, 250)
 
 const querySearch = () => {
   loading.value = true
+  console.log(activeModels.value)
   SearchService.search(
     searchQuery.value,
     activeModels.value,
@@ -62,7 +61,7 @@ const querySearch = () => {
   })
 }
 
-const searchQueryUpdated = searchQuery => {
+const updateRouteParams = () => {
   router.replace({
     query: {
       q: searchQuery.value ? encodeURI(searchQuery.value) : '',
@@ -103,13 +102,22 @@ const switchModel = model => {
   activeModels.value.push(model)
   sortBy.value = 'created_at'
   sortOrder.value = 'asc'
-  onQueryInput()
+  updateRouteParams()
 }
 
-const changeSort = ({ _sortBy, _sortOrder }) => {
-  sortBy.value = _sortBy
-  sortOrder.value = _sortOrder
+const changeSort = data => {
+  sortBy.value = data.sortBy
+  sortOrder.value = data.sortOrder
+  updateRouteParams()
 }
+
+watch(
+  route,
+  () => {
+    querySearch()
+  },
+  { immediate: false, deep: true },
+)
 </script>
 <template>
   <section class="bg-white">
@@ -183,6 +191,7 @@ const changeSort = ({ _sortBy, _sortOrder }) => {
           <collection-table
             v-model="searchResults.collections"
             v-if="searchResults.collections"
+            @sortChanged="changeSort"
           />
         </template>
 
@@ -190,12 +199,15 @@ const changeSort = ({ _sortBy, _sortOrder }) => {
           <article-table
             v-model="searchResults.articles"
             v-if="searchResults.articles"
+            @sortChanged="changeSort"
           />
         </template>
 
         <template v-if="activeModels.includes('attachments')">
           <attachment-table
             v-model="attachments"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
             v-if="attachments"
             @sortChanged="changeSort"
           />

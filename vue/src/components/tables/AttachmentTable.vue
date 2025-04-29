@@ -1,26 +1,28 @@
 <script setup>
 import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: Array,
     default: [],
   },
+  sortBy: {
+    required: false,
+  },
+  sortOrder: {
+    required: false,
+  },
 })
-
-const sortBy = ref('created_at')
-const sortOrder = ref('asc')
 
 const emit = defineEmits(['sortChanged'])
 
 const changeSort = _sortBy => {
-  if (sortBy.value === _sortBy) {
-    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  if (props.sortBy === _sortBy) {
+    let order = props.sortOrder === 'asc' ? 'desc' : 'asc'
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: order })
   } else {
-    sortBy.value = _sortBy
-    sortOrder.value = 'asc'
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: 'asc' })
   }
-  emit('sortChanged', { sortBy: sortBy.value, sortOrder: sortOrder.value })
 }
 </script>
 <template>
@@ -33,12 +35,24 @@ const changeSort = _sortBy => {
             @click.prevent="changeSort('title')"
           >
             Titel
+            <span v-if="sortBy === 'title' && sortOrder == 'asc'"
+              ><icon name="arrow-up" />
+            </span>
+            <span v-if="sortBy === 'title' && sortOrder == 'desc'">
+              <icon name="arrow-down" />
+            </span>
           </td>
           <td
             class="px-2 py-3 cursor-pointer"
             @click="changeSort('created_at')"
           >
             Datum
+            <span v-if="sortBy === 'created_at' && sortOrder == 'asc'"
+              ><icon name="arrow-up" />
+            </span>
+            <span v-if="sortBy === 'created_at' && sortOrder == 'desc'">
+              <icon name="arrow-down" />
+            </span>
           </td>
           <td
             class="px-2 py-3 cursor-pointer"
