@@ -44,7 +44,6 @@ const onQueryInput = useDebounceFn(() => {
 
 const querySearch = () => {
   loading.value = true
-  console.log(activeModels.value)
   SearchService.search(
     searchQuery.value,
     activeModels.value,
@@ -191,6 +190,8 @@ watch(
           <collection-table
             v-model="searchResults.collections"
             v-if="searchResults.collections"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
             @sortChanged="changeSort"
           />
         </template>
@@ -199,6 +200,8 @@ watch(
           <article-table
             v-model="searchResults.articles"
             v-if="searchResults.articles"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
             @sortChanged="changeSort"
           />
         </template>

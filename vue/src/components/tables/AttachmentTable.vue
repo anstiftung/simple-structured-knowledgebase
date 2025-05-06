@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import SortableHeaderCell from '../atoms/tables/SortableHeaderCell.vue'
 
 const props = defineProps({
   modelValue: {
@@ -30,38 +30,32 @@ const changeSort = _sortBy => {
     <table class="w-full" v-if="modelValue.length > 0">
       <thead class="sticky w-full text-gray-400 bg-white border-y top-header">
         <tr>
-          <td
-            class="px-2 py-3 cursor-pointer"
-            @click.prevent="changeSort('title')"
+          <SortableHeaderCell
+            name="title"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3 cursor-pointer text-gray-500"
+            >Titel</SortableHeaderCell
           >
-            Titel
-            <span v-if="sortBy === 'title' && sortOrder == 'asc'"
-              ><icon name="arrow-up" />
-            </span>
-            <span v-if="sortBy === 'title' && sortOrder == 'desc'">
-              <icon name="arrow-down" />
-            </span>
-          </td>
-          <td
-            class="px-2 py-3 cursor-pointer"
-            @click="changeSort('created_at')"
+          <SortableHeaderCell
+            name="created_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3 cursor-pointer text-gray-500"
+            >Datum</SortableHeaderCell
           >
-            Datum
-            <span v-if="sortBy === 'created_at' && sortOrder == 'asc'"
-              ><icon name="arrow-up" />
-            </span>
-            <span v-if="sortBy === 'created_at' && sortOrder == 'desc'">
-              <icon name="arrow-down" />
-            </span>
-          </td>
-          <td
-            class="px-2 py-3 cursor-pointer"
-            @click="changeSort('updated_at')"
+          <SortableHeaderCell
+            name="updated_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3 cursor-pointer text-gray-500"
+            >geändert</SortableHeaderCell
           >
-            geändert
-          </td>
-          <td class="px-2 py-3">Typ</td>
-          <td class="px-2 py-3">Größe</td>
+          <th class="px-2 py-3">Typ</th>
+          <th class="px-2 py-3">Größe</th>
         </tr>
       </thead>
       <tbody>

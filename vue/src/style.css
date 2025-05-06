@@ -44,6 +44,11 @@
   }
 }
 
+th {
+  @apply text-left;
+  @apply font-normal;
+}
+
 .default-button {
   @apply text-white border border-blue bg-blue;
   @apply px-5 py-[5px];
