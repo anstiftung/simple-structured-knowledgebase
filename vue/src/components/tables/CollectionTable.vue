@@ -36,7 +36,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer underline decoration-dotted"
+            class="px-2 py-3"
             >Titel</SortableHeaderCell
           >
           <th class="px-2 py-3">Beiträge</th>
@@ -46,7 +46,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer underline decoration-dotted"
+            class="px-2 py-3"
             >Status</SortableHeaderCell
           >
           <SortableHeaderCell
@@ -54,7 +54,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer underline decoration-dotted"
+            class="px-2 py-3"
             >erstellt</SortableHeaderCell
           >
           <SortableHeaderCell
@@ -62,7 +62,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer underline decoration-dotted"
+            class="px-2 py-3"
             >geändert</SortableHeaderCell
           >
         </tr>

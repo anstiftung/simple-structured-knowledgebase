@@ -1,5 +1,8 @@
 <template>
-  <th @click="$emit('sortChanged', name)">
+  <th
+    @click="$emit('sortChanged', name)"
+    class="cursor-pointer underline decoration-dotted"
+  >
     <slot></slot>
     <span v-if="sortBy === name && sortOrder == 'asc'"
       ><icon name="arrow-up" class="ml-1" />
