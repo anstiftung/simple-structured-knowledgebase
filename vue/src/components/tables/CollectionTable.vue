@@ -1,6 +1,6 @@
 <script setup>
-import Icon from '../atoms/Icon.vue'
-import SortableHeaderCell from '../atoms/tables/SortableHeaderCell.vue'
+import Icon from '@/components/atoms/Icon.vue'
+import SortableHeaderCell from '@/components/atoms/tables/SortableHeaderCell.vue'
 
 const props = defineProps({
   modelValue: {
@@ -36,7 +36,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer text-gray-500"
+            class="px-2 py-3 cursor-pointer underline decoration-dotted"
             >Titel</SortableHeaderCell
           >
           <th class="px-2 py-3">Beiträge</th>
@@ -46,7 +46,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer text-gray-500"
+            class="px-2 py-3 cursor-pointer underline decoration-dotted"
             >Status</SortableHeaderCell
           >
           <SortableHeaderCell
@@ -54,7 +54,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer text-gray-500"
+            class="px-2 py-3 cursor-pointer underline decoration-dotted"
             >erstellt</SortableHeaderCell
           >
           <SortableHeaderCell
@@ -62,7 +62,7 @@ const changeSort = _sortBy => {
             :sortBy="sortBy"
             :sortOrder="sortOrder"
             @sortChanged="changeSort"
-            class="px-2 py-3 cursor-pointer text-gray-500"
+            class="px-2 py-3 cursor-pointer underline decoration-dotted"
             >geändert</SortableHeaderCell
           >
         </tr>
