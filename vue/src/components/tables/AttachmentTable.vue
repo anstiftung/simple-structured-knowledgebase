@@ -1,21 +1,61 @@
 <script setup>
-defineProps({
+import SortableHeaderCell from '../atoms/tables/SortableHeaderCell.vue'
+
+const props = defineProps({
   modelValue: {
     type: Array,
     default: [],
   },
+  sortBy: {
+    required: false,
+  },
+  sortOrder: {
+    required: false,
+  },
 })
+
+const emit = defineEmits(['sortChanged'])
+
+const changeSort = _sortBy => {
+  if (props.sortBy === _sortBy) {
+    let order = props.sortOrder === 'asc' ? 'desc' : 'asc'
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: order })
+  } else {
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: 'asc' })
+  }
+}
 </script>
 <template>
   <section>
     <table class="w-full" v-if="modelValue.length > 0">
       <thead class="sticky w-full text-gray-400 bg-white border-y top-header">
         <tr>
-          <td class="px-2 py-3">Titel</td>
-          <td class="px-2 py-3">Datum</td>
-          <td class="px-2 py-3">geändert</td>
-          <td class="px-2 py-3">Typ</td>
-          <td class="px-2 py-3">Größe</td>
+          <SortableHeaderCell
+            name="title"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >Titel</SortableHeaderCell
+          >
+          <SortableHeaderCell
+            name="created_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >Datum</SortableHeaderCell
+          >
+          <SortableHeaderCell
+            name="updated_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >geändert</SortableHeaderCell
+          >
+          <th class="px-2 py-3">Typ</th>
+          <th class="px-2 py-3">Größe</th>
         </tr>
       </thead>
       <tbody>

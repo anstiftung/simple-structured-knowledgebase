@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, computed, onBeforeMount, watch } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 
 import { useRouter, useRoute } from 'vue-router'
@@ -24,20 +24,22 @@ const activeModels = ref(['articles'])
 const creatorId = ref(null)
 
 const searchResults = ref([])
-const searchQuery = ref([])
+const searchQuery = ref('')
+const sortBy = ref('created_at')
+const sortOrder = ref('asc')
 const loading = ref(false)
 
 const attachments = computed(() => {
   return AttachmentService.combineAttachments(
     searchResults.value.attached_urls ?? [],
     searchResults.value.attached_files ?? [],
+    sortBy.value,
+    sortOrder.value,
   )
 })
 
 const onQueryInput = useDebounceFn(() => {
-  searchResults.value = []
-  searchQueryUpdated(searchQuery)
-  querySearch()
+  updateRouteParams()
 }, 250)
 
 const querySearch = () => {
@@ -48,6 +50,8 @@ const querySearch = () => {
     false,
     creatorId.value,
     true, // include trashed
+    sortBy.value,
+    sortOrder.value,
   ).then(({ data, meta }) => {
     searchResults.value = data
     // searchMeta.value = meta
@@ -56,12 +60,14 @@ const querySearch = () => {
   })
 }
 
-const searchQueryUpdated = searchQuery => {
+const updateRouteParams = () => {
   router.replace({
     query: {
       q: searchQuery.value ? encodeURI(searchQuery.value) : '',
       m: activeModels.value,
       o: creatorId.value,
+      sortBy: sortBy.value,
+      sortOrder: sortOrder.value,
     },
   })
 }
@@ -79,14 +85,38 @@ onBeforeMount(() => {
     creatorId.value = route.query.o
   }
 
+  if (route.query.sortBy) {
+    sortBy.value = route.query.sortBy
+  }
+
+  if (route.query.sortOrder) {
+    sortOrder.value = route.query.sortOrder
+  }
+
   querySearch()
 })
 
 const switchModel = model => {
   activeModels.value = []
   activeModels.value.push(model)
-  onQueryInput()
+  sortBy.value = 'created_at'
+  sortOrder.value = 'asc'
+  updateRouteParams()
 }
+
+const changeSort = data => {
+  sortBy.value = data.sortBy
+  sortOrder.value = data.sortOrder
+  updateRouteParams()
+}
+
+watch(
+  route,
+  () => {
+    querySearch()
+  },
+  { immediate: false, deep: true },
+)
 </script>
 <template>
   <section class="bg-white">
@@ -160,6 +190,9 @@ const switchModel = model => {
           <collection-table
             v-model="searchResults.collections"
             v-if="searchResults.collections"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
           />
         </template>
 
@@ -167,11 +200,20 @@ const switchModel = model => {
           <article-table
             v-model="searchResults.articles"
             v-if="searchResults.articles"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
           />
         </template>
 
         <template v-if="activeModels.includes('attachments')">
-          <attachment-table v-model="attachments" v-if="attachments" />
+          <attachment-table
+            v-model="attachments"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            v-if="attachments"
+            @sortChanged="changeSort"
+          />
         </template>
       </template>
     </div>

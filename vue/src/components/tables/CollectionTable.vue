@@ -1,25 +1,70 @@
 <script setup>
-import Icon from '../atoms/Icon.vue'
+import Icon from '@/components/atoms/Icon.vue'
+import SortableHeaderCell from '@/components/atoms/tables/SortableHeaderCell.vue'
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: Array,
     default: [],
   },
+  sortBy: {
+    required: false,
+  },
+  sortOrder: {
+    required: false,
+  },
 })
+
+const emit = defineEmits(['sortChanged'])
+
+const changeSort = _sortBy => {
+  if (props.sortBy === _sortBy) {
+    let order = props.sortOrder === 'asc' ? 'desc' : 'asc'
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: order })
+  } else {
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: 'asc' })
+  }
+}
 </script>
 <template>
   <section>
     <table class="w-full" v-if="modelValue.length > 0">
       <thead class="border-y w-full text-gray-400 sticky bg-white top-header">
         <tr>
-          <td class="px-2 py-3">Titel</td>
-          <td class="px-2 py-3">Datum</td>
-          <td class="px-2 py-3">Beiträge</td>
-          <td class="px-2 py-3">Ersteller:in</td>
-          <td class="px-2 py-3">Status</td>
-          <td class="px-2 py-3">erstellt</td>
-          <td class="px-2 py-3">geändert</td>
+          <SortableHeaderCell
+            name="title"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >Titel</SortableHeaderCell
+          >
+          <th class="px-2 py-3">Beiträge</th>
+          <th class="px-2 py-3">Ersteller:in</th>
+          <SortableHeaderCell
+            name="published"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >Status</SortableHeaderCell
+          >
+          <SortableHeaderCell
+            name="created_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >erstellt</SortableHeaderCell
+          >
+          <SortableHeaderCell
+            name="updated_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >geändert</SortableHeaderCell
+          >
         </tr>
       </thead>
       <tbody>
@@ -28,9 +73,6 @@ defineProps({
             <router-link :to="collection.url" class="cursor-pointer">
               {{ collection.title }}
             </router-link>
-          </td>
-          <td class="px-2 py-3">
-            {{ $filters.formatedDate(collection.created_at) }}
           </td>
           <td class="px-2 py-3">
             {{ collection.num_articles }}

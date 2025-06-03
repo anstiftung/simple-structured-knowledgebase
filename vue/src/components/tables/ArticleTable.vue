@@ -1,23 +1,70 @@
 <script setup>
-defineProps({
+import SortableHeaderCell from '../atoms/tables/SortableHeaderCell.vue'
+
+const props = defineProps({
   modelValue: {
     type: Array,
     default: [],
   },
+  sortBy: {
+    required: false,
+  },
+  sortOrder: {
+    required: false,
+  },
 })
+
+const emit = defineEmits(['sortChanged'])
+
+const changeSort = _sortBy => {
+  if (props.sortBy === _sortBy) {
+    let order = props.sortOrder === 'asc' ? 'desc' : 'asc'
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: order })
+  } else {
+    emit('sortChanged', { sortBy: _sortBy, sortOrder: 'asc' })
+  }
+}
 </script>
 <template>
   <section>
     <table class="w-full mb-4" v-if="modelValue.length > 0">
       <thead class="sticky w-full text-gray-400 bg-white border-y top-header">
         <tr>
-          <td class="px-2 py-3">Titel</td>
-          <td class="px-2 py-3">Ersteller:in</td>
-          <td class="px-2 py-3">Status</td>
-          <td class="px-2 py-3">erstellt</td>
-          <td class="px-2 py-3">geändert</td>
-          <td class="px-2 py-3">Claps</td>
-          <td class="px-2 py-3">Kommentare</td>
+          <SortableHeaderCell
+            name="title"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >Titel</SortableHeaderCell
+          >
+          <th class="px-2 py-3">Ersteller:in</th>
+          <th class="px-2 py-3">Status</th>
+          <SortableHeaderCell
+            name="created_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >erstellt</SortableHeaderCell
+          >
+          <SortableHeaderCell
+            name="updated_at"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >geändert</SortableHeaderCell
+          >
+          <SortableHeaderCell
+            name="claps"
+            :sortBy="sortBy"
+            :sortOrder="sortOrder"
+            @sortChanged="changeSort"
+            class="px-2 py-3"
+            >Claps</SortableHeaderCell
+          >
+          <th class="px-2 py-3">Kommentare</th>
         </tr>
       </thead>
       <tbody>
