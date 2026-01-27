@@ -25,6 +25,7 @@ import FixedMenu from '@/components/editor/FixedMenu.vue'
 import InfoBox from '@/components/editor/InfoBox.js'
 import CustomImage from '@/components/editor/CustomImage.js'
 import ItemLinkNode from '@/components/editor/ItemLinkNode.js'
+import ExitLinkOnEnter from '@/components/editor/ExitLinkOnEnter.js'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -58,6 +59,7 @@ const editor = useEditor({
       placeholder:
         'Bitte hier die Inhalte einpflegen, nutze dafür den Editor, auch MarkDown ist erlaubt.',
     }),
+    ExitLinkOnEnter,
   ],
   content: props.modelValue,
   onUpdate: ({ editor }) => {
