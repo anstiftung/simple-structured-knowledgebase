@@ -25,7 +25,7 @@ import FixedMenu from '@/components/editor/FixedMenu.vue'
 import InfoBox from '@/components/editor/InfoBox.js'
 import CustomImage from '@/components/editor/CustomImage.js'
 import ItemLinkNode from '@/components/editor/ItemLinkNode.js'
-import ExitLinkOnEnter from '@/components/editor/ExitLinkOnEnter.js'
+import { ExitLinkOnEnter } from '@/components/editor/ExitLinkOnEnter.js'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
