@@ -1,8 +1,9 @@
-FROM node:18-alpine3.17 as build
+FROM node:22-alpine AS build
 ARG MODE
 WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 COPY . /app
-RUN yarn install
 RUN if [ "$MODE" = "production" ]; then \
     yarn run build --base=/ -m=production; \
     else \
